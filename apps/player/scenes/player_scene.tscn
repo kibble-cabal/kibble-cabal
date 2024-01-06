@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://nh2frc2lo76l"]
+
+[ext_resource type="Script" path="res://apps/player/scenes/player_scene.gd" id="1_ytw0n"]
+[ext_resource type="AudioStream" uid="uid://1sgg7geh45kj" path="res://apps/sound/assets/sounds/foley/sneaker footstep on dry grass 01.mp3" id="2_5708r"]
+[ext_resource type="Script" path="res://apps/sound/nodes/sound_effect_player_2d.gd" id="2_hi6j5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v302"]
+radius = 14.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_eyl6s"]
+size = Vector2(32, 64)
+
+[node name="PlayerScene" type="CharacterBody2D"]
+script = ExtResource("1_ytw0n")
+speed = 144
+target_margin = 2.08165e-12
+size = Vector2(32, 64)
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(2.08165e-12, 14)
+shape = SubResource("CapsuleShape2D_0v302")
+
+[node name="BodySprite" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_eyl6s")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="FootstepPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_5708r")
+script = ExtResource("2_hi6j5")
+loop_length = 0.75
