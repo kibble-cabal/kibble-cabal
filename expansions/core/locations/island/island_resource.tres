@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LocationResource" load_steps=3 format=3 uid="uid://r3xvp8p86pn8"]
+
+[ext_resource type="Script" path="res://apps/location/scripts/location_resource.gd" id="1_csus1"]
+[ext_resource type="PackedScene" uid="uid://dx7kifh1w5bkt" path="res://expansions/core/locations/island/island_map.tscn" id="1_n7j7h"]
+
+[resource]
+script = ExtResource("1_csus1")
+name = "Island"
+map = ExtResource("1_n7j7h")
+player_spawn_location = Vector2(200, 200)
