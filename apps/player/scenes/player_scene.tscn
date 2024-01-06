@@ -6,6 +6,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v302"]
 radius = 14.0
+height = 28.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_eyl6s"]
 size = Vector2(32, 64)

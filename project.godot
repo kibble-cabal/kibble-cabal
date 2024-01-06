@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 LuaSystem="*res://apps/mod/lua_system.gd"
 SaveSystem="*res://apps/save/save_system.gd"
+LocationSystem="*res://apps/location/nodes/location_system.gd"
 PlayerSystem="*res://apps/player/nodes/player_system.gd"
 
 [display]
