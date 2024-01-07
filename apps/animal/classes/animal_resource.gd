@@ -1,4 +1,4 @@
-class_name AnimalResource extends Resource
+class_name AnimalResource extends ModdableResource
 
 @export var name: StringName
 @export_range(0, 1) var speed: float = 0.5
@@ -6,4 +6,4 @@ class_name AnimalResource extends Resource
 
 
 func lua_fields() -> Array[String]:
-	return ["name", "speed", "scene"]
+	return ["name", "speed", "scene"] + super()

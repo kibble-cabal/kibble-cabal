@@ -23,3 +23,13 @@ func find_subresource_key(by: Callable) -> String:
 		if by.call(subresources[key], key) == true:
 			return key
 	return ""
+
+
+func lua_fields() -> Array[String]:
+	return [
+		"subresources",
+		"get_subresource",
+		"add_subresource",
+		"remove_subresource",
+		"find_subresource_key"
+	]
