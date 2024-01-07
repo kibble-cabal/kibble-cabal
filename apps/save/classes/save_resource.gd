@@ -26,12 +26,12 @@ var _save_helper := SaveHelper.new({
 
 
 func _init() -> void:
-	_generate_id()
 	_connect_all_subresources()
 	subresources_changed.connect(_connect_all_subresources)
 
 
 func commit_changes() -> void:
+	if len(id) == 0: _generate_id()
 	_save_helper.commit()
 
 
@@ -40,12 +40,11 @@ func lua_fields() -> Array[String]:
 
 
 func _generate_id() -> void:
-	if len(id) == 0:
-		if not DirAccess.dir_exists_absolute(_save_helper.get_dir()): id = "Save_0"
-		else:
-			var num_directories := DirAccess.get_directories_at(_save_helper.get_dir()).size()
-			id = "Save_{0}".format([num_directories])
-		DirAccess.make_dir_recursive_absolute(_save_helper.get_dir())
+	if not DirAccess.dir_exists_absolute(_save_helper.get_dir()): id = "Save_0"
+	else:
+		var num_directories := DirAccess.get_directories_at(_save_helper.get_dir()).size()
+		id = "Save_{0}".format([num_directories])
+	DirAccess.make_dir_recursive_absolute(_save_helper.get_dir())
 
 
 ## Performs [method _connect_subresource] for all child resources
