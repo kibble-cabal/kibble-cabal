@@ -9,11 +9,13 @@ var current_map: Node = null
 
 func enter(location: LocationResource) -> void:
 	if current_location: exit()
-	current_location = location
-	current_map = location.map.instantiate()
-	get_tree().current_scene.add_child(current_map)
-	location_entered.emit(current_location)
-	prints("Entering location:", current_location.name)
+	if location:
+		current_location = location
+		if location.map:
+			current_map = location.map.instantiate()
+			get_tree().current_scene.add_child(current_map)
+		location_entered.emit(current_location)
+		prints("Entering location:", current_location.name)
 
 
 func exit() -> void:

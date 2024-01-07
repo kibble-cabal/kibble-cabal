@@ -27,6 +27,6 @@ var lua := LuaAPI.new()
 
 func _ready() -> void:
 	lua.bind_libraries(ALLOWED_LUA_LIBRARIES)	
-	LuaFunctions.setup(lua)
+	LuaModFunctions.setup(lua)
 	print("Lua is set up!")
 	
