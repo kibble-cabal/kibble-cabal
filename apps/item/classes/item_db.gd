@@ -18,7 +18,17 @@ func unregister(item: ItemResource) -> void:
 	item_unregistered.emit(item)
 
 
-func find(item_name: String) -> ItemResource:
+func find_by_name(item_name: String) -> ItemResource:
 	for item in registered_items:
-		if item.name == item_name: return item
+		if item.display_name == item_name: return item
 	return null
+
+
+func find_by_id(item_id: String) -> ItemResource:
+	for item in registered_items:
+		if item.id == item_id: return item
+	return null
+
+
+func lua_fields() -> Array[String]:
+	return ["registered_items", "register", "unregister", "find_by_name", "find_by_id"]
