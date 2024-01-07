@@ -22,3 +22,7 @@ func find(animal_name: String) -> AnimalResource:
 	for animal in registered_animals:
 		if animal.name == animal_name: return animal
 	return null
+
+
+func lua_fields() -> Array[String]:
+	return ["registered_animals", "register", "unregister", "find"]

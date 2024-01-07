@@ -26,7 +26,14 @@ var lua := LuaAPI.new()
 
 
 func _ready() -> void:
+	lua.object_metatable.permissive = false
 	lua.bind_libraries(ALLOWED_LUA_LIBRARIES)	
 	LuaModFunctions.setup(lua)
-	print("Lua is set up!")
 	
+	AnimalLuaAPI.new().expose(lua)
+
+	var err: LuaError = lua.do_string("""
+	print("Lua is set up!")
+	""")
+	if err is LuaError:
+		print("ERROR %d: %s" % [err.type, err.message])
