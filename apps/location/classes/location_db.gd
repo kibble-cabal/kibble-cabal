@@ -22,3 +22,7 @@ func find(location_name: String) -> LocationResource:
 	for location in registered_locations:
 		if location.name == location_name: return location
 	return null
+
+
+func lua_fields() -> Array[String]:
+	return ["register", "unregister", "find", "registered_locations"]

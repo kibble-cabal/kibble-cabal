@@ -24,3 +24,7 @@ func exit() -> void:
 	current_location = null
 	current_map = null
 	location_exited.emit(current_location)
+
+
+func lua_fields() -> Array[String]:
+	return ["enter", "exit", "current_location"]
