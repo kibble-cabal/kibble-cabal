@@ -13,7 +13,7 @@ var current_direction := Vector2i.ZERO
 var _target = null
 
 func _unhandled_input(event: InputEvent) -> void:
-	if SaveSystem.save.settings.tap_to_move and event.is_action_pressed("click"):
+	if SaveSystem.current_save and SaveSystem.current_save.settings.tap_to_move and event.is_action_pressed("click"):
 		_target = get_global_mouse_position()
 
 
