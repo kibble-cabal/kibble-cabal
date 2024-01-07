@@ -37,3 +37,7 @@ func discover_saves() -> Array[SaveResource]:
 			var resource := ResourceLoader.load(path, "SaveResource")
 			if resource and resource is SaveResource: saves.append(resource)
 	return saves
+
+
+func lua_fields() -> Array[String]:
+	return ["open_save", "close_save", "commit_changes", "current_save", "discover_saves"]
