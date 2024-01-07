@@ -1,4 +1,4 @@
-class_name SettingsResource extends Resource
+class_name SettingsResource extends ModdableResource
 
 
 @export_category("Movement")

@@ -1,4 +1,4 @@
-class_name LocationResource extends Resource
+class_name LocationResource extends ModdableResource
 
 @export var name: String
 @export var map: PackedScene
