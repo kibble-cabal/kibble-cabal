@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+LocationDB="*res://apps/location/classes/location_db.gd"
 AnimalDB="*res://apps/animal/classes/animal_db.gd"
 ItemDB="*res://apps/item/classes/item_db.gd"
 SoundEffectDB="*res://apps/sound_effect/classes/sound_effect_db.gd"
