@@ -38,6 +38,10 @@ window/handheld/orientation=1
 
 project/assembly_name="KibbleCabal2D"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/rect_pack_2d/plugin.cfg")
+
 [input]
 
 click={

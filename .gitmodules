@@ -1,0 +1,4 @@
+[submodule "addons/rect_pack_2d"]
+	path = addons/rect_pack_2d
+	url = https://github.com/kibble-cabal/rect-pack-2d.git
+	branch = cleaned
