@@ -1,8 +1,13 @@
 class_name ModdableResource extends Resource
 
+signal subresources_changed
+
 
 ## [Dictionary][[String], [Resource]] Stores arbitrary child resources
-@export var subresources: Dictionary
+@export var subresources: Dictionary:
+	set(value):
+		subresources = value
+		subresources_changed.emit()
 
 
 func get_subresource(key: String) -> Resource:
