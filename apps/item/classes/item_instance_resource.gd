@@ -7,9 +7,6 @@ class_name ItemInstanceResource extends ModdableResource
 # May split these properties into separate resources later...
 @export_category("Additional data")
 
-## Only applicable if the corresponding item has [member ItemResource.consumable_resource]
-@export var uses: int = 0
-
 ## Only applicable if the corresponding item has [member ItemResource.physics_resource]
 @export var location: Vector2 
 

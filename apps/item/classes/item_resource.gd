@@ -8,7 +8,6 @@ class_name ItemResource extends ModdableResource
 @export_category("More Data")
 @export var physics_resource: ItemPhysicsResource
 @export var retail_resource: ItemRetailResource
-@export var consumable_resource: ItemConsumableResource
 
 
 func instantiate() -> ItemInstanceResource:
@@ -24,6 +23,5 @@ func lua_fields() -> Array[String]:
 		"description", 
 		"icon", 
 		"physics_resource", 
-		"retail_resource", 
-		"consumable_resource"
+		"retail_resource"
 	]
