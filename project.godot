@@ -33,7 +33,6 @@ window/size/viewport_width=1125
 window/size/viewport_height=2436
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-window/stretch/scale=3.0
 window/handheld/orientation=1
 
 [dotnet]
