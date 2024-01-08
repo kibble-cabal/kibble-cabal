@@ -7,4 +7,5 @@
 script = ExtResource("2_jmbdi")
 name = "Island"
 map = ExtResource("1_afau3")
-player_spawn_location = Vector2(200, 200)
+player_spawn_location = Vector2(100, 100)
+subresources = {}
