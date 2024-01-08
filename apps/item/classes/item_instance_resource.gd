@@ -4,11 +4,14 @@ class_name ItemInstanceResource extends ModdableResource
 @export var item_id: String
 @export var creation_time: int
 
+# May split these properties into separate resources later...
 @export_category("Additional data")
 
-## Only applicable if [member item_id] has [member consumable_resources].
-## [br]May split this into separate resource later...
+## Only applicable if the corresponding item has [member ItemResource.consumable_resource]
 @export var uses: int = 0
+
+## Only applicable if the corresponding item has [member ItemResource.physics_resource]
+@export var location: Vector2 
 
 
 func get_item_resource() -> ItemResource:
