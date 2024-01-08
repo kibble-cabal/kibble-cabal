@@ -34,9 +34,9 @@ avoidance_enabled = true
 radius = 16.0
 neighbor_distance = 50.0
 time_horizon_agents = 0.5
+max_speed = 400.0
 script = ExtResource("2_ncora")
 character = NodePath("..")
-movement_speed = 400.0
 
 [node name="BodySprite" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_leif3")

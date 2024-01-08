@@ -1,7 +1,9 @@
 class_name NavigationAgent extends NavigationAgent2D
 
 @export var character: CharacterBody2D
-@export var movement_speed: float = 100.0
+
+## Speed of navigator in pixels/sec
+@export var movement_speed: float = 400.0
 
 
 func _ready() -> void:

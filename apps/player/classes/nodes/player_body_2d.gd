@@ -19,9 +19,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		and SaveSystem.current_save.settings.tap_to_move
 		and event.is_action_pressed("click") 
 		and navigation_agent
-	): 
-		navigation_agent.set_target_position(get_global_mouse_position())
-		print(get_global_mouse_position())
+	): navigation_agent.set_target_position(get_global_mouse_position())
 	
 
 
