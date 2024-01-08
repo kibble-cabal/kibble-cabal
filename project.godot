@@ -25,6 +25,7 @@ LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SaveSystem="*res://apps/save/classes/save_system.gd"
 LocationSystem="*res://apps/location/classes/location_system.gd"
 PlayerSystem="*res://apps/player/classes/player_system.gd"
+PetSystem="*res://apps/pet/classes/pet_system.gd"
 
 [display]
 
