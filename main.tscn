@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=5 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
 [ext_resource type="Script" path="res://apps/ui/classes/nodes/safe_area_container.gd" id="2_xf178"]
+[ext_resource type="PackedScene" uid="uid://u22a8ibom3dn" path="res://apps/save/scenes/saves_list.tscn" id="4_f7rny"]
 
 [node name="Main" type="Node2D"]
 scale = Vector2(4, 4)
@@ -26,7 +27,15 @@ margin_left = 20
 margin_right = 20
 margin_bottom = 20
 
-[node name="SaveButton" parent="UI/SafeAreaContainer" instance=ExtResource("2_e761m")]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SafeAreaContainer"]
+layout_mode = 2
+
+[node name="SaveButton" parent="UI/SafeAreaContainer/VBoxContainer" instance=ExtResource("2_e761m")]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="SavesList" parent="UI/SafeAreaContainer/VBoxContainer" instance=ExtResource("4_f7rny")]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0

@@ -1,5 +1,8 @@
 extends Node
 
+signal save_opened(save: SaveResource)
+signal save_closed(save: SaveResource)
+
 var current_save: SaveResource
 
 
@@ -13,11 +16,17 @@ func _ready() -> void:
 func open_save(save_value: SaveResource) -> void:
 	close_save()
 	current_save = save_value
+	if current_save:
+		print("Opening ", current_save.id)
+		save_opened.emit(current_save)
 
 
 func close_save() -> void:
-	commit_changes()
-	current_save = null
+	if current_save:
+		commit_changes()
+		var prev_save := current_save
+		current_save = null
+		save_closed.emit(prev_save)
 
 
 func commit_changes() -> void:

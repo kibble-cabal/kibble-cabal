@@ -1,6 +1,13 @@
 extends Node2D
 
+@onready var island := LocationDB.find("Island")
+
 
 func _ready() -> void:
-	var island: LocationResource = ResourceLoader.load("res://expansions/core/location/island/resources/island_resource.tres")
+	SaveSystem.save_opened.connect(_on_save_opened)
+
+
+func _on_save_opened(_save: SaveResource) -> void:
+	await get_tree().process_frame
 	LocationSystem.enter(island)
+	

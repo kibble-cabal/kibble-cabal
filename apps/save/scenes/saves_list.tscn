@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://u22a8ibom3dn"]
+
+[sub_resource type="GDScript" id="GDScript_molco"]
+script/source = "extends VBoxContainer
+
+
+func _ready() -> void:
+	var saves := SaveSystem.discover_saves()
+	saves.map(render)
+
+
+func render(save: SaveResource) -> void:
+	var button := Button.new()
+	button.text = save.id
+	add_child(button)
+	button.pressed.connect(_on_press.bind(save))
+
+
+func _on_press(save: SaveResource) -> void:
+	SaveSystem.open_save(save)
+
+
+func _on_new_save_button_pressed() -> void:
+	var new_save := SaveResource.new()
+	SaveSystem.open_save(new_save)
+	SaveSystem.commit_changes()
+	render(new_save)
+"
+
+[node name="SavesList" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+script = SubResource("GDScript_molco")
+
+[node name="NewSaveButton" type="Button" parent="."]
+layout_mode = 2
+text = "New +"
+
+[connection signal="pressed" from="NewSaveButton" to="." method="_on_new_save_button_pressed"]

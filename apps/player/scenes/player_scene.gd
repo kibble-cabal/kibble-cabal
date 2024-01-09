@@ -12,6 +12,7 @@ var resource: PlayerResource:
 func _ready() -> void:
 	if resource:
 		_instantiate_sprite_controller()
+		sprite_controller.modulate = resource.modulate
 	super._ready()
 
 
