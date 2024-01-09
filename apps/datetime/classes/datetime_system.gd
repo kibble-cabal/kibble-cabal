@@ -1,6 +1,7 @@
 # DatetimeSystem
 extends Node
 
+signal ticked
 signal unpaused
 signal paused
 
@@ -48,7 +49,9 @@ func lua_fields() -> Array[String]:
 
 
 func _on_timeout() -> void:
-	if resource: resource.current_time += 1
+	if resource: 
+		resource.current_time += 1
+		ticked.emit()
 
 
 func _on_save_changed(_save: SaveResource) -> void:

@@ -19,10 +19,10 @@ enum Season {
 }
 
 const SeasonShort = {
-	[Season.SPRING]: "Sp",
-	[Season.SUMMER]: "Su",
-	[Season.FALL]: "F",
-	[Season.WINTER]: "W"
+	Season.SPRING: "Sp",
+	Season.SUMMER: "Su",
+	Season.FALL: "F",
+	Season.WINTER: "W"
 }
 
 enum Day {
@@ -36,42 +36,42 @@ enum Day {
 }
 
 const DayShort = {
-	[Day.MONDAY]: "Mon",
-	[Day.TUESDAY]: "Tue",
-	[Day.WEDNESDAY]: "Wed",
-	[Day.THURSDAY]: "Thu",
-	[Day.FRIDAY]: "Fri",
-	[Day.SATURDAY]: "Sat",
-	[Day.SUNDAY]: "Sun",
+	Day.MONDAY: "Mon",
+	Day.TUESDAY: "Tue",
+	Day.WEDNESDAY: "Wed",
+	Day.THURSDAY: "Thu",
+	Day.FRIDAY: "Fri",
+	Day.SATURDAY: "Sat",
+	Day.SUNDAY: "Sun",
 }
 
 
 static func get_year(time: int) -> int:
-	return _floor(time, MINUTES_IN_YEAR)
+	return _ceil(time, MINUTES_IN_YEAR)
 
 
 static func get_season(time: int) -> int:
-	return _floor(time % MINUTES_IN_YEAR, MINUTES_IN_SEASON)
+	return _ceil(time % MINUTES_IN_YEAR, MINUTES_IN_SEASON)
 
 
 static func get_week(time: int) -> int:
-	return _floor(time % MINUTES_IN_SEASON, MINUTES_IN_WEEK)
+	return _ceil(time % MINUTES_IN_SEASON, MINUTES_IN_WEEK)
 
 
 static func get_week_of_year(time: int) -> int:
-	return _floor(time % MINUTES_IN_YEAR, MINUTES_IN_WEEK)
+	return _ceil(time % MINUTES_IN_YEAR, MINUTES_IN_WEEK)
 
 
 static func get_day(time: int) -> int:
-	return _floor(time % MINUTES_IN_WEEK, MINUTES_IN_DAY)
+	return _ceil(time % MINUTES_IN_WEEK, MINUTES_IN_DAY)
 
 
 static func get_date(time: int) -> int:
-	return _floor(time % MINUTES_IN_SEASON, MINUTES_IN_DAY)
+	return _ceil(time % MINUTES_IN_SEASON, MINUTES_IN_DAY)
 
 
 static func get_hour(time: int) -> int:
-	return _floor(time % MINUTES_IN_DAY, MINUTES_IN_HOUR)
+	return _ceil(time % MINUTES_IN_DAY, MINUTES_IN_HOUR)
 
 
 static func get_minute(time: int) -> int:
@@ -124,13 +124,13 @@ static func format(time: int, string: String = "") -> String:
 	return string.format({
 		year = dict.year,
 		season = Season.find_key(dict.season).to_pascal_case(),
-		SeasonShort = SeasonShort[dict.season],
+		season_short = SeasonShort[dict.season],
 		season_number = dict.season,
 		week = dict.week,
 		week_of_year = get_week_of_year(time),
 		date = dict.date,
 		day = Day.find_key(dict.day).to_pascal_case(),
-		DayShort = DayShort[dict.day],
+		day_short = DayShort[dict.day],
 		day_number = dict.day,
 		hour = dict.hour,
 		hour_pad = str(dict.hour).pad_zeros(2),
@@ -139,8 +139,8 @@ static func format(time: int, string: String = "") -> String:
 	})
 
 
-static func _floor(a: int, b: int) -> int:
-	return floori(float(a) / float(b))
+static func _ceil(a: int, b: int) -> int:
+	return ceili(float(a) / float(b))
 
 
 func lua_fields() -> Array[String]:
