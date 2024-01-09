@@ -28,6 +28,7 @@ SaveSystem="*res://apps/save/classes/save_system.gd"
 LocationSystem="*res://apps/location/classes/location_system.gd"
 PlayerSystem="*res://apps/player/classes/player_system.gd"
 PetSystem="*res://apps/pet/classes/pet_system.gd"
+DatetimeSystem="*res://apps/datetime/classes/datetime_system.gd"
 ExpansionPackSystem="*res://apps/expansion_pack/classes/expansion_pack_system.gd"
 
 [display]

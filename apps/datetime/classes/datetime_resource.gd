@@ -12,7 +12,7 @@ const MINUTES_IN_SEASON = MINUTES_IN_WEEK * WEEKS_IN_SEASON
 const MINUTES_IN_YEAR = MINUTES_IN_SEASON * SEASONS_IN_YEAR
 
 ## How many real-world seconds is equal to one in-game minute
-const TIME_SPEED: float = 10.0
+const TIME_SPEED: float = 5.0
 
 ## The number of in-game minutes that have passed.
 @export var current_time: int = 0
