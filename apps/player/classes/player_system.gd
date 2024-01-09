@@ -1,3 +1,4 @@
+# PlayerSystem
 extends Node
 
 const PlayerScene := preload("res://apps/player/scenes/player_scene.tscn")
@@ -19,7 +20,6 @@ func spawn(spawn_location: Vector2) -> void:
 		player_node = null
 	if player:
 		player_node = PlayerScene.instantiate()
-		player_node.set_resource(player)
 		get_tree().current_scene.add_child(player_node)
 		player_node.position = spawn_location
 	print("Player spawned!")

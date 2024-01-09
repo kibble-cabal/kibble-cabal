@@ -1,24 +1,18 @@
 extends PlayerBody2D
 
-var resource: PlayerResource
-
 @onready var collision_shape := $CollisionShape as CollisionShape2D
 @onready var footstep_player := $FootstepPlayer as SoundEffectPlayer2D
 
 var sprite_controller: SpriteController
 
+var resource: PlayerResource:
+	get: return SaveSystem.current_save.player if SaveSystem and SaveSystem.current_save else null
+
 
 func _ready() -> void:
 	if resource:
 		_instantiate_sprite_controller()
-	
 	super._ready()
-
-
-func set_resource(resource_value: PlayerResource) -> void:
-	resource = resource_value
-	_instantiate_sprite_controller()
-	reset()
 
 
 func reset() -> void:
