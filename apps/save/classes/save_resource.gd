@@ -11,6 +11,11 @@ class_name SaveResource extends ModdableResource
 		player = value
 		_connect_subresource(player)
 
+@export var inventory := InventoryResource.new():
+	set(value):
+		inventory = value
+		_connect_subresource(inventory)
+
 @export var pets: Array[PetResource] = []:
 	set(value):
 		pets = value
@@ -54,7 +59,7 @@ func commit_changes() -> void:
 
 
 func lua_fields() -> Array[String]:
-	return super() + ["settings", "player", "pets", "fate", "datetime", "commit_changes"]
+	return super() + ["settings", "player", "inventory", "pets", "fate", "datetime", "commit_changes"]
 
 
 func _generate_id() -> void:
@@ -67,7 +72,7 @@ func _generate_id() -> void:
 
 ## Performs [method _connect_subresource] for all child resources
 func _connect_all_subresources() -> void:
-	for subresource in [settings, player, fate, datetime] + pets + subresources.values():
+	for subresource in [settings, player, inventory, fate, datetime] + pets + subresources.values():
 		_connect_subresource(subresource)
 
 
