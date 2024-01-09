@@ -41,4 +41,4 @@ func discover(entry_dir: String = "res://") -> void:
 
 
 func lua_fields() -> Array[String]:
-	return ["registered_packs", "find"]
+	return ["registered_packs", "find", "discover"]

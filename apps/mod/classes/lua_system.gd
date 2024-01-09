@@ -34,6 +34,7 @@ func _ready() -> void:
 	AnimalLuaAPI.new().expose(lua)
 	SaveLuaAPI.new().expose(lua)
 	ItemLuaAPI.new().expose(lua)
+	ExpansionPackLuaAPI.new().expose(lua)
 
 	var err: LuaError = lua.do_string("""
 	print("Lua is set up!")

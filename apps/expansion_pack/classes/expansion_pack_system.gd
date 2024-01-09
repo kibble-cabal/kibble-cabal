@@ -17,3 +17,7 @@ func initialize(pack: ExpansionPackResource) -> void:
 		initialized_expansion_packs.append(pack.id)
 		if pack.entry_script:
 			pack.entry_script.new()
+
+
+func lua_fields() -> Array[String]:
+	return ["initialized_expansion_packs"]

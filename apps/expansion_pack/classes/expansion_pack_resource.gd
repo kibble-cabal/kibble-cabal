@@ -6,3 +6,7 @@ class_name ExpansionPackResource extends Resource
 @export var icon: Texture2D
 @export var version: String
 @export var entry_script: GDScript
+
+
+func lua_fields() -> Array[String]:
+	return ["id", "display_name", "display_description", "icon", "version"]
