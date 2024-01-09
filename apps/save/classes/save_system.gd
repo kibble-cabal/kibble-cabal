@@ -4,11 +4,12 @@ signal save_opened(save: SaveResource)
 signal save_closed(save: SaveResource)
 
 var current_save: SaveResource
+var session_start_time: float = 0
 
 
 func _ready() -> void:
 	var discovered_saves := discover_saves()
-	if discovered_saves.size(): current_save = discovered_saves[len(discovered_saves) - 1]
+	if discovered_saves.size(): open_save(discovered_saves[len(discovered_saves) - 1])
 	else: current_save = SaveResource.new()
 	commit_changes()
 
@@ -18,6 +19,7 @@ func open_save(save_value: SaveResource) -> void:
 	current_save = save_value
 	if current_save:
 		print("Opening ", current_save.id)
+		session_start_time = Time.get_unix_time_from_system()
 		save_opened.emit(current_save)
 
 
@@ -31,8 +33,12 @@ func close_save() -> void:
 
 func commit_changes() -> void:
 	if current_save:
+		var now := Time.get_unix_time_from_system()
+		var session_length := now - session_start_time
+		current_save.time_played += session_length
+		session_start_time = now
 		current_save.commit_changes()
-		print("Saving ", current_save.id, "...")
+		print("Saving ", current_save.id, " (played for ", roundf(session_length), "s)")
 
 
 func discover_saves() -> Array[SaveResource]:

@@ -21,6 +21,13 @@ class_name SaveResource extends ModdableResource
 		fate = value
 		_connect_subresource(fate)
 
+## Datetime that this file was last saved.
+@export var last_saved: String
+
+## Time (in seconds) that this file has been opened.
+@export var time_played: float = 0
+
+
 var _save_helper := SaveHelper.new({
 	resource = self,
 	base_dir = func() -> String: return "user://saves/{0}".format([id]),
@@ -37,6 +44,7 @@ func _init() -> void:
 
 func commit_changes() -> void:
 	if len(id) == 0: _generate_id()
+	self.last_saved = Time.get_datetime_string_from_system()
 	_save_helper.commit()
 
 
