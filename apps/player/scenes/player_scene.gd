@@ -2,12 +2,22 @@ extends PlayerBody2D
 
 var resource: PlayerResource
 
-@onready var body_sprite := $BodySprite as Sprite2D
 @onready var collision_shape := $CollisionShape as CollisionShape2D
 @onready var footstep_player := $FootstepPlayer as SoundEffectPlayer2D
 
+var sprite_controller: SpriteController
+
+
+func _ready() -> void:
+	if resource:
+		_instantiate_sprite_controller()
+	
+	super._ready()
+
+
 func set_resource(resource_value: PlayerResource) -> void:
 	resource = resource_value
+	_instantiate_sprite_controller()
 	reset()
 
 
@@ -16,4 +26,14 @@ func reset() -> void:
 	target_margin = 0
 	size = Vector2(32, 64)
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-	
+
+
+func _instantiate_sprite_controller() -> void:
+	if sprite_controller:
+		sprite_controller.queue_free()
+		sprite_controller = null
+	if resource.sprite_scene:
+		sprite_controller = resource.sprite_scene.instantiate()
+		move_started.connect(sprite_controller.start.bind("walk"))
+		move_finished.connect(sprite_controller.start.bind("default"))
+		add_child(sprite_controller)

@@ -1,20 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://nh2frc2lo76l"]
+[gd_scene load_steps=6 format=3 uid="uid://nh2frc2lo76l"]
 
 [ext_resource type="Script" path="res://apps/player/scenes/player_scene.gd" id="1_ytw0n"]
 [ext_resource type="AudioStream" uid="uid://1sgg7geh45kj" path="res://expansions/core/player/assets/sounds/sneaker footstep on dry grass 01.mp3" id="2_5708r"]
 [ext_resource type="Script" path="res://apps/sound_effect/classes/nodes/sound_effect_player_2d.gd" id="2_hi6j5"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_ncora"]
-
-[sub_resource type="Gradient" id="Gradient_aoamx"]
-offsets = PackedFloat32Array(0.974026, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_leif3"]
-gradient = SubResource("Gradient_aoamx")
-width = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v302"]
 radius = 14.0
@@ -37,9 +26,6 @@ time_horizon_agents = 0.5
 max_speed = 400.0
 script = ExtResource("2_ncora")
 character = NodePath("..")
-
-[node name="BodySprite" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_leif3")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(2.08165e-12, 14)

@@ -1,5 +1,9 @@
 class_name PlayerBody2D extends CharacterBody2D
 
+signal move_started
+signal move_finished
+signal target_received(target_position: Vector2)
+
 ## Movement speed in pixels/sec
 @export var speed = 400
 
@@ -10,7 +14,21 @@ class_name PlayerBody2D extends CharacterBody2D
 
 @export var navigation_agent: NavigationAgent
 
-var current_direction := Vector2i.ZERO
+var is_moving: bool = false:
+	set(value):
+		match [is_moving, value]:
+			[false, true]: move_started.emit()
+			[true, false]: move_finished.emit()
+		is_moving = value
+
+var current_direction := Vector2i.ZERO:
+	set(value):
+		current_direction = value
+		is_moving = current_direction != Vector2i.ZERO
+
+
+func _ready() -> void:
+	navigation_agent.target_reached.connect(_on_target_reached)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -19,8 +37,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		and SaveSystem.current_save.settings.tap_to_move
 		and event.is_action_pressed("click") 
 		and navigation_agent
-	): navigation_agent.set_target_position(get_global_mouse_position())
-	
+	): 
+		var mouse_position := get_global_mouse_position()
+		navigation_agent.set_target_position(mouse_position)
+		target_received.emit(mouse_position)
+		move_started.emit()
 
 
 func _physics_process(_delta: float) -> void:
@@ -37,3 +58,7 @@ func stop() -> void:
 
 func max_distance_from_target() -> float:
 	return maxf(target_margin + maxf(size.x, size.y) / 4, 1)
+
+
+func _on_target_reached() -> void:
+	move_finished.emit()
