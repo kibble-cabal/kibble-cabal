@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SettingDefinitionResource" load_steps=2 format=3 uid="uid://cursltjpcrw16"]
+
+[ext_resource type="Script" path="res://apps/settings/classes/setting_definition_resource.gd" id="1_qkaet"]
+
+[resource]
+script = ExtResource("1_qkaet")
+id = "reduce_motion"
+display_name = "Reduce motion"
+display_description = "If enabled, animations will be limited wherever possible."
+subresources = {}
