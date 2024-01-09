@@ -47,7 +47,7 @@ func get_setting(key: String, default_value):
 
 func set_setting(key: String, value) -> void:
 	if current_save and current_save.settings:
-		current_save.settings.settings[key] = value
+		current_save.settings.set_setting(key, value)
 
 
 func lua_fields() -> Array[String]:
