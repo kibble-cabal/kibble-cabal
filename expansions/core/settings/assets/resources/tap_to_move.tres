@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SettingDefinitionResource" load_steps=2 format=3 uid="uid://t2i0fw26tr8r"]
+
+[ext_resource type="Script" path="res://apps/settings/classes/setting_definition_resource.gd" id="1_quro7"]
+
+[resource]
+script = ExtResource("1_quro7")
+id = "tap_to_move"
+display_name = "Tap-to-move"
+display_description = "If enabled, you can tap anywhere to move your character. This works in addition to keyboard movement."
+subresources = {}
