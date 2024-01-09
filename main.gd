@@ -5,6 +5,8 @@ extends Node2D
 
 func _ready() -> void:
 	SaveSystem.save_opened.connect(_on_save_opened)
+	if SaveSystem.current_save:
+		_on_save_opened(SaveSystem.current_save)
 
 
 func _on_save_opened(_save: SaveResource) -> void:
