@@ -44,7 +44,7 @@ func get_minute() -> int:
 
 
 func lua_fields() -> Array[String]:
-	return [
+	return super() + [
 		"current_time",
 		"time_speed_multiplier",
 		"get_year",

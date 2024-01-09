@@ -15,4 +15,4 @@ func lose(fate_amount: int) -> void:
 
 
 func lua_fields() -> Array[String]:
-	return ["amount", "earn", "lose"]
+	return super() + ["amount", "earn", "lose"]
