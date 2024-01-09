@@ -1,16 +1,5 @@
 class_name DatetimeResource extends ModdableResource
 
-const SEASONS_IN_YEAR = 4
-const WEEKS_IN_SEASON = 28
-const DAYS_IN_WEEK = 7
-const HOURS_IN_DAY = 24
-const MINUTES_IN_HOUR = 60
-
-const MINUTES_IN_DAY = MINUTES_IN_HOUR * HOURS_IN_DAY
-const MINUTES_IN_WEEK = MINUTES_IN_DAY * DAYS_IN_WEEK
-const MINUTES_IN_SEASON = MINUTES_IN_WEEK * WEEKS_IN_SEASON
-const MINUTES_IN_YEAR = MINUTES_IN_SEASON * SEASONS_IN_YEAR
-
 ## How many real-world seconds is equal to one in-game minute
 const TIME_SPEED: float = 5.0
 
@@ -23,32 +12,28 @@ const TIME_SPEED: float = 5.0
 
 
 func get_year() -> int:
-	return _floor(current_time, MINUTES_IN_YEAR)
+	return DatetimeHelper.get_year(current_time)
 
 
 func get_season() -> int:
-	return _floor(current_time % MINUTES_IN_YEAR, MINUTES_IN_SEASON)
+	return DatetimeHelper.get_season(current_time)
 
 
 func get_week() -> int:
-	return _floor(current_time % MINUTES_IN_SEASON, MINUTES_IN_WEEK)
+	return DatetimeHelper.get_week(current_time)
 
 
-func get_day_of_week() -> int:
-	return _floor(current_time % MINUTES_IN_WEEK, MINUTES_IN_DAY)
+func get_day() -> int:
+	return DatetimeHelper.get_day(current_time)
 
 
-func get_day_of_season() -> int:
-	return _floor(current_time % MINUTES_IN_SEASON, MINUTES_IN_DAY)
+func get_date() -> int:
+	return DatetimeHelper.get_date(current_time)
 
 
 func get_hour() -> int:
-	return _floor(current_time % MINUTES_IN_DAY, MINUTES_IN_HOUR)
+	return DatetimeHelper.get_hour(current_time)
 
 
 func get_minute() -> int:
-	return current_time % MINUTES_IN_HOUR
-
-
-func _floor(a: int, b: int) -> int:
-	return floori(float(a) / float(b))
+	return DatetimeHelper.get_minute(current_time)
