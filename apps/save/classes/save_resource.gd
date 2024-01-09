@@ -16,6 +16,11 @@ class_name SaveResource extends ModdableResource
 		pets = value
 		for pet in pets: _connect_subresource(pet)
 
+@export var fate := FateResource.new():
+	set(value):
+		fate = value
+		_connect_subresource(fate)
+
 var _save_helper := SaveHelper.new({
 	resource = self,
 	base_dir = func() -> String: return "user://saves/{0}".format([id]),
@@ -49,7 +54,7 @@ func _generate_id() -> void:
 
 ## Performs [method _connect_subresource] for all child resources
 func _connect_all_subresources() -> void:
-	for subresource in [settings, player] + pets + subresources.values():
+	for subresource in [settings, player, fate] + pets + subresources.values():
 		_connect_subresource(subresource)
 
 
