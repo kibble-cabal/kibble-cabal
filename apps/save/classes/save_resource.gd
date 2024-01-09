@@ -21,6 +21,11 @@ class_name SaveResource extends ModdableResource
 		fate = value
 		_connect_subresource(fate)
 
+@export var datetime := DatetimeResource.new():
+	set(value):
+		datetime = value
+		_connect_subresource(datetime)
+
 ## Datetime that this file was last saved.
 @export var last_saved: String
 
@@ -49,7 +54,7 @@ func commit_changes() -> void:
 
 
 func lua_fields() -> Array[String]:
-	return super() + ["settings", "player", "pets", "fate", "commit_changes"]
+	return super() + ["settings", "player", "pets", "fate", "datetime", "commit_changes"]
 
 
 func _generate_id() -> void:
@@ -62,7 +67,7 @@ func _generate_id() -> void:
 
 ## Performs [method _connect_subresource] for all child resources
 func _connect_all_subresources() -> void:
-	for subresource in [settings, player, fate] + pets + subresources.values():
+	for subresource in [settings, player, fate, datetime] + pets + subresources.values():
 		_connect_subresource(subresource)
 
 
