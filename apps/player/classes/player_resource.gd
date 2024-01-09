@@ -10,3 +10,14 @@ const DefaultSpriteScene := preload("res://expansions/core/player/scenes/player_
 
 ## This is a temporary property that helps me differentiate save files.
 @export var modulate: Color = Color(randf() + 0.5, randf() + 0.5, randf() + 0.5)
+
+## Corresponds to [LocationResource.name]
+@export var current_location: String:
+	set(value):
+		current_location = value
+		emit_changed()
+
+@export var current_position: Vector2:
+	set(value):
+		current_position = value
+		emit_changed()

@@ -14,6 +14,7 @@ func _ready() -> void:
 		_instantiate_sprite_controller()
 		sprite_controller.modulate = resource.modulate
 	super._ready()
+	move_finished.connect(_on_move_finished)
 
 
 func reset() -> void:
@@ -32,3 +33,9 @@ func _instantiate_sprite_controller() -> void:
 		move_started.connect(sprite_controller.start.bind("walk"))
 		move_finished.connect(sprite_controller.start.bind("default"))
 		add_child(sprite_controller)
+
+
+func _on_move_finished() -> void:
+	if resource:
+		resource.current_position = position
+		SaveSystem.commit_changes()
