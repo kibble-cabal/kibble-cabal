@@ -33,8 +33,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (
-		SaveSystem.current_save 
-		and SaveSystem.current_save.settings.tap_to_move
+		SaveSystem.get_setting("tap_to_move", true)
 		and event.is_action_pressed("click") 
 		and navigation_agent
 	): 

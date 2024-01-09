@@ -39,5 +39,11 @@ func discover_saves() -> Array[SaveResource]:
 	return saves
 
 
+func get_setting(key: String, default_value):
+	if current_save and current_save.settings:
+		return current_save.settings.settings.get(key, default_value)
+	return default_value
+
+
 func lua_fields() -> Array[String]:
 	return ["open_save", "close_save", "commit_changes", "current_save", "discover_saves"]
