@@ -30,9 +30,10 @@ func _ready() -> void:
 	lua.bind_libraries(ALLOWED_LUA_LIBRARIES)	
 	LuaModFunctions.setup(lua)
 	
+	SaveLuaAPI.new().expose(lua)
+	SettingsLuaAPI.new().expose(lua)
 	LocationLuaAPI.new().expose(lua)
 	AnimalLuaAPI.new().expose(lua)
-	SaveLuaAPI.new().expose(lua)
 	ItemLuaAPI.new().expose(lua)
 	DatetimeLuaAPI.new().expose(lua)
 	ExpansionPackLuaAPI.new().expose(lua)

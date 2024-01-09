@@ -12,3 +12,10 @@ class_name SettingsResource extends ModdableResource
 func set_setting(key: String, value) -> void:
 	settings[key] = value
 	emit_changed()
+
+
+func lua_fields() -> Array[String]:
+	return super() + [
+		"settings",
+		"set_setting"
+	]

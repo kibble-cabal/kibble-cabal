@@ -28,3 +28,12 @@ func find_by_id(setting_id: String) -> SettingDefinitionResource:
 	for setting in registered_settings:
 		if setting.id == setting_id: return setting
 	return null
+
+
+func lua_fields() -> Array[String]:
+	return [
+		"registered_settings",
+		"register",
+		"find_by_name",
+		"find_by_id",
+	]
