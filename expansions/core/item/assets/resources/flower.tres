@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://cw5qtjhi3ytpg"]
+
+[ext_resource type="Script" path="res://apps/item/classes/item_resource.gd" id="1_e4csu"]
+[ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansions/core/item/assets/sprites/flower_icon_placeholder.png" id="1_nwixh"]
+[ext_resource type="Script" path="res://apps/item/classes/item_physics_resource.gd" id="2_rd7uo"]
+[ext_resource type="Script" path="res://apps/item/classes/item_retail_resource.gd" id="3_jjfv8"]
+
+[sub_resource type="Resource" id="Resource_hrt5a"]
+script = ExtResource("2_rd7uo")
+flags = 7
+subresources = {}
+
+[sub_resource type="Resource" id="Resource_7go6c"]
+script = ExtResource("3_jjfv8")
+buy_price = 5
+base_sell_price = 2
+depreciation_rate = 0.5
+subresources = {}
+
+[resource]
+script = ExtResource("1_e4csu")
+id = "core__flower"
+display_name = "Flower"
+description = "A little flower"
+icon = ExtResource("1_nwixh")
+physics_resource = SubResource("Resource_hrt5a")
+retail_resource = SubResource("Resource_7go6c")
+subresources = {}
