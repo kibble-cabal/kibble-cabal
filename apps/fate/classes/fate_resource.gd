@@ -4,3 +4,15 @@ class_name FateResource extends ModdableResource
 	set(value):
 		amount = value
 		emit_changed()
+
+
+func earn(fate_amount: int) -> void:
+	amount += fate_amount
+
+
+func lose(fate_amount: int) -> void:
+	amount -= fate_amount
+
+
+func lua_fields() -> Array[String]:
+	return ["amount", "earn", "lose"]

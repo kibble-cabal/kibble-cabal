@@ -41,7 +41,7 @@ func commit_changes() -> void:
 
 
 func lua_fields() -> Array[String]:
-	return super() + ["settings", "player", "pets", "commit_changes"]
+	return super() + ["settings", "player", "pets", "fate", "commit_changes"]
 
 
 func _generate_id() -> void:
