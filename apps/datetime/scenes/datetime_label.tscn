@@ -24,4 +24,5 @@ func render() -> void:
 [node name="DatetimeLabel" type="Label"]
 size_flags_horizontal = 4
 size_flags_vertical = 0
+text = "Mon, Spring 1 00:00"
 script = SubResource("GDScript_bqgcu")
