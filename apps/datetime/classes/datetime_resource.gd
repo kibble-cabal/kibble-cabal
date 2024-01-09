@@ -23,6 +23,10 @@ func get_week() -> int:
 	return DatetimeHelper.get_week(current_time)
 
 
+func get_week_of_year() -> int:
+	return DatetimeHelper.get_week_of_year(current_time)
+
+
 func get_day() -> int:
 	return DatetimeHelper.get_day(current_time)
 
@@ -37,3 +41,18 @@ func get_hour() -> int:
 
 func get_minute() -> int:
 	return DatetimeHelper.get_minute(current_time)
+
+
+func lua_fields() -> Array[String]:
+	return [
+		"current_time",
+		"time_speed_multiplier",
+		"get_year",
+		"get_season",
+		"get_week",
+		"get_week_of_year",
+		"get_date",
+		"get_day",
+		"get_hour",
+		"get_minute"
+	]

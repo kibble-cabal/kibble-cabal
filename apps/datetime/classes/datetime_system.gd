@@ -1,6 +1,9 @@
 # DatetimeSystem
 extends Node
 
+signal unpaused
+signal paused
+
 var timer := Timer.new()
 
 var resource: DatetimeResource:
@@ -8,6 +11,13 @@ var resource: DatetimeResource:
 		if SaveSystem.current_save and SaveSystem.current_save.datetime:
 			return SaveSystem.current_save.datetime
 		return null
+
+var is_paused: bool = false:
+	set(value):
+		match [is_paused, value]:
+			[true, false]: unpaused.emit()
+			[false, true]: paused.emit()
+		is_paused = value
 
 
 func _ready() -> void:
@@ -23,6 +33,18 @@ func _ready() -> void:
 ## How long the timer should wait before incrementing the current time ([member DatetimeResource.current_time])
 func get_wait_time() -> float:
 	return DatetimeResource.TIME_SPEED * (resource.time_speed_multiplier if resource else 1.0)
+
+
+func pause() -> void:
+	is_paused = true
+
+
+func unpause() -> void:
+	is_paused = false
+
+
+func lua_fields() -> Array[String]:
+	return ["get_wait_time", "is_paused", "pause", "unpause"]
 
 
 func _on_timeout() -> void:
