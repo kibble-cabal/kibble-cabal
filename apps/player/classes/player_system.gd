@@ -24,7 +24,7 @@ func spawn(location: LocationResource) -> void:
 		player_node.position = get_spawn_position(location)
 		player.current_position = player_node.position
 		player.current_location = location.name
-		print("Player spawned!")
+		Log.from(self, "Player spawned!")
 
 
 func despawn() -> void:
@@ -43,3 +43,7 @@ func get_spawn_position(location: LocationResource) -> Vector2:
 
 func lua_fields() -> Array[String]:
 	return ["player", "player_node"]
+
+
+func _to_string() -> String:
+	return "PlayerSystem"

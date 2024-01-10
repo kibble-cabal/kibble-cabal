@@ -18,7 +18,7 @@ func open_save(save_value: SaveResource) -> void:
 	close_save()
 	current_save = save_value
 	if current_save:
-		print("Opening ", current_save.id)
+		Log.from(self, "Opening " + current_save.id)
 		session_start_time = Time.get_unix_time_from_system()
 		save_opened.emit(current_save)
 
@@ -38,7 +38,7 @@ func commit_changes() -> void:
 		current_save.time_played += session_length
 		session_start_time = now
 		current_save.commit_changes()
-		print("Saving ", current_save.id, " (played for ", roundf(session_length), "s)")
+		Log.from(self, "Saving {0} (played for {1}s)".format([current_save.id, roundf(session_length)]))
 
 
 func discover_saves() -> Array[SaveResource]:
@@ -67,3 +67,7 @@ func set_setting(key: String, value) -> void:
 
 func lua_fields() -> Array[String]:
 	return ["open_save", "close_save", "commit_changes", "current_save", "discover_saves", "get_setting", "set_setting"]
+
+
+func _to_string() -> String:
+	return "SaveSystem"

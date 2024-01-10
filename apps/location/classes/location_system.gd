@@ -15,7 +15,7 @@ func enter(location: LocationResource) -> void:
 			current_map = location.map.instantiate()
 			get_tree().current_scene.add_child(current_map)
 		location_entered.emit(current_location)
-		prints("Entering location:", current_location.name)
+		Log.from(self, "Entering location: " + current_location.name)
 
 
 func exit() -> void:
@@ -28,3 +28,7 @@ func exit() -> void:
 
 func lua_fields() -> Array[String]:
 	return ["enter", "exit", "current_location"]
+
+
+func _to_string() -> String:
+	return "LocationSystem"

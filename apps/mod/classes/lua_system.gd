@@ -28,7 +28,6 @@ var lua := LuaAPI.new()
 func _ready() -> void:
 	lua.object_metatable.permissive = false
 	lua.bind_libraries(ALLOWED_LUA_LIBRARIES)	
-	LuaModFunctions.setup(lua)
 	
 	SaveLuaAPI.new().expose(lua)
 	SettingsLuaAPI.new().expose(lua)
@@ -39,8 +38,13 @@ func _ready() -> void:
 	PlayerLuaAPI.new().expose(lua)
 	ExpansionPackLuaAPI.new().expose(lua)
 
-	var err: LuaError = lua.do_string("""
-	print("Lua is set up!")
-	""")
-	if err is LuaError:
-		print("ERROR %d: %s" % [err.type, err.message])
+	Log.from(self, "Lua is set up!")
+	#var err: LuaError = lua.do_string("""
+	#print("Lua is set up!")
+	#""")
+	#if err is LuaError:
+		#Log.from(self, "ERROR %d: %s" % [err.type, err.message])
+
+
+func _to_string() -> String:
+	return "LuaSystem"

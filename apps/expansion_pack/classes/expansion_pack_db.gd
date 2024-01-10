@@ -12,11 +12,15 @@ var loader := ExpansionPackLoader.new()
 
 
 func _ready() -> void:
-	loader.load_packs().map(register)
+	var packs := loader.load_packs()
+	
+	Log.start_section(self, "Registering discovered expansion packs...")
+	packs.map(register)
+	Log.end_section(self, "Finished!")
 
 
 func register(pack: ExpansionPackResource) -> void:
-	print("Registering expansion pack: ", pack.display_name)
+	Log.from(self, "Registering expansion pack: " + pack.display_name)
 	registered_packs.append(pack)
 	pack_registered.emit(pack)
 
@@ -34,3 +38,7 @@ func find(pack_name: String) -> ExpansionPackResource:
 
 func lua_fields() -> Array[String]:
 	return ["registered_packs", "find", "loader"]
+
+
+func _to_string() -> String:
+	return "ExpansionPackDB"
