@@ -21,3 +21,12 @@ const DefaultSpriteScene := preload("res://expansions/core/player/scenes/player_
 	set(value):
 		current_position = value
 		emit_changed()
+
+
+func lua_fields() -> Array[String]:
+	return super() + [
+		"name",
+		"sprite_scene",
+		"current_location",
+		"current_position"
+	]

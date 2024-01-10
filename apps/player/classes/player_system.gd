@@ -39,3 +39,7 @@ func get_spawn_position(location: LocationResource) -> Vector2:
 		if player.current_location == location.name: return player.current_position
 		else: return location.player_spawn_position
 	return Vector2.ZERO
+
+
+func lua_fields() -> Array[String]:
+	return ["player", "player_node"]

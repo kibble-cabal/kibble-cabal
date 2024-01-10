@@ -59,5 +59,9 @@ func max_distance_from_target() -> float:
 	return maxf(target_margin + maxf(size.x, size.y) / 4, 1)
 
 
+func lua_fields() -> Array[String]:
+	return ["is_moving", "current_direction"]
+
+
 func _on_target_reached() -> void:
 	move_finished.emit()
