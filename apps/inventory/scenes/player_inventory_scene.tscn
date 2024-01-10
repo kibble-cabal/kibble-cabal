@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdfbni88ae07e"]
+
+[sub_resource type="GDScript" id="GDScript_8f4f2"]
+script/source = "extends Container
+
+var resource: InventoryResource:
+	get:
+		if SaveSystem.current_save and SaveSystem.current_save.inventory:
+			return SaveSystem.current_save.inventory
+		return null
+
+
+func _ready() -> void:
+	SaveSystem.save_opened.connect(_on_save_changed)
+	SaveSystem.save_closed.connect(_on_save_changed)
+	_on_save_changed()
+
+
+func render() -> void:
+	for child in get_children():
+		child.queue_free()
+	if resource:
+		for item in resource.item_instances:
+			ItemInstanceUiRenderer.render(self, item)
+	repack()
+
+
+func repack() -> void:
+	var rects: Array[Rect2] = []
+	for child in get_children():
+		rects.append((child as Control).get_rect())
+	var packer := RectPack2D.new()
+	packer.fill_type = RectPack2D.Fill.VERTICAL
+	packer.expand_type = RectPack2D.Expand.HORIZONTAL
+	packer.margin = Vector2(2, 2)
+	packer.max_height = 200
+	var output := packer.pack(rects)
+	var new_rects := output.get_rects()
+	var i := 0
+	for rect in new_rects:
+		var child: Control = get_child(i)
+		child.position = rect.position
+		i += 1
+
+
+func _on_save_changed(_save: SaveResource = null) -> void:
+	if not resource.changed.is_connected(render):
+		resource.changed.connect(render)
+	render()
+
+
+func _icon_size(item: ItemResource) -> Vector2:
+	return item.icon.get_size() if item.icon else Vector2(32, 32)
+"
+
+[node name="PlayerInventoryScene" type="Container"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+script = SubResource("GDScript_8f4f2")

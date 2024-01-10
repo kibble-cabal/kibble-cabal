@@ -29,27 +29,31 @@ margin_left = 20
 margin_right = 20
 margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/SafeAreaContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SafeAreaContainer"]
 layout_mode = 2
 
-[node name="FateLabel" parent="UI/SafeAreaContainer/HBoxContainer" instance=ExtResource("3_iahvw")]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/SafeAreaContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FateLabel" parent="UI/SafeAreaContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_iahvw")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="DatetimeLabel" parent="UI/SafeAreaContainer/HBoxContainer" instance=ExtResource("5_nbl4x")]
+[node name="DatetimeLabel" parent="UI/SafeAreaContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_nbl4x")]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/SafeAreaContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SafeAreaContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SaveButton" parent="UI/SafeAreaContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_e761m")]
+[node name="SaveButton" parent="UI/SafeAreaContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("2_e761m")]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="SavesList" parent="UI/SafeAreaContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_f7rny")]
+[node name="SavesList" parent="UI/SafeAreaContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("4_f7rny")]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0

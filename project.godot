@@ -47,6 +47,10 @@ project/assembly_name="KibbleCabal2D"
 
 enabled=PackedStringArray("res://addons/rect_pack_2d/plugin.cfg")
 
+[gui]
+
+theme/default_theme_scale=2.0
+
 [input]
 
 click={
