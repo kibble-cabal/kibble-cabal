@@ -8,9 +8,11 @@ signal pack_unregistered(pack: ExpansionPackResource)
 
 var registered_packs: Array[ExpansionPackResource] = []
 
+var loader := ExpansionPackLoader.new()
+
 
 func _ready() -> void:
-	discover()
+	loader.load_packs().map(register)
 
 
 func register(pack: ExpansionPackResource) -> void:
@@ -30,15 +32,5 @@ func find(pack_name: String) -> ExpansionPackResource:
 	return null
 
 
-func discover(entry_dir: String = "res://") -> void:
-	for dir in DirAccess.get_directories_at(entry_dir):
-		discover(entry_dir.path_join(dir))
-	for file in DirAccess.get_files_at(entry_dir):
-		if file.ends_with("expansionpack.tres"):
-			var resource := ResourceLoader.load(entry_dir.path_join(file))
-			if resource is ExpansionPackResource:
-				register(resource)
-
-
 func lua_fields() -> Array[String]:
-	return ["registered_packs", "find", "discover"]
+	return ["registered_packs", "find", "loader"]
