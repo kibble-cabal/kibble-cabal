@@ -14,8 +14,13 @@ const Items = [
 	preload("res://expansions/core/item/assets/resources/food_bowl.tres"),
 ]
 
+const Quests = [
+	preload("res://expansions/core/quests/assets/resources/test_quest_1.tres")
+]
+
 
 func _init() -> void:
 	Locations.map(LocationDB.register)
 	Settings.map(SettingDefinitionDB.register)
 	Items.map(ItemDB.register)
+	Quests.map(QuestDB.register)
