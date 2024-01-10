@@ -43,3 +43,7 @@ static func line(string: String = "") -> void:
 	if not OS.is_debug_build(): return
 	if len(string): print_rich((LINE_START + string).rpad(LINE_LENGTH, LINE_CHAR))
 	else: print_rich("".rpad(LINE_LENGTH, LINE_CHAR))
+
+
+func lua_fields() -> Array[String]:
+	return ["start_section", "end_section", "line", "bullet", "log", "from"]

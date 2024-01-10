@@ -37,6 +37,7 @@ func _ready() -> void:
 	DatetimeLuaAPI.new().expose(lua)
 	PlayerLuaAPI.new().expose(lua)
 	ExpansionPackLuaAPI.new().expose(lua)
+	lua.push_variant("Log", Log.new())
 
 	Log.from(self, "Lua is set up!")
 	#var err: LuaError = lua.do_string("""
