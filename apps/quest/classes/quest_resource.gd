@@ -28,3 +28,18 @@ class_name QuestResource extends ModdableResource
 ## The name of the method in the script [member complete_quest_script] to complete the quest.
 ## [br]Should have the signature: [code]func (save: SaveResource) -> void[/code]
 @export var complete_quest_method: String = "main"
+
+
+func lua_fields() -> Array[String]:
+	return super() + [
+		"id",
+		"display_name",
+		"display_description",
+		"ui",
+		"check_quest_available_script",
+		"check_quest_available_method",
+		"check_quest_complete_script",
+		"check_quest_complete_method",
+		"complete_quest_script",
+		"complete_quest_method"
+	]
