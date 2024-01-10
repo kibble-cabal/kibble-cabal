@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=8 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
+[ext_resource type="Theme" uid="uid://c05gnfa04124u" path="res://content/themes/base_theme.tres" id="2_52fja"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
 [ext_resource type="Script" path="res://apps/ui/classes/nodes/safe_area_container.gd" id="2_xf178"]
 [ext_resource type="PackedScene" uid="uid://bas4c8x6j0yhe" path="res://apps/fate/scenes/fate_label.tscn" id="3_iahvw"]
@@ -19,6 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_52fja")
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 96
 theme_override_constants/margin_right = 20

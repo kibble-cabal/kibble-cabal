@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://c05gnfa04124u"]
+
+[sub_resource type="SystemFont" id="SystemFont_xi5gk"]
+
+[sub_resource type="SystemFont" id="SystemFont_lxrnh"]
+font_names = PackedStringArray("Sans-Serif")
+font_weight = 700
+
+[sub_resource type="SystemFont" id="SystemFont_hw6ty"]
+font_names = PackedStringArray("Sans-Serif")
+font_weight = 700
+
+[resource]
+default_font = SubResource("SystemFont_xi5gk")
+default_font_size = 28
+Caption/base_type = &"Label"
+Caption/colors/font_color = Color(0.6, 0.6, 0.6, 1)
+Caption/font_sizes/font_size = 28
+Caption/fonts/font = SubResource("SystemFont_xi5gk")
+H1/base_type = &"Label"
+H1/font_sizes/font_size = 48
+H1/fonts/font = SubResource("SystemFont_lxrnh")
+H2/base_type = &"Label"
+H2/font_sizes/font_size = 36
+H2/fonts/font = SubResource("SystemFont_hw6ty")
