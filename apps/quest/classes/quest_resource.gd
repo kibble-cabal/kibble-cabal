@@ -5,7 +5,7 @@ class_name QuestResource extends ModdableResource
 @export var display_description: String
 
 ## This scene will be rendered within the quest UI. It probably shouldn't have much functionality, just visualize the player's progress, whether they're completed or not, etc.
-## For reusable UIs, I'll pass [code]quest_id[/code] ([member id]) into the node's [method Node.set_meta] method.
+## It should have this function: [code]func render(quest: QuestResource) -> void[/code]
 @export var ui: PackedScene
 
 @export_category("Scripts")
@@ -26,8 +26,20 @@ class_name QuestResource extends ModdableResource
 ## This script handles completion of the quest by the user, giving reward, etc
 @export var complete_quest_script: GDScript
 ## The name of the method in the script [member complete_quest_script] to complete the quest.
-## [br]Should have the signature: [code]func (save: SaveResource) -> void[/code]
+## [br]Should have the signature: [code]func (save: SaveResource) -> Error[/code]
 @export var complete_quest_method: String = "main"
+
+
+func is_available(save: SaveResource) -> bool:
+	return _call_method(check_quest_available_script, check_quest_available_method, [save], false)
+
+
+func is_complete(save: SaveResource) -> bool:
+	return _call_method(check_quest_complete_script, check_quest_complete_method, [save], false)
+
+
+func complete(save: SaveResource) -> bool:
+	return _call_method(complete_quest_script, complete_quest_method, [save], FAILED)
 
 
 func lua_fields() -> Array[String]:
@@ -41,5 +53,16 @@ func lua_fields() -> Array[String]:
 		"check_quest_complete_script",
 		"check_quest_complete_method",
 		"complete_quest_script",
-		"complete_quest_method"
+		"complete_quest_method",
+		"is_available",
+		"is_complete",
+		"complete"
 	]
+
+
+func _call_method(script: GDScript, method: String, args = [], default = null):
+	if script:
+		var obj = script.new()
+		if method in obj:
+			return obj[method].callv(args)
+	return default
