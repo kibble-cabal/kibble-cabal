@@ -25,11 +25,8 @@ func reset() -> void:
 		navigation_agent.movement_speed = speed
 
 
-func go_to_random_target() -> void:
-	var new_target := start_position + Vector2(randf_range(0, 800), randf_range(0, 800))
-	navigation_agent.set_target_position(new_target)
-	target_received.emit(new_target)
-	move_started.emit()
+func get_random_target() -> Vector2:
+	return start_position + Vector2(randf_range(0, 800), randf_range(0, 800))
 
 
 func _instantiate_sprite_controller() -> void:

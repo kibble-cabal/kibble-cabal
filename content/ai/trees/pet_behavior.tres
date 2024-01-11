@@ -1,41 +1,36 @@
-[gd_resource type="BehaviorTree" load_steps=18 format=3 uid="uid://cfcroebhnfkjw"]
+[gd_resource type="BehaviorTree" load_steps=17 format=3 uid="uid://cfcroebhnfkjw"]
 
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/run_subtrees_from_db_pipe.gd" id="1_a7v6q"]
 [ext_resource type="Script" path="res://apps/query/classes/physics_query.gd" id="1_s80ig"]
 [ext_resource type="Script" path="res://apps/query/classes/transformations/sort_by_distance.gd" id="2_fs866"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/run_query_action.gd" id="3_6dm8v"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/subtree_db_hook.gd" id="4_j7h5g"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/blackboard/set_var_from_method_call.gd" id="2_jw1wj"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_blackboard_position.gd" id="3_5xxe8"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/run_query.gd" id="4_i0qy7"]
 
-[sub_resource type="BTSequence" id="BTSequence_0at3r"]
-script = ExtResource("4_j7h5g")
+[sub_resource type="BTSequence" id="BTSequence_fxi2f"]
+script = ExtResource("1_a7v6q")
 hook_key = &"pet/before_start"
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_8feua"]
 min_duration = 2.0
 max_duration = 3.0
 
-[sub_resource type="BBNode" id="BBNode_y6b5q"]
+[sub_resource type="BBNode" id="BBNode_p80nf"]
 resource_name = "."
 saved_value = NodePath(".")
 
-[sub_resource type="BTCallMethod" id="BTCallMethod_ol8ug"]
-node = SubResource("BBNode_y6b5q")
-method = &"go_to_random_target"
+[sub_resource type="BTAction" id="BTAction_kuhrg"]
+script = ExtResource("2_jw1wj")
+variable = &"target_position"
+method = &"get_random_target"
+node = SubResource("BBNode_p80nf")
+args = []
+args_include_delta = false
 
-[sub_resource type="BBVariant" id="BBVariant_oh2va"]
-resource_name = "true"
-saved_value = true
-type = 1
-
-[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_td1hu"]
-property = &"is_at_target"
-value = SubResource("BBVariant_oh2va")
-
-[sub_resource type="BTCooldown" id="BTCooldown_sv5p7"]
-children = [SubResource("BTCheckAgentProperty_td1hu")]
-duration = 1.0
-
-[sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_ia75y"]
-children = [SubResource("BTCooldown_sv5p7")]
+[sub_resource type="BTAction" id="BTAction_mjgt5"]
+script = ExtResource("3_5xxe8")
+variable = &"target_position"
+navigation_agent_path = NodePath("NavigationAgent")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_olrdp"]
 radius = 1000.0
@@ -45,6 +40,7 @@ script = ExtResource("2_fs866")
 direction = 0
 
 [sub_resource type="Resource" id="Resource_hd2h4"]
+resource_name = "Check For Nearby Items"
 script = ExtResource("1_s80ig")
 region = SubResource("CircleShape2D_olrdp")
 collision_mask = 1
@@ -54,13 +50,13 @@ filters = Array[Resource("res://apps/query/classes/filters/filter.gd")]([])
 transformations = Array[Resource("res://apps/query/classes/transformations/transformation.gd")]([SubResource("Resource_wbx5m")])
 
 [sub_resource type="BTAction" id="BTAction_edhf1"]
-script = ExtResource("3_6dm8v")
+script = ExtResource("4_i0qy7")
 node_path = NodePath(".")
 query = SubResource("Resource_hd2h4")
-result_var = &""
+result_var = &"nearby_items"
 
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTSequence_0at3r"), SubResource("BTRandomWait_8feua"), SubResource("BTCallMethod_ol8ug"), SubResource("BTRepeatUntilSuccess_ia75y"), SubResource("BTAction_edhf1")]
+children = [SubResource("BTSequence_fxi2f"), SubResource("BTRandomWait_8feua"), SubResource("BTAction_kuhrg"), SubResource("BTAction_mjgt5"), SubResource("BTAction_edhf1")]
 
 [resource]
 root_task = SubResource("BTSequence_qv2m0")
