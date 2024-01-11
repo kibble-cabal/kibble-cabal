@@ -31,7 +31,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	): 
 		var mouse_position := get_global_mouse_position()
 		navigation_agent.set_target_position(mouse_position)
-		target_received.emit(mouse_position)
 		move_started.emit()
 
 

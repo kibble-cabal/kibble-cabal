@@ -2,7 +2,6 @@ class_name PlayerBody2D extends CharacterBody2D
 
 signal move_started
 signal move_finished
-signal target_received(target_position: Vector2)
 
 ## Movement speed in pixels/sec
 @export var speed = 400
@@ -25,7 +24,7 @@ var current_direction := Vector2i.ZERO:
 
 
 func _ready() -> void:
-	navigation_agent.navigation_finished.connect(_on_navigation_finished)
+	navigation_agent.navigation_finished.connect(func(): move_finished.emit())
 
 
 func _physics_process(_delta: float) -> void:
@@ -33,14 +32,5 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 
-func stop() -> void:
-	velocity = Vector2.ZERO
-	current_direction = Vector2i.ZERO
-
-
 func lua_fields() -> Array[String]:
 	return ["is_moving", "current_direction"]
-
-
-func _on_navigation_finished() -> void:
-	move_finished.emit()
