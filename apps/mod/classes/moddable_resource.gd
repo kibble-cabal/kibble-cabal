@@ -38,3 +38,9 @@ func lua_fields() -> Array[String]:
 		"remove_subresource",
 		"find_subresource_key"
 	]
+
+
+## Emits the [signal Resource.changed] signal on this resource when the provided child resource is changed
+func _connect_subresource(subresource: Resource) -> void:
+	if subresource is Resource and not subresource.changed.is_connected(emit_changed):
+		subresource.changed.connect(emit_changed)

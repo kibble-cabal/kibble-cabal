@@ -1,20 +1,28 @@
 # PetSystem
 extends Node
 
-
-func add_pet(pet: PetResource) -> void:
-	get_current_pets().append(pet)
+const PetScene := preload("res://apps/pet/scenes/pet_scene.tscn")
 
 
-func remove_pet(pet: PetResource) -> void:
-	get_current_pets().erase(pet)
+func add_pet_to_current_location(pet: PetResource) -> void:
+	get_pets_at_current_location().append(pet)
 
 
-func get_current_pets() -> Array[PetResource]:
+func remove_pet_from_current_location(pet: PetResource) -> void:
+	get_pets_at_current_location().erase(pet)
+
+
+func get_pets_at_current_location() -> Array[PetResource]:
 	if SaveSystem and SaveSystem.current_save:
-		return SaveSystem.current_save.pets
+		var current_location := LocationSystem.current_location
+		var state: LocationStateResource = SaveSystem.current_save.get_or_create_location_state(current_location.name)
+		if state: return state.pets
 	return []
 
 
 func lua_fields() -> Array[String]:
-	return ["add_pet", "remove_pet", "get_current_pets"]
+	return [
+		"add_pet_to_current_location", 
+		"remove_pet_from_current_location",
+		"get_pets_at_current_location"
+	]

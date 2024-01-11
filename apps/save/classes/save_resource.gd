@@ -16,10 +16,8 @@ class_name SaveResource extends ModdableResource
 		inventory = value
 		_connect_subresource(inventory)
 
-@export var pets: Array[PetResource] = []:
-	set(value):
-		pets = value
-		for pet in pets: _connect_subresource(pet)
+## The state of each location instance for this save game
+@export var location_states: Array[LocationStateResource] = []
 
 @export var fate := FateResource.new():
 	set(value):
@@ -58,8 +56,17 @@ func commit_changes() -> void:
 	_save_helper.commit()
 
 
+func get_or_create_location_state(location_name: String) -> LocationStateResource:
+	for state in location_states:
+		if state.location_name == location_name: return state
+	var state := LocationStateResource.new()
+	state.location_name = location_name
+	location_states.append(state)
+	return state
+
+
 func lua_fields() -> Array[String]:
-	return super() + ["settings", "player", "inventory", "pets", "fate", "datetime", "commit_changes"]
+	return super() + ["settings", "player", "inventory", "location_states", "fate", "datetime", "commit_changes"]
 
 
 func _generate_id() -> void:
@@ -72,11 +79,5 @@ func _generate_id() -> void:
 
 ## Performs [method _connect_subresource] for all child resources
 func _connect_all_subresources() -> void:
-	for subresource in [settings, player, inventory, fate, datetime] + pets + subresources.values():
+	for subresource in [settings, player, inventory, fate, datetime] + location_states + subresources.values():
 		_connect_subresource(subresource)
-
-
-## Emits the [signal Resource.changed] signal on this resource when the provided child resource is changed
-func _connect_subresource(subresource: Resource) -> void:
-	if subresource is Resource and not subresource.changed.is_connected(emit_changed):
-		subresource.changed.connect(emit_changed)

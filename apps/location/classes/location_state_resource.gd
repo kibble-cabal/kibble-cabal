@@ -4,7 +4,16 @@ class_name LocationStateResource extends ModdableResource
 @export var location_name: String
 
 ## The collection of item instances that exist at this location
-@export var inventory: InventoryResource
+@export var inventory: InventoryResource:
+	set(value):
+		inventory = value
+		_connect_subresource(inventory)
+
+## The pets that live at this location
+@export var pets: Array[PetResource] = []:
+	set(value):
+		pets = value
+		_connect_all_subresources()
 
 
 func get_location_resource() -> LocationResource:
@@ -13,3 +22,9 @@ func get_location_resource() -> LocationResource:
 
 func lua_fields() -> Array[String]:
 	return super() + ["location_name", "get_location_resource"]
+
+
+## Performs [method _connect_subresource] for all child resources
+func _connect_all_subresources() -> void:
+	for subresource in [inventory] + pets + subresources.values():
+		_connect_subresource(subresource)
