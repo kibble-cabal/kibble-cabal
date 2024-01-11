@@ -1,4 +1,8 @@
-[gd_resource type="BehaviorTree" load_steps=9 format=3 uid="uid://cfcroebhnfkjw"]
+[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://cfcroebhnfkjw"]
+
+[ext_resource type="Script" path="res://apps/query/classes/physics_query.gd" id="1_s80ig"]
+[ext_resource type="Script" path="res://apps/query/classes/transformations/sort_by_distance.gd" id="2_fs866"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/run_query_action.gd" id="3_6dm8v"]
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_8feua"]
 min_duration = 2.0
@@ -28,8 +32,30 @@ duration = 1.0
 [sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_ia75y"]
 children = [SubResource("BTCooldown_sv5p7")]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_olrdp"]
+radius = 1000.0
+
+[sub_resource type="Resource" id="Resource_wbx5m"]
+script = ExtResource("2_fs866")
+direction = 0
+
+[sub_resource type="Resource" id="Resource_hd2h4"]
+script = ExtResource("1_s80ig")
+region = SubResource("CircleShape2D_olrdp")
+collision_mask = 1
+detect_bodies = true
+detect_areas = true
+filters = Array[Resource("res://apps/query/classes/filters/filter.gd")]([])
+transformations = Array[Resource("res://apps/query/classes/transformations/transformation.gd")]([SubResource("Resource_wbx5m")])
+
+[sub_resource type="BTAction" id="BTAction_edhf1"]
+script = ExtResource("3_6dm8v")
+node_path = NodePath(".")
+query = SubResource("Resource_hd2h4")
+result_var = &""
+
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTRandomWait_8feua"), SubResource("BTCallMethod_ol8ug"), SubResource("BTRepeatUntilSuccess_ia75y")]
+children = [SubResource("BTRandomWait_8feua"), SubResource("BTCallMethod_ol8ug"), SubResource("BTRepeatUntilSuccess_ia75y"), SubResource("BTAction_edhf1")]
 
 [resource]
 root_task = SubResource("BTSequence_qv2m0")
