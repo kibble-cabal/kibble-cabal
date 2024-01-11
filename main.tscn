@@ -1,16 +1,30 @@
-[gd_scene load_steps=8 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=11 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="Theme" uid="uid://c05gnfa04124u" path="res://content/themes/base_theme.tres" id="2_52fja"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
+[ext_resource type="PackedScene" uid="uid://dy72pajpo8l7k" path="res://apps/pet/scenes/pet_scene.tscn" id="2_oijg5"]
 [ext_resource type="Script" path="res://apps/ui/classes/nodes/safe_area_container.gd" id="2_xf178"]
+[ext_resource type="Script" path="res://apps/pet/classes/pet_resource.gd" id="3_0n66w"]
 [ext_resource type="PackedScene" uid="uid://bas4c8x6j0yhe" path="res://apps/fate/scenes/fate_label.tscn" id="3_iahvw"]
 [ext_resource type="PackedScene" uid="uid://u22a8ibom3dn" path="res://apps/save/scenes/saves_list.tscn" id="4_f7rny"]
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 
+[sub_resource type="Resource" id="Resource_roy1p"]
+script = ExtResource("3_0n66w")
+name = ""
+birthdate = 0
+animal = ""
+modulate = null
+subresources = {}
+
 [node name="Main" type="Node2D"]
 scale = Vector2(4, 4)
 script = ExtResource("1_gay8e")
+
+[node name="PetScene" parent="." instance=ExtResource("2_oijg5")]
+position = Vector2(50, 50)
+resource = SubResource("Resource_roy1p")
 
 [node name="UI" type="CanvasLayer" parent="."]
 

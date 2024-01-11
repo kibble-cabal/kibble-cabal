@@ -6,6 +6,9 @@ class_name PetResource extends ModdableResource
 ## Corresponds to [member AnimalResource.name]
 @export var animal: String
 
+## Temporary
+@export var modulate: Color = Color(randf() + 0.3, randf() + 0.3, randf() + 0.3)
+
 
 func get_animal_resource() -> AnimalResource:
 	return AnimalDB.find(animal) if AnimalDB else null
