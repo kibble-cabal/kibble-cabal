@@ -51,6 +51,8 @@ animations = [{
 radius = 12.0
 
 [node name="PetScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent")]
+collision_layer = 4
+collision_mask = 15
 script = ExtResource("1_m2vjx")
 speed = 144
 navigation_agent = NodePath("NavigationAgent")
@@ -72,11 +74,14 @@ shape = SubResource("CircleShape2D_mv65f")
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
 target_desired_distance = 4.0
+navigation_layers = 7
 path_postprocessing = 1
 avoidance_enabled = true
 radius = 12.0
 neighbor_distance = 32.0
 time_horizon_agents = 0.5
 max_speed = 400.0
+avoidance_layers = 4
+avoidance_mask = 7
 script = ExtResource("2_oapg6")
 character = NodePath("..")

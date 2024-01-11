@@ -10,6 +10,8 @@ radius = 14.0
 height = 28.0
 
 [node name="PlayerScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent")]
+collision_layer = 2
+collision_mask = 15
 script = ExtResource("1_ytw0n")
 speed = 144
 size = Vector2(32, 64)
@@ -17,12 +19,15 @@ navigation_agent = NodePath("NavigationAgent")
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
 target_desired_distance = 4.0
+navigation_layers = 7
 path_postprocessing = 1
 avoidance_enabled = true
 radius = 16.0
 neighbor_distance = 50.0
 time_horizon_agents = 0.5
 max_speed = 400.0
+avoidance_layers = 2
+avoidance_mask = 7
 script = ExtResource("2_ncora")
 character = NodePath("..")
 
