@@ -29,9 +29,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	current_direction = Input.get_vector("left", "right", "up", "down").round()
-	if current_direction.x != 0 or current_direction.y != 0:
-		velocity = current_direction * navigation_agent.max_speed
+	var direction := Input.get_vector("left", "right", "up", "down").round()
+	if direction.x != 0 or direction.y != 0:
+		velocity = direction * navigation_agent.max_speed
 	super._physics_process(delta)
 
 

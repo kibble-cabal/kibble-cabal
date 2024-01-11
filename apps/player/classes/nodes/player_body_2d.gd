@@ -15,8 +15,6 @@ var is_moving: bool = false:
 			[true, false]: move_finished.emit()
 		is_moving = value
 
-var current_direction := Vector2i.ZERO
-
 var _facing_ray_length: float
 
 
@@ -30,9 +28,9 @@ func _physics_process(_delta: float) -> void:
 	is_moving = not (is_zero_approx(velocity.x) and is_zero_approx(velocity.y))
 	if is_moving:
 		if facing_ray:
-			facing_ray.target_position = Vector2(_facing_ray_length, _facing_ray_length) * velocity.sign()
+			facing_ray.target_position = (Vector2(_facing_ray_length, _facing_ray_length) * velocity.sign()).limit_length(_facing_ray_length)
 		move_and_slide()
 
 
 func lua_fields() -> Array[String]:
-	return ["is_moving", "current_direction"]
+	return ["is_moving", "velocity"]
