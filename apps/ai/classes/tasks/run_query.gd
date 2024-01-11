@@ -7,12 +7,12 @@ class_name BTRunQuery extends BTAction
 
 
 func _generate_name() -> String:
-	var result_string := " → Blackboard.{0}".format([result_var]) if result_var else ""
+	var result_string := ", set Blackboard.{0} to result".format([result_var]) if result_var else ""
 	if len(query.resource_name):
-		return "[Run Query] {0}".format([query.resource_name]) + result_string
+		return "Run Query \"{0}\"".format([query.resource_name]) + result_string
 	if len(query.resource_path): 
-		return "[Run Query] {0}".format([query.resource_path]) + result_string
-	return "[Run Query]" + result_string
+		return "Run Query \"{0}\"".format([query.resource_path]) + result_string
+	return "Run Query" + result_string
 
 
 func _tick(_delta: float) -> Status:
