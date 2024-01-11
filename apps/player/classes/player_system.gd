@@ -13,11 +13,11 @@ var player_node: PlayerBody2D = null
 
 
 func _ready() -> void:
+	LocationSystem.location_exited.connect(despawn)
 	LocationSystem.location_entered.connect(spawn)
 
 
 func spawn(location: LocationResource) -> void:
-	despawn()
 	if player:
 		player_node = PlayerScene.instantiate()
 		get_tree().current_scene.add_child(player_node)

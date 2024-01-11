@@ -6,6 +6,11 @@ class_name PetResource extends ModdableResource
 ## Corresponds to [member AnimalResource.name]
 @export var animal: String
 
+@export var current_position: Vector2:
+	set(value):
+		current_position = value
+		emit_changed()
+
 ## Temporary
 @export var modulate: Color = Color(randf() + 0.3, randf() + 0.3, randf() + 0.3)
 
