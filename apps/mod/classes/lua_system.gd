@@ -36,6 +36,7 @@ func _ready() -> void:
 	ItemLuaAPI.new().expose(lua)
 	DatetimeLuaAPI.new().expose(lua)
 	PlayerLuaAPI.new().expose(lua)
+	AILuaAPI.new().expose(lua)
 	ExpansionPackLuaAPI.new().expose(lua)
 	lua.push_variant("Log", Log.new())
 
