@@ -13,7 +13,9 @@ func enter(location: LocationResource) -> void:
 		current_location = location
 		if location.map:
 			current_map = location.map.instantiate()
-			get_tree().current_scene.add_child(current_map)
+			var current_scene := get_tree().current_scene
+			current_scene.add_child(current_map)
+			current_scene.move_child(current_map, 0)
 		location_entered.emit(current_location)
 		Log.from(self, "Entering location: " + current_location.name)
 
