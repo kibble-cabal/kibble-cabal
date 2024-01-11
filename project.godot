@@ -76,6 +76,11 @@ down={
 ]
 }
 
+[limbo_ai]
+
+behavior_tree/behavior_tree_default_dir="res://apps/ai/trees"
+behavior_tree/user_task_dir_1="res://apps/ai/tasks"
+
 [rendering]
 
 renderer/rendering_method="mobile"

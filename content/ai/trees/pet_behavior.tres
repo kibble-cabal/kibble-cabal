@@ -1,0 +1,35 @@
+[gd_resource type="BehaviorTree" load_steps=9 format=3 uid="uid://cfcroebhnfkjw"]
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_8feua"]
+min_duration = 2.0
+max_duration = 3.0
+
+[sub_resource type="BBNode" id="BBNode_y6b5q"]
+resource_name = "."
+saved_value = NodePath(".")
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_ol8ug"]
+node = SubResource("BBNode_y6b5q")
+method = &"go_to_random_target"
+
+[sub_resource type="BBVariant" id="BBVariant_oh2va"]
+resource_name = "true"
+saved_value = true
+type = 1
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_td1hu"]
+property = &"is_at_target"
+value = SubResource("BBVariant_oh2va")
+
+[sub_resource type="BTCooldown" id="BTCooldown_sv5p7"]
+children = [SubResource("BTCheckAgentProperty_td1hu")]
+duration = 1.0
+
+[sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_ia75y"]
+children = [SubResource("BTCooldown_sv5p7")]
+
+[sub_resource type="BTSequence" id="BTSequence_qv2m0"]
+children = [SubResource("BTRandomWait_8feua"), SubResource("BTCallMethod_ol8ug"), SubResource("BTRepeatUntilSuccess_ia75y")]
+
+[resource]
+root_task = SubResource("BTSequence_qv2m0")

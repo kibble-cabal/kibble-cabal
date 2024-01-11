@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=12 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_scene.gd" id="1_m2vjx"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
 [ext_resource type="Texture2D" uid="uid://bjt1o3txxoxpi" path="res://expansions/core/pet/assets/sprites/pet_placeholder_sheet.png" id="3_rf53d"]
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_sprite_controller.gd" id="4_lku25"]
+[ext_resource type="BehaviorTree" uid="uid://cfcroebhnfkjw" path="res://content/ai/trees/pet_behavior.tres" id="5_w602o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ebpyx"]
 atlas = ExtResource("3_rf53d")
@@ -32,7 +33,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -43,7 +44,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 2.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mv65f"]
@@ -51,7 +52,11 @@ radius = 12.0
 
 [node name="PetScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent")]
 script = ExtResource("1_m2vjx")
+speed = 144
 navigation_agent = NodePath("NavigationAgent")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("5_w602o")
 
 [node name="SpriteController" type="Node2D" parent="."]
 script = ExtResource("4_lku25")
@@ -60,10 +65,18 @@ script = ExtResource("4_lku25")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_bdwaq")
 animation = &"walk"
+autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mv65f")
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
+target_desired_distance = 4.0
+path_postprocessing = 1
+avoidance_enabled = true
+radius = 12.0
+neighbor_distance = 32.0
+time_horizon_agents = 0.5
+max_speed = 400.0
 script = ExtResource("2_oapg6")
 character = NodePath("..")
