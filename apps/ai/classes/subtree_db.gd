@@ -1,31 +1,20 @@
 # SubtreeDB
 extends Node
 
-class RegisteredSubtree:
-	var key: StringName
-	var subtree: BehaviorTree
-	
-	func _init(key: StringName, subtree: BehaviorTree) -> void:
-		self.key = key
-		self.subtree = subtree
-	
-	func lua_fields() -> Array[String]:
-		return ["key", "subtree"]
+
+signal subtree_registered(subtree: SubtreeResource)
+signal subtree_unregistered(subtree: SubtreeResource)
 
 
-signal subtree_registered(subtree: RegisteredSubtree)
-signal subtree_unregistered(subtree: RegisteredSubtree)
+var registered_subtrees: Array[SubtreeResource] = []
 
 
-var registered_subtrees: Array[RegisteredSubtree] = []
-
-
-func register(subtree: RegisteredSubtree) -> void:
+func register(subtree: SubtreeResource) -> void:
 	registered_subtrees.append(subtree)
 	subtree_registered.emit(subtree)
 
 
-func unregister(subtree: RegisteredSubtree) -> void:
+func unregister(subtree: SubtreeResource) -> void:
 	registered_subtrees.erase(subtree)
 	subtree_unregistered.emit(subtree)
 
