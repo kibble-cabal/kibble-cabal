@@ -1,19 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://nh2frc2lo76l"]
+[gd_scene load_steps=7 format=3 uid="uid://nh2frc2lo76l"]
 
 [ext_resource type="Script" path="res://apps/player/scenes/player_scene.gd" id="1_ytw0n"]
 [ext_resource type="AudioStream" uid="uid://1sgg7geh45kj" path="res://expansions/core/player/assets/sounds/sneaker footstep on dry grass 01.mp3" id="2_5708r"]
 [ext_resource type="Script" path="res://apps/sound_effect/classes/nodes/sound_effect_player_2d.gd" id="2_hi6j5"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_ncora"]
+[ext_resource type="Script" path="res://addons/interaction_system/systems/interaction/interactor/character_body_2d_interactor.gd" id="5_iqpd5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v302"]
 radius = 14.0
 height = 28.0
 
-[node name="PlayerScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent")]
+[node name="PlayerScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent", "facing_ray")]
 collision_layer = 2
 collision_mask = 15
 script = ExtResource("1_ytw0n")
 navigation_agent = NodePath("NavigationAgent")
+facing_ray = NodePath("FacingRay")
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
 target_desired_distance = 4.0
@@ -23,7 +25,7 @@ avoidance_enabled = true
 radius = 16.0
 neighbor_distance = 50.0
 time_horizon_agents = 0.5
-max_speed = 144.0
+max_speed = 256.0
 avoidance_layers = 2
 avoidance_mask = 7
 script = ExtResource("2_ncora")
@@ -39,3 +41,12 @@ shape = SubResource("CapsuleShape2D_0v302")
 stream = ExtResource("2_5708r")
 script = ExtResource("2_hi6j5")
 loop_length = 0.75
+
+[node name="FacingRay" type="RayCast2D" parent="."]
+target_position = Vector2(2.08165e-12, 48)
+collision_mask = 30
+
+[node name="Interactor" type="Node2D" parent="." node_paths=PackedStringArray("ray_cast")]
+script = ExtResource("5_iqpd5")
+action_name = "player_interact"
+ray_cast = NodePath("../FacingRay")
