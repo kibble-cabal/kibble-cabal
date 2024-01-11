@@ -17,12 +17,6 @@ func _ready() -> void:
 	move_finished.connect(_on_move_finished)
 
 
-func reset() -> void:
-	speed = 144
-	size = Vector2(32, 64)
-	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-
-
 func _unhandled_input(event: InputEvent) -> void:
 	if (
 		SaveSystem.get_setting("tap_to_move", true)
@@ -34,11 +28,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		move_started.emit()
 
 
-func _physics_process(_delta: float) -> void:
-	if navigation_agent and not navigation_agent.is_navigation_finished(): return
+func _physics_process(delta: float) -> void:
 	current_direction = Input.get_vector("left", "right", "up", "down").round()
-	velocity = current_direction * speed
-	move_and_slide()
+	if current_direction.x != 0 or current_direction.y != 0:
+		velocity = current_direction * navigation_agent.max_speed
+	super._physics_process(delta)
 
 
 func _instantiate_sprite_controller() -> void:

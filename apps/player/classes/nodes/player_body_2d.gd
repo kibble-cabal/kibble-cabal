@@ -3,11 +3,6 @@ class_name PlayerBody2D extends CharacterBody2D
 signal move_started
 signal move_finished
 
-## Movement speed in pixels/sec
-@export var speed = 400
-
-@export var size: Vector2
-
 @export var navigation_agent: NavigationAgent
 
 var is_moving: bool = false:
@@ -17,10 +12,7 @@ var is_moving: bool = false:
 			[true, false]: move_finished.emit()
 		is_moving = value
 
-var current_direction := Vector2i.ZERO:
-	set(value):
-		current_direction = value
-		is_moving = current_direction != Vector2i.ZERO
+var current_direction := Vector2i.ZERO
 
 
 func _ready() -> void:
@@ -28,8 +20,8 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if navigation_agent and not navigation_agent.is_navigation_finished(): return
-	move_and_slide()
+	is_moving = not (is_zero_approx(velocity.x) and is_zero_approx(velocity.y))
+	if is_moving: move_and_slide()
 
 
 func lua_fields() -> Array[String]:

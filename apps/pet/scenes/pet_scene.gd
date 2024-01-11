@@ -11,18 +11,10 @@ var is_at_target: bool:
 		else: return true
 
 func _ready() -> void:
-	reset()
 	if resource:
 		_instantiate_sprite_controller()
 		sprite_controller.modulate = resource.modulate
 	super._ready()
-
-
-func reset() -> void:
-	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-	if navigation_agent:
-		navigation_agent.max_speed = speed
-		navigation_agent.movement_speed = speed
 
 
 func get_random_target() -> Vector2:
