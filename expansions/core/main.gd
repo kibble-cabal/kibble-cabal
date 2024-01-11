@@ -18,9 +18,14 @@ const Quests = [
 	preload("res://expansions/core/quests/assets/resources/test_quest_1.tres")
 ]
 
+const Subtrees = [
+	preload("res://expansions/core/ai/assets/resources/test_subtree.tres")
+]
+
 
 func _init() -> void:
 	Locations.map(LocationDB.register)
 	Settings.map(SettingDefinitionDB.register)
 	Items.map(ItemDB.register)
 	Quests.map(QuestDB.register)
+	Subtrees.map(SubtreeDB.register)

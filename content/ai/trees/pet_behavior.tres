@@ -1,8 +1,13 @@
-[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://cfcroebhnfkjw"]
+[gd_resource type="BehaviorTree" load_steps=18 format=3 uid="uid://cfcroebhnfkjw"]
 
 [ext_resource type="Script" path="res://apps/query/classes/physics_query.gd" id="1_s80ig"]
 [ext_resource type="Script" path="res://apps/query/classes/transformations/sort_by_distance.gd" id="2_fs866"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/run_query_action.gd" id="3_6dm8v"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/subtree_db_hook.gd" id="4_j7h5g"]
+
+[sub_resource type="BTSequence" id="BTSequence_0at3r"]
+script = ExtResource("4_j7h5g")
+hook_key = &"pet/before_start"
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_8feua"]
 min_duration = 2.0
@@ -55,7 +60,7 @@ query = SubResource("Resource_hd2h4")
 result_var = &""
 
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTRandomWait_8feua"), SubResource("BTCallMethod_ol8ug"), SubResource("BTRepeatUntilSuccess_ia75y"), SubResource("BTAction_edhf1")]
+children = [SubResource("BTSequence_0at3r"), SubResource("BTRandomWait_8feua"), SubResource("BTCallMethod_ol8ug"), SubResource("BTRepeatUntilSuccess_ia75y"), SubResource("BTAction_edhf1")]
 
 [resource]
 root_task = SubResource("BTSequence_qv2m0")
