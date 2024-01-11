@@ -1,5 +1,5 @@
 @tool
-class_name RunQueryTask extends BTAction
+class_name BTRunQuery extends BTAction
 
 @export var node_path: NodePath
 @export var query: Query = null
@@ -7,7 +7,12 @@ class_name RunQueryTask extends BTAction
 
 
 func _generate_name() -> String:
-	return "RunQueryTask"
+	var result_string := " → Blackboard.{0}".format([result_var]) if result_var else ""
+	if len(query.resource_name):
+		return "[Run Query] {0}".format([query.resource_name]) + result_string
+	if len(query.resource_path): 
+		return "[Run Query] {0}".format([query.resource_path]) + result_string
+	return "[Run Query]" + result_string
 
 
 func _tick(_delta: float) -> Status:
