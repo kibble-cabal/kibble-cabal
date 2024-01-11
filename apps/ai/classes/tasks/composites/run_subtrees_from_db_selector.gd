@@ -1,11 +1,11 @@
 @tool
-extends BTSequence
+extends BTSelector
 
 @export var hook_key: StringName
 
 
 func _generate_name() -> String:
-	return "Run Subtrees from DB: \"{0}\"".format([hook_key if hook_key else "???"])
+	return "Run subtrees from DB for hook \"{0}\"".format([hook_key if hook_key else &"???"])
 
 
 func _setup() -> void:
