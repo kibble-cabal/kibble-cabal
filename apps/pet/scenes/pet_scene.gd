@@ -5,10 +5,6 @@ extends PlayerBody2D
 @onready var start_position := global_position
 @onready var sprite_controller := $SpriteController as SpriteController
 
-var is_at_target: bool:
-	get: 
-		if navigation_agent: return navigation_agent.is_navigation_finished()
-		else: return true
 
 func _ready() -> void:
 	if resource:
