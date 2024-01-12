@@ -1,0 +1,10 @@
+[gd_resource type="BehaviorTree" load_steps=3 format=3 uid="uid://bpi86kc7p6cj8"]
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_mdme4"]
+text = "[Test subtree 2] Hello world!"
+
+[sub_resource type="BTSelector" id="BTSelector_sk6vo"]
+children = [SubResource("BTConsolePrint_mdme4")]
+
+[resource]
+root_task = SubResource("BTSelector_sk6vo")

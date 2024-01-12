@@ -19,7 +19,8 @@ const Quests = [
 ]
 
 const Subtrees = [
-	preload("res://expansions/core/ai/assets/resources/test_subtree_resource.tres")
+	preload("res://expansions/core/ai/assets/resources/test_subtree_resource_1.tres"),
+	preload("res://expansions/core/ai/assets/resources/test_subtree_resource_2.tres")
 ]
 
 

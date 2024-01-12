@@ -20,11 +20,18 @@ func unregister(subtree: SubtreeResource) -> void:
 
 
 func find_by_key(key: StringName) -> Array[BehaviorTree]:
-	var trees: Array[BehaviorTree] = []
+	var resources: Array[SubtreeResource] = []
 	for subtree in registered_subtrees:
-		if subtree.key == key: trees.append(subtree.subtree)
+		if subtree.key == key: resources.append(subtree)
+	resources.sort_custom(_sort_by_priority)
+	var trees: Array[BehaviorTree] = []
+	for resource in resources: trees.append(resource.subtree)
 	return trees
 
 
 func lua_fields() -> Array[String]:
 	return ["registered_subtrees", "register", "unregister", "find_by_key"]
+
+
+func _sort_by_priority(a: SubtreeResource, b: SubtreeResource) -> bool:
+	return a.priority < b.priority
