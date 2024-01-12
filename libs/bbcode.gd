@@ -17,6 +17,14 @@ static func pink(text: String) -> String:
 	return "[color=pink]{0}[/color]".format([text])
 
 
+static func yellow(text: String) -> String:
+	return "[color=yellow]{0}[/color]".format([text])
+
+
+static func red(text: String) -> String:
+	return "[color=red]{0}[/color]".format([text])
+
+
 static func grey(text: String) -> String:
 	return "[color=gray]{0}[/color]".format([text])
 
