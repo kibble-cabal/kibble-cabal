@@ -54,23 +54,27 @@ func set_sound_volume(volume_between_0_and_1) -> void:
 
 
 func play_sound(resource: AudioStream, override_bus: String = "") -> AudioStreamPlayer:
-	return sound_effects.play(resource, override_bus)
+	return sound_effects.play(resource, 0, 0, 0, override_bus)
 
 
-func play_sound_with_pitch(resource: AudioStream, pitch: float = 1.0, override_bus: String = "") -> AudioStreamPlayer:
-	var player = sound_effects.play(resource, override_bus)
+func play_sound_with_pitch(resource: AudioStream, pitch: float = 1.0, volume: float = 0.0, override_bus: String = "") -> AudioStreamPlayer:
+	var player = sound_effects.play(resource, 0, volume, 0, override_bus)
 	player.pitch_scale = pitch
 	return player
 
 
 func play_ui_sound(resource: AudioStream, override_bus: String = "") -> AudioStreamPlayer:
-	return ui_sound_effects.play(resource, override_bus)
+	return ui_sound_effects.play(resource, 0, 0, 0, override_bus)
 
 
 func play_ui_sound_with_pitch(resource: AudioStream, pitch: float = 1.0, override_bus: String = "") -> AudioStreamPlayer:
-	var player = ui_sound_effects.play(resource, override_bus)
+	var player = ui_sound_effects.play(resource, 0, 0, 0, override_bus)
 	player.pitch_scale = pitch
 	return player
+
+
+func stop_sound(resource: AudioStream, fade_out_duration: float = 0.0) -> void:
+	sound_effects.stop_sound(resource, fade_out_duration)
 
 
 func set_default_sound_bus(bus: String) -> void:
@@ -139,7 +143,7 @@ func resume_music(resource: AudioStream = null) -> void:
 
 
 func stop_music(fade_out_duration: float = 0.0) -> void:
-	music.stop(fade_out_duration)
+	music.stop_all(fade_out_duration)
 
 
 func set_default_music_bus(bus: String) -> void:
