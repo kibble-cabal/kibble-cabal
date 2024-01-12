@@ -35,12 +35,12 @@ AttributeDB="*res://apps/ability/classes/attribute_db.gd"
 EffectDB="*res://apps/ability/classes/effect_db.gd"
 TagDB="*res://apps/ability/classes/tag_db.gd"
 ExpansionPackSystem="*res://apps/expansion_pack/classes/expansion_pack_system.gd"
-LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SaveSystem="*res://apps/save/classes/save_system.gd"
 LocationSystem="*res://apps/location/classes/location_system.gd"
 PlayerSystem="*res://apps/player/classes/player_system.gd"
 PetSystem="*res://apps/pet/classes/pet_system.gd"
 DatetimeSystem="*res://apps/datetime/classes/datetime_system.gd"
+LuaSystem="*res://apps/mod/classes/lua_system.gd"
 
 [display]
 

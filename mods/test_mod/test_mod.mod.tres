@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ModResource" load_steps=2 format=3 uid="uid://cuqka4plx7p5d"]
+
+[ext_resource type="Script" path="res://apps/mod/classes/mod_resource.gd" id="1_egtxq"]
+
+[resource]
+script = ExtResource("1_egtxq")
+id = "test_mod"
+author = "Audrey"
+link = ""
+version = "1.0.0"
+display_description = ""
+display_name = ""
+entry_script_path = "res://mods/test_mod/test_mod.lua"
+subresources = {}
