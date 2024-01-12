@@ -38,6 +38,7 @@ func _ready() -> void:
 	PlayerLuaAPI.new().expose(lua)
 	AILuaAPI.new().expose(lua)
 	ExpansionPackLuaAPI.new().expose(lua)
+	AbilityLuaAPI.new().expose(lua)
 	lua.push_variant("Log", Log.new())
 
 	Log.from(self, "Lua is set up!")
