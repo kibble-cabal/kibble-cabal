@@ -1,7 +1,8 @@
 class_name PlayerRoot extends PlayerBody2D
 
+@export var footstep_sound_effect: AudioStream
+
 @onready var collision_shape := $CollisionShape as CollisionShape2D
-@onready var footstep_player := $FootstepPlayer as SoundEffectPlayer2D
 @onready var ability_system := $AbilitySystemComponent as AbilitySystemComponent
 
 var sprite_controller: SpriteController
@@ -16,6 +17,7 @@ func _ready() -> void:
 		sprite_controller.modulate = resource.modulate
 		ability_system.state = resource.ability_state
 	super._ready()
+	move_started.connect(_on_move_started)
 	move_finished.connect(_on_move_finished)
 
 
@@ -48,7 +50,12 @@ func _instantiate_sprite_controller() -> void:
 		add_child(sprite_controller)
 
 
+func _on_move_started() -> void:
+	SoundManager.play_sound_with_pitch(footstep_sound_effect, SoundEffectPlayer2D.get_random_pitch(), -5.0)
+
+
 func _on_move_finished() -> void:
+	SoundManager.sound_effects.stop(footstep_sound_effect)
 	if resource:
 		resource.current_position = position
 		SaveSystem.commit_changes()
