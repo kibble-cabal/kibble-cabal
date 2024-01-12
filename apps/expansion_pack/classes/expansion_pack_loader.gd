@@ -5,13 +5,23 @@ class_name ExpansionPackLoader
 const DIRS_TO_SEARCH: Array[String] = ["res://", "user://"]
 const DIRS_TO_SKIP: Array[String] = ["res://addons", "res://apps", "res://content"]
 
+var content_loader := ContentLoader.new()
+
+
+func _init() -> void:
+	content_loader.ignored_dirs = DIRS_TO_SKIP
+
 
 func load_packs(verbose: bool = true) -> Array[ExpansionPackResource]:
 	if verbose: Log.start_section(self)
+	
 	# Discover *.expansionpack.pck files
 	var discovered_pck_files := PackedStringArray()
 	for dir in DIRS_TO_SEARCH:
-		discovered_pck_files.append_array(get_files_recursive(dir, filter_pck))
+		discovered_pck_files.append_array(content_loader.get_files_by_extension(dir, [
+			"expansionpack.pck",
+			"expansionpack.zip"
+		]))
 	
 	if verbose: Log.bullet("Discovered PCK files: {0}".format([discovered_pck_files]))
 	
@@ -27,14 +37,17 @@ func load_packs(verbose: bool = true) -> Array[ExpansionPackResource]:
 	# Discover *.expansionpack.tres
 	var discovered_resource_files := PackedStringArray()
 	for dir in ["res://"]:
-		discovered_resource_files.append_array(get_files_recursive(dir, filter_resource))
+		discovered_resource_files.append_array(content_loader.get_files_by_extension(dir, [
+			"expansionpack.tres",
+			"expansionpack.res"
+		]))
 	
 	if verbose: Log.bullet("Discovered resource files: {0}".format([discovered_resource_files]))
 	
 	# Load discovered [ExpansionPackResource] files
 	var pack_resources: Array[ExpansionPackResource] = []
 	for file in discovered_resource_files:
-		var resource := ResourceLoader.load(file, "ExpansionPackResource")
+		var resource := content_loader.load_resource(file)
 		if resource is ExpansionPackResource:
 			pack_resources.append(resource)
 	
@@ -42,25 +55,6 @@ func load_packs(verbose: bool = true) -> Array[ExpansionPackResource]:
 		Log.end_section(self, "Finished!")
 	
 	return pack_resources
-
-
-func get_files_recursive(entry_dir: String, filter_func: Callable) -> PackedStringArray:
-	var array := PackedStringArray()
-	for dir in DirAccess.get_directories_at(entry_dir):
-		if not dir in DIRS_TO_SKIP:
-			array.append_array(get_files_recursive(entry_dir.path_join(dir), filter_func))
-	for file in DirAccess.get_files_at(entry_dir):
-		var path := entry_dir.path_join(file)
-		if filter_func.call(path): array.append(path)
-	return array
-
-
-static func filter_pck(path: String) -> bool:
-	return path.to_lower().ends_with(".expansionpack.pck") or path.to_lower().ends_with(".expansionpack.zip")
-
-
-static func filter_resource(path: String) -> bool:
-	return path.to_lower().ends_with(".expansionpack.tres") or path.to_lower().ends_with(".expansionpack.res")
 
 
 func lua_fields() -> Array:
