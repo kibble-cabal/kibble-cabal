@@ -8,6 +8,11 @@
 
 config_version=5
 
+[ability_system]
+
+tags_dock/custom_dir="res://"
+attribute_table_dock/custom_dir="res://"
+
 [application]
 
 config/name="KibbleCabal2D"
@@ -47,7 +52,7 @@ project/assembly_name="KibbleCabal2D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/interaction_system/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg")
+enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/interaction_system/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg")
 
 [input]
 

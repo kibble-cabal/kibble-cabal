@@ -6,3 +6,6 @@
 	path = addons/interaction_system
 	url = https://github.com/kibble-cabal/godot-interaction-system.git
 	branch = just-2d-cleaned
+[submodule "addons/ability_system"]
+	path = addons/ability_system
+	url = https://github.com/kibble-cabal/ability-system.git
