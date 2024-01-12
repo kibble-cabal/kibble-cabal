@@ -1,4 +1,4 @@
-extends PlayerBody2D
+class_name PlayerRoot extends PlayerBody2D
 
 @onready var collision_shape := $CollisionShape as CollisionShape2D
 @onready var footstep_player := $FootstepPlayer as SoundEffectPlayer2D

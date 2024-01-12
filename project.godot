@@ -56,7 +56,7 @@ project/assembly_name="KibbleCabal2D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/interaction_system/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg")
+enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg")
 
 [input]
 
