@@ -41,7 +41,7 @@ func get_spawn_position(location: LocationResource) -> Vector2:
 	return Vector2.ZERO
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["player", "player_node"]
 
 

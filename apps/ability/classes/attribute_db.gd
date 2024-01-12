@@ -45,7 +45,7 @@ func find_attribute_table_template(attribute_table_template_name: String) -> AAt
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"registered_attributes", 
 		"register_attribute", 

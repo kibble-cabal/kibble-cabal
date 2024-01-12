@@ -63,7 +63,7 @@ static func filter_resource(path: String) -> bool:
 	return path.to_lower().ends_with(".expansionpack.tres") or path.to_lower().ends_with(".expansionpack.res")
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["load_packs"]
 
 

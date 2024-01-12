@@ -29,7 +29,7 @@ func find_by_key(key: StringName) -> Array[BehaviorTree]:
 	return trees
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["registered_subtrees", "register", "unregister", "find_by_key"]
 
 

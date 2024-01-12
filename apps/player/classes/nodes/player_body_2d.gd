@@ -32,5 +32,5 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["is_moving", "velocity"]

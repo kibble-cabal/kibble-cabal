@@ -5,5 +5,5 @@ class_name AnimalResource extends ModdableResource
 @export var scene: PackedScene
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["name", "speed", "scene"] + super()

@@ -30,5 +30,5 @@ func find_by_id(item_id: String) -> ItemResource:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["registered_items", "register", "unregister", "find_by_name", "find_by_id"]

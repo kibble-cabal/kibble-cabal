@@ -30,7 +30,7 @@ func find_subresource_key(by: Callable) -> String:
 	return ""
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"subresources",
 		"get_subresource",

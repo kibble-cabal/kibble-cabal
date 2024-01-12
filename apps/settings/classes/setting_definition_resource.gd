@@ -6,7 +6,7 @@ class_name SettingDefinitionResource extends ModdableResource
 @export var ui: PackedScene
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + [
 		"id",
 		"display_name",

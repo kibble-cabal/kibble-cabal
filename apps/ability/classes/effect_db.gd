@@ -25,5 +25,5 @@ func find(effect_resource_name: String) -> AEffect:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["registered_effects", "register", "unregister", "find"]

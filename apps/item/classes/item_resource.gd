@@ -16,7 +16,7 @@ func instantiate() -> ItemInstanceResource:
 	return instance
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + [
 		"id",
 		"display_name", 

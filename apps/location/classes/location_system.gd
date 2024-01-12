@@ -28,7 +28,7 @@ func exit() -> void:
 	location_exited.emit(current_location)
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["enter", "exit", "current_location"]
 
 

@@ -24,5 +24,5 @@ func find(animal_name: String) -> AnimalResource:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["registered_animals", "register", "unregister", "find"]

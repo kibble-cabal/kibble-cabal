@@ -42,7 +42,7 @@ func complete(save: SaveResource) -> bool:
 	return _call_method(complete_quest_script, complete_quest_method, [save], FAILED)
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + [
 		"id",
 		"display_name",

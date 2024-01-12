@@ -30,7 +30,7 @@ func find_by_id(setting_id: String) -> SettingDefinitionResource:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"registered_settings",
 		"register",

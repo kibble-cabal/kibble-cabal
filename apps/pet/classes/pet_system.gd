@@ -45,7 +45,7 @@ func get_pets_at_location(location: LocationResource) -> Array[PetResource]:
 	return []
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"add_pet_to_current_location", 
 		"remove_pet_from_current_location",

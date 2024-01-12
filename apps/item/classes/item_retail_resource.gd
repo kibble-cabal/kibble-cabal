@@ -5,5 +5,5 @@ class_name ItemRetailResource extends ModdableResource
 @export_range(0, 1) var depreciation_rate: float = 0.5
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + ["buy_price", "base_sell_price", "depreciation_rate"]

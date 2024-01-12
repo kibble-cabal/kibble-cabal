@@ -65,7 +65,7 @@ func get_or_create_location_state(location_name: String) -> LocationStateResourc
 	return state
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + ["settings", "player", "inventory", "location_states", "fate", "datetime", "commit_changes"]
 
 

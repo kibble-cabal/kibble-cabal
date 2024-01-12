@@ -8,5 +8,5 @@ class_name ExpansionPackResource extends Resource
 @export var entry_script: GDScript
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["id", "display_name", "display_description", "icon", "version"]

@@ -8,5 +8,5 @@ class_name SubtreeResource extends ModdableResource
 @export var priority: int = 1
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["key", "subtree", "priority"]

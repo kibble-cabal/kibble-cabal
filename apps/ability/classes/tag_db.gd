@@ -45,7 +45,7 @@ func find_tag_group(tag_group_id: String) -> ATagGroup:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"registered_tags", 
 		"register_tag", 

@@ -43,7 +43,7 @@ func get_minute() -> int:
 	return DatetimeHelper.get_minute(current_time)
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + [
 		"current_time",
 		"time_speed_multiplier",

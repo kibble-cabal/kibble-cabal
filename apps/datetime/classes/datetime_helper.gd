@@ -143,7 +143,7 @@ static func _ceil(a: int, b: int) -> int:
 	return ceili(float(a) / float(b))
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"SEASONS_IN_YEAR",
 		"WEEKS_IN_SEASON",

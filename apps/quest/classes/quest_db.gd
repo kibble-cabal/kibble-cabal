@@ -30,5 +30,5 @@ func find_by_name(quest_name: String) -> QuestResource:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["register", "find_by_id", "find_by_name", "registered_quests"]

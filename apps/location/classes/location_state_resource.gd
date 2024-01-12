@@ -20,7 +20,7 @@ func get_location_resource() -> LocationResource:
 	return LocationDB.find(location_name) if LocationDB else null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + ["location_name", "get_location_resource"]
 
 

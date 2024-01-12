@@ -5,5 +5,5 @@ class_name LocationResource extends ModdableResource
 @export var player_spawn_position: Vector2
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + ["name", "map", "player_spawn_position"]

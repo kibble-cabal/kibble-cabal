@@ -24,5 +24,5 @@ func find(location_name: String) -> LocationResource:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["register", "unregister", "find", "registered_locations"]

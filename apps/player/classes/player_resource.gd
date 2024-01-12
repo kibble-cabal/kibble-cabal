@@ -25,7 +25,7 @@ const DefaultSpriteScene := preload("res://expansions/core/player/scenes/player_
 		emit_changed()
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + [
 		"name",
 		"sprite_scene",

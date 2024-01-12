@@ -44,7 +44,7 @@ func unpause() -> void:
 	is_paused = false
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["get_wait_time", "is_paused", "pause", "unpause"]
 
 

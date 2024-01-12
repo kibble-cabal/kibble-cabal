@@ -22,7 +22,7 @@ func initialize(pack: ExpansionPackResource) -> void:
 			pack.entry_script.new()
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["initialized_expansion_packs"]
 
 

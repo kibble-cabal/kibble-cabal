@@ -15,5 +15,5 @@ func get_item_resource() -> ItemResource:
 	return ItemDB.find_by_id(item_id) if ItemDB else null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + ["item_id", "creation_time", "uses", "get_item_resource"]

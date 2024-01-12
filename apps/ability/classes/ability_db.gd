@@ -44,7 +44,7 @@ func find_stage(stage_name: String) -> AAbilityStage:
 	return null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return [
 		"registered_abilities", 
 		"register_ability", 

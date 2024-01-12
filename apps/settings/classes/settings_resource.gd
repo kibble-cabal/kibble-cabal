@@ -14,7 +14,7 @@ func set_setting(key: String, value) -> void:
 	emit_changed()
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + [
 		"settings",
 		"set_setting"

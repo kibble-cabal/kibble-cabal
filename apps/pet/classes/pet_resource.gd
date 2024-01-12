@@ -21,5 +21,5 @@ func get_animal_resource() -> AnimalResource:
 	return AnimalDB.find(animal) if AnimalDB else null
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return super() + ["name", "birthday", "animal", "get_animal_resource"]

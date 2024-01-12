@@ -73,5 +73,5 @@ static func error(string: String, push: bool = true) -> void:
 	if push: push_error(string)
 
 
-func lua_fields() -> Array[String]:
+func lua_fields() -> Array:
 	return ["start_section", "end_section", "line", "bullet", "log", "from", "warning_from", "warning", "error_from", "error"]
