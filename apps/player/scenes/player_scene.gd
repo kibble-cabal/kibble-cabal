@@ -51,7 +51,7 @@ func _instantiate_sprite_controller() -> void:
 
 
 func _on_move_started() -> void:
-	SoundManager.play_sound_with_pitch(footstep_sound_effect, SoundEffectPlayer2D.get_random_pitch(), -5.0)
+	SoundManager.play_sound_with_pitch(footstep_sound_effect, Sound.random_pitch(), -5.0)
 
 
 func _on_move_finished() -> void:
