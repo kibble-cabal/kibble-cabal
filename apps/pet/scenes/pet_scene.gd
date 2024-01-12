@@ -4,6 +4,7 @@ extends PlayerBody2D
 
 @onready var start_position := global_position
 @onready var sprite_controller := $SpriteController as SpriteController
+@onready var ability_system := $AbilitySystemComponent as AbilitySystemComponent
 
 
 func _ready() -> void:
@@ -12,6 +13,7 @@ func _ready() -> void:
 		_instantiate_sprite_controller()
 		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
+		ability_system.state = resource.ability_state
 	super._ready()
 
 
