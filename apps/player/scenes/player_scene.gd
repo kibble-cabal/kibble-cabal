@@ -2,6 +2,7 @@ extends PlayerBody2D
 
 @onready var collision_shape := $CollisionShape as CollisionShape2D
 @onready var footstep_player := $FootstepPlayer as SoundEffectPlayer2D
+@onready var ability_system := $AbilitySystemComponent as AbilitySystemComponent
 
 var sprite_controller: SpriteController
 
@@ -13,6 +14,7 @@ func _ready() -> void:
 	if resource:
 		_instantiate_sprite_controller()
 		sprite_controller.modulate = resource.modulate
+		ability_system.state = resource.ability_state
 	super._ready()
 	move_finished.connect(_on_move_finished)
 
