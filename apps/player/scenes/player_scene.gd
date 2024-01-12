@@ -47,7 +47,6 @@ func _update_from_config() -> void:
 	
 	# Update detector
 	var detection_shape := CapsuleShape2D.new()
-	var detection_size := PlayerConfig.SpriteSize * 0.75
 	detection_shape.radius = PlayerConfig.DetectionRadius
 	detection_shape.height = PlayerConfig.DetectionRadius * 2
 	$DetectionArea/CollisionShape.shape = detection_shape
