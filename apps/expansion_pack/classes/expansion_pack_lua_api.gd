@@ -2,5 +2,5 @@ class_name ExpansionPackLuaAPI extends ExposeLuaAPI
 
 
 func expose_variables(lua: LuaAPI) -> void:
-	lua.push_variant("ExpansionPackDB", ExpansionPackDB)
-	lua.push_variant("ExpansionPackSystem", ExpansionPackSystem)
+	lua.push_variant("GetExpansionPackDB", func(): return ExpansionPackDB)
+	lua.push_variant("GetExpansionPackSystem", func(): return ExpansionPackSystem)

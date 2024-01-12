@@ -1,12 +1,5 @@
-class_name LuaSoundFunctions extends Object
-
-## NOTE: Unfinished class.
-
-class LuaSoundPlayer:
-	var sound: AudioStream
-	func _init(sound_path: String) -> void:
-		self.sound = ResourceLoader.load(sound_path, "AudioStream")
+class_name SoundEffectLuaAPI extends ExposeLuaAPI
 
 
-static func setup(lua: LuaAPI) -> void:
-	lua.expose_constructor("SoundPlayer", LuaSoundPlayer)
+func expose_variables(lua: LuaAPI) -> void:
+	lua.push_variant("GetSoundEffectDB", func(): return SoundEffectDB)

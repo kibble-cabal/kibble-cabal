@@ -22,3 +22,7 @@ func find_by_path(sound_effect_path: String) -> AudioStream:
 	for sound_effect in registered_sound_effects:
 		if sound_effect.resource_path == sound_effect_path: return sound_effect
 	return null
+
+
+func lua_fields() -> Array:
+	return ["register", "unregister", "registered_sound_effects", "find_by_path"]
