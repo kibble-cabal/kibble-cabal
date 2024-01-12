@@ -66,9 +66,15 @@ func load_string(path: String) -> String:
 	return ""
 
 
-## Returns a JSON [Dictionary] at the given [code]path[/code], if it exists. Otherwise, returns [code]null[/code].
+## Returns a JSON [Dictionary] at the given [code]path[/code], if it exists. Otherwise, returns an empty [Dictionary].
 func load_json(path: String) -> Dictionary:
-	return JSON.parse_string(load_string(path))
+	var json = JSON.parse_string(load_string(path))
+	if json != null: return json
+	return {}
+
+
+func load_json_with_loader(path: String, json_loader: JsonLoader):
+	return json_loader.load_from_string(load_string(path))
 
 
 ## Returns a [Resource] at the given [code]path[/code], if it exists. Otherwise, returns [code]null[/code].

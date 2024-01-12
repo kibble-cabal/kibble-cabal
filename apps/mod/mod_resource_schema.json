@@ -1,0 +1,12 @@
+{
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string"
+		},
+		"display_name": {
+			"type": "string"
+		}
+	},
+	"required": ["id", "display_name"]
+}
