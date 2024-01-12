@@ -1,5 +1,8 @@
 class_name CoreExpansionPack
 
+const PlayerSpriteScene = preload("res://expansions/core/player/scenes/player_sprite.tscn")
+const DirtFootstepSound = preload("res://expansions/core/player/assets/sounds/sneaker footstep on dirt 01.mp3")
+
 const Locations = [
 	preload("res://expansions/core/location/island/resources/island_resource.tres")
 ]
@@ -30,3 +33,20 @@ func _init() -> void:
 	Items.map(ItemDB.register)
 	Quests.map(QuestDB.register)
 	Subtrees.map(SubtreeDB.register)
+	
+	update_player_config()
+
+
+func update_player_config() -> void:
+	PlayerConfig.MaxSpeed = 256
+	var collision_shape := CapsuleShape2D.new()
+	collision_shape.radius = 12
+	collision_shape.height = 24
+	PlayerConfig.CollisionShape = collision_shape
+	PlayerConfig.DetectionRadius = 30
+	PlayerConfig.SpriteScene = preload("res://expansions/core/player/scenes/player_sprite.tscn")
+	PlayerConfig.SpriteSize = Vector2(32, 64)
+	PlayerConfig.FallbackFootstepSoundEffect = DirtFootstepSound
+	PlayerConfig.FootstepSoundEffects.append(
+		PlayerConfig.FootstepSoundEffect.new(PlayerConfig.FootstepSoundEffect.SOFT, DirtFootstepSound)
+	)
