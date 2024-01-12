@@ -5,3 +5,7 @@
 [submodule "addons/ability_system"]
 	path = addons/ability_system
 	url = https://github.com/kibble-cabal/ability-system.git
+[submodule "addons/json_library"]
+	path = addons/json_library
+	url = https://github.com/kibble-cabal/json-library.git
+	branch = cleaned
