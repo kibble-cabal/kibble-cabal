@@ -44,6 +44,7 @@ PetSystem="*res://apps/pet/classes/pet_system.gd"
 DatetimeSystem="*res://apps/datetime/classes/datetime_system.gd"
 LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
+ModSystem="*res://apps/mod/classes/mod_system.gd"
 
 [display]
 
