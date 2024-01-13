@@ -211,3 +211,30 @@ func _on_fade_completed(player: AudioStreamPlayer, tween: Tween, from_volume: fl
 
 func _on_player_finished(player: AudioStreamPlayer) -> void:
 	mark_player_as_available(player)
+
+
+func lua_fields() -> Array:
+	return [
+		"available_players",
+		"bus",
+		"busy_players",
+		"default_busses",
+		"default_pool_size",
+		"fade_volume",
+		"get_available_player",
+		"get_currently_playing",
+		"get_currently_playing_tracks",
+		"get_player_with_resource",
+		"get_possible_bus",
+		"increase_pool",
+		"is_playing",
+		"is_track_playing",
+		"mark_player_as_available",
+		"pause",
+		"play",
+		"prepare",
+		"resume",
+		"stop",
+		"stop_all",
+		"track_history"
+	]

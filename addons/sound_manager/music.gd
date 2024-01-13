@@ -14,3 +14,6 @@ func play(resource: AudioStream, position: float = 0.0, volume: float = 0.0, cro
 	player.call_deferred("play", position)
 	return player
 
+
+func lua_fields() -> Array:
+	return super()

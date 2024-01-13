@@ -156,3 +156,40 @@ func set_default_music_bus(bus: String) -> void:
 func _show_shared_bus_warning() -> void:
 	if music.bus == sound_effects.bus or music.bus == ui_sound_effects.bus:
 		push_warning("Both music and sounds are using the same bus: %s" % music.bus)
+
+
+func lua_fields() -> Array:
+	return [
+		"get_currently_playing_music",
+		"get_currently_playing_music_tracks",
+		"get_last_played_music_track",
+		"get_music_track_history",
+		"get_music_volume",
+		"get_sound_volume",
+		"get_ui_sound_volume",
+		"is_music_playing",
+		"is_music_track_playing",
+		"music",
+		"music_process_mode",
+		"pause_music",
+		"play_music",
+		"play_music_at_volume",
+		"play_music_from_position",
+		"play_music_from_position_at_volume",
+		"play_sound",
+		"play_sound_with_pitch",
+		"play_ui_sound",
+		"play_ui_sound_with_pitch",
+		"resume_music",
+		"set_default_music_bus",
+		"set_default_sound_bus",
+		"set_default_ui_sound_bus",
+		"set_music_volume",
+		"set_sound_volume",
+		"sound_effects",
+		"sound_process_mode",
+		"stop_music",
+		"stop_sound",
+		"ui_sound_effects",
+		"ui_sound_process_mode"
+	]
