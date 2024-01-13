@@ -1,8 +1,13 @@
 class_name MusicResource extends ModdableResource
 
+
 class Song extends ModdableResource:
 	@export var key: String
 	@export var value: AudioStream
+	
+	func lua_fields() -> Array:
+		return super() + ["key", "value"]
+
 
 @export var id: String
 @export var songs: Array[Song] = []
@@ -23,3 +28,11 @@ func get_song() -> AudioStream:
 	if songs.size():
 		return songs[0].value
 	return null
+
+
+func lua_fields() -> Array:
+	return super() + [
+		"id",
+		"songs",
+		"get_song"
+	]

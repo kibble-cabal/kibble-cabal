@@ -24,6 +24,15 @@ func get_music_fade_duration() -> float:
 	return 1.0
 
 
+func lua_fields() -> Array:
+	return [
+		"get_music_fade_duration",
+		"get_music_volume",
+		"play_music",
+		"stop_music"
+	]
+
+
 func _on_location_changed() -> void:
 	if not LocationSystem.current_location: return stop_music()
 	
