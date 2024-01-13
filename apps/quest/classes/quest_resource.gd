@@ -31,15 +31,15 @@ class_name QuestResource extends ModdableResource
 
 
 func is_available(save: SaveResource) -> bool:
-	return _call_method(check_quest_available_script, check_quest_available_method, [save], false)
+	return call_subscript(check_quest_available_script, check_quest_available_method, [save], false)
 
 
 func is_complete(save: SaveResource) -> bool:
-	return _call_method(check_quest_complete_script, check_quest_complete_method, [save], false)
+	return call_subscript(check_quest_complete_script, check_quest_complete_method, [save], false)
 
 
 func complete(save: SaveResource) -> bool:
-	return _call_method(complete_quest_script, complete_quest_method, [save], FAILED)
+	return call_subscript(complete_quest_script, complete_quest_method, [save], FAILED)
 
 
 func lua_fields() -> Array:
@@ -58,11 +58,3 @@ func lua_fields() -> Array:
 		"is_complete",
 		"complete"
 	]
-
-
-func _call_method(script: GDScript, method: String, args = [], default = null):
-	if script:
-		var obj = script.new()
-		if method in obj:
-			return obj[method].callv(args)
-	return default
