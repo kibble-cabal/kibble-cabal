@@ -18,9 +18,9 @@ func unregister(music: MusicResource) -> void:
 	music_unregistered.emit(music)
 
 
-func find(music_name: String) -> MusicResource:
+func find(music_id: String) -> MusicResource:
 	for music in registered_music:
-		if music.name == music_name: return music
+		if music.id == music_id: return music
 	return null
 
 
