@@ -12,12 +12,13 @@ func _ready() -> void:
 
 
 func spawn_pets(location: LocationResource) -> void:
-	var main_scene := get_tree().current_scene
-	for pet in get_pets_at_location(location):
-		var node := PetScene.instantiate()
-		node.resource = pet
-		main_scene.add_child(node)
-		pet_nodes.append(node)
+	var world_root := get_tree().get_first_node_in_group("world_root")
+	if world_root:
+		for pet in get_pets_at_location(location):
+			var node := PetScene.instantiate()
+			node.resource = pet
+			world_root.add_child(node)
+			pet_nodes.append(node)
 
 
 func despawn_pets(_location: LocationResource) -> void:

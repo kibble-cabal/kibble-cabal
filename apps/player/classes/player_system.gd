@@ -20,11 +20,13 @@ func _ready() -> void:
 func spawn(location: LocationResource) -> void:
 	if player:
 		player_node = PlayerScene.instantiate()
-		get_tree().current_scene.add_child(player_node)
-		player_node.position = get_spawn_position(location)
-		player.current_position = player_node.position
-		player.current_location = location.name
-		Log.from(self, "Player spawned!")
+		var world_root := get_tree().get_first_node_in_group("world_root")
+		if world_root: 
+			world_root.add_child(player_node)
+			player_node.position = get_spawn_position(location)
+			player.current_position = player_node.position
+			player.current_location = location.name
+			Log.from(self, "Player spawned!")
 
 
 func despawn() -> void:

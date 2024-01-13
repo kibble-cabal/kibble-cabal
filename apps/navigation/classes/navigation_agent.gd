@@ -19,6 +19,6 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_velocity_computed(safe_velocity: Vector2) -> void:
-	if character:
+	if character and is_processing():
 		character.velocity = safe_velocity
 		character.move_and_slide()

@@ -2,7 +2,7 @@ class_name GameModeResource extends ModdableResource
 
 @export var name: String
 @export var icon: Texture2D
-@export var world_process_mode: Node.ProcessMode
+@export var world_paused: bool
 ## Should contain an enter method and an exit method
 @export var transition_script: Script
 @export var before_enter_method: StringName
