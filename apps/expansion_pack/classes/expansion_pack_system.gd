@@ -1,6 +1,7 @@
 # ExpansionPackSystem
 extends Node
 
+signal pack_initialized(pack: ExpansionPackResource)
 
 ## List of expansion pack IDs that have been initialized
 var initialized_expansion_packs: Array[String]
@@ -20,6 +21,7 @@ func initialize(pack: ExpansionPackResource) -> void:
 		initialized_expansion_packs.append(pack.id)
 		if pack.entry_script:
 			pack.entry_script.new()
+		pack_initialized.emit(pack)
 
 
 func lua_fields() -> Array:
