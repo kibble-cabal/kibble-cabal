@@ -7,7 +7,7 @@ func expose_variables(lua: LuaAPI) -> void:
 
 func expose_hooks(lua: LuaAPI) -> void:
 	AnimalDB.animal_registered.connect(
-		func(animal: SubtreeResource) -> void:
+		func(animal: AnimalResource) -> void:
 			lua.call_function("OnAnimalRegistered", [animal])
 	)
 	AnimalDB.animal_unregistered.connect(
