@@ -15,6 +15,10 @@ func expose_hooks(lua: LuaAPI) -> void:
 		func(mode: GameModeResource) -> void:
 			lua.call_function("OnGameModeUnregistered", [mode])
 	)
+	GameModeSystem.game_mode_changed.connect(
+		func() -> void:
+			lua.call_function("OnGameModeChanged", [])
+	)
 	GameModeSystem.game_mode_entered.connect(
 		func(mode: GameModeResource) -> void:
 			lua.call_function("OnGameModeEntered", [mode])

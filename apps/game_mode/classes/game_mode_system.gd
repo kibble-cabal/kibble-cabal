@@ -1,6 +1,7 @@
 # GameModeSystem
 extends Node
 
+signal game_mode_changed
 signal game_mode_entered(mode: GameModeResource)
 signal game_mode_exited(mode: GameModeResource)
 
@@ -15,11 +16,12 @@ func _ready() -> void:
 
 
 func to(mode: GameModeResource) -> void:
-	exit()
-	enter(mode)
+	_exit()
+	_enter(mode)
+	game_mode_changed.emit()
 
 
-func enter(mode: GameModeResource) -> void:
+func _enter(mode: GameModeResource) -> void:
 	if mode:
 		Log.from(self, "Entering game mode: " + mode.name)
 		before_game_mode_entered.emit(mode)
@@ -30,7 +32,7 @@ func enter(mode: GameModeResource) -> void:
 		mode.after_enter()
 
 
-func exit() -> void:
+func _exit() -> void:
 	if current_mode:
 		Log.from(self, "Exiting game mode: " + current_mode.name)
 		before_game_mode_exited.emit(current_mode)
@@ -44,9 +46,7 @@ func exit() -> void:
 func lua_fields() -> Array:
 	return [
 		"current_mode",
-		"to",
-		"enter",
-		"exit"
+		"to"
 	]
 
 

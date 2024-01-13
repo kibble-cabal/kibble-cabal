@@ -13,5 +13,5 @@ func _ready() -> void:
 func _on_save_opened(_save: SaveResource) -> void:
 	await get_tree().process_frame
 	LocationSystem.enter(island)
-	GameModeSystem.enter(live_mode)
+	GameModeSystem.to(live_mode)
 	
