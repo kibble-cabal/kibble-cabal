@@ -11,7 +11,7 @@ var registered_packs: Array[ExpansionPackResource] = []
 var loader := ExpansionPackLoader.new()
 
 
-func _ready() -> void:
+func _init() -> void:
 	var packs := loader.load_packs()
 	
 	Log.start_section(self, "Registering discovered expansion packs...")

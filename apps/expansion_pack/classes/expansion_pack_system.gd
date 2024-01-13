@@ -6,7 +6,7 @@ extends Node
 var initialized_expansion_packs: Array[String]
 
 
-func _ready() -> void:
+func _init() -> void:
 	Log.start_section(self, "Initializing all registered expansion packs...")
 	ExpansionPackDB.registered_packs.map(initialize)
 	Log.end_section(self, "Finished!")
