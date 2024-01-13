@@ -23,3 +23,4 @@ func expose_hooks(lua: LuaAPI) -> void:
 		func(location: LocationResource) -> void:
 			lua.call_function("OnLocationExited", [location])
 	)
+	LocationSystem.location_changed.connect(lua.call_function.bind("OnLocationChanged", []))

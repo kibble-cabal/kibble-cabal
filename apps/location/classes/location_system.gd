@@ -2,6 +2,7 @@ extends Node
 
 signal location_entered(location: LocationResource)
 signal location_exited(location: LocationResource)
+signal location_changed
 
 var current_location: LocationResource = null
 var current_map: Node = null
@@ -19,6 +20,7 @@ func enter(location: LocationResource) -> void:
 				world_root.move_child(current_map, 0)
 				_spawn_inventory()
 		location_entered.emit(current_location)
+		location_changed.emit()
 		Log.from(self, "Entering location: " + current_location.name)
 
 
@@ -28,6 +30,11 @@ func exit() -> void:
 	current_location = null
 	current_map = null
 	location_exited.emit(current_location)
+	
+	# If no location has been entered after processing, they're probably not entering a new location,
+	# so we can emit [signal location_changed] without worrying too hard about it getting emitted twice
+	await get_tree().process_frame
+	if not current_location: location_changed.emit()
 
 
 func _spawn_inventory() -> void:
