@@ -1,3 +1,5 @@
+PlayerConfig.MaxSpeed = 256 * 1.5
+
 function OnLocationEntered(location)
     Log.start_section("TestMod", "Running test mod...")
     Log.bullet("Detected location entrance!")

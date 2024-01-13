@@ -33,6 +33,16 @@ class FootstepSoundEffect:
 	func _init(ground_type: int, sound: AudioStream) -> void:
 		self.ground_type = ground_type
 		self.sound = sound
+	
+	
+	func lua_fields() -> Array:
+		return [
+			"SOFT",
+			"CRUNCHY",
+			"HARD",
+			"ground_type",
+			"sound"
+		]
 
 
 # Methods
@@ -42,3 +52,16 @@ func get_footstep_sound(ground_type := FootstepSoundEffect.SOFT) -> AudioStream:
 		var sound := FootstepSoundEffects[i]
 		if sound.ground_type == ground_type: return sound.sound
 	return FallbackFootstepSoundEffect
+
+
+func lua_fields() -> Array:
+	return [
+		"MaxSpeed",
+		"CollisionShape",
+		"DetectionRadius",
+		"FallbackFootstepSoundEffect",
+		"FootstepSoundEffects",
+		"SpriteScene",
+		"SpriteSize",
+		"get_footstep_sound",
+	]
