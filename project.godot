@@ -46,6 +46,7 @@ LocationSystem="*res://apps/location/classes/location_system.gd"
 PlayerSystem="*res://apps/player/classes/player_system.gd"
 PetSystem="*res://apps/pet/classes/pet_system.gd"
 DatetimeSystem="*res://apps/datetime/classes/datetime_system.gd"
+MusicSystem="*res://apps/music/classes/music_system.gd"
 LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
 
