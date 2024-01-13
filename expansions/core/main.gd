@@ -3,6 +3,10 @@ class_name CoreExpansionPack
 const PlayerSpriteScene = preload("res://expansions/core/player/scenes/player_sprite.tscn")
 const DirtFootstepSound = preload("res://expansions/core/player/assets/sounds/sneaker footstep on dirt 01.mp3")
 
+const GameModes = [
+	preload("res://expansions/core/game_mode/assets/resources/live_mode_resource.tres")
+]
+
 const Locations = [
 	preload("res://expansions/core/location/island/resources/island_resource.tres")
 ]
@@ -28,6 +32,7 @@ const Subtrees = [
 
 
 func _init() -> void:
+	GameModes.map(GameModeDB.register)
 	Locations.map(LocationDB.register)
 	Settings.map(SettingDefinitionDB.register)
 	Items.map(ItemDB.register)

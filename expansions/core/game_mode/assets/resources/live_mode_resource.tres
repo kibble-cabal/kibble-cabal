@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GameModeResource" load_steps=4 format=3 uid="uid://b7coc2rowgwiu"]
+
+[ext_resource type="Script" path="res://apps/game_mode/classes/game_mode_resource.gd" id="2_h6qfm"]
+[ext_resource type="Script" path="res://expansions/core/game_mode/scripts/live_mode_script.gd" id="2_smpch"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4lxtf"]
+
+[resource]
+script = ExtResource("2_h6qfm")
+name = "Live"
+icon = SubResource("PlaceholderTexture2D_4lxtf")
+world_paused = false
+transition_script = ExtResource("2_smpch")
+before_enter_method = &""
+before_exit_method = &"before_exit"
+after_enter_method = &""
+after_exit_method = &""
+subresources = {}

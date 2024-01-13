@@ -12,6 +12,9 @@
 scale = Vector2(4, 4)
 script = ExtResource("1_gay8e")
 
+[node name="World" type="Node2D" parent="." groups=["world_root"]]
+process_mode = 1
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="SafeAreaContainer" type="MarginContainer" parent="UI"]

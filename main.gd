@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var island := LocationDB.find("Island")
+@onready var live_mode := GameModeDB.find("Live")
 
 
 func _ready() -> void:
@@ -12,4 +13,5 @@ func _ready() -> void:
 func _on_save_opened(_save: SaveResource) -> void:
 	await get_tree().process_frame
 	LocationSystem.enter(island)
+	GameModeSystem.enter(live_mode)
 	

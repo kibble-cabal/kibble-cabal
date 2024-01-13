@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://nh2frc2lo76l"]
+[gd_scene load_steps=8 format=3 uid="uid://nh2frc2lo76l"]
 
 [ext_resource type="Script" path="res://apps/player/scenes/player_scene.gd" id="1_ytw0n"]
 [ext_resource type="Script" path="res://addons/ability_system/nodes/ability_system_component.gd" id="2_hkk02"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_ncora"]
+[ext_resource type="PackedScene" uid="uid://ywiqu2buc81h" path="res://apps/player/scenes/player_camera.tscn" id="4_87ysy"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="6_0e3pf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0v302"]
@@ -52,8 +53,6 @@ debug_color = Color(0.890196, 0, 1, 0.419608)
 position = Vector2(2.08165e-12, 14)
 shape = SubResource("CapsuleShape2D_x6oes")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="FacingRay" type="RayCast2D" parent="."]
 target_position = Vector2(2.08165e-12, 48)
 collision_mask = 30
@@ -63,3 +62,5 @@ collide_with_areas = true
 script = ExtResource("6_0e3pf")
 action_name = "player_interact"
 ray_cast = NodePath("../FacingRay")
+
+[node name="Camera2D" parent="." instance=ExtResource("4_87ysy")]
