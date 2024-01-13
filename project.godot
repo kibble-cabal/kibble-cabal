@@ -23,6 +23,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 ExpansionPackDB="*res://apps/expansion_pack/classes/expansion_pack_db.gd"
+GameModeDB="*res://apps/game_mode/classes/game_mode_db.gd"
+ModDB="*res://apps/mod/classes/mod_db.gd"
 LocationDB="*res://apps/location/classes/location_db.gd"
 AnimalDB="*res://apps/animal/classes/animal_db.gd"
 ItemDB="*res://apps/item/classes/item_db.gd"
@@ -34,9 +36,9 @@ AbilityDB="*res://apps/ability/classes/ability_db.gd"
 AttributeDB="*res://apps/ability/classes/attribute_db.gd"
 EffectDB="*res://apps/ability/classes/effect_db.gd"
 TagDB="*res://apps/ability/classes/tag_db.gd"
-ModDB="*res://apps/mod/classes/mod_db.gd"
 PlayerConfig="*res://apps/player/classes/player_config.gd"
 ExpansionPackSystem="*res://apps/expansion_pack/classes/expansion_pack_system.gd"
+ModSystem="*res://apps/mod/classes/mod_system.gd"
 SaveSystem="*res://apps/save/classes/save_system.gd"
 LocationSystem="*res://apps/location/classes/location_system.gd"
 PlayerSystem="*res://apps/player/classes/player_system.gd"
@@ -44,7 +46,6 @@ PetSystem="*res://apps/pet/classes/pet_system.gd"
 DatetimeSystem="*res://apps/datetime/classes/datetime_system.gd"
 LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
-ModSystem="*res://apps/mod/classes/mod_system.gd"
 
 [display]
 
