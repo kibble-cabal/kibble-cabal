@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2gderbf81u4b"]
+
+[ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansions/core/item/assets/sprites/flower_icon_placeholder.png" id="1_48gd8"]
+
+[node name="Sprite2D" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_48gd8")

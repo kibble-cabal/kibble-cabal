@@ -17,6 +17,7 @@ func enter(location: LocationResource) -> void:
 			if world_root:
 				world_root.add_child(current_map)
 				world_root.move_child(current_map, 0)
+				_spawn_inventory()
 		location_entered.emit(current_location)
 		Log.from(self, "Entering location: " + current_location.name)
 
@@ -27,6 +28,18 @@ func exit() -> void:
 	current_location = null
 	current_map = null
 	location_exited.emit(current_location)
+
+
+func _spawn_inventory() -> void:
+	if not current_location or not current_map or not SaveSystem.current_save: return
+	var state := SaveSystem.current_save.get_or_create_location_state(current_location.name)
+	if not state.inventory: state.inventory = InventoryResource.new()
+	for item_instance in state.inventory.item_instances:
+		var resource := item_instance.get_item_resource()
+		if resource and resource.physics_resource and resource.physics_resource.scene:
+			var node: Node2D = resource.physics_resource.scene.instantiate()
+			node.position = item_instance.location
+			current_map.add_child(node)
 
 
 func lua_fields() -> Array:

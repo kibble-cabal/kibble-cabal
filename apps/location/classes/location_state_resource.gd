@@ -4,7 +4,7 @@ class_name LocationStateResource extends ModdableResource
 @export var location_name: String
 
 ## The collection of item instances that exist at this location
-@export var inventory: InventoryResource:
+@export var inventory := InventoryResource.new():
 	set(value):
 		inventory = value
 		_connect_subresource(inventory)
