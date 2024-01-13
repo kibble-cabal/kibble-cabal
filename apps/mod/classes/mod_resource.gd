@@ -21,5 +21,20 @@ func run_entry_script() -> void:
 	
 	# Do string in new sandboxed Lua envionrment
 	var lua := LuaSystem.create_environment()
+	lua.push_variant("GetCurrentMod", func(): return self) # add this mod to current environment
 	var error: LuaError = lua.do_string(string)
 	if error: print_rich(Bb.yellow("Lua Error ({0}): {1}".format([error.type, error.message])))
+
+
+func lua_fields() -> Array:
+	return super() + [
+		"zip_path",
+		"author",
+		"id",
+		"display_description",
+		"display_name",
+		"version",
+		"link",
+		"entry_script_path",
+		"icon"
+	]

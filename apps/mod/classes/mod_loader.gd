@@ -15,10 +15,10 @@ func _init() -> void:
 func load_mods(verbose: bool = true) -> Array[ModResource]:
 	if verbose: Log.start_section(self)
 	
-	# Discover *.mod.zip files
+	# Discover *.zip files
 	var discovered_zips := discover_mod_zips()
 	
-	# Discover *.mod.tres within discovered ZIPs
+	# Discover *.mod.json within discovered ZIPs
 	var mod_resources: Array[ModResource] = []
 	for zip in discovered_zips:
 		var resource := get_mod_from_zip(zip)
@@ -38,9 +38,7 @@ func discover_mod_zips() -> PackedStringArray:
 	# Discover *.mod.zip files
 	var discovered_zips := PackedStringArray()
 	for dir in DIRS_TO_SEARCH:
-		discovered_zips.append_array(content_loader.get_files_by_extension(dir, [
-			"mod.zip"
-		]))
+		discovered_zips.append_array(content_loader.get_files_by_extension(dir, [".zip"]))
 	
 	return discovered_zips
 
@@ -48,9 +46,7 @@ func discover_mod_zips() -> PackedStringArray:
 func get_mod_from_zip(zip: String) -> ModResource:
 	var mod_resource: ModResource = null
 	content_loader.open_zip(zip)
-	var resource_paths := content_loader.get_files_by_extension("", [
-		"mod.json"
-	])
+	var resource_paths := content_loader.get_files_by_extension("", ["mod.json"])
 	if resource_paths.size():
 		var loader := (
 			JsonLoader.new()

@@ -78,3 +78,22 @@ func get_files_by_extension(extensions: Array[String] = []) -> PackedStringArray
 	for file in get_files():
 		if Path.has_any_extension(file, extensions): paths.append(file)
 	return paths
+
+
+func lua_fields() -> Array:
+	return [
+		# "read",
+		"open",
+		"close",
+		"exists",
+		"read_file",
+		"read_string",
+		# "read_resource",
+		# "read_script",
+		"read_json",
+		"read_image",
+		"get_files",
+		"get_files_filtered",
+		"get_files_by_regex",
+		"get_files_by_extension",
+	]

@@ -37,6 +37,7 @@ func create_environment() -> LuaAPI:
 	AILuaAPI.new().expose(lua)
 	ExpansionPackLuaAPI.new().expose(lua)
 	AbilityLuaAPI.new().expose(lua)
+	ModLuaAPI.new().expose(lua)
 	lua.push_variant("Log", Log.new())
 	return lua
 
