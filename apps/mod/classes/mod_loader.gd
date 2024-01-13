@@ -58,6 +58,7 @@ func get_mod_from_zip(zip: String) -> ModResource:
 				.set_validator(JsonSchemaLoader.new("res://apps/mod/mod_resource_schema.json").load_validator())
 		)
 		mod_resource = content_loader.load_json_with_loader(resource_paths[0], loader) as ModResource
+		if mod_resource: mod_resource.zip_path = zip
 	content_loader.close_zip()
 	return mod_resource
 
