@@ -6,7 +6,10 @@
 		},
 		"display_name": {
 			"type": "string"
+		},
+		"entry_script_path": {
+			"type": "string"
 		}
 	},
-	"required": ["id", "display_name"]
+	"required": ["id", "display_name", "entry_script_path"]
 }
