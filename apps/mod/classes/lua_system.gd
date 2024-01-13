@@ -42,6 +42,7 @@ func create_environment() -> LuaAPI:
 	SoundEffectLuaAPI.new().expose(lua)
 	MusicLuaAPI.new().expose(lua)
 	lua.push_variant("Log", Log.new())
+	lua.push_variant("UIConfig", UIConfig)
 	return lua
 
 

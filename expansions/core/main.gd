@@ -1,10 +1,12 @@
 class_name CoreExpansionPack
 
+const PauseScene = preload("res://expansions/core/ui/scenes/paused_scene.tscn")
 const PlayerSpriteScene = preload("res://expansions/core/player/scenes/player_sprite.tscn")
 const DirtFootstepSound = preload("res://expansions/core/player/assets/sounds/sneaker footstep on dirt 01.mp3")
 
 const GameModes = [
-	preload("res://expansions/core/game_mode/assets/resources/live_mode_resource.tres")
+	preload("res://expansions/core/game_mode/assets/resources/live_mode_resource.tres"),
+	preload("res://expansions/core/game_mode/assets/resources/live_paused_mode_resource.tres"),
 ]
 
 const Locations = [
@@ -39,7 +41,12 @@ func _init() -> void:
 	Quests.map(QuestDB.register)
 	Subtrees.map(SubtreeDB.register)
 	
+	update_ui_config()
 	update_player_config()
+
+
+func update_ui_config() -> void:
+	UIConfig.PauseScene = PauseScene
 
 
 func update_player_config() -> void:

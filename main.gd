@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var island := LocationDB.find("Island")
 @onready var live_mode := GameModeDB.find("Live")
+@onready var live_paused_mode := GameModeDB.find("Live/Paused")
 
 
 func _ready() -> void:

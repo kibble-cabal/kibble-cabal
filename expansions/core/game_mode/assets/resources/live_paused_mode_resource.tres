@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GameModeResource" load_steps=4 format=3 uid="uid://cxy5mqa4rr1f1"]
+
+[ext_resource type="Script" path="res://apps/game_mode/classes/game_mode_resource.gd" id="1_y3koj"]
+[ext_resource type="Script" path="res://expansions/core/game_mode/scripts/live_mode_script.gd" id="2_hxgt2"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4lxtf"]
+
+[resource]
+script = ExtResource("1_y3koj")
+name = "Live/Paused"
+icon = SubResource("PlaceholderTexture2D_4lxtf")
+world_paused = true
+transition_script = ExtResource("2_hxgt2")
+before_enter_method = &""
+before_exit_method = &"before_exit"
+after_enter_method = &""
+after_exit_method = &""
+subresources = {}
