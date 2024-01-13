@@ -9,3 +9,11 @@ function OnLocationEntered(location)
     end
     Log.end_section("TestMod")
 end
+
+-- Test out ZIPReader
+
+Log.from("TestMod", "Current mod info:")
+local reader = ZIPReader()
+reader.open(GetCurrentMod().zip_path)
+print(reader.read_string("test_mod/test_mod.mod.json"))
+reader.close()
