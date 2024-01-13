@@ -26,6 +26,23 @@ func after_exit() -> void:
 	_call_method(after_exit_method)
 
 
+func lua_fields() -> Array:
+	return super() + [
+		"name",
+		"icon",
+		"world_paused",
+		"transition_script",
+		"before_enter_method",
+		"after_enter_method",
+		"before_exit_method",
+		"after_exit_method",
+		"before_enter",
+		"after_enter",
+		"before_exit",
+		"after_exit"
+	]
+
+
 func _call_method(method_name: StringName) -> void:
 	if transition_script and method_name:
 		var script_value = transition_script.new()
