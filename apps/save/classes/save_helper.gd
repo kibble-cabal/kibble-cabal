@@ -1,5 +1,7 @@
 class_name SaveHelper extends Object
 
+signal before_saved
+signal saved
 
 const DEFAULT_CONFIG = {
 	resource = null,
@@ -28,6 +30,8 @@ var save_on_change: bool
 ## If [code]false[/code], [member resource] will be saved at it's [member Resource.resource_path] when available, instead of the path created by the provided config.
 var ignore_resource_path: bool
 
+var _is_saving: bool = false
+
 
 func _init(config: Dictionary = DEFAULT_CONFIG) -> void:
 	for key in DEFAULT_CONFIG.keys(): self[key] = DEFAULT_CONFIG[key]
@@ -39,11 +43,15 @@ func _init(config: Dictionary = DEFAULT_CONFIG) -> void:
 
 
 func commit() -> void:
-	if not resource: return
+	if not resource or _is_saving: return
+	before_saved.emit()
+	_is_saving = true
 	var path := get_path()
 	if not DirAccess.dir_exists_absolute(path.get_base_dir()):
 		DirAccess.make_dir_absolute(path.get_base_dir())
 	ResourceSaver.save(resource, path)
+	_is_saving = false
+	saved.emit()
 
 
 func get_path() -> String:

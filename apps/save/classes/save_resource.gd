@@ -1,5 +1,8 @@
 class_name SaveResource extends ModdableResource
 
+signal before_saved
+signal saved
+
 @export var id: String = ""
 @export var settings := SettingsResource.new():
 	set(value):
@@ -48,6 +51,8 @@ var _save_helper := SaveHelper.new({
 func _init() -> void:
 	_connect_all_subresources()
 	subresources_changed.connect(_connect_all_subresources)
+	_save_helper.before_saved.connect(func(): before_saved.emit())
+	_save_helper.saved.connect(func(): saved.emit())
 
 
 func commit_changes() -> void:
