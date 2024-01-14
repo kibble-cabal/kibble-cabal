@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c05gnfa04124u"]
+[gd_resource type="Theme" load_steps=20 format=3 uid="uid://c05gnfa04124u"]
 
 [ext_resource type="StyleBox" uid="uid://d2d0mwfvbqyg7" path="res://content/style_boxes/base_button_disabled_stylebox.tres" id="1_l4eb0"]
 [ext_resource type="FontFile" uid="uid://3aaiobevftqt" path="res://content/fonts/creato_display/CreatoDisplay-ExtraBold.otf" id="1_qbh3g"]
@@ -7,13 +7,19 @@
 [ext_resource type="StyleBox" uid="uid://dgf5gdepglvtd" path="res://content/style_boxes/base_button_stylebox.tres" id="4_2l1nw"]
 [ext_resource type="StyleBox" uid="uid://bs5kniug0wbwe" path="res://content/style_boxes/base_button_pressed_stylebox.tres" id="5_aunrj"]
 [ext_resource type="FontFile" uid="uid://bid4p3rqxw1t" path="res://content/fonts/creato_display/CreatoDisplay-Medium.otf" id="6_givab"]
+[ext_resource type="Texture2D" uid="uid://8ribwfv1dfod" path="res://content/icons/checkmark_square_32x32.svg" id="7_plxdh"]
+[ext_resource type="Texture2D" uid="uid://bh6cpdt2kx3w0" path="res://content/icons/radio_filled_32x32.svg" id="8_b6m5v"]
+[ext_resource type="Texture2D" uid="uid://ddhj52821xb0i" path="res://content/icons/circle_32x32.svg" id="9_inbv6"]
+[ext_resource type="Texture2D" uid="uid://cmbdn4bbq2b5h" path="res://content/icons/square_32x32.svg" id="10_e2doj"]
+[ext_resource type="StyleBox" uid="uid://bmv1k7y6lif05" path="res://content/style_boxes/check_box_hover_stylebox.tres" id="11_qqdeb"]
+[ext_resource type="StyleBox" uid="uid://d1pye7inhvbuy" path="res://content/style_boxes/check_box_stylebox.tres" id="12_b8e41"]
+[ext_resource type="StyleBox" uid="uid://8v0k3a0en0o7" path="res://content/style_boxes/check_box_pressed_stylebox.tres" id="13_hdiyw"]
 
 [sub_resource type="FontVariation" id="FontVariation_j8wex"]
 base_font = ExtResource("1_qbh3g")
 opentype_features = {
 1801810542: 1
 }
-spacing_glyph = 1
 spacing_space = 2
 
 [sub_resource type="SystemFont" id="SystemFont_xi5gk"]
@@ -57,6 +63,48 @@ Caption/base_type = &"Label"
 Caption/colors/font_color = Color(0.6, 0.6, 0.6, 1)
 Caption/font_sizes/font_size = 32
 Caption/fonts/font = SubResource("SystemFont_xi5gk")
+CheckBox/colors/font_color = Color(0.831373, 0.831373, 0.847059, 1)
+CheckBox/colors/font_disabled_color = Color(0.831373, 0.831373, 0.85098, 0.588235)
+CheckBox/colors/font_focus_color = Color(0.894118, 0.894118, 0.905882, 1)
+CheckBox/colors/font_hover_color = Color(0.894118, 0.894118, 0.905882, 1)
+CheckBox/colors/font_hover_pressed_color = Color(0.631373, 0.631373, 0.666667, 1)
+CheckBox/colors/font_pressed_color = Color(0.831373, 0.831373, 0.847059, 1)
+CheckBox/constants/h_separation = 16
+CheckBox/icons/checked = ExtResource("7_plxdh")
+CheckBox/icons/checked_disabled = ExtResource("7_plxdh")
+CheckBox/icons/radio_checked = ExtResource("8_b6m5v")
+CheckBox/icons/radio_checked_disabled = ExtResource("8_b6m5v")
+CheckBox/icons/radio_unchecked = ExtResource("9_inbv6")
+CheckBox/icons/radio_unchecked_disabled = ExtResource("9_inbv6")
+CheckBox/icons/unchecked = ExtResource("10_e2doj")
+CheckBox/icons/unchecked_disabled = ExtResource("10_e2doj")
+CheckBox/styles/disabled = ExtResource("1_l4eb0")
+CheckBox/styles/focus = ExtResource("2_7bas6")
+CheckBox/styles/hover = ExtResource("11_qqdeb")
+CheckBox/styles/hover_pressed = ExtResource("11_qqdeb")
+CheckBox/styles/normal = ExtResource("12_b8e41")
+CheckBox/styles/pressed = ExtResource("13_hdiyw")
+CheckButton/colors/font_color = Color(0.831373, 0.831373, 0.847059, 1)
+CheckButton/colors/font_disabled_color = Color(0.831373, 0.831373, 0.85098, 0.588235)
+CheckButton/colors/font_focus_color = Color(0.894118, 0.894118, 0.905882, 1)
+CheckButton/colors/font_hover_color = Color(0.894118, 0.894118, 0.905882, 1)
+CheckButton/colors/font_hover_pressed_color = Color(0.631373, 0.631373, 0.666667, 1)
+CheckButton/colors/font_pressed_color = Color(0.831373, 0.831373, 0.847059, 1)
+CheckButton/constants/h_separation = 16
+CheckButton/icons/checked = ExtResource("7_plxdh")
+CheckButton/icons/checked_disabled = ExtResource("7_plxdh")
+CheckButton/icons/checked_disabled_mirrored = ExtResource("7_plxdh")
+CheckButton/icons/checked_mirrored = ExtResource("7_plxdh")
+CheckButton/icons/unchecked = ExtResource("10_e2doj")
+CheckButton/icons/unchecked_disabled = ExtResource("10_e2doj")
+CheckButton/icons/unchecked_disabled_mirrored = ExtResource("10_e2doj")
+CheckButton/icons/unchecked_mirrored = ExtResource("10_e2doj")
+CheckButton/styles/disabled = ExtResource("1_l4eb0")
+CheckButton/styles/focus = ExtResource("2_7bas6")
+CheckButton/styles/hover = ExtResource("11_qqdeb")
+CheckButton/styles/hover_pressed = ExtResource("11_qqdeb")
+CheckButton/styles/normal = ExtResource("12_b8e41")
+CheckButton/styles/pressed = ExtResource("13_hdiyw")
 H1/base_type = &"Label"
 H1/font_sizes/font_size = 48
 H1/fonts/font = SubResource("SystemFont_lxrnh")
