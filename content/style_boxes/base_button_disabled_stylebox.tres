@@ -6,14 +6,14 @@
 [resource]
 resource_local_to_scene = false
 resource_name = ""
-content_margin_left = -1.0
-content_margin_top = -1.0
-content_margin_right = -1.0
-content_margin_bottom = -1.0
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
 script = ExtResource("2_7kntc")
 modifications = {
-"border_color": Color(1, 1, 1, 0),
-"draw_center": false
+"bg_color": Color(0.324, 0.324, 0.36, 0.196078),
+"border_color": Color(1, 1, 1, 0)
 }
 base_stylebox = ExtResource("1_yeqkd")
 property_name = &""

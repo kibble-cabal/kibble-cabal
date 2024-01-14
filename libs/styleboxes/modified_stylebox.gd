@@ -39,7 +39,7 @@ func _draw(to_canvas_item: RID, rect: Rect2) -> void:
 
 
 func _connect(stylebox: StyleBox) -> void:
-	Sig.try_connect(stylebox.changed, emit_changed)
+	Sig.try_connect(stylebox.changed, _on_stylebox_changed)
 
 
 func _get_modified_stylebox() -> StyleBox:
@@ -49,3 +49,11 @@ func _get_modified_stylebox() -> StyleBox:
 		if property in base_stylebox:
 			modified_stylebox.set(property, modifications[property])
 	return modified_stylebox
+
+
+func _on_stylebox_changed() -> void:
+	if base_stylebox:
+		content_margin_bottom = base_stylebox.content_margin_bottom
+		content_margin_left = base_stylebox.content_margin_left
+		content_margin_right = base_stylebox.content_margin_right
+		content_margin_top = base_stylebox.content_margin_top

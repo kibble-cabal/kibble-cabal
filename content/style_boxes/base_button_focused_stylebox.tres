@@ -61,9 +61,9 @@ add_item = false
 [resource]
 resource_local_to_scene = false
 resource_name = ""
-content_margin_left = -1.0
-content_margin_top = -1.0
-content_margin_right = -1.0
-content_margin_bottom = -1.0
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
 script = ExtResource("3_0410n")
 passes = Array[StyleBox]([SubResource("StyleBox_mfkjl"), SubResource("StyleBox_dryji")])
