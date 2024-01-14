@@ -7,7 +7,6 @@
 
 [sub_resource type="Resource" id="Resource_xotcd"]
 script = ExtResource("2_7cvis")
-flags = 2
 subresources = {}
 
 [sub_resource type="Resource" id="Resource_hnlre"]

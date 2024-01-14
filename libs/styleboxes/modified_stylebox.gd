@@ -17,7 +17,7 @@ class_name ModifiedStyleBox extends StyleBox
 @export_group("Add Item Form")
 
 @export var property_name: StringName
-@export_enum("SelectAType", "Float", "Int", "Color", "Vector2", "Rect2") var property_type: String = "SelectAType"
+@export_enum("SelectAType", "Float", "Int", "Color", "Vector2", "Rect2", "Bool") var property_type: String = "SelectAType"
 @export var add_item: bool = false:
 	set(value):
 		match property_type:
@@ -26,6 +26,7 @@ class_name ModifiedStyleBox extends StyleBox
 			"Color": modifications[property_name] = Color.WHITE
 			"Vector2": modifications[property_name] = Vector2.ZERO
 			"Rect2": modifications[property_name] = Rect2()
+			"Bool": modifications[property_name] = true
 		property_name = &""
 		property_type = "SelectAType"
 		emit_changed()
