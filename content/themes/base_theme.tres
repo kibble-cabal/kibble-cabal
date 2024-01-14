@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=44 format=3 uid="uid://c05gnfa04124u"]
+[gd_resource type="Theme" load_steps=48 format=3 uid="uid://c05gnfa04124u"]
 
 [ext_resource type="StyleBox" uid="uid://d2d0mwfvbqyg7" path="res://content/style_boxes/base_button_disabled_stylebox.tres" id="1_l4eb0"]
 [ext_resource type="FontFile" uid="uid://3aaiobevftqt" path="res://content/fonts/creato_display/CreatoDisplay-ExtraBold.otf" id="1_qbh3g"]
@@ -21,6 +21,10 @@
 [ext_resource type="StyleBox" uid="uid://ckpcfhvqvm6h0" path="res://content/style_boxes/scrollbar_grabber_stylebox.tres" id="16_j3ver"]
 [ext_resource type="StyleBox" uid="uid://dufxqiqbj301p" path="res://content/style_boxes/slider_background_stylebox.tres" id="16_ryfx8"]
 [ext_resource type="StyleBox" uid="uid://c4xxat48we76r" path="res://content/style_boxes/scrollbar_grabber_pressed_stylebox.tres" id="17_pk7c2"]
+[ext_resource type="StyleBox" uid="uid://dg6eqkjpptbqe" path="res://content/style_boxes/outlined_button_disabled_stylebox.tres" id="21_8l2fs"]
+[ext_resource type="StyleBox" uid="uid://dj6jsm8o5la3" path="res://content/style_boxes/outlined_button_hover_stylebox.tres" id="22_jht3f"]
+[ext_resource type="StyleBox" uid="uid://c1idqapgige0s" path="res://content/style_boxes/outlined_button_stylebox.tres" id="23_36wbq"]
+[ext_resource type="StyleBox" uid="uid://c4r0eav3jx3h0" path="res://content/style_boxes/outlined_button_pressed_stylebox.tres" id="24_bk2vl"]
 
 [sub_resource type="FontVariation" id="FontVariation_j8wex"]
 base_font = ExtResource("1_qbh3g")
@@ -270,6 +274,13 @@ HSlider/icons/tick = SubResource("GradientTexture2D_k7gml")
 HSlider/styles/grabber_area = ExtResource("14_svmx6")
 HSlider/styles/grabber_area_highlight = ExtResource("15_obhn2")
 HSlider/styles/slider = ExtResource("16_ryfx8")
+OutlinedButton/base_type = &"Button"
+OutlinedButton/fonts/font = ExtResource("1_qbh3g")
+OutlinedButton/styles/disabled = ExtResource("21_8l2fs")
+OutlinedButton/styles/focus = ExtResource("2_7bas6")
+OutlinedButton/styles/hover = ExtResource("22_jht3f")
+OutlinedButton/styles/normal = ExtResource("23_36wbq")
+OutlinedButton/styles/pressed = ExtResource("24_bk2vl")
 ProgressBar/colors/font_color = Color(0.894118, 0.894118, 0.905882, 1)
 ProgressBar/colors/font_outline_color = Color(0.321569, 0.321569, 0.356863, 1)
 ProgressBar/styles/background = SubResource("StyleBoxFlat_vwlpc")

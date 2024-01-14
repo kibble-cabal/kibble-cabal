@@ -1,0 +1,25 @@
+[gd_resource type="StyleBox" script_class="ModifiedStyleBox" load_steps=3 format=3 uid="uid://dj6jsm8o5la3"]
+
+[ext_resource type="StyleBox" uid="uid://dgf5gdepglvtd" path="res://content/style_boxes/base_button_stylebox.tres" id="1_cpd4w"]
+[ext_resource type="Script" path="res://libs/styleboxes/modified_stylebox.gd" id="2_syv2c"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 16.0
+content_margin_top = 32.0
+content_margin_right = 16.0
+content_margin_bottom = 32.0
+script = ExtResource("2_syv2c")
+modifications = {
+"bg_color": Color(0.831373, 0.831373, 0.85098, 0.0980392),
+"border_color": Color(0.831373, 0.831373, 0.847059, 1),
+"border_width_bottom": 3.0,
+"border_width_left": 3.0,
+"border_width_right": 3.0,
+"border_width_top": 3.0
+}
+base_stylebox = ExtResource("1_cpd4w")
+property_name = &""
+property_type = "SelectAType"
+add_item = false
