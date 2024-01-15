@@ -33,5 +33,5 @@ tags_required_to_run = Array[Resource("res://addons/ability_system/resources/tag
 tags_blocking_run = Array[Resource("res://addons/ability_system/resources/tag.gd")]([])
 tag_groups_required_to_run = Array[Resource("res://addons/ability_system/resources/tag_group.gd")]([])
 tag_groups_blocking_run = Array[Resource("res://addons/ability_system/resources/tag_group.gd")]([])
-name = ""
+name = "eat/cooldown"
 inspector_color = Color(0, 0, 0, 1)

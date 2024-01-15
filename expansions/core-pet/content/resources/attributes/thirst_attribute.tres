@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_h6t18")
-name = "thirst_attribute"
+name = "thirst"
 minimum = 0.0
 maximum = 1.0
 default = 0.0

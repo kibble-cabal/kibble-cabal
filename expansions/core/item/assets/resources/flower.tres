@@ -1,10 +1,21 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=8 format=3 uid="uid://cw5qtjhi3ytpg"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=11 format=3 uid="uid://cw5qtjhi3ytpg"]
 
 [ext_resource type="Script" path="res://apps/item/classes/item_resource.gd" id="1_e4csu"]
+[ext_resource type="Script" path="res://addons/ability_system/resources/ability_system_component_state.gd" id="1_mtn3n"]
 [ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansions/core/item/assets/sprites/flower_icon_placeholder.png" id="1_nwixh"]
 [ext_resource type="PackedScene" uid="uid://d2gderbf81u4b" path="res://expansions/core/item/scenes/flower.tscn" id="2_1ry02"]
+[ext_resource type="Resource" uid="uid://di3c4ana2gnwv" path="res://expansions/core-pet/content/resources/tags/hunger_provider_tag.tres" id="2_e2n3i"]
 [ext_resource type="Script" path="res://apps/item/classes/item_physics_resource.gd" id="2_rd7uo"]
 [ext_resource type="Script" path="res://apps/item/classes/item_retail_resource.gd" id="3_jjfv8"]
+
+[sub_resource type="Resource" id="Resource_28upn"]
+script = ExtResource("1_mtn3n")
+tags = Array[Resource("res://addons/ability_system/resources/tag.gd")]([ExtResource("2_e2n3i")])
+abilities = Array[Resource("res://addons/ability_system/resources/ability.gd")]([])
+attributes = Array[Resource("res://addons/ability_system/resources/attribute_table.gd")]([])
+attribute_table_templates = Array[Resource("res://addons/ability_system/resources/attribute_table_template.gd")]([])
+effects = Array[Resource("res://addons/ability_system/resources/effect.gd")]([])
+ability_tasks = Array[Resource("res://addons/ability_system/events/ability_task.gd")]([])
 
 [sub_resource type="Resource" id="Resource_hrt5a"]
 script = ExtResource("2_rd7uo")
@@ -26,4 +37,5 @@ description = "A little flower"
 icon = ExtResource("1_nwixh")
 physics_resource = SubResource("Resource_hrt5a")
 retail_resource = SubResource("Resource_7go6c")
+ability_state = SubResource("Resource_28upn")
 subresources = {}
