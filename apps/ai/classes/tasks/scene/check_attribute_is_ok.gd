@@ -17,13 +17,14 @@ func _get_configuration_warning() -> PackedStringArray:
 
 
 func _tick(_delta: float) -> Status:
-	if not attribute or not ability_system: return FAILURE
+	if not attribute or not ability_system:
+		return FAILURE
 	
-	var node := ability_system.get_value(agent, blackboard) as AbilitySystemComponent
-	if not node: return FAILURE
+	var node = ability_system.get_value(agent, blackboard)
+	if node and node is AbilitySystemComponent:
+		var table: AAttributeTable = node.get_table_with_attribute(attribute)
+		
+		if table and table.is_ok(attribute): 
+			return SUCCESS
 	
-	var table := node.get_table_with_attribute(attribute)
-	if not table: return FAILURE
-	
-	if table.is_ok(attribute): return SUCCESS
-	else: return FAILURE
+	return FAILURE
