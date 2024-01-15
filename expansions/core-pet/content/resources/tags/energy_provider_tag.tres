@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ATag" load_steps=3 format=3 uid="uid://d14go80gtma5q"]
+
+[ext_resource type="Resource" uid="uid://dgbt1hj5186a5" path="res://expansions/core-pet/content/resources/tag_groups/need_provider_tag_group.tres" id="1_42mv3"]
+[ext_resource type="Script" path="res://addons/ability_system/resources/tag.gd" id="1_nnu7e"]
+
+[resource]
+script = ExtResource("1_nnu7e")
+group = ExtResource("1_42mv3")
+name = "energy"
+inspector_color = Color(0.376471, 0.647059, 0.980392, 1)

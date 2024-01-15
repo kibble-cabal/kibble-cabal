@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ATag" load_steps=3 format=3 uid="uid://di3c4ana2gnwv"]
+
+[ext_resource type="Script" path="res://addons/ability_system/resources/tag.gd" id="1_kgww5"]
+[ext_resource type="Resource" uid="uid://dgbt1hj5186a5" path="res://expansions/core-pet/content/resources/tag_groups/need_provider_tag_group.tres" id="1_tni3m"]
+
+[resource]
+script = ExtResource("1_kgww5")
+group = ExtResource("1_tni3m")
+name = "hunger"
+inspector_color = Color(0.980392, 0.501961, 0.262745, 1)
