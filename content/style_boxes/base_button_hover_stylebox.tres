@@ -7,12 +7,12 @@
 resource_local_to_scene = false
 resource_name = ""
 content_margin_left = 16.0
-content_margin_top = 16.0
+content_margin_top = 4.0
 content_margin_right = 16.0
-content_margin_bottom = 16.0
+content_margin_bottom = 4.0
 script = ExtResource("2_4x0uk")
 modifications = {
-"bg_color": Color(0.345098, 0.345098, 0.376471, 1)
+"bg_color": Color(0.152941, 0.152941, 0.164706, 1)
 }
 base_stylebox = ExtResource("1_kwv7u")
 property_name = &""
