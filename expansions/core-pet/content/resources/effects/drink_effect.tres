@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AAttributeEffect" load_steps=3 format=3 uid="uid://b58y7ddxb4fha"]
+
+[ext_resource type="Resource" uid="uid://01g48t5nc8uu" path="res://expansions/core-pet/content/resources/attributes/thirst_attribute.tres" id="1_xa53i"]
+[ext_resource type="Script" path="res://addons/ability_system/resources/attribute_effect.gd" id="2_g02fo"]
+
+[resource]
+script = ExtResource("2_g02fo")
+attribute = ExtResource("1_xa53i")
+minimum_effect = 0.1
+maximum_effect = 0.2
+effect_type = 1
+loop_duration = 0.5
+max_loops = -1
+buff_duration = 0.0
