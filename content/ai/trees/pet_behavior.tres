@@ -51,7 +51,6 @@ transformations = Array[Resource("res://apps/query/classes/transformations/trans
 
 [sub_resource type="BTAction" id="BTAction_edhf1"]
 script = ExtResource("4_i0qy7")
-node_path = NodePath(".")
 query = SubResource("Resource_hd2h4")
 result_var = &"nearby_items"
 
