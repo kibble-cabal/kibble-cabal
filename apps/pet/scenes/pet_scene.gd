@@ -11,9 +11,17 @@ func _ready() -> void:
 	move_finished.connect(_on_move_finished)
 	if resource:
 		_instantiate_sprite_controller()
+		if resource.ability_state.attributes.is_empty():
+			var table := AAttributeTable.new()
+			table.add(AttributeDB.find_attribute("hunger"))
+			table.add(AttributeDB.find_attribute("energy"))
+			table.add(AttributeDB.find_attribute("activity"))
+			table.add(AttributeDB.find_attribute("thirst"))
+			resource.ability_state.attributes.append(table)
 		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
 		ability_system.state = resource.ability_state
+		ability_system._update_state()
 	super._ready()
 
 
