@@ -42,11 +42,9 @@ func _spawn_inventory() -> void:
 	var state := SaveSystem.current_save.get_or_create_location_state(current_location.name)
 	if not state.inventory: state.inventory = InventoryResource.new()
 	for item_instance in state.inventory.item_instances:
-		var resource := item_instance.get_item_resource()
-		if resource and resource.physics_resource and resource.physics_resource.scene:
-			var node: Node2D = resource.physics_resource.scene.instantiate()
-			node.position = item_instance.location
-			current_map.add_child(node)
+		var node: Node2D = item_instance.instantiate_scene()
+		node.position = item_instance.location
+		current_map.add_child(node)
 
 
 func lua_fields() -> Array:
