@@ -10,6 +10,8 @@ class_name ItemInstanceResource extends ModdableResource
 ## Only applicable if the corresponding item has [member ItemResource.physics_resource]
 @export var location: Vector2 
 
+@export var ability_state: AbilitySystemComponentState
+
 
 func get_item_resource() -> ItemResource:
 	return ItemDB.find_by_id(item_id) if ItemDB else null

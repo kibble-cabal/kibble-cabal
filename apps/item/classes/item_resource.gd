@@ -8,11 +8,13 @@ class_name ItemResource extends ModdableResource
 @export_category("More Data")
 @export var physics_resource: ItemPhysicsResource
 @export var retail_resource: ItemRetailResource
+@export var ability_state: AbilitySystemComponentState
 
 
 func instantiate() -> ItemInstanceResource:
 	var instance := ItemInstanceResource.new()
 	instance.item = id
+	instance.ability_state = ability_state.duplicate(false)
 	return instance
 
 
