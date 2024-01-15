@@ -1,10 +1,14 @@
-[gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://cu1lkx46fs1bd"]
+[gd_resource type="BehaviorTree" load_steps=25 format=3 uid="uid://cu1lkx46fs1bd"]
 
 [ext_resource type="Resource" uid="uid://bkockf0im0gxn" path="res://expansions/core-pet/content/resources/attributes/hunger_attribute.tres" id="1_hmvee"]
 [ext_resource type="Resource" uid="uid://bstivvkpc38ll" path="res://expansions/core-pet/content/resources/queries/find_hunger_provider_query.tres" id="1_xaoyh"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/run_query.gd" id="2_2y3bf"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/scene/check_attribute_is_ok.gd" id="2_yg0wx"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/decorators/print_on_failure.gd" id="3_a1oiu"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/blackboard/check_var_array_size.gd" id="5_5bx4m"]
 [ext_resource type="BehaviorTree" uid="uid://cauep8bihp1dj" path="res://expansions/core-pet/content/resources/behavior_trees/fulfill_hunger.tres" id="5_asw6a"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/decorators/print_before_execute.gd" id="6_cv5ea"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/decorators/for_nth.gd" id="6_o8xl7"]
 
 [sub_resource type="BBNode" id="BBNode_w6nqs"]
 resource_name = "AbilitySystemComponent"
@@ -15,8 +19,11 @@ script = ExtResource("2_yg0wx")
 attribute = ExtResource("1_hmvee")
 ability_system = SubResource("BBNode_w6nqs")
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_lbcy0"]
-text = "Hunger is not ok!"
+[sub_resource type="BTDecorator" id="BTDecorator_o0wcl"]
+children = [SubResource("BTAction_hcyko")]
+script = ExtResource("3_a1oiu")
+string = "Hunger is not ok!"
+blackboard_format_params = PackedStringArray()
 
 [sub_resource type="BBNode" id="BBNode_j1axy"]
 resource_name = "."
@@ -29,35 +36,46 @@ node = SubResource("BBNode_j1axy")
 query = ExtResource("1_xaoyh")
 result_var = &"hunger_providers"
 
-[sub_resource type="BTConsolePrint" id="BTConsolePrint_csuui"]
-text = "Found a hunger provider! Going to {0}"
-bb_format_parameters = PackedStringArray("target_item_position")
+[sub_resource type="BBArray" id="BBArray_jkku1"]
+resource_name = "$hunger_providers"
+value_source = 1
+variable = "hunger_providers"
+
+[sub_resource type="BTAction" id="BTAction_eg7ej"]
+script = ExtResource("5_5bx4m")
+array_var = SubResource("BBArray_jkku1")
+size = 0
+operator = 0
+
+[sub_resource type="BBArray" id="BBArray_374f5"]
+resource_name = "$hunger_providers"
+value_source = 1
+variable = "hunger_providers"
 
 [sub_resource type="BTSubtree" id="BTSubtree_rxpoa"]
 subtree = ExtResource("5_asw6a")
 
-[sub_resource type="BTForEach" id="BTForEach_1b7t1"]
+[sub_resource type="BTDecorator" id="BTDecorator_0dugw"]
 children = [SubResource("BTSubtree_rxpoa")]
-array_var = "hunger_providers"
-save_var = "target_item_position"
+script = ExtResource("6_o8xl7")
+index = 0
+array_var = SubResource("BBArray_374f5")
+element_var = "target_item_position"
 
-[sub_resource type="BTRunLimit" id="BTRunLimit_o31dn"]
-children = [SubResource("BTForEach_1b7t1")]
+[sub_resource type="BTDecorator" id="BTDecorator_thj16"]
+children = [SubResource("BTDecorator_0dugw")]
+script = ExtResource("6_cv5ea")
+string = "Hunger providers: {hunger_providers}"
+blackboard_format_params = PackedStringArray("hunger_providers")
 
-[sub_resource type="BTSequence" id="BTSequence_a4yvd"]
-children = [SubResource("BTConsolePrint_csuui"), SubResource("BTRunLimit_o31dn")]
+[sub_resource type="BTSequence" id="BTSequence_i4q4f"]
+children = [SubResource("BTAction_ma2u0"), SubResource("BTAction_eg7ej"), SubResource("BTDecorator_thj16")]
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_4qrj1"]
 text = "No hunger provider found!"
 
-[sub_resource type="BTSelector" id="BTSelector_1kaxa"]
-children = [SubResource("BTSequence_a4yvd"), SubResource("BTConsolePrint_4qrj1")]
-
-[sub_resource type="BTSequence" id="BTSequence_i4q4f"]
-children = [SubResource("BTAction_ma2u0"), SubResource("BTSelector_1kaxa")]
-
 [sub_resource type="BTSelector" id="BTSelector_ctcf6"]
-children = [SubResource("BTAction_hcyko"), SubResource("BTConsolePrint_lbcy0"), SubResource("BTSequence_i4q4f")]
+children = [SubResource("BTDecorator_o0wcl"), SubResource("BTSequence_i4q4f"), SubResource("BTConsolePrint_4qrj1")]
 
 [sub_resource type="BTSelector" id="BTSelector_x2p2i"]
 custom_name = "Fulfill Low Need"
