@@ -13,7 +13,7 @@ class_name ItemResource extends ModdableResource
 
 func instantiate() -> ItemInstanceResource:
 	var instance := ItemInstanceResource.new()
-	instance.item = id
+	instance.item_id = id
 	instance.ability_state = ability_state.duplicate(false)
 	return instance
 

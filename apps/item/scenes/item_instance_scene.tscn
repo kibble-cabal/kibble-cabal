@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cah0iqv2gr1h6"]
+
+[ext_resource type="Script" path="res://apps/item/scenes/item_instance_scene.gd" id="1_xbhaw"]
+[ext_resource type="Script" path="res://addons/ability_system/nodes/ability_system_component.gd" id="2_10122"]
+
+[node name="ItemScene" type="StaticBody2D"]
+script = ExtResource("1_xbhaw")
+
+[node name="AbilitySystemComponent" type="Node" parent="." node_paths=PackedStringArray("owning_node")]
+script = ExtResource("2_10122")
+owning_node = NodePath("..")

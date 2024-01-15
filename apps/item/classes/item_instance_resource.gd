@@ -1,5 +1,7 @@
 class_name ItemInstanceResource extends ModdableResource
 
+const Scene := preload("res://apps/item/scenes/item_instance_scene.tscn")
+
 ## Should correspond to a [member ItemResource.id]
 @export var item_id: String
 @export var creation_time: int
@@ -15,6 +17,12 @@ class_name ItemInstanceResource extends ModdableResource
 
 func get_item_resource() -> ItemResource:
 	return ItemDB.find_by_id(item_id) if ItemDB else null
+
+
+func instantiate_scene() -> Node2D:
+	var scene := Scene.instantiate()
+	scene.item = self
+	return scene
 
 
 func lua_fields() -> Array:
