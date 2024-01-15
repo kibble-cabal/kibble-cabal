@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AAttribute" load_steps=2 format=3 uid="uid://bkockf0im0gxn"]
+
+[ext_resource type="Script" path="res://addons/ability_system/resources/attribute.gd" id="1_wsn4q"]
+
+[resource]
+script = ExtResource("1_wsn4q")
+name = "hunger"
+minimum = 0.0
+maximum = 1.0
+default = 0.0
+step = -1.0
+enable_lower_threshold = true
+lower_threshold = 0.2
+lower_critical_threshold = 0.05
+enable_upper_threshold = false
+upper_threshold = 0.9
+upper_critical_threshold = 0.95
+inspector_color = Color(0.98, 0.503067, 0.2646, 1)

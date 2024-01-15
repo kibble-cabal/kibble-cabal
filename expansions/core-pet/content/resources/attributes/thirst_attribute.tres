@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="AAttribute" load_steps=2 format=3 uid="uid://01g48t5nc8uu"]
+
+[ext_resource type="Script" path="res://addons/ability_system/resources/attribute.gd" id="1_h6t18"]
+
+[resource]
+script = ExtResource("1_h6t18")
+name = "thirst_attribute"
+minimum = 0.0
+maximum = 1.0
+default = 0.0
+step = -1.0
+enable_lower_threshold = true
+lower_threshold = 0.2
+lower_critical_threshold = 0.1
+enable_upper_threshold = false
+upper_threshold = 0.9
+upper_critical_threshold = 0.95
+inspector_color = Color(0.279, 0.8432, 0.93, 1)
