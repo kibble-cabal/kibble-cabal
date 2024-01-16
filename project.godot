@@ -68,6 +68,11 @@ project/assembly_name="KibbleCabal2D"
 
 enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
 
+[gui]
+
+theme/custom="res://content/themes/default_theme.tres"
+theme/custom_font="res://content/fonts/montagu_slab/MontaguSlab144pt-Medium.otf"
+
 [input]
 
 click={
