@@ -7,3 +7,7 @@ var Needs := PackedStringArray([
 	"energy",
 	"activity"
 ])
+
+var FulfillNeedAbilities := PackedStringArray([
+	"eat"
+])

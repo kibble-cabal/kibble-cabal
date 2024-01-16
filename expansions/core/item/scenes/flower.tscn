@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansions/core/item/assets/sprites/flower_icon_placeholder.png" id="1_48gd8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2ped4"]
+radius = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D"]
 shape = SubResource("CircleShape2D_2ped4")

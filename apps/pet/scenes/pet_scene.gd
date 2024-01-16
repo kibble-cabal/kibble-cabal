@@ -11,11 +11,25 @@ func _ready() -> void:
 	move_finished.connect(_on_move_finished)
 	if resource:
 		_instantiate_sprite_controller()
+		
+		# Add all attributes, if not preset
+		# FIXME this needs to be removed later
 		if resource.ability_state.attributes.is_empty():
 			var table := AAttributeTable.new()
 			for need in NeedsConfig.Needs:
 				table.add(AttributeDB.find_attribute(need))
 			resource.ability_state.attributes.append(table)
+		
+		# Add all abilities, if not preset
+		# FIXME this needs to be removed later
+		for ability_name in NeedsConfig.FulfillNeedAbilities:
+			var ability := AbilityDB.find_ability(ability_name)
+			if not ability in resource.ability_state.abilities:
+				resource.ability_state.abilities.append(ability)
+		
+		resource.ability_state.ability_tasks.clear()
+		resource.ability_state.effects.clear()
+		
 		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
 		ability_system.state = resource.ability_state

@@ -7,6 +7,9 @@ class_name BTPrint extends BTDecorator
 @export var blackboard_format_params: PackedStringArray
 
 
+var _has_printed: bool = false
+
+
 func _get_configuration_warning() -> PackedStringArray:
 	var warning := PackedStringArray()
 	if get_child_count_excluding_comments() == 0: warning.append("Missing child node!")
@@ -14,7 +17,9 @@ func _get_configuration_warning() -> PackedStringArray:
 
 
 func _print() -> void:
-	var format_params := {}
-	for param in blackboard_format_params:
-		format_params[param] = blackboard.get_var(param)
-	print(string.format(format_params))
+	if not _has_printed:
+		var format_params := {}
+		for param in blackboard_format_params:
+			format_params[param] = blackboard.get_var(param)
+		print(string.format(format_params))
+		_has_printed = true

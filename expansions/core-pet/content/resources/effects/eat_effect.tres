@@ -7,7 +7,7 @@
 script = ExtResource("2_urstl")
 attribute = ExtResource("1_k40m6")
 minimum_effect = 0.05
-maximum_effect = 0.1
+maximum_effect = 0.075
 effect_type = 1
 loop_duration = 1.0
 max_loops = -1

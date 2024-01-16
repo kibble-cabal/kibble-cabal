@@ -19,14 +19,14 @@ func _enter() -> void:
 
 func _tick(_delta: float) -> Status:
 	if not navigation_agent: return FAILURE
-	await navigation_agent.get_tree().physics_frame
 	if not navigation_agent.is_target_reachable():
-		print("Target not reachable!")
 		return FAILURE
 	if navigation_agent.is_navigation_finished():
 		if navigation_agent.is_target_reached():
 			return SUCCESS
 		return FAILURE
+	#if navigation_agent.distance_to_target() < 100:
+		#return SUCCESS
 	return RUNNING
 
 

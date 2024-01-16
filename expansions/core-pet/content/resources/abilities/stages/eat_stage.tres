@@ -6,14 +6,14 @@
 
 [resource]
 script = ExtResource("2_3gbtd")
-mode = 0
-one_shot_duration = 10.0
-randomize_one_shot_duration = true
-one_shot_duration_variance = 3.0
-loop_duration = 0.0
-randomize_loop_duration = false
-loop_duration_variance = 0.0
-max_loops = -1
+mode = 1
+one_shot_duration = 0.0
+randomize_one_shot_duration = false
+one_shot_duration_variance = 0.0
+loop_duration = 1.5
+randomize_loop_duration = true
+loop_duration_variance = 0.5
+max_loops = 15
 effects = Array[Resource("res://addons/ability_system/resources/effect.gd")]([ExtResource("1_byu8b")])
 tags_required_to_start = Array[Resource("res://addons/ability_system/resources/tag.gd")]([])
 tags_blocking_start = Array[Resource("res://addons/ability_system/resources/tag.gd")]([ExtResource("3_vnddn")])
@@ -34,5 +34,5 @@ tags_required_to_run = Array[Resource("res://addons/ability_system/resources/tag
 tags_blocking_run = Array[Resource("res://addons/ability_system/resources/tag.gd")]([])
 tag_groups_required_to_run = Array[Resource("res://addons/ability_system/resources/tag_group.gd")]([])
 tag_groups_blocking_run = Array[Resource("res://addons/ability_system/resources/tag_group.gd")]([])
-name = ""
-inspector_color = Color(0, 0, 0, 1)
+name = "eat"
+inspector_color = Color(0.980392, 0.501961, 0.262745, 1)

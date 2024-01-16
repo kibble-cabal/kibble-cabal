@@ -1,4 +1,4 @@
-[gd_resource type="BehaviorTree" load_steps=19 format=3 uid="uid://cu1lkx46fs1bd"]
+[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://cu1lkx46fs1bd"]
 
 [ext_resource type="Resource" uid="uid://bkockf0im0gxn" path="res://expansions/core-pet/content/resources/attributes/hunger_attribute.tres" id="1_hmvee"]
 [ext_resource type="Resource" uid="uid://bstivvkpc38ll" path="res://expansions/core-pet/content/resources/queries/find_hunger_provider_query.tres" id="1_xaoyh"]
@@ -35,6 +35,7 @@ query = ExtResource("1_xaoyh")
 result_var = "target_item_position"
 
 [sub_resource type="BTSubtree" id="BTSubtree_rxpoa"]
+custom_name = "Fulfill Hunger"
 subtree = ExtResource("5_asw6a")
 
 [sub_resource type="BTDecorator" id="BTDecorator_thj16"]
@@ -43,8 +44,11 @@ script = ExtResource("6_cv5ea")
 string = "New target item: {target_item_position}"
 blackboard_format_params = PackedStringArray("target_item_position")
 
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_7fx5l"]
+text = "Finished eating!"
+
 [sub_resource type="BTSequence" id="BTSequence_i4q4f"]
-children = [SubResource("BTAction_ma2u0"), SubResource("BTDecorator_thj16")]
+children = [SubResource("BTAction_ma2u0"), SubResource("BTDecorator_thj16"), SubResource("BTConsolePrint_7fx5l")]
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_4qrj1"]
 text = "No hunger provider found!"

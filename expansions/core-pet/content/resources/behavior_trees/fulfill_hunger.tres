@@ -1,10 +1,11 @@
-[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://cauep8bihp1dj"]
+[gd_resource type="BehaviorTree" load_steps=22 format=3 uid="uid://cauep8bihp1dj"]
 
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="1_rmpqn"]
 [ext_resource type="Resource" uid="uid://cy23s52jyia5i" path="res://expansions/core-pet/content/resources/abilities/eat.tres" id="2_4om0f"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/activate_ability_from_resource.gd" id="3_8vgmw"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/check_ability_stage.gd" id="4_d8bpd"]
 [ext_resource type="Resource" uid="uid://nwtqj6i3qkw0" path="res://expansions/core-pet/content/resources/abilities/stages/eat_cooldown_stage.tres" id="5_xpo2y"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/if_failure.gd" id="6_ugkxb"]
 
 [sub_resource type="BBVector2" id="BBVector2_td6x6"]
 resource_name = "$target_item_position"
@@ -19,22 +20,42 @@ navigation_agent_path = NodePath("NavigationAgent")
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_sbtux"]
 text = "About to eat!"
 
+[sub_resource type="BBNode" id="BBNode_cufyy"]
+resource_name = "AbilitySystemComponent"
+saved_value = NodePath("AbilitySystemComponent")
+
 [sub_resource type="BTAction" id="BTAction_ivu7t"]
 script = ExtResource("3_8vgmw")
 ability = ExtResource("2_4om0f")
+ability_system = SubResource("BBNode_cufyy")
 
 [sub_resource type="BTWait" id="BTWait_55o4x"]
+
+[sub_resource type="BBNode" id="BBNode_dxrdq"]
+resource_name = "AbilitySystemComponent"
+saved_value = NodePath("AbilitySystemComponent")
 
 [sub_resource type="BTAction" id="BTAction_g2a53"]
 script = ExtResource("4_d8bpd")
 ability = ExtResource("2_4om0f")
 stage = ExtResource("5_xpo2y")
+ability_system = SubResource("BBNode_dxrdq")
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_ftd6n"]
 text = "Still eating..."
 
+[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_6ycsj"]
+children = [SubResource("BTConsolePrint_ftd6n")]
+
+[sub_resource type="BTComposite" id="BTComposite_6mqts"]
+children = [SubResource("BTAction_g2a53"), SubResource("BTAlwaysFail_6ycsj")]
+script = ExtResource("6_ugkxb")
+
+[sub_resource type="BTSequence" id="BTSequence_3igp5"]
+children = [SubResource("BTWait_55o4x"), SubResource("BTComposite_6mqts")]
+
 [sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_733ec"]
-children = [SubResource("BTWait_55o4x"), SubResource("BTAction_g2a53"), SubResource("BTConsolePrint_ftd6n")]
+children = [SubResource("BTSequence_3igp5")]
 
 [sub_resource type="BTTimeLimit" id="BTTimeLimit_ullul"]
 children = [SubResource("BTRepeatUntilSuccess_733ec")]

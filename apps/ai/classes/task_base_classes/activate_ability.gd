@@ -12,8 +12,8 @@ func _tick(_delta: float) -> Status:
 	var node := get_ability_system()
 	if node:
 		var ability := get_ability()
-		if ability:
-			if node.activate_ability(ability): return SUCCESS
+		if ability and node.activate_ability(ability): 
+			return SUCCESS
 	return FAILURE
 
 

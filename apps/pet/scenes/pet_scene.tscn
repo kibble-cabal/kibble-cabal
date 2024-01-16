@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=16 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_scene.gd" id="1_m2vjx"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
@@ -8,6 +8,7 @@
 [ext_resource type="BehaviorTree" uid="uid://cfcroebhnfkjw" path="res://content/ai/trees/pet_behavior.tres" id="5_w602o"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="7_bs714"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/interactable_2d.gd" id="8_7tiyf"]
+[ext_resource type="PackedScene" uid="uid://0h7lco6uuavl" path="res://addons/ability_system/interface/ability_system_inspector/ability_system_inspector.tscn" id="9_5ttcq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ebpyx"]
 atlas = ExtResource("3_rf53d")
@@ -68,7 +69,8 @@ script = ExtResource("3_1n7a8")
 owning_node = NodePath("..")
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
-target_desired_distance = 4.0
+path_desired_distance = 100.0
+target_desired_distance = 100.0
 navigation_layers = 7
 path_postprocessing = 1
 avoidance_enabled = true
@@ -109,3 +111,13 @@ script = ExtResource("8_7tiyf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable2D"]
 shape = SubResource("CircleShape2D_mv65f")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AbilitySystemInspector" parent="CanvasLayer" node_paths=PackedStringArray("ability_system_component") instance=ExtResource("9_5ttcq")]
+custom_minimum_size = Vector2(2.08165e-12, 500)
+anchors_preset = 12
+anchor_top = 1.0
+offset_top = -227.0
+grow_vertical = 0
+ability_system_component = NodePath("../../AbilitySystemComponent")
