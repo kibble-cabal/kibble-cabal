@@ -51,6 +51,7 @@ DatetimeSystem="*res://apps/datetime/classes/datetime_system.gd"
 MusicSystem="*res://apps/music/classes/music_system.gd"
 LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
+Sx="*res://addons/signal_extensions/sx_autoload.gd"
 
 [display]
 
@@ -66,7 +67,7 @@ project/assembly_name="KibbleCabal2D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/signal_extensions/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
 
 [gui]
 
