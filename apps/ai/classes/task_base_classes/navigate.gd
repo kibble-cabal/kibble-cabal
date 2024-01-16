@@ -13,11 +13,16 @@ var navigation_agent: NavigationAgent
 func _enter() -> void:
 	navigation_agent = agent.get_node(navigation_agent_path)
 	if navigation_agent:
+		await navigation_agent.get_tree().physics_frame
 		navigation_agent.set_target_position(get_navigation_position())
 
 
 func _tick(_delta: float) -> Status:
 	if not navigation_agent: return FAILURE
+	await navigation_agent.get_tree().physics_frame
+	if not navigation_agent.is_target_reachable():
+		print("Target not reachable!")
+		return FAILURE
 	if navigation_agent.is_navigation_finished():
 		if navigation_agent.is_target_reached():
 			return SUCCESS
