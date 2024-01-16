@@ -13,10 +13,8 @@ func _ready() -> void:
 		_instantiate_sprite_controller()
 		if resource.ability_state.attributes.is_empty():
 			var table := AAttributeTable.new()
-			table.add(AttributeDB.find_attribute("hunger"))
-			table.add(AttributeDB.find_attribute("energy"))
-			table.add(AttributeDB.find_attribute("activity"))
-			table.add(AttributeDB.find_attribute("thirst"))
+			for need in NeedsConfig.Needs:
+				table.add(AttributeDB.find_attribute(need))
 			resource.ability_state.attributes.append(table)
 		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
