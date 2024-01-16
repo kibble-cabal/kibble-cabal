@@ -19,11 +19,12 @@ func _on_button_down() -> void:
 
 
 func _on_button_up() -> void:
-	var tweener := tween().set_ease(Tween.EASE_OUT)
-	if not node.scale.is_equal_approx(start_scale):
-		tweener.tween_property(node, "scale", start_scale, duration())
-	if not is_equal_approx(node.modulate.a, start_alpha):
-		tweener.tween_property(node, "modulate:a", start_alpha, duration())
+	var is_scale_changed: bool = not node.scale.is_equal_approx(start_scale)
+	var is_alpha_changed: bool = not is_equal_approx(node.modulate.a, start_alpha)
+	if is_scale_changed or is_alpha_changed:
+		var tweener := tween().set_ease(Tween.EASE_OUT)
+		if is_scale_changed: tweener.tween_property(node, "scale", start_scale, duration())
+		if is_alpha_changed: tweener.tween_property(node, "modulate:a", start_alpha, duration())
 
 
 func _on_mouse_released() -> void:
