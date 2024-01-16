@@ -1,14 +1,19 @@
-[gd_resource type="BehaviorTree" load_steps=17 format=3 uid="uid://cauep8bihp1dj"]
+[gd_resource type="BehaviorTree" load_steps=18 format=3 uid="uid://cauep8bihp1dj"]
 
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_blackboard_position.gd" id="1_2jecp"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="1_rmpqn"]
 [ext_resource type="Resource" uid="uid://cy23s52jyia5i" path="res://expansions/core-pet/content/resources/abilities/eat.tres" id="2_4om0f"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/scene/activate_ability_from_resource.gd" id="3_bk7eo"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/scene/check_ability_stage.gd" id="4_qltxw"]
 [ext_resource type="Resource" uid="uid://nwtqj6i3qkw0" path="res://expansions/core-pet/content/resources/abilities/stages/eat_cooldown_stage.tres" id="5_xpo2y"]
 
-[sub_resource type="BTAction" id="BTAction_0m01b"]
-script = ExtResource("1_2jecp")
-variable = &"target_item_position"
+[sub_resource type="BBVector2" id="BBVector2_td6x6"]
+resource_name = "$target_item_position"
+value_source = 1
+variable = "target_item_position"
+
+[sub_resource type="BTAction" id="BTAction_1k4xm"]
+script = ExtResource("1_rmpqn")
+target_position = SubResource("BBVector2_td6x6")
 navigation_agent_path = NodePath("NavigationAgent")
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_sbtux"]
@@ -47,7 +52,7 @@ time_limit = 20.0
 
 [sub_resource type="BTSequence" id="BTSequence_sd8wh"]
 custom_name = "Fulfill Hunger"
-children = [SubResource("BTAction_0m01b"), SubResource("BTConsolePrint_sbtux"), SubResource("BTAction_ivu7t"), SubResource("BTTimeLimit_ullul")]
+children = [SubResource("BTAction_1k4xm"), SubResource("BTConsolePrint_sbtux"), SubResource("BTAction_ivu7t"), SubResource("BTTimeLimit_ullul")]
 
 [resource]
 root_task = SubResource("BTSequence_sd8wh")
