@@ -17,11 +17,6 @@ var player: PlayerResource:
 var player_node: PlayerBody2D = null
 
 
-func _ready() -> void:
-	LocationSystem.location_exited.connect(despawn)
-	LocationSystem.location_entered.connect(spawn)
-
-
 func spawn(location: LocationResource) -> void:
 	if player:
 		before_player_spawned.emit()
