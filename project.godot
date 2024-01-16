@@ -54,6 +54,7 @@ SoundManager="*res://addons/sound_manager/sound_manager.gd"
 Sx="*res://addons/signal_extensions/sx_autoload.gd"
 UIAnimManager="*res://addons/ui_anim/autoload/ui_anim_manager.gd"
 InputManager="*res://addons/touch_input_manager/InputManager.gd"
+DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
@@ -69,7 +70,7 @@ project/assembly_name="KibbleCabal2D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/gesture_controlled_camera_2d/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/signal_extensions/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/touch_input_manager/plugin.cfg", "res://addons/ui_anim/plugin.cfg")
+enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/gesture_controlled_camera_2d/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/signal_extensions/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/touch_input_manager/plugin.cfg", "res://addons/ui_anim/plugin.cfg")
 
 [gui]
 

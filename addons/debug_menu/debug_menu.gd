@@ -26,7 +26,7 @@ extends CanvasLayer
 ## Currently, this also affects how FPS is measured.
 const HISTORY_NUM_FRAMES = 150
 
-const GRAPH_SIZE = Vector2(150, 25)
+const GRAPH_SIZE = Vector2(150, 50)
 const GRAPH_MIN_FPS = 10
 const GRAPH_MAX_FPS = 160
 const GRAPH_MIN_FRAMETIME = 1.0 / GRAPH_MIN_FPS
@@ -87,7 +87,7 @@ func _init() -> void:
 		# We can't do it in the editor plugin's activation code as it doesn't seem to work there.
 		InputMap.add_action("cycle_debug_menu")
 		var event := InputEventKey.new()
-		event.keycode = KEY_F3
+		event.keycode = KEY_QUOTELEFT
 		InputMap.action_add_event("cycle_debug_menu", event)
 
 

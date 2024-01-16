@@ -1,9 +1,11 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://d3dr3s5qgylsx"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://d3dr3s5qgylsx"]
 
 [ext_resource type="StyleBox" uid="uid://bcne2abw7pn2y" path="res://content/styleboxes/default_button_stylebox.tres" id="1_2gqq5"]
 [ext_resource type="FontFile" uid="uid://c13i808uo34yf" path="res://content/fonts/montagu_slab/MontaguSlab16pt-Bold.otf" id="1_hkiae"]
+[ext_resource type="FontFile" uid="uid://b32pk7c60jk6" path="res://content/fonts/montagu_slab/MontaguSlab16pt-Medium.otf" id="3_50xg8"]
 
 [resource]
+default_font = ExtResource("3_50xg8")
 default_font_size = 32
 Button/fonts/font = ExtResource("1_hkiae")
 Button/styles/disabled = ExtResource("1_2gqq5")
