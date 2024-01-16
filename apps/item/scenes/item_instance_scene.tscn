@@ -4,6 +4,9 @@
 [ext_resource type="Script" path="res://addons/ability_system/nodes/ability_system_component.gd" id="2_10122"]
 
 [node name="ItemScene" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 31
+input_pickable = true
 script = ExtResource("1_xbhaw")
 
 [node name="AbilitySystemComponent" type="Node" parent="." node_paths=PackedStringArray("owning_node")]
