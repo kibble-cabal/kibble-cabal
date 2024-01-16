@@ -52,12 +52,13 @@ MusicSystem="*res://apps/music/classes/music_system.gd"
 LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
 Sx="*res://addons/signal_extensions/sx_autoload.gd"
+UIAnimManager="*res://addons/ui_anim/autoload/ui_anim_manager.gd"
 
 [display]
 
 window/size/viewport_width=1125
 window/size/viewport_height=2436
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
@@ -67,10 +68,11 @@ project/assembly_name="KibbleCabal2D"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/signal_extensions/plugin.cfg", "res://addons/sound_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/ability_system/plugin.cfg", "res://addons/json_library/json_library/plugin.cfg", "res://addons/rect_pack_2d/plugin.cfg", "res://addons/signal_extensions/plugin.cfg", "res://addons/sound_manager/plugin.cfg", "res://addons/ui_anim/plugin.cfg")
 
 [gui]
 
+common/snap_controls_to_pixels=false
 theme/custom="res://content/themes/default_theme.tres"
 theme/custom_font="res://content/fonts/montagu_slab/MontaguSlab144pt-Medium.otf"
 
@@ -129,5 +131,4 @@ behavior_tree/user_task_dir_1="res://apps/ai/classes/tasks"
 
 [rendering]
 
-renderer/rendering_method="mobile"
 environment/defaults/default_clear_color=Color(0.208088, 0.208088, 0.208088, 1)

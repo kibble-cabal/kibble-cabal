@@ -6,4 +6,7 @@
 [resource]
 default_font_size = 32
 Button/fonts/font = ExtResource("1_hkiae")
+Button/styles/disabled = ExtResource("1_2gqq5")
+Button/styles/hover = ExtResource("1_2gqq5")
 Button/styles/normal = ExtResource("1_2gqq5")
+Button/styles/pressed = ExtResource("1_2gqq5")
