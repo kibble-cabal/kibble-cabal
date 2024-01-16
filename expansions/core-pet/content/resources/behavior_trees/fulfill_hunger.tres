@@ -1,9 +1,9 @@
-[gd_resource type="BehaviorTree" load_steps=18 format=3 uid="uid://cauep8bihp1dj"]
+[gd_resource type="BehaviorTree" load_steps=16 format=3 uid="uid://cauep8bihp1dj"]
 
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="1_rmpqn"]
 [ext_resource type="Resource" uid="uid://cy23s52jyia5i" path="res://expansions/core-pet/content/resources/abilities/eat.tres" id="2_4om0f"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/scene/activate_ability_from_resource.gd" id="3_bk7eo"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/scene/check_ability_stage.gd" id="4_qltxw"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/activate_ability_from_resource.gd" id="3_8vgmw"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/check_ability_stage.gd" id="4_d8bpd"]
 [ext_resource type="Resource" uid="uid://nwtqj6i3qkw0" path="res://expansions/core-pet/content/resources/abilities/stages/eat_cooldown_stage.tres" id="5_xpo2y"]
 
 [sub_resource type="BBVector2" id="BBVector2_td6x6"]
@@ -19,24 +19,14 @@ navigation_agent_path = NodePath("NavigationAgent")
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_sbtux"]
 text = "About to eat!"
 
-[sub_resource type="BBNode" id="BBNode_stcjb"]
-resource_name = "AbilitySystemComponent"
-saved_value = NodePath("AbilitySystemComponent")
-
 [sub_resource type="BTAction" id="BTAction_ivu7t"]
-script = ExtResource("3_bk7eo")
+script = ExtResource("3_8vgmw")
 ability = ExtResource("2_4om0f")
-ability_system_component = SubResource("BBNode_stcjb")
 
 [sub_resource type="BTWait" id="BTWait_55o4x"]
 
-[sub_resource type="BBNode" id="BBNode_evsfr"]
-resource_name = "AbilitySystemComponent"
-saved_value = NodePath("AbilitySystemComponent")
-
 [sub_resource type="BTAction" id="BTAction_g2a53"]
-script = ExtResource("4_qltxw")
-ability_system_component = SubResource("BBNode_evsfr")
+script = ExtResource("4_d8bpd")
 ability = ExtResource("2_4om0f")
 stage = ExtResource("5_xpo2y")
 

@@ -1,9 +1,5 @@
 @tool
-class_name BTActivateAbility extends BTAction
-
-## This is a base class, shouldn't be extended directly
-
-@export var ability_system_component: BBNode
+class_name BTActivateAbility extends BTAbilitySystemAction
 
 
 func _generate_name() -> String:
@@ -12,12 +8,8 @@ func _generate_name() -> String:
 	return "Activate ability"
 
 
-func _get_configuration_warning() -> PackedStringArray:
-	return PackedStringArray(["This is a base class, and should not be added directly!"])
-
-
 func _tick(_delta: float) -> Status:
-	var node := ability_system_component.get_value(agent, blackboard) as AbilitySystemComponent
+	var node := get_ability_system()
 	if node:
 		var ability := get_ability()
 		if ability:
