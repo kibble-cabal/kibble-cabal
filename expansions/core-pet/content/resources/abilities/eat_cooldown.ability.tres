@@ -8,8 +8,8 @@ ui_name = &"add_just_ate"
 ui_color = Color(0.980392, 0.658824, 0.498039, 1)
 
 [sub_resource type="WaitEffect" id="WaitEffect_ukun7"]
-min_wait_time = 1.0
-max_wait_time = 2.0
+min_wait_time = 10.0
+max_wait_time = 20.0
 ui_name = &"wait"
 ui_color = Color(0.980392, 0.658824, 0.498039, 1)
 

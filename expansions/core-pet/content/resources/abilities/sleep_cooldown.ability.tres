@@ -1,0 +1,26 @@
+[gd_resource type="Ability" load_steps=5 format=3 uid="uid://dm8bdx1shx125"]
+
+[ext_resource type="Tag" uid="uid://dptvbckqfix4w" path="res://expansions/core-pet/content/resources/tags/just_slept.tag.tres" id="1_r3an1"]
+
+[sub_resource type="TagEffect" id="TagEffect_8d56f"]
+tags = Array[Tag]([ExtResource("1_r3an1")])
+ui_name = &"add_just_slept"
+ui_color = Color(0.6272, 0.78596, 0.98, 1)
+
+[sub_resource type="WaitEffect" id="WaitEffect_28wck"]
+min_wait_time = 10.0
+max_wait_time = 20.0
+ui_name = &"wait"
+ui_color = Color(0.6272, 0.78596, 0.98, 1)
+
+[sub_resource type="TagEffect" id="TagEffect_sq4e2"]
+tags = Array[Tag]([ExtResource("1_r3an1")])
+operation = -1
+ui_name = &"remove_just_slept"
+ui_color = Color(0.6272, 0.78596, 0.98, 1)
+
+[resource]
+identifier = &"sleep/cooldown"
+effects = Array[Effect]([SubResource("TagEffect_8d56f"), SubResource("WaitEffect_28wck"), SubResource("TagEffect_sq4e2")])
+effect_mode = 2
+ui_color = Color(0.6272, 0.78596, 0.98, 1)
