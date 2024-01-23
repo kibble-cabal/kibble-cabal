@@ -10,9 +10,9 @@ func _get_configuration_warning() -> PackedStringArray:
 	return warning
 
 
-func get_ability_system() -> AbilitySystemComponent:
+func get_ability_system() -> AbilitySystem:
 	if ability_system:
 		var node = ability_system.get_value(agent, blackboard)
-		if node and node is AbilitySystemComponent:
+		if node and node is AbilitySystem:
 			return node
 	return null

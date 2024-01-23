@@ -1,21 +1,22 @@
-[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://cu1lkx46fs1bd"]
+[gd_resource type="BehaviorTree" load_steps=23 format=3 uid="uid://cu1lkx46fs1bd"]
 
-[ext_resource type="Resource" uid="uid://bkockf0im0gxn" path="res://expansions/core-pet/content/resources/attributes/hunger_attribute.tres" id="1_hmvee"]
+[ext_resource type="Attribute" uid="uid://d3wcbdddqyhjr" path="res://expansions/core-pet/content/resources/attributes/hunger.attribute.tres" id="1_e66ew"]
 [ext_resource type="Resource" uid="uid://bstivvkpc38ll" path="res://expansions/core-pet/content/resources/queries/find_hunger_provider_query.tres" id="1_xaoyh"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/run_query.gd" id="2_2y3bf"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/check_attribute_is_ok.gd" id="2_rxdpv"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/decorators/print_on_failure.gd" id="3_a1oiu"]
 [ext_resource type="BehaviorTree" uid="uid://cauep8bihp1dj" path="res://expansions/core-pet/content/resources/behavior_trees/fulfill_hunger.tres" id="5_asw6a"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/decorators/print_before_execute.gd" id="6_cv5ea"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/blackboard/check_var_equality.gd" id="8_nvioe"]
 
-[sub_resource type="BBNode" id="BBNode_w6nqs"]
-resource_name = "AbilitySystemComponent"
-saved_value = NodePath("AbilitySystemComponent")
+[sub_resource type="BBNode" id="BBNode_5qd5l"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
 
 [sub_resource type="BTAction" id="BTAction_hcyko"]
 script = ExtResource("2_rxdpv")
-attribute = ExtResource("1_hmvee")
-ability_system = SubResource("BBNode_w6nqs")
+attribute = ExtResource("1_e66ew")
+ability_system = SubResource("BBNode_5qd5l")
 
 [sub_resource type="BTDecorator" id="BTDecorator_o0wcl"]
 children = [SubResource("BTAction_hcyko")]
@@ -34,6 +35,16 @@ node = SubResource("BBNode_j1axy")
 query = ExtResource("1_xaoyh")
 result_var = "target_item_position"
 
+[sub_resource type="BBVariant" id="BBVariant_hfpib"]
+resource_name = "$target_item_position"
+value_source = 1
+variable = "target_item_position"
+
+[sub_resource type="BTAction" id="BTAction_udr86"]
+script = ExtResource("8_nvioe")
+variable = SubResource("BBVariant_hfpib")
+operator = 1
+
 [sub_resource type="BTSubtree" id="BTSubtree_rxpoa"]
 custom_name = "Fulfill Hunger"
 subtree = ExtResource("5_asw6a")
@@ -48,7 +59,7 @@ blackboard_format_params = PackedStringArray("target_item_position")
 text = "Finished eating!"
 
 [sub_resource type="BTSequence" id="BTSequence_i4q4f"]
-children = [SubResource("BTAction_ma2u0"), SubResource("BTDecorator_thj16"), SubResource("BTConsolePrint_7fx5l")]
+children = [SubResource("BTAction_ma2u0"), SubResource("BTAction_udr86"), SubResource("BTDecorator_thj16"), SubResource("BTConsolePrint_7fx5l")]
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_4qrj1"]
 text = "No hunger provider found!"

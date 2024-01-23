@@ -2,7 +2,10 @@
 @tool
 extends BTActivateAbility
 
-@export var ability: AAbility
+@export var ability: Ability:
+	set(value):
+		ability = value
+		emit_changed()
 
 
 func _get_configuration_warning() -> PackedStringArray:
@@ -11,5 +14,5 @@ func _get_configuration_warning() -> PackedStringArray:
 	return warning
 
 
-func get_ability() -> AAbility:
+func get_ability() -> Ability:
 	return ability

@@ -1,0 +1,5 @@
+[gd_resource type="Tag" format=3 uid="uid://dob6s41y6fw5k"]
+
+[resource]
+identifier = &"activity_provider"
+ui_color = Color(0.729412, 0.901961, 0.45098, 1)

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PhysicsQuery" load_steps=12 format=3 uid="uid://cf2w2une37gbw"]
 
 [ext_resource type="Script" path="res://apps/query/classes/filters/filter_by_tags.gd" id="1_drofa"]
-[ext_resource type="Resource" uid="uid://d14go80gtma5q" path="res://expansions/core-pet/content/resources/tags/energy_provider_tag.tres" id="2_8ky10"]
+[ext_resource type="Tag" uid="uid://cw7junfddyuiy" path="res://expansions/core-pet/content/resources/tags/energy_provider.tag.tres" id="2_qgjsu"]
 [ext_resource type="Script" path="res://apps/query/classes/physics_query.gd" id="3_us4j3"]
 [ext_resource type="Script" path="res://apps/query/classes/transformations/sort_by_distance.gd" id="4_mdfpw"]
 [ext_resource type="Script" path="res://apps/query/classes/transformations/get_collision_point.gd" id="5_dnm0w"]
@@ -9,7 +9,7 @@
 
 [sub_resource type="Resource" id="Resource_3axma"]
 script = ExtResource("1_drofa")
-tags_to_check = Array[Resource("res://addons/ability_system/resources/tag.gd")]([ExtResource("2_8ky10")])
+tags_to_check = Array[Tag]([ExtResource("2_qgjsu")])
 check_for = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1hicn"]

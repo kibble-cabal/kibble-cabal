@@ -1,7 +1,7 @@
 class_name PlayerRoot extends PlayerBody2D
 
 @onready var collision_shape := $CollisionShape as CollisionShape2D
-@onready var ability_system := $AbilitySystemComponent as AbilitySystemComponent
+@onready var ability_system := $AbilitySystem as AbilitySystem
 
 var sprite_controller: SpriteController
 
@@ -17,7 +17,8 @@ func _ready() -> void:
 		_instantiate_sprite_controller()
 		_update_from_config()
 		sprite_controller.modulate = resource.modulate
-		ability_system.state = resource.ability_state
+		if resource.ability_state:
+			resource.ability_state.merge_into_node(ability_system)
 	super._ready()
 	move_started.connect(_on_move_started)
 	move_finished.connect(_on_move_finished)

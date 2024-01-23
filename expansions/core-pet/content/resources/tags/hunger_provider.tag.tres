@@ -1,0 +1,5 @@
+[gd_resource type="Tag" format=3 uid="uid://cpo5m0u2kvow6"]
+
+[resource]
+identifier = &"hunger_provider"
+ui_color = Color(0.980392, 0.501961, 0.262745, 1)

@@ -4,7 +4,7 @@ extends PlayerBody2D
 
 @onready var start_position := global_position
 @onready var sprite_controller := $SpriteController as SpriteController
-@onready var ability_system := $AbilitySystemComponent as AbilitySystemComponent
+@onready var ability_system := $AbilitySystem as AbilitySystem
 
 
 func _ready() -> void:
@@ -14,26 +14,27 @@ func _ready() -> void:
 		
 		# Add all attributes, if not preset
 		# FIXME this needs to be removed later
-		if resource.ability_state.attributes.is_empty():
-			var table := AAttributeTable.new()
-			for need in NeedsConfig.Needs:
-				table.add(AttributeDB.find_attribute(need))
-			resource.ability_state.attributes.append(table)
+		for need in NeedsConfig.Needs:
+			ability_system.grant_attribute(AttributeDB.find(need))
 		
-		# Add all abilities, if not preset
-		# FIXME this needs to be removed later
-		for ability_name in NeedsConfig.FulfillNeedAbilities:
-			var ability := AbilityDB.find_ability(ability_name)
-			if not ability in resource.ability_state.abilities:
-				resource.ability_state.abilities.append(ability)
+		for identifier in NeedsConfig.FulfillNeedAbilities:
+			ability_system.grant_ability(AbilityDB.find(identifier))
+			ability_system.grant_ability(AbilityDB.find(identifier + "/cooldown"))
 		
-		resource.ability_state.ability_tasks.clear()
-		resource.ability_state.effects.clear()
+		# Update ability system from cached state
+		#if resource.ability_state:
+			#resource.ability_state.merge_into_node(ability_system)
 		
 		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
-		ability_system.state = resource.ability_state
-		ability_system._update_state()
+	
+	# Update the cached ability system state whenever the game is saved
+	SaveSystem.before_saved.connect(
+		func() -> void:
+			if resource and ability_system:
+				resource.ability_state = AbilitySystemState.new_from_node(ability_system)
+	)
+	
 	super._ready()
 
 

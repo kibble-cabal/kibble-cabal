@@ -1,14 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=14 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_scene.gd" id="1_m2vjx"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
-[ext_resource type="Script" path="res://addons/ability_system/nodes/ability_system_component.gd" id="3_1n7a8"]
 [ext_resource type="Texture2D" uid="uid://bjt1o3txxoxpi" path="res://expansions/core/pet/assets/sprites/pet_placeholder_sheet.png" id="3_rf53d"]
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_sprite_controller.gd" id="4_lku25"]
 [ext_resource type="BehaviorTree" uid="uid://cfcroebhnfkjw" path="res://content/ai/trees/pet_behavior.tres" id="5_w602o"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="7_bs714"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/interactable_2d.gd" id="8_7tiyf"]
-[ext_resource type="PackedScene" uid="uid://0h7lco6uuavl" path="res://addons/ability_system/interface/ability_system_inspector/ability_system_inspector.tscn" id="9_5ttcq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ebpyx"]
 atlas = ExtResource("3_rf53d")
@@ -64,9 +62,7 @@ facing_ray = NodePath("FacingRay")
 [node name="BTPlayer" type="BTPlayer" parent="."]
 behavior_tree = ExtResource("5_w602o")
 
-[node name="AbilitySystemComponent" type="Node" parent="." node_paths=PackedStringArray("owning_node")]
-script = ExtResource("3_1n7a8")
-owning_node = NodePath("..")
+[node name="AbilitySystem" type="AbilitySystem" parent="."]
 
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
 path_desired_distance = 100.0
@@ -114,10 +110,49 @@ shape = SubResource("CircleShape2D_mv65f")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="AbilitySystemInspector" parent="CanvasLayer" node_paths=PackedStringArray("ability_system_component") instance=ExtResource("9_5ttcq")]
-custom_minimum_size = Vector2(2.08165e-12, 500)
+[node name="AbilitySystemDebugger" type="GridContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
 anchors_preset = 12
 anchor_top = 1.0
-offset_top = -227.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -180.0
+grow_horizontal = 2
 grow_vertical = 0
-ability_system_component = NodePath("../../AbilitySystemComponent")
+columns = 2
+
+[node name="Abilities" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
+layout_mode = 2
+text = "Abilities"
+
+[node name="AbilityViewer" type="AbilityViewer" parent="CanvasLayer/AbilitySystemDebugger"]
+ability_system_path = NodePath("../../../AbilitySystem")
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Tags" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
+layout_mode = 2
+text = "Tags"
+
+[node name="TagViewer" type="TagViewer" parent="CanvasLayer/AbilitySystemDebugger"]
+ability_system_path = NodePath("../../../AbilitySystem")
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Attributes" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
+layout_mode = 2
+text = "Attributes"
+
+[node name="AttributeViewer" type="AttributeViewer" parent="CanvasLayer/AbilitySystemDebugger"]
+ability_system_path = NodePath("../../../AbilitySystem")
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Events" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
+layout_mode = 2
+text = "Events"
+
+[node name="EventViewer" type="EventViewer" parent="CanvasLayer/AbilitySystemDebugger"]
+ability_system_path = NodePath("../../../AbilitySystem")
+layout_mode = 2
+size_flags_horizontal = 3

@@ -1,8 +1,15 @@
 @tool
 extends BTAbilitySystemAction
 
-@export var attribute: AAttribute
-@export var blackboard_var: String
+@export var attribute: Attribute:
+	set(value):
+		attribute = value
+		emit_changed()
+
+@export var blackboard_var: String:
+	set(value):
+		blackboard_var = value
+		emit_changed()
 
 
 func _generate_name() -> String:
@@ -21,10 +28,8 @@ func _tick(_delta: float) -> Status:
 	if not attribute or not node or blackboard_var.is_empty():
 		return FAILURE
 	
-	var table: AAttributeTable = node.get_table_with_attribute(attribute)
-	
-	if table and table.has(attribute): 
-		blackboard.set_var(blackboard_var, table.get_value(attribute))
+	if attribute and node.has_attribute(attribute):
+		blackboard.set_var(blackboard_var, node.get_attribute_value(attribute))
 		return SUCCESS
 	
 	return FAILURE

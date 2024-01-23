@@ -1,10 +1,9 @@
-[gd_resource type="BehaviorTree" load_steps=22 format=3 uid="uid://cauep8bihp1dj"]
+[gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://cauep8bihp1dj"]
 
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="1_rmpqn"]
-[ext_resource type="Resource" uid="uid://cy23s52jyia5i" path="res://expansions/core-pet/content/resources/abilities/eat.tres" id="2_4om0f"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/activate_ability_from_resource.gd" id="3_8vgmw"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/check_ability_stage.gd" id="4_d8bpd"]
-[ext_resource type="Resource" uid="uid://nwtqj6i3qkw0" path="res://expansions/core-pet/content/resources/abilities/stages/eat_cooldown_stage.tres" id="5_xpo2y"]
+[ext_resource type="Ability" uid="uid://3hc46m6lprys" path="res://expansions/core-pet/content/resources/abilities/eat.ability.tres" id="4_hvln7"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/check_ability_is_activated.gd" id="4_xkthl"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/if_failure.gd" id="6_ugkxb"]
 
 [sub_resource type="BBVector2" id="BBVector2_td6x6"]
@@ -21,25 +20,24 @@ navigation_agent_path = NodePath("NavigationAgent")
 text = "About to eat!"
 
 [sub_resource type="BBNode" id="BBNode_cufyy"]
-resource_name = "AbilitySystemComponent"
-saved_value = NodePath("AbilitySystemComponent")
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
 
 [sub_resource type="BTAction" id="BTAction_ivu7t"]
 script = ExtResource("3_8vgmw")
-ability = ExtResource("2_4om0f")
+ability = ExtResource("4_hvln7")
 ability_system = SubResource("BBNode_cufyy")
 
 [sub_resource type="BTWait" id="BTWait_55o4x"]
 
-[sub_resource type="BBNode" id="BBNode_dxrdq"]
-resource_name = "AbilitySystemComponent"
-saved_value = NodePath("AbilitySystemComponent")
+[sub_resource type="BBNode" id="BBNode_covqi"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
 
 [sub_resource type="BTAction" id="BTAction_g2a53"]
-script = ExtResource("4_d8bpd")
-ability = ExtResource("2_4om0f")
-stage = ExtResource("5_xpo2y")
-ability_system = SubResource("BBNode_dxrdq")
+script = ExtResource("4_xkthl")
+ability = ExtResource("4_hvln7")
+ability_system = SubResource("BBNode_covqi")
 
 [sub_resource type="BTConsolePrint" id="BTConsolePrint_ftd6n"]
 text = "Still eating..."

@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="ATag" load_steps=2 format=3 uid="uid://bku3v1ke7qhtu"]
-
-[ext_resource type="Script" path="res://addons/ability_system/resources/tag.gd" id="1_gyqrt"]
-
-[resource]
-script = ExtResource("1_gyqrt")
-name = "just_ate"
-inspector_color = Color(0, 0, 0, 1)

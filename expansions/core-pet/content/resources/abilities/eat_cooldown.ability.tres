@@ -1,0 +1,26 @@
+[gd_resource type="Ability" load_steps=5 format=3 uid="uid://boshvv54x0qsl"]
+
+[ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansions/core-pet/content/resources/tags/just_ate.tag.tres" id="1_s7fw8"]
+
+[sub_resource type="TagEffect" id="TagEffect_rddxb"]
+tags = Array[Tag]([ExtResource("1_s7fw8")])
+ui_name = &"add_just_ate"
+ui_color = Color(0.980392, 0.658824, 0.498039, 1)
+
+[sub_resource type="WaitEffect" id="WaitEffect_ukun7"]
+min_wait_time = 1.0
+max_wait_time = 2.0
+ui_name = &"wait"
+ui_color = Color(0.980392, 0.658824, 0.498039, 1)
+
+[sub_resource type="TagEffect" id="TagEffect_2wgk7"]
+tags = Array[Tag]([ExtResource("1_s7fw8")])
+operation = -1
+ui_name = &"remove_just_ate"
+ui_color = Color(0.980392, 0.658824, 0.498039, 1)
+
+[resource]
+identifier = &"eat/cooldown"
+effects = Array[Effect]([SubResource("TagEffect_rddxb"), SubResource("WaitEffect_ukun7"), SubResource("TagEffect_2wgk7")])
+effect_mode = 2
+ui_color = Color(0.980392, 0.658824, 0.498039, 1)

@@ -1,0 +1,5 @@
+[gd_resource type="Tag" format=3 uid="uid://cxdilmg6d1c5l"]
+
+[resource]
+identifier = &"just_ate"
+ui_color = Color(0.980392, 0.658824, 0.498039, 1)

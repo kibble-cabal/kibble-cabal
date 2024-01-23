@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://nh2frc2lo76l"]
+[gd_scene load_steps=7 format=3 uid="uid://nh2frc2lo76l"]
 
 [ext_resource type="Script" path="res://apps/player/scenes/player_scene.gd" id="1_ytw0n"]
-[ext_resource type="Script" path="res://addons/ability_system/nodes/ability_system_component.gd" id="2_hkk02"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_ncora"]
 [ext_resource type="PackedScene" uid="uid://ywiqu2buc81h" path="res://apps/player/scenes/player_camera.tscn" id="4_87ysy"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="6_0e3pf"]
@@ -21,10 +20,6 @@ script = ExtResource("1_ytw0n")
 navigation_agent = NodePath("NavigationAgent")
 facing_ray = NodePath("FacingRay")
 
-[node name="AbilitySystemComponent" type="Node" parent="." node_paths=PackedStringArray("owning_node")]
-script = ExtResource("2_hkk02")
-owning_node = NodePath("..")
-
 [node name="NavigationAgent" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("character")]
 target_desired_distance = 4.0
 navigation_layers = 7
@@ -38,6 +33,8 @@ avoidance_layers = 2
 avoidance_mask = 7
 script = ExtResource("2_ncora")
 character = NodePath("..")
+
+[node name="AbilitySystem" type="AbilitySystem" parent="."]
 
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 2

@@ -1,0 +1,6 @@
+[gd_resource type="Attribute" format=3 uid="uid://d3wcbdddqyhjr"]
+
+[resource]
+identifier = &"hunger"
+default_value = 0.25
+ui_color = Color(0.980392, 0.501961, 0.262745, 1)

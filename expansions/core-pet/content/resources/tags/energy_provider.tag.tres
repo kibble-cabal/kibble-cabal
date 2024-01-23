@@ -1,0 +1,5 @@
+[gd_resource type="Tag" format=3 uid="uid://cw7junfddyuiy"]
+
+[resource]
+identifier = &"energy_provider"
+ui_color = Color(0.376471, 0.647059, 0.980392, 1)

@@ -11,7 +11,7 @@ const DefaultSpriteScene := preload("res://expansions/core/player/scenes/player_
 ## This is a temporary property that helps me differentiate save files.
 @export var modulate: Color = Color(randf() + 0.5, randf() + 0.5, randf() + 0.5)
 
-@export var ability_state := AbilitySystemComponentState.new()
+@export var ability_state := AbilitySystemState.new()
 
 ## Corresponds to [LocationResource.name]
 @export var current_location: String:

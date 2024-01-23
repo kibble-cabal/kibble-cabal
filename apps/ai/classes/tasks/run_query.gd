@@ -29,6 +29,6 @@ func _tick(_delta: float) -> Status:
 	if not node_value or not node_value is Node:
 		return FAILURE
 	var result = query.query(node_value)
-	if result_var:
+	if result_var.length():
 		blackboard.set_var(result_var, result)
 	return SUCCESS

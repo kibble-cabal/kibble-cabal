@@ -6,7 +6,7 @@ class_name PetResource extends ModdableResource
 ## Corresponds to [member AnimalResource.name]
 @export var animal: String
 
-@export var ability_state := AbilitySystemComponentState.new()
+@export var ability_state := AbilitySystemState.new()
 
 @export var current_position: Vector2:
 	set(value):

@@ -1,0 +1,6 @@
+[gd_resource type="Attribute" format=3 uid="uid://dswqndh7u3hfk"]
+
+[resource]
+identifier = &"thirst"
+default_value = 0.25
+ui_color = Color(0.278431, 0.843137, 0.929412, 1)

@@ -12,7 +12,7 @@ const Scene := preload("res://apps/item/scenes/item_instance_scene.tscn")
 ## Only applicable if the corresponding item has [member ItemResource.physics_resource]
 @export var location: Vector2 
 
-@export var ability_state: AbilitySystemComponentState
+@export var ability_state: AbilitySystemState
 
 
 func get_item_resource() -> ItemResource:
