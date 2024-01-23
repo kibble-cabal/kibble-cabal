@@ -1,0 +1,65 @@
+[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://d0bajwwvfp3jw"]
+
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="1_1nb0y"]
+[ext_resource type="Ability" uid="uid://tw20pwfsslh2" path="res://expansions/core-pet/content/resources/abilities/sleep.ability.tres" id="2_f1a4f"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/activate_ability_from_resource.gd" id="3_6kxdg"]
+[ext_resource type="Ability" uid="uid://dm8bdx1shx125" path="res://expansions/core-pet/content/resources/abilities/sleep_cooldown.ability.tres" id="4_a8mu6"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/ability_system/check_ability_is_activated.gd" id="4_cvgki"]
+
+[sub_resource type="BBVector2" id="BBVector2_td6x6"]
+resource_name = "$target_item_position"
+value_source = 1
+variable = "target_item_position"
+
+[sub_resource type="BTAction" id="BTAction_1k4xm"]
+script = ExtResource("1_1nb0y")
+target_position = SubResource("BBVector2_td6x6")
+navigation_agent_path = NodePath("NavigationAgent")
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_sbtux"]
+text = "About to sleep!"
+
+[sub_resource type="BBNode" id="BBNode_cufyy"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
+
+[sub_resource type="BTAction" id="BTAction_ivu7t"]
+script = ExtResource("3_6kxdg")
+ability = ExtResource("2_f1a4f")
+ability_system = SubResource("BBNode_cufyy")
+
+[sub_resource type="BBNode" id="BBNode_covqi"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
+
+[sub_resource type="BTAction" id="BTAction_g2a53"]
+script = ExtResource("4_cvgki")
+ability = ExtResource("2_f1a4f")
+ability_system = SubResource("BBNode_covqi")
+
+[sub_resource type="BTWait" id="BTWait_55o4x"]
+
+[sub_resource type="BBNode" id="BBNode_dfiu6"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
+
+[sub_resource type="BTAction" id="BTAction_x0yaj"]
+script = ExtResource("4_cvgki")
+ability = ExtResource("4_a8mu6")
+ability_system = SubResource("BBNode_dfiu6")
+
+[sub_resource type="BTConsolePrint" id="BTConsolePrint_1wp8y"]
+text = "Finished sleeping!"
+
+[sub_resource type="BTSequence" id="BTSequence_3igp5"]
+children = [SubResource("BTWait_55o4x"), SubResource("BTAction_x0yaj"), SubResource("BTConsolePrint_1wp8y")]
+
+[sub_resource type="BTRepeatUntilSuccess" id="BTRepeatUntilSuccess_733ec"]
+children = [SubResource("BTSequence_3igp5")]
+
+[sub_resource type="BTSequence" id="BTSequence_sd8wh"]
+custom_name = "Fulfill Energy"
+children = [SubResource("BTAction_1k4xm"), SubResource("BTConsolePrint_sbtux"), SubResource("BTAction_ivu7t"), SubResource("BTAction_g2a53"), SubResource("BTRepeatUntilSuccess_733ec")]
+
+[resource]
+root_task = SubResource("BTSequence_sd8wh")
