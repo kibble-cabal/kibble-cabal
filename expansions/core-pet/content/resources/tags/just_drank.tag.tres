@@ -1,0 +1,5 @@
+[gd_resource type="Tag" format=3 uid="uid://d4lvdt3o4rvqg"]
+
+[resource]
+identifier = &"just_drank"
+ui_color = Color(0.568627, 0.882353, 0.929412, 1)
