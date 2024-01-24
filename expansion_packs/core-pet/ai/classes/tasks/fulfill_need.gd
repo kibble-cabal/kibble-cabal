@@ -45,9 +45,10 @@ func _get_configuration_warning() -> PackedStringArray:
 
 
 func _enter() -> void:
-	super()
 	var target_item := get_target_item()
-	if target_item: max_distance = Nodes.get_flattened_node_2d_size(target_item).length()
+	if target_item: 
+		max_distance = Nodes.get_flattened_node_2d_size(target_item).length()
+		super()
 
 
 func _tick(delta: float) -> Status:
