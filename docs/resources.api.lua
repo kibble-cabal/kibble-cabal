@@ -1,0 +1,23 @@
+---@diagnostic disable: unused-local, missing-return
+
+---@class Ability
+---@class Attribute
+---@class Effect
+---@class Tag
+---@class ActionMenuItem
+---@class SubtreeResource
+---@class AnimalResource
+---@class ExpansionPackResource
+---@class GameModeResource
+---@class InventoryResource
+---@class ItemResource
+---@class LocationResource
+---@class ModResource
+---@class MusicResource
+---@class PetResource
+---@class PlayerResource
+---@class QuestResource
+---@class SaveResource
+---@class SettingDefinitionResource
+---@class SettingsResource
+---@class AudioStream

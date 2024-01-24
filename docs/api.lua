@@ -25,30 +25,6 @@ I still need to document the following:
 
 --]]
 
--- Resources
-
----@class Ability
----@class ActionMenuItem
----@class Attribute
----@class Effect
----@class Tag
----@class SubtreeResource
----@class AnimalResource
----@class ExpansionPackResource
----@class GameModeResource
----@class InventoryResource
----@class ItemResource
----@class LocationResource
----@class ModResource
----@class MusicResource
----@class PetResource
----@class PlayerResource
----@class QuestResource
----@class SaveResource
----@class SettingDefinitionResource
----@class SettingsResource
----@class AudioStream
-
 -- Other
 
 ---@class ExpansionPackLoader
