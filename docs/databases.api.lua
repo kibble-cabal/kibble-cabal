@@ -1,52 +1,50 @@
 ---@diagnostic disable: unused-local, missing-return
 
 ---@class AbilityDB
----@field registered_abilities AAbility[]
----@field registered_stages AAbilityStage[]
----@field register_ability fun(resource: AAbility)
----@field unregister_ability fun(resource: AAbility)
----@field find_ability fun(name: string): AAbility | nil
----@field register_stage fun(resource: AAbilityStage)
----@field unregister_stage fun(resource: AAbilityStage)
----@field find_stage fun(name: string): AAbilityStage | nil
+---@field registered_abilities Ability[]
+---@field register fun(resource: Ability)
+---@field unregister fun(resource: Ability)
+---@field find fun(identifier: string): Ability | nil
 
 ---Gets the ability database instance.
 ---@return AbilityDB
 function GetAbilityDB() end
 
+---@class ActionDB
+---@field registered_actions ActionMenuItem[]
+---@field register fun(resource: ActionMenuItem)
+---@field unregister fun(resource: ActionMenuItem)
+---@field find_by_menu fun(menu_identifier: string): ActionMenuItem[]
+
+---Gets the action database instance.
+---@return ActionDB
+function GetActionDB() end
+
 ---@class AttributeDB
----@field registered_attributes AAbility[]
----@field registered_attribute_table_templates AAttributeTableTemplate[]
----@field register_attribute fun(resource: AAttribute)
----@field unregister_attribute fun(resource: AAttribute)
----@field find_attribute fun(name: string): AAttribute | nil
----@field register_attribute_table_template fun(resource: AAttributeTableTemplate)
----@field unregister_attribute_table_template fun(resource: AAttributeTableTemplate)
----@field find_attribute_table_template fun(name: string): AAttributeTableTemplate | nil
+---@field registered_attributes Ability[]
+---@field register fun(resource: Attribute)
+---@field unregister fun(resource: Attribute)
+---@field find fun(identifier: string): Attribute | nil
 
 ---Gets the attribute database instance.
 ---@return AttributeDB
 function GetAttributeDB() end
 
 ---@class EffectDB
----@field registered_effects AEffect[]
----@field register fun(resource: AEffect)
----@field unregister fun(resorce: AEffect)
----@field find fun(resource_name: string): AEffect | nil
+---@field registered_effects Effect[]
+---@field register fun(resource: Effect)
+---@field unregister fun(resorce: Effect)
+---@field find fun(identifier: string): Effect | nil
 
 ---Gets the effect database instance.
 ---@return EffectDB
 function GetEffectDB() end
 
 ---@class TagDB
----@field registered_tags ATag[]
----@field registered_tag_groups ATagGroup[]
----@field register_tag fun(resource: ATag)
----@field unregister_tag fun(resource: ATag)
----@field find_tag fun(name: string): ATag | nil
----@field register_tag_group fun(resource: ATagGroup)
----@field unregister_tag_group fun(resource: ATagGroup)
----@field find_tag_group fun(name: string): ATagGroup | nil
+---@field registered_tags Tag[]
+---@field register fun(resource: Tag)
+---@field unregister fun(resource: Tag)
+---@field find fun(identifier: string): Tag | nil
 
 ---Gets the tag database instance.
 ---@return TagDB

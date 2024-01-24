@@ -27,14 +27,11 @@ I still need to document the following:
 
 -- Resources
 
----@class AAbility
----@class AAbilityStage
----@class AAttribute
----@class AAttributeTable
----@class AAttributeTableTemplate
----@class AEffect
----@class ATag
----@class ATagGroup
+---@class Ability
+---@class ActionMenuItem
+---@class Attribute
+---@class Effect
+---@class Tag
 ---@class SubtreeResource
 ---@class AnimalResource
 ---@class ExpansionPackResource
