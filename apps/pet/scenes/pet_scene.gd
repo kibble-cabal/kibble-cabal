@@ -3,8 +3,9 @@ extends PlayerBody2D
 @export var resource: PetResource
 
 @onready var start_position := global_position
-@onready var sprite_controller := $SpriteController as SpriteController
 @onready var ability_system := $AbilitySystem as AbilitySystem
+
+var sprite_controller: SpriteController
 
 
 func _ready() -> void:
@@ -25,8 +26,8 @@ func _ready() -> void:
 		if resource.ability_state:
 			resource.ability_state.merge_into_node(ability_system)
 		
-		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
+		_update_collision()
 	
 	# Update the cached ability system state whenever the game is saved
 	SaveSystem.before_saved.connect(
@@ -43,8 +44,24 @@ func get_random_target() -> Vector2:
 
 
 func _instantiate_sprite_controller() -> void:
-	move_started.connect(sprite_controller.start.bind("walk"))
-	move_finished.connect(sprite_controller.start.bind("default"))
+	if not resource: return
+	var animal := resource.get_animal_resource()
+	if animal and animal.sprite_scene:
+		sprite_controller = animal.sprite_scene.instantiate()
+		sprite_controller.modulate = resource.modulate
+		add_child(sprite_controller)
+		move_child(sprite_controller, 0)
+		move_started.connect(sprite_controller.start.bind("walk"))
+		move_finished.connect(sprite_controller.start.bind("default"))
+
+
+func _update_collision() -> void:
+	if not resource: return
+	var animal := resource.get_animal_resource()
+	if animal:
+		(($CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
+		(($Interactable2D/CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
+		($FacingRay as RayCast2D).target_position = Vector2(0, animal.collision_radius * 1.5)
 
 
 func _on_move_finished() -> void:

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AnimalResource" load_steps=3 format=3 uid="uid://bakelgyfwd1mj"]
+
+[ext_resource type="PackedScene" uid="uid://c6ubdy6hplxfp" path="res://expansions/core-pet/animals/dog/dog.tscn" id="1_51cwh"]
+[ext_resource type="Script" path="res://apps/animal/classes/animal_resource.gd" id="1_clynk"]
+
+[resource]
+script = ExtResource("1_clynk")
+name = &"dog"
+speed = 0.5
+sprite_scene = ExtResource("1_51cwh")
+collision_radius = 20.0
+subresources = {}

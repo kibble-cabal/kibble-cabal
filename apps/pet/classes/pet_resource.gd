@@ -4,7 +4,7 @@ class_name PetResource extends ModdableResource
 @export var birthdate: int
 
 ## Corresponds to [member AnimalResource.name]
-@export var animal: String
+@export var animal: StringName = &"dog"
 
 @export var ability_state := AbilitySystemState.new()
 

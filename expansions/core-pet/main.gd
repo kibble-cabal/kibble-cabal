@@ -18,8 +18,13 @@ const Attributes = [
 	preload("res://expansions/core-pet/content/resources/attributes/energy.attribute.tres"),
 ]
 
+const Animals = [
+	preload("res://expansions/core-pet/animals/dog/dog.tres")
+]
+
 
 func _init() -> void:
 	Subtrees.map(SubtreeDB.register)
 	Abilities.map(AbilityDB.register)
 	Attributes.map(AttributeDB.register)
+	Animals.map(AnimalDB.register)

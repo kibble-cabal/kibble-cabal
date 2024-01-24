@@ -1,55 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=7 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_scene.gd" id="1_m2vjx"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
-[ext_resource type="Texture2D" uid="uid://bjt1o3txxoxpi" path="res://expansions/core/pet/assets/sprites/pet_placeholder_sheet.png" id="3_rf53d"]
-[ext_resource type="Script" path="res://apps/pet/scenes/pet_sprite_controller.gd" id="4_lku25"]
 [ext_resource type="BehaviorTree" uid="uid://cfcroebhnfkjw" path="res://content/ai/trees/pet_behavior.tres" id="5_w602o"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="7_bs714"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/interactable_2d.gd" id="8_7tiyf"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ebpyx"]
-atlas = ExtResource("3_rf53d")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l3snv"]
-atlas = ExtResource("3_rf53d")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jgsr1"]
-atlas = ExtResource("3_rf53d")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_757hp"]
-atlas = ExtResource("3_rf53d")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_bdwaq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ebpyx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l3snv")
-}],
-"loop": true,
-"name": &"default",
-"speed": 2.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jgsr1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_757hp")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 2.0
-}]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_mv65f"]
+resource_local_to_scene = true
 radius = 20.0
 
 [node name="PetScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent", "facing_ray")]
@@ -78,15 +36,6 @@ avoidance_layers = 4
 avoidance_mask = 7
 script = ExtResource("2_oapg6")
 character = NodePath("..")
-
-[node name="SpriteController" type="Node2D" parent="."]
-script = ExtResource("4_lku25")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpriteController"]
-texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_bdwaq")
-animation = &"walk"
-autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_mv65f")
