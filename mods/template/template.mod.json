@@ -1,0 +1,9 @@
+{
+	"id": "mod_template",
+	"author": "audrey",
+	"version": "0.1.0",
+	"display_name": "Mod Template",
+	"display_description": "This is a template for a mod.",
+	"entry_script_path": "template/main.lua",
+	"icon_path": "template/icon.png"
+}
