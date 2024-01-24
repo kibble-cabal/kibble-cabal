@@ -22,9 +22,14 @@ const Animals = [
 	preload("res://expansions/core-pet/animals/dog/dog.tres")
 ]
 
+const Actions = [
+	preload("res://expansions/core-pet/features/actions/rename_action.gd")
+]
+
 
 func _init() -> void:
 	Subtrees.map(SubtreeDB.register)
 	Abilities.map(AbilityDB.register)
 	Attributes.map(AttributeDB.register)
 	Animals.map(AnimalDB.register)
+	Actions.map(func(action: GDScript) -> void: ActionDB.register(action.new()))

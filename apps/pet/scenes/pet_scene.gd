@@ -4,6 +4,7 @@ extends PlayerBody2D
 
 @onready var start_position := global_position
 @onready var ability_system := $AbilitySystem as AbilitySystem
+@onready var interact_menu := %InteractMenu as ActionMenu
 
 var sprite_controller: SpriteController
 
@@ -37,6 +38,9 @@ func _ready() -> void:
 	)
 	
 	super._ready()
+	
+	await get_tree().create_timer(2.0).timeout
+	interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))
 
 
 func get_random_target() -> Vector2:
@@ -66,3 +70,7 @@ func _update_collision() -> void:
 
 func _on_move_finished() -> void:
 	if resource: resource.current_position = global_position
+
+
+func _on_interact_menu_opening() -> void:
+	pass
