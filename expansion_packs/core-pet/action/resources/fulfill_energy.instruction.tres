@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="InstructionActionMenuItem" load_steps=3 format=3 uid="uid://uu4flc6d4vsk"]
+
+[ext_resource type="BehaviorTree" uid="uid://o0r1dnjti8l3" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_energy.tres" id="1_kjr2s"]
+[ext_resource type="Script" path="res://apps/action/classes/instruction_action_menu_item.gd" id="2_kmhn6"]
+
+[resource]
+script = ExtResource("2_kmhn6")
+instruction_tree = ExtResource("1_kjr2s")
+display_text = "Go sleep"

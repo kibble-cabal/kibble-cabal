@@ -45,9 +45,10 @@ func _tick(delta: float) -> Status:
 	
 	# Get value of need attribute.
 	var need_value := ability_system.get_attribute_value(need_attribute)
+	var need_is_low := need_value > (need_attribute.max_value - need_attribute.min_value) / 2 + need_attribute.min_value
 	
-	# Fail if need value is above 50%.
-	if need_value > (need_attribute.max_value - need_attribute.min_value) / 2 + need_attribute.min_value:
+	# Fail if need value is above 50% (only when acting autonomously, not during instructions).
+	if not is_instruction() and need_is_low:
 		_warning("{0} is not low.".format([need_attribute]))
 		return FAILURE
 	
@@ -98,3 +99,7 @@ func get_pet_resource() -> PetResource:
 	if agent and "resource" in agent:
 		return agent.resource as PetResource
 	return null
+
+
+func is_instruction() -> bool:
+	return blackboard.get_var(&"context/is_instruction", false)

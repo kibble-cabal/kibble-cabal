@@ -1,0 +1,27 @@
+[gd_resource type="BehaviorTree" load_steps=8 format=3 uid="uid://o0r1dnjti8l3"]
+
+[ext_resource type="Ability" uid="uid://tw20pwfsslh2" path="res://expansion_packs/core-pet/ability/resources/abilities/sleep.ability.tres" id="1_r2hdc"]
+[ext_resource type="Attribute" uid="uid://cl53yuig7jp63" path="res://expansion_packs/core-pet/ability/resources/attributes/energy.attribute.tres" id="2_5mnib"]
+[ext_resource type="Tag" uid="uid://cw7junfddyuiy" path="res://expansion_packs/core-pet/ability/resources/tags/energy_provider.tag.tres" id="3_pac0x"]
+[ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/try_fulfill_need.gd" id="4_0iscf"]
+
+[sub_resource type="BBNode" id="BBNode_qgdrk"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
+
+[sub_resource type="BBNode" id="BBNode_7lc31"]
+resource_name = "NavigationAgent"
+saved_value = NodePath("NavigationAgent")
+
+[sub_resource type="BTAction" id="BTAction_20cjy"]
+script = ExtResource("4_0iscf")
+need_attribute = ExtResource("2_5mnib")
+need_provider_tag = ExtResource("3_pac0x")
+target_item_variable = &"target_item"
+ability_system_node = SubResource("BBNode_qgdrk")
+need_ability = ExtResource("1_r2hdc")
+verbose = false
+navigation_agent_node = SubResource("BBNode_7lc31")
+
+[resource]
+root_task = SubResource("BTAction_20cjy")

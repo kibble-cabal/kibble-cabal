@@ -28,7 +28,14 @@ const Animals = [
 ]
 
 const Actions = [
-	preload("res://expansion_packs/core-pet/action/classes/rename_action.gd")
+	preload("res://expansion_packs/core-pet/action/resources/fulfill_hunger.instruction.tres"),
+	preload("res://expansion_packs/core-pet/action/resources/fulfill_thirst.instruction.tres"),
+	preload("res://expansion_packs/core-pet/action/resources/fulfill_energy.instruction.tres"),
+	preload("res://expansion_packs/core-pet/action/resources/fulfill_activity.instruction.tres"),
+]
+
+const ActionScripts = [
+	preload("res://expansion_packs/core-pet/action/classes/rename_action.gd"),
 ]
 
 const Tags = [
@@ -48,4 +55,5 @@ func _init() -> void:
 	Attributes.map(AttributeDB.register)
 	Animals.map(AnimalDB.register)
 	Tags.map(TagDB.register)
-	Actions.map(func(action: GDScript) -> void: ActionDB.register(action.new()))
+	Actions.map(ActionDB.register)
+	ActionScripts.map(func(action: GDScript) -> void: ActionDB.register(action.new()))
