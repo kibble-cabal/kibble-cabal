@@ -40,7 +40,7 @@ func _ready() -> void:
 	super._ready()
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	# Close interact menu when clicking outside
 	if event is InputEventScreenTouch and event.is_pressed() and interact_menu.visible:
 		var menu_radius := maxf(interact_menu.size.x, interact_menu.size.y) / 2
