@@ -19,7 +19,7 @@ func unregister(attribute: Attribute) -> void:
 	attribute_unregistered.emit(attribute)
 
 
-func find(identifier: String) -> Attribute:
+func find(identifier: StringName) -> Attribute:
 	for attribute in registered_attributes:
 		if attribute.identifier == identifier: return attribute
 	return null

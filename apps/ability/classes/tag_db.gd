@@ -19,7 +19,7 @@ func unregister(tag: Tag) -> void:
 	tag_unregistered.emit(tag)
 
 
-func find(identifier: String) -> Tag:
+func find(identifier: StringName) -> Tag:
 	for tag in registered_tags:
 		if tag.identifier == identifier: return tag
 	return null
@@ -30,9 +30,5 @@ func lua_fields() -> Array:
 		"registered_tags", 
 		"register", 
 		"unregister", 
-		"find", 
-		"registered_tag_groups", 
-		"register_group", 
-		"unregister_group", 
-		"find_group"
+		"find",
 	]

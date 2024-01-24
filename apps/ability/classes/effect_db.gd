@@ -19,7 +19,7 @@ func unregister(effect: Effect) -> void:
 	effect_unregistered.emit(effect)
 
 
-func find(identifier: String) -> Effect:
+func find(identifier: StringName) -> Effect:
 	for effect in registered_effects:
 		if effect.identifier == identifier: return effect
 	return null

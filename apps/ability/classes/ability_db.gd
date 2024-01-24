@@ -17,7 +17,7 @@ func unregister(ability: Ability) -> void:
 	ability_unregistered.emit(ability)
 
 
-func find(identifier: String) -> Ability:
+func find(identifier: StringName) -> Ability:
 	for ability in registered_abilities:
 		if ability.identifier == identifier: return ability
 	return null
@@ -28,9 +28,5 @@ func lua_fields() -> Array:
 		"registered_abilities", 
 		"register", 
 		"unregister", 
-		"find", 
-		"registered_stages", 
-		"register_stage", 
-		"unregister_stage", 
-		"find_stage"
+		"find",
 	]

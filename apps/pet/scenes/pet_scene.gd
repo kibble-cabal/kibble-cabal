@@ -22,8 +22,8 @@ func _ready() -> void:
 			ability_system.grant_ability(AbilityDB.find(identifier + "/cooldown"))
 		
 		# Update ability system from cached state
-		#if resource.ability_state:
-			#resource.ability_state.merge_into_node(ability_system)
+		if resource.ability_state:
+			resource.ability_state.merge_into_node(ability_system)
 		
 		sprite_controller.modulate = resource.modulate
 		global_position = resource.current_position
