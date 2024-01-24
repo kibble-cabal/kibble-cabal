@@ -4,6 +4,10 @@ class_name ActionMenuItem extends Resource
 ## Base class for items in [ActionMenu]
 
 
+func _init() -> void:
+	resource_local_to_scene = true
+
+
 ## Virtual function. Override to change display text.
 func _get_display_text(_ctx = null) -> String: return String()
 

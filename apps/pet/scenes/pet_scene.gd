@@ -43,7 +43,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	# Close interact menu when clicking outside
 	if event is InputEventScreenTouch and event.is_pressed() and interact_menu.visible:
-		if not Rect2(Vector2.ZERO, interact_menu.size).has_point(interact_menu.get_local_mouse_position()):
+		var menu_radius := maxf(interact_menu.size.x, interact_menu.size.y) / 2
+		if interact_menu.get_local_mouse_position().distance_to(interact_menu.size / 2) > menu_radius:
 			interact_menu.close()
 
 

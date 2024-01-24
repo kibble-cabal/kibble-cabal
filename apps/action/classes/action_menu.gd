@@ -8,6 +8,7 @@ signal closed
 
 @export var menu_identifier: StringName
 @export var additional_actions: Array[ActionMenuItem] = []
+@export var close_on_select: bool = true
 
 var nodes := {}
 
@@ -15,6 +16,7 @@ var nodes := {}
 func _enter_tree() -> void:
 	for action in get_all_actions():
 		nodes[action] = action.render()
+		Sig.try_connect(nodes[action].pressed, _on_item_pressed)
 		add_child(nodes[action])
 	visible = false
 
@@ -46,3 +48,8 @@ func _update_items(ctx = null) -> void:
 			nodes[action] = action.render(ctx)
 			add_child(nodes[action])
 			action.update(nodes[action], ctx)
+		Sig.try_connect(nodes[action].pressed, _on_item_pressed)
+
+
+func _on_item_pressed() -> void:
+	if close_on_select: close()
