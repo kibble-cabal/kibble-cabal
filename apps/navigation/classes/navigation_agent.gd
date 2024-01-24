@@ -22,3 +22,9 @@ func _on_velocity_computed(safe_velocity: Vector2) -> void:
 	if character:
 		character.velocity = safe_velocity
 		character.move_and_slide()
+
+
+func stop() -> void:
+	if character:
+		set_target_position(character.global_position)
+		set_velocity(Vector2.ZERO)

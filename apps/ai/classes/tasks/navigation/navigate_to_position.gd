@@ -12,4 +12,4 @@ func _generate_name() -> String:
 
 
 func get_navigation_position() -> Vector2:
-	return target_position.get_value(agent, blackboard)
+	return target_position.get_value(agent, blackboard, Vector2.ZERO)

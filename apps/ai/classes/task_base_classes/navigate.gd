@@ -32,7 +32,7 @@ func _tick(_delta: float) -> Status:
 			return SUCCESS
 		return FAILURE
 	if navigation_agent.distance_to_target() < get_max_distance():
-		navigation_agent.set_target_position(navigation_agent.character.position)
+		navigation_agent.stop()
 		return SUCCESS
 	return RUNNING
 
