@@ -19,7 +19,6 @@ func _get_menu_identifiers(_ctx: PetActionMenuItem.Ctx = null) -> Array[StringNa
 
 
 func _on_press(ctx: PetActionMenuItem.Ctx = null) -> void:
-	print("pressed")
 	if ctx and ctx.resource:
 		ctx.resource.name = RandomNames.pick_random()
 		prints("Renamed to:", ctx.resource.name)

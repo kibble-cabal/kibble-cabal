@@ -135,6 +135,7 @@ pointing/emulate_touch_from_mouse=true
 
 behavior_tree/behavior_tree_default_dir="res://content/ai/trees"
 behavior_tree/user_task_dir_1="res://apps/ai/classes/tasks"
+behavior_tree/user_task_dir_2="res://expansions/core-pet/features/needs/classes/tasks"
 
 [rendering]
 
