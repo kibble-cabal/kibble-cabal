@@ -1,0 +1,30 @@
+[gd_resource type="Ability" load_steps=7 format=3 uid="uid://cn02f3i7tbwhm"]
+
+[ext_resource type="Attribute" uid="uid://dswqndh7u3hfk" path="res://expansion_packs/core-pet/ability/resources/attributes/thirst.attribute.tres" id="1_2bhjt"]
+[ext_resource type="Ability" uid="uid://bpm2le8h0lrs3" path="res://expansion_packs/core-pet/ability/resources/abilities/drink_cooldown.ability.tres" id="2_r4huw"]
+[ext_resource type="Tag" uid="uid://d4lvdt3o4rvqg" path="res://expansion_packs/core-pet/ability/resources/tags/just_drank.tag.tres" id="3_71wsu"]
+
+[sub_resource type="WaitEffect" id="WaitEffect_27cgv"]
+min_wait_time = 3.0
+max_wait_time = 6.0
+ui_name = &"drinking..."
+ui_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AttributeEffect" id="AttributeEffect_d1tfk"]
+attribute = ExtResource("1_2bhjt")
+min_effect = 0.2
+max_effect = 0.4
+ui_name = &"slurrrpp"
+ui_color = Color(1, 1, 1, 1)
+
+[sub_resource type="TryActivateAbilityEffect" id="TryActivateAbilityEffect_wmdt3"]
+ability = ExtResource("2_r4huw")
+ui_name = &"activate cooldown"
+ui_color = Color(0.5673, 0.88164, 0.93, 1)
+
+[resource]
+identifier = &"drink"
+tags_blocking = Array[Tag]([ExtResource("3_71wsu")])
+effects = Array[Effect]([SubResource("WaitEffect_27cgv"), SubResource("AttributeEffect_d1tfk"), SubResource("TryActivateAbilityEffect_wmdt3")])
+effect_mode = 2
+ui_color = Color(0.278431, 0.843137, 0.929412, 1)

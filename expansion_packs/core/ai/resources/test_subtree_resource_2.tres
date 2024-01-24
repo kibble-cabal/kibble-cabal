@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SubtreeResource" load_steps=3 format=3 uid="uid://bubt6q0e1v8g0"]
+
+[ext_resource type="Script" path="res://apps/ai/classes/subtree_resource.gd" id="1_5fier"]
+[ext_resource type="BehaviorTree" uid="uid://bpi86kc7p6cj8" path="res://expansion_packs/core/ai/resources/test_subtree_2.tres" id="2_7y778"]
+
+[resource]
+script = ExtResource("1_5fier")
+key = &"pet/before_start"
+subtree = ExtResource("2_7y778")
+priority = 0
+subresources = {}

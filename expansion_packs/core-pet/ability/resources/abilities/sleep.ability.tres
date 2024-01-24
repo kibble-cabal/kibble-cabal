@@ -1,0 +1,28 @@
+[gd_resource type="Ability" load_steps=6 format=3 uid="uid://tw20pwfsslh2"]
+
+[ext_resource type="Attribute" uid="uid://cl53yuig7jp63" path="res://expansion_packs/core-pet/ability/resources/attributes/energy.attribute.tres" id="1_qwph6"]
+[ext_resource type="Ability" uid="uid://dm8bdx1shx125" path="res://expansion_packs/core-pet/ability/resources/abilities/sleep_cooldown.ability.tres" id="2_2f3p4"]
+
+[sub_resource type="WaitEffect" id="WaitEffect_1wl51"]
+min_wait_time = 10.0
+max_wait_time = 20.0
+ui_name = &"sleeping..."
+ui_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AttributeEffect" id="AttributeEffect_fv0bo"]
+attribute = ExtResource("1_qwph6")
+min_effect = 0.1
+max_effect = 0.2
+ui_name = &"nom nom"
+ui_color = Color(1, 1, 1, 1)
+
+[sub_resource type="TryActivateAbilityEffect" id="TryActivateAbilityEffect_wcxgs"]
+ability = ExtResource("2_2f3p4")
+ui_name = &"activate_cooldown"
+ui_color = Color(1, 1, 1, 1)
+
+[resource]
+identifier = &"sleep"
+effects = Array[Effect]([SubResource("WaitEffect_1wl51"), SubResource("AttributeEffect_fv0bo"), SubResource("TryActivateAbilityEffect_wcxgs")])
+effect_mode = 2
+ui_color = Color(0.980392, 0.501961, 0.262745, 1)

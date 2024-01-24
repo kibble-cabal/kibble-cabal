@@ -7,7 +7,7 @@ class Params:
 	## If [code]true[/code], will create a backup of the original file when overwriting a file
 	var backup_original: bool = true
 	## Should include [code]res://[/code].
-	## Ex. [code]"res://expansions/core"[/code]
+	## Ex. [code]"res://expansion_packs/core"[/code]
 	var entry_dir: String
 	var recursive: bool = false
 	## May include [code]res://[/code] or [code]user://[/code]. Should NOT include extension.
@@ -17,10 +17,10 @@ class Params:
 	## Ex. [code]"unpacked/core"[/code]
 	var unpack_dir: String
 	## Should include [code]res://[/code].
-	## Ex. [code]["res://expansions/core/some_file.tres"][/code]
+	## Ex. [code]["res://expansion_packs/core/some_file.tres"][/code]
 	var ignored_files: Array[String] = []
 	## Should include [code]res://[/code].
-	## Ex. [code]["res://expansions/core/some_dir"][/code]
+	## Ex. [code]["res://expansion_packs/core/some_dir"][/code]
 	var ignored_directories: Array[String] = []
 	## Ex. [code]["tres", "ase"][/code]
 	var ignored_extensions: Array[String] = []

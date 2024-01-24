@@ -40,7 +40,7 @@ TagDB="*res://apps/ability/classes/tag_db.gd"
 ActionDB="*res://apps/action/classes/action_db.gd"
 PlayerConfig="*res://apps/player/classes/player_config.gd"
 UIConfig="*res://apps/ui/classes/ui_config.gd"
-NeedsConfig="*res://expansions/core-pet/features/needs/classes/needs_config.gd"
+NeedsConfig="*res://expansion_packs/core-pet/need/classes/needs_config.gd"
 ExpansionPackSystem="*res://apps/expansion_pack/classes/expansion_pack_system.gd"
 ModSystem="*res://apps/mod/classes/mod_system.gd"
 SaveSystem="*res://apps/save/classes/save_system.gd"
@@ -135,7 +135,7 @@ pointing/emulate_touch_from_mouse=true
 
 behavior_tree/behavior_tree_default_dir="res://content/ai/trees"
 behavior_tree/user_task_dir_1="res://apps/ai/classes/tasks"
-behavior_tree/user_task_dir_2="res://expansions/core-pet/features/needs/classes/tasks"
+behavior_tree/user_task_dir_2="res://expansion_packs/core-pet/ai/classes/tasks"
 
 [rendering]
 

@@ -1,0 +1,22 @@
+[gd_resource type="Ability" load_steps=4 format=3 uid="uid://d6dqu2nxhusn"]
+
+[ext_resource type="Attribute" uid="uid://c52gfxapol726" path="res://expansion_packs/core-pet/ability/resources/attributes/activity.attribute.tres" id="1_h3t2y"]
+
+[sub_resource type="WaitEffect" id="WaitEffect_xmgp5"]
+min_wait_time = 5.0
+max_wait_time = 10.0
+ui_name = &"playing..."
+ui_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AttributeEffect" id="AttributeEffect_0u5pi"]
+attribute = ExtResource("1_h3t2y")
+min_effect = 0.1
+max_effect = 0.2
+ui_name = &"wheee"
+ui_color = Color(0.729412, 0.901961, 0.45098, 1)
+
+[resource]
+identifier = &"play"
+effects = Array[Effect]([SubResource("WaitEffect_xmgp5"), SubResource("AttributeEffect_0u5pi"), SubResource("WaitEffect_xmgp5"), SubResource("AttributeEffect_0u5pi")])
+effect_mode = 2
+ui_color = Color(0.729412, 0.901961, 0.45098, 1)

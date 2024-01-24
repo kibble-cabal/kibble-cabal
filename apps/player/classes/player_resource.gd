@@ -1,6 +1,6 @@
 class_name PlayerResource extends ModdableResource
 
-const DefaultSpriteScene := preload("res://expansions/core/player/scenes/player_sprite.tscn")
+const DefaultSpriteScene := preload("res://expansion_packs/core/player/scenes/player_sprite.tscn")
 
 @export var name: String
 

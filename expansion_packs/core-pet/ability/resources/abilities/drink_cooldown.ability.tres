@@ -1,0 +1,26 @@
+[gd_resource type="Ability" load_steps=5 format=3 uid="uid://bpm2le8h0lrs3"]
+
+[ext_resource type="Tag" uid="uid://d4lvdt3o4rvqg" path="res://expansion_packs/core-pet/ability/resources/tags/just_drank.tag.tres" id="1_sca5d"]
+
+[sub_resource type="TagEffect" id="TagEffect_07kvf"]
+tags = Array[Tag]([ExtResource("1_sca5d")])
+ui_name = &"add_just_drank"
+ui_color = Color(0.5673, 0.88164, 0.93, 1)
+
+[sub_resource type="WaitEffect" id="WaitEffect_d5326"]
+min_wait_time = 5.0
+max_wait_time = 10.0
+ui_name = &"wait"
+ui_color = Color(0.5673, 0.88164, 0.93, 1)
+
+[sub_resource type="TagEffect" id="TagEffect_tl10e"]
+tags = Array[Tag]([ExtResource("1_sca5d")])
+operation = -1
+ui_name = &"remove_just_drank"
+ui_color = Color(0.5673, 0.88164, 0.93, 1)
+
+[resource]
+identifier = &"drink/cooldown"
+effects = Array[Effect]([SubResource("TagEffect_07kvf"), SubResource("WaitEffect_d5326"), SubResource("TagEffect_tl10e")])
+effect_mode = 2
+ui_color = Color(0.5673, 0.88164, 0.93, 1)
