@@ -44,7 +44,7 @@ var _save_helper := SaveHelper.new({
 	base_dir = func() -> String: return "user://saves/{0}".format([id]),
 	filename = "save",
 	ignore_resource_path = true,
-	save_on_change = true
+	save_on_change = false
 })
 
 

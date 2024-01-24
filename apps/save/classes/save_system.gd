@@ -5,11 +5,16 @@ signal save_closed(save: SaveResource)
 signal before_saved
 signal saved
 
+var timer := Timer.new()
 var current_save: SaveResource
 var session_start_time: float = 0
 
 
 func _ready() -> void:
+	timer.autostart = true
+	timer.wait_time = 5.0
+	timer.timeout.connect(commit_changes)
+	add_child(timer)
 	var discovered_saves := discover_saves()
 	if discovered_saves.size(): open_save(discovered_saves[len(discovered_saves) - 1])
 	else: current_save = SaveResource.new()
