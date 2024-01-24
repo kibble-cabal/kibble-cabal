@@ -1,7 +1,9 @@
-[gd_resource type="BehaviorTree" load_steps=11 format=3 uid="uid://cu1lkx46fs1bd"]
+[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://cu1lkx46fs1bd"]
 
 [ext_resource type="BehaviorTree" uid="uid://cxu11l7d6xtww" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_thirst.tres" id="1_0hjsk"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/while_instructions_empty.gd" id="2_3423l"]
 [ext_resource type="BehaviorTree" uid="uid://o0r1dnjti8l3" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_energy.tres" id="3_dmowr"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/follow_instructions.gd" id="3_yt3jv"]
 [ext_resource type="BehaviorTree" uid="uid://dfcx7cpyyudax" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_activity.tres" id="4_00f52"]
 [ext_resource type="BehaviorTree" uid="uid://biprb1gcsccmg" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_hunger.tres" id="5_iuj6m"]
 
@@ -9,20 +11,49 @@
 custom_name = "Try Fulfilling Thirst"
 subtree = ExtResource("1_0hjsk")
 
+[sub_resource type="BTDecorator" id="BTDecorator_ukaxx"]
+children = [SubResource("BTSubtree_3tmii")]
+script = ExtResource("2_3423l")
+on_instruction_found = 2
+
+[sub_resource type="BTAction" id="BTAction_u4qjb"]
+script = ExtResource("3_yt3jv")
+
 [sub_resource type="BTSubtree" id="BTSubtree_uqiae"]
 custom_name = "Try Fulfilling Hunger"
 subtree = ExtResource("5_iuj6m")
+
+[sub_resource type="BTDecorator" id="BTDecorator_mx76o"]
+children = [SubResource("BTSubtree_uqiae")]
+script = ExtResource("2_3423l")
+on_instruction_found = 2
+
+[sub_resource type="BTAction" id="BTAction_ds7cj"]
+script = ExtResource("3_yt3jv")
 
 [sub_resource type="BTSubtree" id="BTSubtree_7afgv"]
 custom_name = "Try Fulfilling Energy"
 subtree = ExtResource("3_dmowr")
 
+[sub_resource type="BTDecorator" id="BTDecorator_vegsr"]
+children = [SubResource("BTSubtree_7afgv")]
+script = ExtResource("2_3423l")
+on_instruction_found = 2
+
+[sub_resource type="BTAction" id="BTAction_47wkc"]
+script = ExtResource("3_yt3jv")
+
 [sub_resource type="BTSubtree" id="BTSubtree_w4nyj"]
 custom_name = "Try Fulfilling Activity"
 subtree = ExtResource("4_00f52")
 
+[sub_resource type="BTDecorator" id="BTDecorator_5pthe"]
+children = [SubResource("BTSubtree_w4nyj")]
+script = ExtResource("2_3423l")
+on_instruction_found = 2
+
 [sub_resource type="BTSelector" id="BTSelector_ctcf6"]
-children = [SubResource("BTSubtree_3tmii"), SubResource("BTSubtree_uqiae"), SubResource("BTSubtree_7afgv"), SubResource("BTSubtree_w4nyj")]
+children = [SubResource("BTDecorator_ukaxx"), SubResource("BTAction_u4qjb"), SubResource("BTDecorator_mx76o"), SubResource("BTAction_ds7cj"), SubResource("BTDecorator_vegsr"), SubResource("BTAction_47wkc"), SubResource("BTDecorator_5pthe")]
 
 [sub_resource type="BTSequence" id="BTSequence_wj4kh"]
 custom_name = "Fulfill Low Need"
