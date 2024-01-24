@@ -25,6 +25,6 @@ func _on_velocity_computed(safe_velocity: Vector2) -> void:
 
 
 func stop() -> void:
-	if character:
+	if character and not is_navigation_finished():
 		set_target_position(character.global_position)
 		set_velocity(Vector2.ZERO)

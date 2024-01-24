@@ -37,6 +37,10 @@ func _tick(_delta: float) -> Status:
 	return RUNNING
 
 
+func _exit() -> void:
+	if navigation_agent: navigation_agent.stop()
+
+
 func get_navigation_position() -> Vector2:
 	return blackboard.get_var("navigation_target", Vector2.ZERO)
 
