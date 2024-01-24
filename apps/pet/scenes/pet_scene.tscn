@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=9 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_scene.gd" id="1_m2vjx"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
@@ -6,15 +6,11 @@
 [ext_resource type="Script" path="res://apps/ui/classes/ui_layer.gd" id="6_vao5j"]
 [ext_resource type="Script" path="res://apps/action/classes/action_menu.gd" id="6_wrrce"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="7_bs714"]
-[ext_resource type="Script" path="res://apps/action/classes/action_menu_item.gd" id="7_cas1y"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/interactable_2d.gd" id="8_7tiyf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mv65f"]
 resource_local_to_scene = true
 radius = 20.0
-
-[sub_resource type="Resource" id="Resource_kfhrw"]
-script = ExtResource("7_cas1y")
 
 [node name="PetScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent", "facing_ray")]
 collision_layer = 4
@@ -118,6 +114,7 @@ script = ExtResource("6_vao5j")
 
 [node name="InteractMenu" type="Container" parent="UILayer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(600, 600)
 offset_left = -300.0
 offset_top = -300.0
@@ -127,7 +124,7 @@ pivot_offset = Vector2(300, 300)
 mouse_filter = 2
 script = ExtResource("6_wrrce")
 menu_identifier = &"pet/interact"
-additional_actions = Array[ExtResource("7_cas1y")]([SubResource("Resource_kfhrw"), SubResource("Resource_kfhrw"), SubResource("Resource_kfhrw")])
 allow_overlap = true
 
+[connection signal="input_event" from="Interactable2D" to="." method="_on_interactable_input_event"]
 [connection signal="opening" from="UILayer/InteractMenu" to="." method="_on_interact_menu_opening"]

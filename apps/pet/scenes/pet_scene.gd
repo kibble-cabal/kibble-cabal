@@ -38,9 +38,13 @@ func _ready() -> void:
 	)
 	
 	super._ready()
-	
-	await get_tree().create_timer(2.0).timeout
-	interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))
+
+
+func _input(event: InputEvent) -> void:
+	# Close interact menu when clicking outside
+	if event is InputEventScreenTouch and event.is_pressed() and interact_menu.visible:
+		if not Rect2(Vector2.ZERO, interact_menu.size).has_point(interact_menu.get_local_mouse_position()):
+			interact_menu.close()
 
 
 func get_random_target() -> Vector2:
@@ -74,3 +78,8 @@ func _on_move_finished() -> void:
 
 func _on_interact_menu_opening() -> void:
 	pass
+
+
+func _on_interactable_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventScreenTouch and event.is_pressed():
+		interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))
