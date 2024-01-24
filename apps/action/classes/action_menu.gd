@@ -53,3 +53,7 @@ func _update_items(ctx = null) -> void:
 
 func _on_item_pressed() -> void:
 	if close_on_select: close()
+
+
+func lua_fields() -> Array:
+	return ["open", "close", "get_all_actions", "menu_identifier", "additional_actions", "close_on_select"]

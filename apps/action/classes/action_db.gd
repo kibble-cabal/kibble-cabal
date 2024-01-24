@@ -1,4 +1,4 @@
-# actionDB
+# ActionDB
 extends Node
 
 signal action_registered(action: ActionMenuItem)
@@ -26,4 +26,4 @@ func find_by_menu(menu_identifier: String) -> Array[ActionMenuItem]:
 
 
 func lua_fields() -> Array:
-	return ["registered_actions", "register", "unregister", "find"]
+	return ["registered_actions", "register", "unregister", "find_by_menu"]

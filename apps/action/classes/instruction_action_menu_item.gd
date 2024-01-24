@@ -16,3 +16,7 @@ func _on_press(ctx: Ctx = null) -> void:
 	if not ctx or not ctx.resource or not instruction_tree: return
 	Log.log("Giving instruction \"{0}\" to pet.".format([display_text]))
 	ctx.resource.instructions.append(instruction_tree)
+
+
+func lua_fields() -> Array:
+	return super() + ["instruction_tree", "display_text"]

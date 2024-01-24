@@ -3,9 +3,13 @@ class_name PetActionMenuItem extends ActionMenuItem
 class Ctx:
 	var node: CharacterBody2D
 	var resource: PetResource
+	
 	func _init(node: CharacterBody2D, resource: PetResource) -> void:
 		self.node = node
 		self.resource = resource
+	
+	func lua_fields() -> Array:
+		return ["node", "resource"]
 
 
 func _get_display_text(ctx: Ctx = null) -> String: 

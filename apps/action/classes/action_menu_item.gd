@@ -48,3 +48,12 @@ func render(ctx = null) -> Button:
 	var button := Button.new()
 	button.pressed.connect(_on_press.bind(ctx))
 	return button
+
+
+func lua_fields() -> Array:
+	return [
+		"get_display_text",
+		"get_menu_identifiers",
+		"update",
+		"render"
+	]
