@@ -13,6 +13,8 @@ class_name PetResource extends ModdableResource
 		current_position = value
 		emit_changed()
 
+@export var instructions: Array[BehaviorTree] = []
+
 ## Temporary
 @export var modulate: Color = Color(randf() + 0.3, randf() + 0.3, randf() + 0.3)
 
