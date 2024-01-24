@@ -10,34 +10,34 @@ func expose_variables(lua: LuaAPI) -> void:
 
 func expose_hooks(lua: LuaAPI) -> void:
 	AbilityDB.ability_registered.connect(
-		func(ability: AAbility) -> void:
+		func(ability: Ability) -> void:
 			lua.call_function("OnAbilityRegistered", [ability])
 	)
 	AbilityDB.ability_unregistered.connect(
-		func(ability: AAbility) -> void:
+		func(ability: Ability) -> void:
 			lua.call_function("OnAbilityUnregistered", [ability])
 	)
 	AttributeDB.attribute_registered.connect(
-		func(attribute: AAttribute) -> void:
+		func(attribute: Attribute) -> void:
 			lua.call_function("OnAttributeRegistered", [attribute])
 	)
 	AttributeDB.attribute_unregistered.connect(
-		func(attribute: AAttribute) -> void:
+		func(attribute: Attribute) -> void:
 			lua.call_function("OnAttributeUnregistered", [attribute])
 	)
 	EffectDB.effect_registered.connect(
-		func(effect: AEffect) -> void:
+		func(effect: Effect) -> void:
 			lua.call_function("OnEffectRegistered", [effect])
 	)
 	EffectDB.effect_unregistered.connect(
-		func(effect: AEffect) -> void:
+		func(effect: Effect) -> void:
 			lua.call_function("OnEffectUnregistered", [effect])
 	)
 	TagDB.tag_registered.connect(
-		func(tag: ATag) -> void:
+		func(tag: Tag) -> void:
 			lua.call_function("OnTagRegistered", [tag])
 	)
 	TagDB.tag_unregistered.connect(
-		func(tag: ATag) -> void:
+		func(tag: Tag) -> void:
 			lua.call_function("OnTagUnregistered", [tag])
 	)
