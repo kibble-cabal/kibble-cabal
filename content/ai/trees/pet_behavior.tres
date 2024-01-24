@@ -1,13 +1,19 @@
-[gd_resource type="BehaviorTree" load_steps=17 format=3 uid="uid://cfcroebhnfkjw"]
+[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://cfcroebhnfkjw"]
 
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/run_subtrees_from_db_pipe.gd" id="1_a7v6q"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/follow_instructions.gd" id="1_btus0"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/blackboard/set_var_from_method_call.gd" id="2_jw1wj"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="3_ilwoq"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/while_instructions_empty.gd" id="3_oe6a8"]
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_8feua"]
 min_duration = 0.5
 max_duration = 1.0
+
+[sub_resource type="BTDecorator" id="BTDecorator_yjwem"]
+children = [SubResource("BTRandomWait_8feua")]
+script = ExtResource("3_oe6a8")
+on_instruction_found = 3
 
 [sub_resource type="BTAction" id="BTAction_27tth"]
 script = ExtResource("1_btus0")
@@ -16,12 +22,14 @@ script = ExtResource("1_btus0")
 script = ExtResource("1_a7v6q")
 hook_key = &"pet/before_start"
 
-[sub_resource type="BTAction" id="BTAction_qcfgd"]
-script = ExtResource("1_btus0")
-
 [sub_resource type="BTRandomWait" id="BTRandomWait_iqdfm"]
 min_duration = 2.0
 max_duration = 3.0
+
+[sub_resource type="BTDecorator" id="BTDecorator_cfesk"]
+children = [SubResource("BTRandomWait_iqdfm")]
+script = ExtResource("3_oe6a8")
+on_instruction_found = 3
 
 [sub_resource type="BBNode" id="BBNode_p80nf"]
 resource_name = "."
@@ -49,11 +57,16 @@ script = ExtResource("3_ilwoq")
 target_position = SubResource("BBVector2_qeh0o")
 navigation_agent_node = SubResource("BBNode_jcwsi")
 
+[sub_resource type="BTDecorator" id="BTDecorator_qsyta"]
+children = [SubResource("BTAction_g1ai8")]
+script = ExtResource("3_oe6a8")
+on_instruction_found = 3
+
 [sub_resource type="BTAction" id="BTAction_duflx"]
 script = ExtResource("1_btus0")
 
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTRandomWait_8feua"), SubResource("BTAction_27tth"), SubResource("BTSequence_fxi2f"), SubResource("BTAction_qcfgd"), SubResource("BTRandomWait_iqdfm"), SubResource("BTAction_kuhrg"), SubResource("BTAction_g1ai8"), SubResource("BTAction_duflx")]
+children = [SubResource("BTDecorator_yjwem"), SubResource("BTAction_27tth"), SubResource("BTSequence_fxi2f"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTDecorator_qsyta"), SubResource("BTAction_duflx")]
 
 [resource]
 root_task = SubResource("BTSequence_qv2m0")
