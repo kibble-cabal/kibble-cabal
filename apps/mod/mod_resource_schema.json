@@ -4,12 +4,28 @@
 		"id": {
 			"type": "string"
 		},
+		"entry_script_path": {
+			"type": "string"
+		},
+		"author": {
+			"type": "string"
+		},
+		"version": {
+			"type": "string"
+		},
+		"icon_path": {
+			"type": "string"
+		},
 		"display_name": {
 			"type": "string"
 		},
-		"entry_script_path": {
+		"display_description": {
 			"type": "string"
 		}
 	},
-	"required": ["id", "display_name", "entry_script_path"]
+	"required": [
+		"id",
+		"display_name",
+		"entry_script_path"
+	]
 }
