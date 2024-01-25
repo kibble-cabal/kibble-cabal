@@ -80,7 +80,6 @@ func read_audio(path: String) -> AudioStream:
 
 # FIXME: Will this work at runtime? No way to load fonts with buffer...
 func read_font(path: String) -> FontFile:
-	var bytes := read_file(path)
 	var font := FontFile.new()
 	match path.get_extension().to_lower():
 		"fnt", "font": font.load_bitmap_font("user://mods/".path_join(path))

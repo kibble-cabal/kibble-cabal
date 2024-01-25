@@ -1,7 +1,7 @@
 # PetSystem
 extends Node
 
-const PetScene := preload("res://apps/pet/scenes/pet_scene.tscn")
+const Pet := preload("res://apps/pet/scenes/pet_scene.tscn")
 
 var pet_nodes: Array[Node] = []
 
@@ -15,7 +15,7 @@ func spawn_pets(location: LocationResource) -> void:
 	var world_root := get_tree().get_first_node_in_group("world_root")
 	if world_root:
 		for pet in get_pets_at_location(location):
-			var node := PetScene.instantiate()
+			var node := Pet.instantiate()
 			node.resource = pet
 			world_root.add_child(node)
 			pet_nodes.append(node)

@@ -4,9 +4,9 @@ class Ctx:
 	var node: CharacterBody2D
 	var resource: PetResource
 	
-	func _init(node: CharacterBody2D, resource: PetResource) -> void:
-		self.node = node
-		self.resource = resource
+	func _init(node_value: CharacterBody2D, resource_value: PetResource) -> void:
+		self.node = node_value
+		self.resource = resource_value
 	
 	func lua_fields() -> Array:
 		return ["node", "resource"]

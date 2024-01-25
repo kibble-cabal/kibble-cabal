@@ -8,6 +8,13 @@ var current_location: LocationResource = null
 var current_map: Node = null
 
 
+var current_state: LocationStateResource:
+	get:
+		if SaveSystem.current_save: 
+			return SaveSystem.current_save.get_or_create_location_state(current_location.name)
+		return null
+
+
 func enter(location: LocationResource) -> void:
 	if current_location: exit()
 	if location:
@@ -39,7 +46,7 @@ func exit() -> void:
 
 func _spawn_inventory() -> void:
 	if not current_location or not current_map or not SaveSystem.current_save: return
-	var state := SaveSystem.current_save.get_or_create_location_state(current_location.name)
+	var state := current_state
 	if not state.inventory: state.inventory = InventoryResource.new()
 	for item_instance in state.inventory.item_instances:
 		var node: Node2D = item_instance.instantiate_scene()

@@ -4,11 +4,11 @@ class_name InstructionActionMenuItem extends PetActionMenuItem
 @export var display_text: String
 
 
-func _get_display_text(ctx: Ctx = null) -> String:
+func _get_display_text(_ctx: Ctx = null) -> String:
 	return display_text
 
 
-func _get_menu_identifiers(ctx: Ctx = null) -> Array[StringName]:
+func _get_menu_identifiers(_ctx: Ctx = null) -> Array[StringName]:
 	return [&"pet/interact"]
 
 

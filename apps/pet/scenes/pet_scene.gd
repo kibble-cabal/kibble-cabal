@@ -1,4 +1,4 @@
-extends PlayerBody2D
+class_name PetScene extends PlayerBody2D
 
 @export var resource: PetResource
 
@@ -67,6 +67,7 @@ func destroy_thought_bubble(bubble: ThoughtBubble) -> void:
 
 func destroy_thought_bubbles() -> void:
 	Nodes.get_children_in_group(self, &"thought_bubble").map(destroy_thought_bubble)
+	await get_tree().create_timer(0.25).timeout
 
 
 func spawn_thought_bubble(text: String, duration: float = 3, max_width: float = -1) -> void:
