@@ -27,6 +27,7 @@ func create_environment() -> LuaAPI:
 	var lua := LuaAPI.new()
 	lua.bind_libraries(ALLOWED_LUA_LIBRARIES)
 	lua.object_metatable.permissive = false
+	MetaLuaAPI.new().expose(lua)
 	SaveLuaAPI.new().expose(lua)
 	GameModeLuaAPI.new().expose(lua)
 	SettingsLuaAPI.new().expose(lua)

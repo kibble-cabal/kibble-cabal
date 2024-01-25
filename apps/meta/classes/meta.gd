@@ -68,6 +68,7 @@ func get_systems() -> Array[Node]:
 		PetSystem,
 		PlayerSystem,
 		SaveSystem,
+		SoundManager
 	]
 
 
@@ -75,4 +76,15 @@ func get_configs() -> Array[Node]:
 	return [
 		PlayerConfig,
 		UIConfig,
+	]
+
+
+func lua_fields() -> Array:
+	return [
+		"are_configs_ready",
+		"are_databases_ready",
+		"are_systems_ready",
+		"get_configs",
+		"get_databases",
+		"get_systems"
 	]
