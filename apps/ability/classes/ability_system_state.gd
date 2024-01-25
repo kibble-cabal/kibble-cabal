@@ -10,6 +10,9 @@ class_name AbilitySystemState extends Resource
 @export var tags: Array[StringName]
 @export var abilities: Array[StringName]
 
+# FIXME: Will serializing this cause bugs?
+@export var events: Array[AbilityEvent]
+
 
 ## Modifies this resource by replacing tags, attributes, and abilities from the provided node.
 func populate_from_node(node: AbilitySystem) -> void:
@@ -22,6 +25,7 @@ func populate_from_node(node: AbilitySystem) -> void:
 	abilities = []
 	for ability in node.abilities:
 		if ability: abilities.append(ability.identifier)
+	events = node.events
 
 
 ## Modifies the provided node by setting its tags, attributes, and abilities from this state.
@@ -38,6 +42,7 @@ func populate_node(node: AbilitySystem) -> void:
 	for ability_identifier in abilities:
 		var ability := AbilityDB.find(ability_identifier)
 		if ability: node.abilities.append(ability)
+	node.events = events
 
 
 ## Modifies the provided node by merging its tags, attributes, and abilities from this state.
@@ -55,6 +60,8 @@ func merge_into_node(node: AbilitySystem) -> void:
 	for ability_identifier in abilities:
 		var ability := AbilityDB.find(ability_identifier)
 		if ability and not ability in node.abilities: node.abilities.append(ability)
+	for event in events:
+		if not event in node.events: node.events.append(event)
 
 
 ## Modifies this resource by merging tags, attributes, and abilities from the provided state into this resource.
@@ -64,6 +71,8 @@ func merge(other: AbilitySystemState) -> void:
 		if not other_tag in tags: tags.append(other_tag)
 	for other_ability in other.abilities:
 		if not other_ability in abilities: abilities.append(other_ability)
+	for other_event in other.events:
+		if not other_event in events: events.append(other_event)
 
 
 ## Modifies this resource by merging tags, attributes, and abilities from the provided node into this resource.
