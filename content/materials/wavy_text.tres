@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b400e4ta6ph83"]
+
+[ext_resource type="Shader" path="res://content/shaders/canvas_item/sin_warp.gdshader" id="1_8v6yp"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_8v6yp")
+shader_parameter/warp_frequency = 10.0
+shader_parameter/warp_speed = 3.0
+shader_parameter/warp_effect = 0.5
+shader_parameter/seed = 1
