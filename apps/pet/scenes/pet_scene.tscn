@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=10 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/pet_scene.gd" id="1_m2vjx"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://apps/ui/classes/ui_layer.gd" id="6_vao5j"]
 [ext_resource type="Script" path="res://apps/action/classes/action_menu.gd" id="6_wrrce"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/character_body_2d_interactor.gd" id="7_bs714"]
+[ext_resource type="PackedScene" uid="uid://dxa332pqi0yga" path="res://expansion_packs/core-pet/need/scenes/need_set_ui.tscn" id="8_5nxat"]
 [ext_resource type="Script" path="res://apps/interaction/classes/nodes/interactable_2d.gd" id="8_7tiyf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mv65f"]
@@ -63,6 +64,7 @@ shape = SubResource("CircleShape2D_mv65f")
 
 [node name="AbilitySystemDebugger" type="GridContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -111,20 +113,26 @@ size_flags_horizontal = 3
 [node name="UILayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
 script = ExtResource("6_vao5j")
+extra_offset = Vector2(-600, -600)
 
 [node name="InteractMenu" type="Container" parent="UILayer"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(600, 600)
-offset_left = -300.0
-offset_top = -300.0
-offset_right = 300.0
-offset_bottom = 300.0
+custom_minimum_size = Vector2(400, 400)
+offset_right = 400.0
+offset_bottom = 400.0
 pivot_offset = Vector2(300, 300)
 mouse_filter = 2
 script = ExtResource("6_wrrce")
 menu_identifier = &"pet/interact"
-allow_overlap = true
+fit_children_inside = true
+
+[node name="Needs" type="PanelContainer" parent="UILayer/InteractMenu"]
+layout_mode = 2
+
+[node name="NeedSetUI" parent="UILayer/InteractMenu/Needs" node_paths=PackedStringArray("ability_system") instance=ExtResource("8_5nxat")]
+layout_mode = 2
+ability_system = NodePath("../../../../AbilitySystem")
 
 [connection signal="input_event" from="Interactable2D" to="." method="_on_interactable_input_event"]
 [connection signal="opening" from="UILayer/InteractMenu" to="." method="_on_interact_menu_opening"]
