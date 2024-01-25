@@ -1,6 +1,6 @@
 [gd_resource type="Ability" load_steps=7 format=3 uid="uid://3hc46m6lprys"]
 
-[ext_resource type="Attribute" uid="uid://d3wcbdddqyhjr" path="res://expansion_packs/core-pet/ability/resources/attributes/hunger.attribute.tres" id="1_wccbq"]
+[ext_resource type="Attribute" uid="uid://cff7l8jdss50m" path="res://expansion_packs/core-pet/ability/resources/attributes/hunger.attribute.tres" id="1_cxqq7"]
 [ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansion_packs/core-pet/ability/resources/tags/just_ate.tag.tres" id="2_gvvw7"]
 [ext_resource type="Ability" uid="uid://boshvv54x0qsl" path="res://expansion_packs/core-pet/ability/resources/abilities/eat_cooldown.ability.tres" id="2_ovqi4"]
 
@@ -11,7 +11,7 @@ ui_name = &"eating..."
 ui_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AttributeEffect" id="AttributeEffect_dm1p2"]
-attribute = ExtResource("1_wccbq")
+attribute = ExtResource("1_cxqq7")
 min_effect = 0.1
 max_effect = 0.2
 ui_name = &"nom nom"

@@ -1,7 +1,7 @@
 [gd_resource type="BehaviorTree" load_steps=8 format=3 uid="uid://cxu11l7d6xtww"]
 
 [ext_resource type="Ability" uid="uid://cn02f3i7tbwhm" path="res://expansion_packs/core-pet/ability/resources/abilities/drink.ability.tres" id="1_7fwy4"]
-[ext_resource type="Attribute" uid="uid://dswqndh7u3hfk" path="res://expansion_packs/core-pet/ability/resources/attributes/thirst.attribute.tres" id="2_mcsjj"]
+[ext_resource type="Attribute" uid="uid://4ow6e6t2kvbh" path="res://expansion_packs/core-pet/ability/resources/attributes/thirst.attribute.tres" id="2_mcsjj"]
 [ext_resource type="Tag" uid="uid://w7gb36x2a5su" path="res://expansion_packs/core-pet/ability/resources/tags/thirst_provider.tag.tres" id="3_dsc1g"]
 [ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/try_fulfill_need.gd" id="4_gu1il"]
 

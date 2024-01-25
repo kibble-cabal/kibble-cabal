@@ -1,6 +1,6 @@
 [gd_resource type="Ability" load_steps=7 format=3 uid="uid://cn02f3i7tbwhm"]
 
-[ext_resource type="Attribute" uid="uid://dswqndh7u3hfk" path="res://expansion_packs/core-pet/ability/resources/attributes/thirst.attribute.tres" id="1_2bhjt"]
+[ext_resource type="Attribute" uid="uid://4ow6e6t2kvbh" path="res://expansion_packs/core-pet/ability/resources/attributes/thirst.attribute.tres" id="1_vbxq7"]
 [ext_resource type="Ability" uid="uid://bpm2le8h0lrs3" path="res://expansion_packs/core-pet/ability/resources/abilities/drink_cooldown.ability.tres" id="2_r4huw"]
 [ext_resource type="Tag" uid="uid://d4lvdt3o4rvqg" path="res://expansion_packs/core-pet/ability/resources/tags/just_drank.tag.tres" id="3_71wsu"]
 
@@ -11,7 +11,7 @@ ui_name = &"drinking..."
 ui_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AttributeEffect" id="AttributeEffect_d1tfk"]
-attribute = ExtResource("1_2bhjt")
+attribute = ExtResource("1_vbxq7")
 min_effect = 0.2
 max_effect = 0.4
 ui_name = &"slurrrpp"

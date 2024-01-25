@@ -1,7 +1,7 @@
 [gd_resource type="BehaviorTree" load_steps=8 format=3 uid="uid://dfcx7cpyyudax"]
 
 [ext_resource type="Ability" uid="uid://d6dqu2nxhusn" path="res://expansion_packs/core-pet/ability/resources/abilities/play.ability.tres" id="1_kf286"]
-[ext_resource type="Attribute" uid="uid://c52gfxapol726" path="res://expansion_packs/core-pet/ability/resources/attributes/activity.attribute.tres" id="2_7kp2f"]
+[ext_resource type="Attribute" uid="uid://jwkvud0o86m7" path="res://expansion_packs/core-pet/ability/resources/attributes/activity.attribute.tres" id="2_7kp2f"]
 [ext_resource type="Tag" uid="uid://dob6s41y6fw5k" path="res://expansion_packs/core-pet/ability/resources/tags/activity_provider.tag.tres" id="3_s0xtr"]
 [ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/try_fulfill_need.gd" id="4_m3ryg"]
 

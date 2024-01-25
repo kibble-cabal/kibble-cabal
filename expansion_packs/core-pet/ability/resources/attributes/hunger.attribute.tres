@@ -1,6 +1,10 @@
-[gd_resource type="Attribute" format=3 uid="uid://d3wcbdddqyhjr"]
+[gd_resource type="Attribute" script_class="NeedAttribute" load_steps=2 format=3 uid="uid://cff7l8jdss50m"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-pet/need/classes/need_attribute.gd" id="1_1sd48"]
 
 [resource]
 identifier = &"hunger"
 default_value = 0.25
 ui_color = Color(0.980392, 0.501961, 0.262745, 1)
+script = ExtResource("1_1sd48")
+depletion_rate = 0.5

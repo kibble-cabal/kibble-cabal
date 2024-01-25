@@ -1,7 +1,7 @@
 [gd_resource type="BehaviorTree" load_steps=8 format=3 uid="uid://biprb1gcsccmg"]
 
 [ext_resource type="Ability" uid="uid://3hc46m6lprys" path="res://expansion_packs/core-pet/ability/resources/abilities/eat.ability.tres" id="1_qj8as"]
-[ext_resource type="Attribute" uid="uid://d3wcbdddqyhjr" path="res://expansion_packs/core-pet/ability/resources/attributes/hunger.attribute.tres" id="2_7mqp5"]
+[ext_resource type="Attribute" uid="uid://cff7l8jdss50m" path="res://expansion_packs/core-pet/ability/resources/attributes/hunger.attribute.tres" id="2_7mqp5"]
 [ext_resource type="Tag" uid="uid://cpo5m0u2kvow6" path="res://expansion_packs/core-pet/ability/resources/tags/hunger_provider.tag.tres" id="3_xt6qh"]
 [ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/try_fulfill_need.gd" id="4_kkwjk"]
 

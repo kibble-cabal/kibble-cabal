@@ -1,6 +1,10 @@
-[gd_resource type="Attribute" format=3 uid="uid://c52gfxapol726"]
+[gd_resource type="Attribute" script_class="NeedAttribute" load_steps=2 format=3 uid="uid://jwkvud0o86m7"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-pet/need/classes/need_attribute.gd" id="1_6vxf4"]
 
 [resource]
 identifier = &"activity"
 default_value = 0.25
 ui_color = Color(0.729412, 0.901961, 0.45098, 1)
+script = ExtResource("1_6vxf4")
+depletion_rate = 0.4
