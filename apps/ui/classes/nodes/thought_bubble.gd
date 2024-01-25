@@ -29,10 +29,15 @@ const WavyTextMaterial := preload("res://content/materials/wavy_text.tres")
 		color = value
 		queue_redraw_all()
 
-@export var background_color: Color = Color(0.3, 0.3, 0.3):
+@export var background_color: Color = Color.WHITE * 0.1:
 	set(value):
 		background_color = value
 		queue_redraw_all()
+
+@export var centered: bool = true
+
+var size: Vector2:
+	get: return get_background_size()
 
 var mat := ShaderMaterial.new()
 var background := ColorRect.new()
@@ -53,14 +58,14 @@ func _notification(what: int) -> void:
 
 
 func update() -> void:
-	var width := get_width()
-	var foreground_size := get_font().get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, width * 0.707, get_font_size())
-	var min_height := maxf(width, foreground_size.y)
-	
 	# Update background
 	background.color = Color.BLACK
 	background.material = mat
-	background.custom_minimum_size = Vec2.xy(max(width, min_height)) * 1.3
+	background.custom_minimum_size = get_background_size()
+	if centered:
+		background.position = -background.custom_minimum_size / 2
+	else:
+		background.position = Vector2.ZERO
 	background.reset_size()
 	mat.set_shader_parameter("color", background_color)
 	
@@ -71,25 +76,43 @@ func update() -> void:
 	foreground.add_theme_font_size_override("font_size", get_font_size())
 	foreground.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	foreground.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	foreground.custom_minimum_size = foreground_size
+	foreground.custom_minimum_size = get_foreground_size()
 	foreground.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	foreground.reset_size()
-	foreground.position = (background.size - foreground.size) / 2
+	foreground.position = background.position + ((background.size - foreground.size) / 2)
 	
 	material = WavyTextMaterial
 
 
 func get_font() -> Font:
-	return font if font else ThemeDB.get_default_theme().default_font
+	return font if font else ThemeDB.get_project_theme().default_font
 
 
 func get_font_size() -> int:
-	return font_size if font_size > 0 else ThemeDB.get_default_theme().default_font_size
+	return font_size if font_size > 0 else ThemeDB.get_project_theme().default_font_size
 
 
 func get_width() -> float:
 	if max_width > 0: return max_width
 	return 600
+
+
+func get_foreground_size() -> Vector2:
+	return get_font().get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, get_width() * 0.707, get_font_size())
+
+
+func get_background_size() -> Vector2:
+	var width := get_width()
+	var min_height := maxf(width, get_foreground_size().y)
+	return Vec2.xy(max(width, min_height)) * 1.3
+
+
+func reset_size() -> void:
+	background.custom_minimum_size = get_background_size()
+	foreground.custom_minimum_size = get_foreground_size()
+	background.reset_size()
+	foreground.reset_size()
+
 
 func queue_redraw_all() -> void:
 	update()

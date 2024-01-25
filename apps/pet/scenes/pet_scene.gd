@@ -38,6 +38,9 @@ func _ready() -> void:
 	)
 	
 	super._ready()
+	
+	await get_tree().create_timer(2.0).timeout
+	spawn_thought_bubble("Some text", 3.0, 200)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -49,7 +52,51 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func get_random_target() -> Vector2:
-	return Vector2(randf_range(300, 800), randf_range(300, 800))
+	return Vector2(randf_range(0, 250), randf_range(0, 250))
+
+
+func destroy_thought_bubble(bubble: ThoughtBubble) -> void:
+	if bubble == null or not bubble.is_inside_tree() or bubble.is_queued_for_deletion(): return
+	await (bubble
+		.create_tween()
+		.set_ease(Tween.EASE_IN)
+		.set_trans(Tween.TRANS_BACK)
+		.tween_property(bubble, "scale", Vector2.ZERO, 0.25)).finished
+	bubble.queue_free()
+
+
+func destroy_thought_bubbles() -> void:
+	Nodes.get_children_in_group(self, &"thought_bubble").map(destroy_thought_bubble)
+
+
+func spawn_thought_bubble(text: String, duration: float = 3, max_width: float = -1) -> void:
+	await destroy_thought_bubbles()
+	
+	# Create thought bubble
+	var bubble := ThoughtBubble.new()
+	bubble.add_to_group(&"ui")
+	bubble.add_to_group(&"thought_bubble")
+	bubble.text = text
+	bubble.scale *= 0
+	bubble.max_width = max_width
+	bubble.reset_size()
+	bubble.position = Vector2(0, -bubble.size.y / 2)
+	
+	# Move above pet
+	if resource:
+		var animal := resource.get_animal_resource()
+		if animal: bubble.position.y -= animal.collision_radius
+	
+	add_child(bubble)
+	await (bubble
+		.create_tween()
+		.set_ease(Tween.EASE_OUT)
+		.set_trans(Tween.TRANS_BACK)
+		.tween_property(bubble, "scale", Vector2.ONE, 0.25)).finished
+	
+	# Destroy thought bubble after duration passed
+	await get_tree().create_timer(duration).timeout
+	await destroy_thought_bubble(bubble)
 
 
 func _instantiate_sprite_controller() -> void:

@@ -12,7 +12,7 @@
 resource_local_to_scene = true
 radius = 20.0
 
-[node name="PetScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent", "facing_ray")]
+[node name="PetScene" type="CharacterBody2D" node_paths=PackedStringArray("navigation_agent", "facing_ray") groups=["pet"]]
 collision_layer = 4
 collision_mask = 15
 script = ExtResource("1_m2vjx")

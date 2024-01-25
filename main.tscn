@@ -10,12 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
 
 [node name="Main" type="Node2D"]
-scale = Vector2(1.5, 1.5)
 script = ExtResource("1_gay8e")
 
 [node name="World" type="Node2D" parent="." groups=["world_root"]]
 process_mode = 1
-scale = Vector2(2.5, 2.5)
 
 [node name="Camera" parent="." instance=ExtResource("6_hj55k")]
 position_smoothing_enabled = true
