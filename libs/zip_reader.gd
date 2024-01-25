@@ -56,7 +56,36 @@ func read_image(path: String) -> ImageTexture:
 	match path.get_extension().to_lower():
 		"png": img.load_png_from_buffer(bytes)
 		"jpg", "jpeg": img.load_jpg_from_buffer(bytes)
+		"svg": img.load_svg_from_buffer(bytes)
+		"webp": img.load_webp_from_buffer(bytes)
+		"bmp": img.load_bmp_from_buffer(bytes)
 	return ImageTexture.create_from_image(img)
+
+
+## Returns the audio at the given [code]path[/code] as an [AudioStream].
+func read_audio(path: String) -> AudioStream:
+	var bytes := read_file(path)
+	match path.get_extension().to_lower():
+		"wav":
+			var wav := AudioStreamWAV.new()
+			wav.data = bytes
+			return wav
+		"mp3":
+			var mp3 := AudioStreamMP3.new()
+			mp3.data = bytes
+			return mp3
+		"ogv": return AudioStreamOggVorbis.load_from_buffer(bytes)
+	return null
+
+
+# FIXME: Will this work at runtime? No way to load fonts with buffer...
+func read_font(path: String) -> FontFile:
+	var bytes := read_file(path)
+	var font := FontFile.new()
+	match path.get_extension().to_lower():
+		"fnt", "font": font.load_bitmap_font("user://mods/".path_join(path))
+		_: font.load_dynamic_font("user://mods/".path_join(path))
+	return font
 
 
 func get_files_filtered(filter_func: Callable) -> PackedStringArray:

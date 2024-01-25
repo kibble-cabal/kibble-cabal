@@ -108,6 +108,26 @@ func load_image(path: String) -> Texture2D:
 		Mode.ZIP: return zip_reader.read_image(path)
 	return null
 
+## Returns an [AudioStream] at the given [code]path[/code], if it exists. Otherwise, returns [code]null[/code].
+func load_audio(path: String) -> AudioStream:
+	match mode:
+		Mode.FILE:
+			var resource := load_resource(path)
+			if resource != null and resource is AudioStream:
+				return resource
+		Mode.ZIP: return zip_reader.read_audio(path)
+	return null
+
+## Returns a [Font] at the given [code]path[/code], if it exists. Otherwise, returns [code]null[/code].
+func load_font(path: String) -> Font:
+	match mode:
+		Mode.FILE:
+			var resource := load_resource(path)
+			if resource != null and resource is Font:
+				return resource
+		Mode.ZIP: return zip_reader.read_font(path)
+	return null
+
 
 func get_files_filtered(entry_dir: String, filter_func: Callable, recursive: bool = true) -> PackedStringArray:
 	match mode:
