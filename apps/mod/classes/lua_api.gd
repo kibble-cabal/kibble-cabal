@@ -26,3 +26,11 @@ func expose_constructors(_lua: LuaAPI) -> void:
 ## Override this method to expose signals to Lua
 func expose_hooks(_lua: LuaAPI) -> void:
 	pass
+
+
+func load_json(lua: LuaAPI, path: String, json_loader: JsonLoader):
+	var mod: ModResource = lua.call_function("GetCurrentMod", [])
+	return mod.get_zipped(
+		func (loader: ContentLoader) -> AnimalResource:
+			return loader.load_json_with_loader(path, json_loader)
+	)

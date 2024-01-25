@@ -54,6 +54,14 @@ func lua_fields() -> Array:
 	]
 
 
+static func make_loader() -> JsonLoader:
+	return JsonLoader.new().set_validator(make_validator())
+
+
+static func make_validator() -> JPropertyValidator:
+	return JPropertyValidator.new()
+
+
 ## Emits the [signal Resource.changed] signal on this resource when the provided child resource is changed
 func _connect_subresource(subresource: Resource) -> void:
 	if subresource is Resource and not subresource.changed.is_connected(emit_changed):
