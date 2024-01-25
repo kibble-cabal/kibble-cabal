@@ -3,11 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansion_packs/core/item/sprites/flower_icon_placeholder.png" id="1_48gd8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2ped4"]
-radius = 2.0
+radius = 4.0
 
-[node name="CollisionShape2D" type="CollisionShape2D"]
-shape = SubResource("CircleShape2D_2ped4")
+[node name="StaticBody2D" type="StaticBody2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_48gd8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2ped4")

@@ -2,10 +2,7 @@
 
 [ext_resource type="Script" path="res://apps/item/scenes/item_instance_scene.gd" id="1_xbhaw"]
 
-[node name="ItemScene" type="StaticBody2D"]
-collision_layer = 8
-collision_mask = 31
-input_pickable = true
+[node name="ItemScene" type="Node2D"]
 script = ExtResource("1_xbhaw")
 
 [node name="AbilitySystem" type="AbilitySystem" parent="."]

@@ -27,7 +27,7 @@ subresources = {}
 
 [resource]
 script = ExtResource("1_e4csu")
-id = "core__flower"
+id = "core/flower"
 display_name = "Flower"
 description = "A little flower"
 icon = ExtResource("1_nwixh")

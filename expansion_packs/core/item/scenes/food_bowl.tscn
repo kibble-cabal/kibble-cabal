@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cq5uw7dsn5b8y"]
+
+[ext_resource type="Texture2D" uid="uid://cti8edq1si4o7" path="res://expansion_packs/core/item/sprites/food_bowl_icon_placeholder.png" id="1_4r8fs"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vitf4"]
+
+[node name="StaticBody2D" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_4r8fs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vitf4")

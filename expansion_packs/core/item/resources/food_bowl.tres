@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=9 format=3 uid="uid://dcu30c1rmq4ey"]
+[gd_resource type="Resource" script_class="ItemResource" load_steps=10 format=3 uid="uid://dcu30c1rmq4ey"]
 
 [ext_resource type="Texture2D" uid="uid://cti8edq1si4o7" path="res://expansion_packs/core/item/sprites/food_bowl_icon_placeholder.png" id="1_4oxaf"]
 [ext_resource type="Script" path="res://apps/ability/classes/ability_system_state.gd" id="1_rcr4f"]
 [ext_resource type="Script" path="res://apps/item/classes/item_resource.gd" id="1_t1axj"]
 [ext_resource type="Script" path="res://apps/item/classes/item_physics_resource.gd" id="2_7cvis"]
+[ext_resource type="PackedScene" uid="uid://cq5uw7dsn5b8y" path="res://expansion_packs/core/item/scenes/food_bowl.tscn" id="3_8bhnv"]
 [ext_resource type="Script" path="res://apps/item/classes/item_retail_resource.gd" id="3_p5rea"]
 
 [sub_resource type="Resource" id="Resource_5c1nd"]
@@ -14,6 +15,7 @@ abilities = Array[StringName]([])
 
 [sub_resource type="Resource" id="Resource_xotcd"]
 script = ExtResource("2_7cvis")
+scene = ExtResource("3_8bhnv")
 subresources = {}
 
 [sub_resource type="Resource" id="Resource_hnlre"]
@@ -25,7 +27,7 @@ subresources = {}
 
 [resource]
 script = ExtResource("1_t1axj")
-id = "core__food_bowl"
+id = "core/food_bowl"
 display_name = "Food Bowl"
 description = "A basic food bowl for your pets"
 icon = ExtResource("1_4oxaf")

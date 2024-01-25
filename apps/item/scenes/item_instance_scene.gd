@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Node2D
 
 @onready var ability_system := $AbilitySystem as AbilitySystem
 
