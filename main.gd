@@ -4,7 +4,7 @@ extends Node2D
 @onready var live_mode := GameModeDB.find("Live")
 @onready var live_paused_mode := GameModeDB.find("Live/Paused")
 
-@onready var flower := ItemDB.find_by_id("core__flower")
+@onready var flower := ItemDB.find_by_id("core/flower")
 
 
 func _ready() -> void:

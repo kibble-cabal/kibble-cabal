@@ -1,19 +1,28 @@
 class_name LocationStateResource extends ModdableResource
 
+signal spawners_changed
+
 ## Corresponds to [member LocationResource.name]
 @export var location_name: String
 
-## The collection of item instances that exist at this location
-@export var inventory := InventoryResource.new():
+## A list of things to spawn at this location.
+## [br][b]Note:[/b] Should not be mutated directly. Use [method add_spawner] or [method remove_spawner] instead.
+@export var spawners: Array[Spawner] = []:
 	set(value):
-		inventory = value
-		_connect_subresource(inventory)
-
-## The pets that live at this location
-@export var pets: Array[PetResource] = []:
-	set(value):
-		pets = value
+		spawners = value
+		spawners_changed.emit()
 		_connect_all_subresources()
+
+
+func add_spawner(spawner: Spawner) -> void:
+	spawners.append(spawner)
+	spawners_changed.emit()
+
+
+func remove_spawner(spawner: Spawner) -> void:
+	if spawner in spawners:
+		spawners.erase(spawner)
+		spawners_changed.emit()
 
 
 func get_location_resource() -> LocationResource:
@@ -26,5 +35,5 @@ func lua_fields() -> Array:
 
 ## Performs [method _connect_subresource] for all child resources
 func _connect_all_subresources() -> void:
-	for subresource in [inventory] + pets + subresources.values():
+	for subresource in spawners + subresources.values():
 		_connect_subresource(subresource)

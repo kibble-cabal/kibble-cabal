@@ -1,54 +1,17 @@
 # PetSystem
 extends Node
 
-const Pet := preload("res://apps/pet/scenes/pet_scene.tscn")
 
-var pet_nodes: Array[Node] = []
-
-
-func _ready() -> void:
-	LocationSystem.location_exited.connect(despawn_pets)
-	LocationSystem.location_entered.connect(spawn_pets)
-
-
-func spawn_pets(location: LocationResource) -> void:
-	var world_root := get_tree().get_first_node_in_group("world_root")
-	if world_root:
-		for pet in get_pets_at_location(location):
-			var node := Pet.instantiate()
-			node.resource = pet
-			world_root.add_child(node)
-			pet_nodes.append(node)
-
-
-func despawn_pets(_location: LocationResource) -> void:
-	for node in pet_nodes:
-		node.queue_free()
-	pet_nodes.clear()
-
-
-func add_pet_to_current_location(pet: PetResource) -> void:
-	get_pets_at_current_location().append(pet)
-
-
-func remove_pet_from_current_location(pet: PetResource) -> void:
-	get_pets_at_current_location().erase(pet)
-
-
-func get_pets_at_current_location() -> Array[PetResource]:
-	return get_pets_at_location(LocationSystem.current_location)
-
-
-func get_pets_at_location(location: LocationResource) -> Array[PetResource]:
-	if SaveSystem and SaveSystem.current_save and location:
-		var state := SaveSystem.current_save.get_or_create_location_state(location.name)
-		if state: return state.pets
-	return []
+func get_pet_nodes() -> Array[PetScene]:
+	var nodes: Array[PetScene] = []
+	if LocationSystem.current_state: 
+		for spawner in LocationSystem.current_state.spawners:
+			if spawner is PetSpawner and spawner.has_spawned:
+				nodes.append(spawner.pet_node)
+	return nodes
 
 
 func lua_fields() -> Array:
 	return [
-		"add_pet_to_current_location", 
-		"remove_pet_from_current_location",
-		"get_pets_at_current_location"
+		"get_pet_nodes",
 	]
