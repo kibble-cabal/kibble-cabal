@@ -1,22 +1,21 @@
-# PlayerConfig
-extends Node
+class_name PlayerConfig
 
 # Physics
 
-var MaxSpeed: float
-var CollisionShape: Shape2D
-var DetectionRadius: float
+static var MaxSpeed: float
+static var CollisionShape: Shape2D
+static var DetectionRadius: float
 
 # Sprite
 
 ## Should extend [SpriteController]
-var SpriteScene: PackedScene
-var SpriteSize: Vector2
+static var SpriteScene: PackedScene
+static var SpriteSize: Vector2
 
 # Sound Effects
 
-var FootstepSoundEffects: Array[FootstepSoundEffect] = []
-var FallbackFootstepSoundEffect: AudioStream = null
+static var FootstepSoundEffects: Array[FootstepSoundEffect] = []
+static var FallbackFootstepSoundEffect: AudioStream = null
 
 # Subclasses
 
@@ -47,14 +46,14 @@ class FootstepSoundEffect:
 
 # Methods
 
-func get_footstep_sound(ground_type := FootstepSoundEffect.SOFT) -> AudioStream:
+static func get_footstep_sound(ground_type := FootstepSoundEffect.SOFT) -> AudioStream:
 	for i in range(FootstepSoundEffects.size() - 1, -1, -1):
 		var sound := FootstepSoundEffects[i]
 		if sound.ground_type == ground_type: return sound.sound
 	return FallbackFootstepSoundEffect
 
 
-func lua_fields() -> Array:
+static func lua_fields() -> Array:
 	return [
 		"MaxSpeed",
 		"CollisionShape",

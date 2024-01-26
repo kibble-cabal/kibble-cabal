@@ -1,13 +1,12 @@
-# NeedsConfig
-extends Node
+class_name NeedsConfig
 
-var Needs := PackedStringArray([
+static var Needs := PackedStringArray([
 	"hunger",
 	"thirst",
 	"energy",
 	"activity"
 ])
 
-var FulfillNeedAbilities := PackedStringArray([
+static var FulfillNeedAbilities := PackedStringArray([
 	"eat"
 ])

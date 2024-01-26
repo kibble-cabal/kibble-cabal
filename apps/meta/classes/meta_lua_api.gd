@@ -12,6 +12,3 @@ func expose_hooks(lua: LuaAPI) -> void:
 	Meta.systems_ready.connect(
 		func() -> void: lua.call_function("OnAllSystemsReady", [])
 	)
-	Meta.configs_ready.connect(
-		func() -> void: lua.call_function("OnAllConfigsReady", [])
-	)
