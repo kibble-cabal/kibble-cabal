@@ -22,27 +22,31 @@ const ALLOWED_LUA_LIBRARIES: Array[String] = [
 	LUA_LIBRARIES.UTF8,
 ]
 
+var expose_lua_objects: Array[ExposeLuaAPI] = [
+	MetaLuaAPI.new(),
+	SaveLuaAPI.new(),
+	GameModeLuaAPI.new(),
+	SettingsLuaAPI.new(),
+	LocationLuaAPI.new(),
+	AnimalLuaAPI.new(),
+	ItemLuaAPI.new(),
+	DatetimeLuaAPI.new(),
+	PlayerLuaAPI.new(),
+	AILuaAPI.new(),
+	ExpansionPackLuaAPI.new(),
+	AbilityLuaAPI.new(),
+	ModLuaAPI.new(),
+	SoundEffectLuaAPI.new(),
+	MusicLuaAPI.new()
+]
+
 
 func create_environment() -> LuaAPI:
 	var lua := LuaAPI.new()
 	lua.bind_libraries(ALLOWED_LUA_LIBRARIES)
 	lua.object_metatable.permissive = false
-	MetaLuaAPI.new().expose(lua)
-	SaveLuaAPI.new().expose(lua)
-	GameModeLuaAPI.new().expose(lua)
-	SettingsLuaAPI.new().expose(lua)
-	LocationLuaAPI.new().expose(lua)
-	AnimalLuaAPI.new().expose(lua)
-	ItemLuaAPI.new().expose(lua)
-	DatetimeLuaAPI.new().expose(lua)
-	PlayerLuaAPI.new().expose(lua)
-	AILuaAPI.new().expose(lua)
-	ExpansionPackLuaAPI.new().expose(lua)
-	AbilityLuaAPI.new().expose(lua)
-	ModLuaAPI.new().expose(lua)
-	SoundEffectLuaAPI.new().expose(lua)
-	MusicLuaAPI.new().expose(lua)
-	ActionLuaAPI.new().expose(lua)
+	for object in expose_lua_objects:
+		object.expose(lua)
 	lua.push_variant("Log", Log.new())
 	lua.push_variant("UIConfig", UIConfig)
 	return lua

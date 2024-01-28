@@ -20,8 +20,10 @@ func _ready() -> void:
 			ability_system.grant_attribute(AttributeDB.find(need))
 		
 		for identifier in NeedsConfig.FulfillNeedAbilities:
-			ability_system.grant_ability(AbilityDB.find(identifier))
-			ability_system.grant_ability(AbilityDB.find(identifier + "/cooldown"))
+			var ability := AbilityDB.find(identifier)
+			var cooldown_ability := AbilityDB.find(identifier + "/cooldown")
+			if ability: ability_system.grant_ability(ability)
+			if cooldown_ability: ability_system.grant_ability(cooldown_ability)
 		
 		# Update ability system from cached state
 		if resource.ability_state:

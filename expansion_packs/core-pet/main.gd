@@ -59,6 +59,7 @@ func _init() -> void:
 	ActionScripts.map(func(action: GDScript) -> void: ActionDB.register(action.new()))
 	
 	await Meta.systems_ready
+	LuaSystem.expose_lua_objects.append(NeedsLuaAPI.new())
 	DatetimeSystem.ticked.connect(deplete_needs)
 
 

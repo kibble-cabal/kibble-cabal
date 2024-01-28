@@ -8,5 +8,12 @@ static var Needs := PackedStringArray([
 ])
 
 static var FulfillNeedAbilities := PackedStringArray([
-	"eat"
+	"eat",
+	"sleep",
+	"drink",
+	"play"
 ])
+
+
+static func lua_fields() -> Array:
+	return ["Needs", "FulfillNeedAbilities"]
