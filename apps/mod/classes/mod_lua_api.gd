@@ -23,3 +23,7 @@ func expose_hooks(lua: LuaAPI) -> void:
 		func(mod: ModResource) -> void:
 			lua.call_function("OnModInitialized", [mod])
 	)
+	ModSystem.all_mods_initialized.connect(
+		func() -> void:
+			lua.call_function("OnAllModsInitialized", [])
+	)

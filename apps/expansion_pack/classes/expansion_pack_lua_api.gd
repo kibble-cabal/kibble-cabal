@@ -19,3 +19,7 @@ func expose_hooks(lua: LuaAPI) -> void:
 		func(expansion_pack: ExpansionPackResource) -> void:
 			lua.call_function("OnExpansionPackInitialized", [expansion_pack])
 	)
+	ExpansionPackSystem.all_packs_initialized.connect(
+		func() -> void:
+			lua.call_function("OnAllExpansionPacksInitialized", [])
+	)

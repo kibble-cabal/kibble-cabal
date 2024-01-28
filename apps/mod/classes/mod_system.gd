@@ -1,6 +1,7 @@
 # ModSystem
 extends Node
 
+signal all_mods_initialized
 signal mod_initialized(mod: ModResource)
 
 ## List of mod IDs that have been initialized
@@ -10,6 +11,7 @@ var initialized_mods: Array[String]
 func _ready() -> void:
 	Log.start_section(self, "Initializing all registered mods...")
 	ModDB.registered_mods.map(initialize)
+	all_mods_initialized.emit()
 	Log.end_section(self, "Finished!")
 	ModDB.mod_registered.connect(initialize)
 
