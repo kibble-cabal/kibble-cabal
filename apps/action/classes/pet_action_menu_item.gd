@@ -1,10 +1,10 @@
 class_name PetActionMenuItem extends ActionMenuItem
 
 class Ctx:
-	var node: CharacterBody2D
+	var node: CharacterBody3D
 	var resource: PetResource
 	
-	func _init(node_value: CharacterBody2D, resource_value: PetResource) -> void:
+	func _init(node_value: CharacterBody3D, resource_value: PetResource) -> void:
 		self.node = node_value
 		self.resource = resource_value
 	

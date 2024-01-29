@@ -119,9 +119,8 @@ func _update_collision() -> void:
 	if not resource: return
 	var animal := resource.get_animal_resource()
 	if animal:
-		# FIXME
-		#(($CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
-		#(($Interactable2D/CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
+		(($CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius
+		(($Area/CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius
 		($FacingRay as RayCast3D).target_position = Vector3(animal.collision_radius * 1.5, 0, 0)
 
 
@@ -133,8 +132,6 @@ func _on_interact_menu_opening() -> void:
 	pass
 
 
-func _on_interactable_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+func _on_area_input_event(_camera: Node, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if event is InputEventScreenTouch and event.is_pressed():
-		# FIXME
-		pass
-		#interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))
+		interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))

@@ -7,13 +7,12 @@
 [ext_resource type="Script" path="res://apps/action/classes/action_menu.gd" id="6_wrrce"]
 [ext_resource type="PackedScene" uid="uid://dxa332pqi0yga" path="res://expansion_packs/core-pet/need/scenes/need_set_ui.tscn" id="8_5nxat"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_mv65f"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_17nh3"]
 resource_local_to_scene = true
-radius = 20.0
 
 [node name="PetScene" type="CharacterBody3D" node_paths=PackedStringArray("navigation_agent", "facing_ray") groups=["pet"]]
 collision_layer = 4
-collision_mask = 15
+collision_mask = 31
 script = ExtResource("1_m2vjx")
 navigation_agent = NodePath("NavigationAgent")
 facing_ray = NodePath("FacingRay")
@@ -38,12 +37,19 @@ avoidance_mask = 7
 script = ExtResource("2_oapg6")
 character = NodePath("..")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_mv65f")
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_17nh3")
 
 [node name="FacingRay" type="RayCast3D" parent="."]
 target_position = Vector3(2.08165e-12, 32, 0)
 collision_mask = 30
+
+[node name="Area" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Area"]
+shape = SubResource("SphereShape3D_17nh3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -119,4 +125,5 @@ layout_mode = 2
 layout_mode = 2
 ability_system = NodePath("../../../../AbilitySystem")
 
+[connection signal="input_event" from="Area" to="." method="_on_area_input_event"]
 [connection signal="opening" from="UILayer/InteractMenu" to="." method="_on_interact_menu_opening"]
