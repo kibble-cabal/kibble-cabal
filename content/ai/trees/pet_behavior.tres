@@ -47,14 +47,14 @@ args_include_delta = false
 resource_name = "NavigationAgent"
 saved_value = NodePath("NavigationAgent")
 
-[sub_resource type="BBVector2" id="BBVector2_qeh0o"]
+[sub_resource type="BBVector3" id="BBVector3_ef3bs"]
 resource_name = "$target_position"
 value_source = 1
 variable = "target_position"
 
 [sub_resource type="BTAction" id="BTAction_g1ai8"]
 script = ExtResource("3_ilwoq")
-target_position = SubResource("BBVector2_qeh0o")
+target_position = SubResource("BBVector3_ef3bs")
 navigation_agent_node = SubResource("BBNode_jcwsi")
 
 [sub_resource type="BTDecorator" id="BTDecorator_qsyta"]

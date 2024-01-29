@@ -66,7 +66,7 @@ func get_or_create_location_state(location_name: String) -> LocationStateResourc
 
 
 func lua_fields() -> Array:
-	return super() + ["settings", "player", "inventory", "location_states", "fate", "datetime", "commit_changes"]
+	return super() + ["settings", "inventory", "location_states", "fate", "datetime", "commit_changes"]
 
 
 func _generate_id() -> void:

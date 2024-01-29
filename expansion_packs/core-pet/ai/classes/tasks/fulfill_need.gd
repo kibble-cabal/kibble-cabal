@@ -47,7 +47,6 @@ func _get_configuration_warning() -> PackedStringArray:
 func _enter() -> void:
 	var target_item := get_target_item()
 	if target_item: 
-		max_distance = Nodes.get_flattened_node_2d_size(target_item).length()
 		super()
 
 
@@ -83,9 +82,9 @@ func _tick(delta: float) -> Status:
 	return RUNNING
 
 
-func get_target_item() -> Node2D:
+func get_target_item() -> Node3D:
 	var node = blackboard.get_var(target_item_variable)
-	if node and node is Node2D:
+	if node and node is Node3D:
 		return node
 	return null
 
@@ -97,10 +96,10 @@ func get_ability_system() -> AbilitySystem:
 	return null
 
 
-func get_navigation_position() -> Vector2:
+func get_navigation_position() -> Vector3:
 	var target_item := get_target_item()
 	if target_item: return target_item.global_position
-	return Vector2.ZERO
+	return Vector3.ZERO
 
 
 func get_max_distance() -> float:

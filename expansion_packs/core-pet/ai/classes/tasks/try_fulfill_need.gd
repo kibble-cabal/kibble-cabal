@@ -78,7 +78,7 @@ func _build_query() -> void:
 	if not animal: return
 	
 	# Update detection
-	var region := CircleShape2D.new()
+	var region := SphereShape3D.new()
 	region.radius = animal.detection_radius
 	query.region = region
 	query.detect_areas = true

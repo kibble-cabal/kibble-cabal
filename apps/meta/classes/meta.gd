@@ -58,7 +58,6 @@ func get_systems() -> Array[Node]:
 		LuaSystem,
 		MusicSystem,
 		PetSystem,
-		PlayerSystem,
 		SaveSystem,
 		SoundManager
 	]

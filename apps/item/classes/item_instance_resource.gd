@@ -10,7 +10,7 @@ const Scene := preload("res://apps/item/scenes/item_instance_scene.tscn")
 @export_category("Additional data")
 
 ## Only applicable if the corresponding item has [member ItemResource.physics_resource]
-@export var location: Vector2 
+@export var location: Vector3 
 
 @export var ability_state: AbilitySystemState
 
@@ -19,7 +19,7 @@ func get_item_resource() -> ItemResource:
 	return ItemDB.find_by_id(item_id) if ItemDB else null
 
 
-func instantiate_scene() -> Node2D:
+func instantiate_scene() -> Node3D:
 	var scene := Scene.instantiate()
 	scene.item = self
 	return scene

@@ -1,7 +1,7 @@
 class_name PhysicsQueryResult extends Object
 
 var collider: Object
-var collision_point: Vector2
+var collision_point: Vector3
 var distance: float
 
 

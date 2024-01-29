@@ -8,7 +8,7 @@ class_name PetResource extends ModdableResource
 
 @export var ability_state := AbilitySystemState.new()
 
-@export var current_position: Vector2:
+@export var current_position: Vector3:
 	set(value):
 		current_position = value
 		emit_changed()
