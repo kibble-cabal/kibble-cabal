@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=12 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
+[ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="2_rwq8w"]
 [ext_resource type="PackedScene" uid="uid://bas4c8x6j0yhe" path="res://apps/fate/scenes/fate_label.tscn" id="3_iahvw"]
 [ext_resource type="PackedScene" uid="uid://u22a8ibom3dn" path="res://apps/save/scenes/saves_list.tscn" id="4_f7rny"]
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
@@ -39,7 +40,10 @@ process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707106, 0.707106, -5.95416e-16, -0.707106, 0.707106, 2.08165e-12, 4, 4)
+projection = 1
 current = true
+size = 10.0
+script = ExtResource("2_rwq8w")
 
 [node name="DebugMenu" parent="." instance=ExtResource("8_54e10")]
 visible = false
