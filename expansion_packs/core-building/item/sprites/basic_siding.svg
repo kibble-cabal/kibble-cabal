@@ -6,10 +6,10 @@
 	.st0{fill:#808080;}
 	.st1{fill:#999999;}
 </style>
-<rect y="15" class="st0" width="50" height="30"/>
-<rect y="15" class="st1" width="2" height="30"/>
-<rect x="10" y="15" class="st1" width="2" height="30"/>
-<rect x="20" y="15" class="st1" width="2" height="30"/>
-<rect x="30" y="15" class="st1" width="2" height="30"/>
-<rect x="40" y="15" class="st1" width="2" height="30"/>
+<rect class="st0" width="50" height="50"/>
+<rect class="st1" width="2" height="50"/>
+<rect x="10" class="st1" width="2" height="50"/>
+<rect x="20" class="st1" width="2" height="50"/>
+<rect x="30" class="st1" width="2" height="50"/>
+<rect x="40" class="st1" width="2" height="50"/>
 </svg>

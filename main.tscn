@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=11 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
@@ -7,12 +7,29 @@
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ho1hl"]
+sky_top_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
+
+[sub_resource type="Sky" id="Sky_1gkft"]
+sky_material = SubResource("ProceduralSkyMaterial_ho1hl")
+
+[sub_resource type="Environment" id="Environment_gp0l6"]
+background_mode = 2
+sky = SubResource("Sky_1gkft")
+
 [sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
 geometry_source_geometry_mode = 2
 geometry_source_group_name = &"navigation_mesh"
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_gay8e")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gp0l6")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 4, 2.08165e-12)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_rms5k")
@@ -21,7 +38,7 @@ navigation_mesh = SubResource("NavigationMesh_rms5k")
 process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, -5.2318e-16, 3.02058e-16, 3.02058e-16, 0.866025, 0.5, -5.2318e-16, -0.5, 0.866025, 2.08165e-12, 3, 4)
+transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707106, 0.707106, -5.95416e-16, -0.707106, 0.707106, 2.08165e-12, 4, 4)
 current = true
 
 [node name="DebugMenu" parent="." instance=ExtResource("8_54e10")]

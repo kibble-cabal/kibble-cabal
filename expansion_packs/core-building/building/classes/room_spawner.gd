@@ -4,10 +4,8 @@ const RoomScene := preload("../scenes/room_scene.tscn")
 
 
 func _spawn(world: Node3D) -> Array[Node]:
-	# FIXME
-	return []
-	#var node := RoomScene.instantiate()
-	#var room := resource as RoomResource
-	#if room: node.room = room
-	#world.add_child(node)
-	#return [node]
+	var node := RoomScene.instantiate()
+	var room := resource as RoomResource
+	if room: node.room = room
+	world.add_child(node)
+	return [node]

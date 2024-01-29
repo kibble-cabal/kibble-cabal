@@ -1,24 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://cskv73jngx1l4"]
+[gd_scene load_steps=5 format=3 uid="uid://b6es8yd74ec5w"]
 
-[ext_resource type="Shader" path="res://expansion_packs/core-building/building/shaders/building_component.gdshader" id="1_rjugf"]
+[ext_resource type="Texture2D" uid="uid://bqugd0kvf5xdl" path="res://expansion_packs/core-building/item/sprites/basic_wood_floor.svg" id="1_yc7mm"]
 [ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/room_scene.gd" id="2_uo76c"]
-[ext_resource type="TileSet" uid="uid://ceiopebw4jsiw" path="res://expansion_packs/core-building/building/tile_sets/building_tile_set.tres" id="3_xirva"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_616ep"]
-resource_local_to_scene = true
-shader = ExtResource("1_rjugf")
-shader_parameter/floor_color = Color(0.376471, 0.376471, 0.376471, 1)
-shader_parameter/interior_color = Color(0.576471, 0.576471, 0.576471, 1)
-shader_parameter/exterior_color = Color(0.768627, 0.768627, 0.768627, 1)
-shader_parameter/size = Vector2(7, 7)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4flq"]
+albedo_texture = ExtResource("1_yc7mm")
+uv1_scale = Vector3(4, 4, 4)
 
-[node name="CanvasGroup" type="CanvasGroup"]
-texture_filter = 1
-material = SubResource("ShaderMaterial_616ep")
+[sub_resource type="BoxMesh" id="BoxMesh_qh0aj"]
+material = SubResource("StandardMaterial3D_h4flq")
+
+[node name="RoomScene" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_qh0aj")
 script = ExtResource("2_uo76c")
-
-[node name="TileMap" type="TileMap" parent="."]
-texture_filter = 1
-tile_set = ExtResource("3_xirva")
-format = 2
-layer_0/tile_data = PackedInt32Array(0, 589824, 2, 1, 589824, 2, 65536, 589824, 3, 65538, 589824, 2, 65537, 327680, 2, 2, 589824, 2, -65535, 655360, 0, -65534, 655360, 0, 3, 720896, 2, -65533, 720896, 0, 65539, 393216, 1, 131075, 589824, 2, 131073, 524288, 1, 131074, 589824, 2, 196609, 524288, 3, 196612, 393216, 2, 196611, 589824, 2, 196610, 327680, 2, 131076, 589824, 2, 65540, 655360, 0, 196613, 720896, 3, 131077, 720896, 2, 65541, 720896, 0, 131071, 524288, 3, 262146, 262144, 2, 327682, 0, 2, 262147, 589824, 3, 262148, 720896, 3, 65535, 524288, 1, -1, 524288, 0, -65536, 655360, 0)
