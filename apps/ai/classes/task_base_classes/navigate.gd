@@ -41,8 +41,8 @@ func _exit() -> void:
 	if navigation_agent: navigation_agent.stop()
 
 
-func get_navigation_position() -> Vector2:
-	return blackboard.get_var("navigation_target", Vector2.ZERO)
+func get_navigation_position() -> Vector3:
+	return Vector3.ZERO
 
 
 func get_max_distance() -> float:

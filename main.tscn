@@ -1,27 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=8 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
-[ext_resource type="Script" path="res://apps/camera/classes/default_camera_2d.gd" id="3_42fl5"]
 [ext_resource type="PackedScene" uid="uid://bas4c8x6j0yhe" path="res://apps/fate/scenes/fate_label.tscn" id="3_iahvw"]
 [ext_resource type="PackedScene" uid="uid://u22a8ibom3dn" path="res://apps/save/scenes/saves_list.tscn" id="4_f7rny"]
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
-[ext_resource type="PackedScene" uid="uid://3lggs2524kme" path="res://addons/gesture_controlled_camera_2d/GCC2D.tscn" id="6_hj55k"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
 
-[node name="Main" type="Node2D"]
+[sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
+geometry_source_geometry_mode = 2
+geometry_source_group_name = &"navigation_mesh"
+
+[node name="Main" type="Node3D"]
 script = ExtResource("1_gay8e")
 
-[node name="World" type="Node2D" parent="." groups=["world_root"]]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_rms5k")
+
+[node name="World" type="Node3D" parent="." groups=["world_root"]]
 process_mode = 1
 
-[node name="Camera" parent="." instance=ExtResource("6_hj55k")]
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-rotation_smoothing_enabled = true
-rotation_smoothing_speed = 10.0
-script = ExtResource("3_42fl5")
-rotation_gesture = 0
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, -5.2318e-16, 3.02058e-16, 3.02058e-16, 0.866025, 0.5, -5.2318e-16, -0.5, 0.866025, 2.08165e-12, 3, 4)
+current = true
 
 [node name="DebugMenu" parent="." instance=ExtResource("8_54e10")]
 visible = false
