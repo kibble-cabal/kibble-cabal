@@ -1,8 +1,6 @@
 class_name CoreExpansionPack
 
 const PauseScene = preload("res://expansion_packs/core/ui/scenes/paused_scene.tscn")
-const PlayerSpriteScene = preload("res://expansion_packs/core/player/scenes/player_sprite.tscn")
-const DirtFootstepSound = preload("res://expansion_packs/core/player/sounds/sneaker footstep on dirt 01.mp3")
 
 const GameModes = [
 	preload("res://expansion_packs/core/game_mode/resources/live_mode_resource.tres"),
@@ -42,23 +40,7 @@ func _init() -> void:
 	Subtrees.map(SubtreeDB.register)
 	
 	update_ui_config()
-	update_player_config()
 
 
 func update_ui_config() -> void:
 	UIConfig.PauseScene = PauseScene
-
-
-func update_player_config() -> void:
-	PlayerConfig.MaxSpeed = 256
-	var collision_shape := CapsuleShape2D.new()
-	collision_shape.radius = 12
-	collision_shape.height = 24
-	PlayerConfig.CollisionShape = collision_shape
-	PlayerConfig.DetectionRadius = 30
-	PlayerConfig.SpriteScene = preload("res://expansion_packs/core/player/scenes/player_sprite.tscn")
-	PlayerConfig.SpriteSize = Vector2(32, 64)
-	PlayerConfig.FallbackFootstepSoundEffect = DirtFootstepSound
-	PlayerConfig.FootstepSoundEffects.append(
-		PlayerConfig.FootstepSoundEffect.new(PlayerConfig.FootstepSoundEffect.SOFT, DirtFootstepSound)
-	)

@@ -32,7 +32,6 @@ var expose_lua_objects: Array[ExposeLuaAPI] = [
 	AnimalLuaAPI.new(),
 	ItemLuaAPI.new(),
 	DatetimeLuaAPI.new(),
-	PlayerLuaAPI.new(),
 	AILuaAPI.new(),
 	ExpansionPackLuaAPI.new(),
 	AbilityLuaAPI.new(),

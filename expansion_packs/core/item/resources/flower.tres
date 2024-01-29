@@ -12,6 +12,7 @@ script = ExtResource("1_5qg7t")
 attributes = {}
 tags = Array[StringName]([&"hunger_provider"])
 abilities = Array[StringName]([])
+events = Array[AbilityEvent]([])
 
 [sub_resource type="Resource" id="Resource_hrt5a"]
 script = ExtResource("2_rd7uo")
