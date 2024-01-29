@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=7 format=3 uid="uid://dihd08lph4pnb"]
+
+[ext_resource type="Texture2D" uid="uid://btgm3wf3uuoo8" path="res://expansion_packs/core-building/item/sprites/striped_wall_with_trim.svg" id="1_02gav"]
+[ext_resource type="Script" path="res://apps/item/classes/item_resource.gd" id="1_agn1b"]
+[ext_resource type="Script" path="res://apps/item/classes/item_physics_resource.gd" id="2_cjtio"]
+[ext_resource type="Script" path="res://apps/item/classes/item_retail_resource.gd" id="3_ic2r5"]
+
+[sub_resource type="Resource" id="Resource_x5d4e"]
+script = ExtResource("2_cjtio")
+static_image = ExtResource("1_02gav")
+subresources = {}
+
+[sub_resource type="Resource" id="Resource_22qg6"]
+script = ExtResource("3_ic2r5")
+buy_price = 10
+base_sell_price = 10
+depreciation_rate = 0.0
+subresources = {}
+
+[resource]
+script = ExtResource("1_agn1b")
+id = "build/wall/striped_with_trim"
+display_name = "Striped Wall with Trim"
+description = ""
+icon = ExtResource("1_02gav")
+physics_resource = SubResource("Resource_x5d4e")
+retail_resource = SubResource("Resource_22qg6")
+subresources = {}

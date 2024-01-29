@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=5 format=3 uid="uid://d0vebc6xkbmg5"]
+
+[ext_resource type="Texture2D" uid="uid://b3xgnc2obru6w" path="res://expansion_packs/core-building/item/sprites/basic_siding.svg" id="1_3kftq"]
+[ext_resource type="Script" path="res://apps/item/classes/item_resource.gd" id="1_12kel"]
+[ext_resource type="Script" path="res://apps/item/classes/item_physics_resource.gd" id="2_jssp7"]
+
+[sub_resource type="Resource" id="Resource_mvtxe"]
+script = ExtResource("2_jssp7")
+static_image = ExtResource("1_3kftq")
+subresources = {}
+
+[resource]
+script = ExtResource("1_12kel")
+id = "build/wall/basic_siding"
+display_name = "Basic Siding"
+description = ""
+icon = ExtResource("1_3kftq")
+physics_resource = SubResource("Resource_mvtxe")
+subresources = {}
