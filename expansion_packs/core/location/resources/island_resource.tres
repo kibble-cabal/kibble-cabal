@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="LocationResource" load_steps=3 format=3 uid="uid://r3xvp8p86pn8"]
 
-[ext_resource type="PackedScene" uid="uid://bq551i55f3w3b" path="res://expansion_packs/core/location/scenes/island_map_3d.tscn" id="1_fkdwj"]
+[ext_resource type="PackedScene" uid="uid://bq551i55f3w3b" path="res://expansion_packs/core/location/scenes/island_map.tscn" id="1_fkdwj"]
 [ext_resource type="Script" path="res://apps/location/classes/location_resource.gd" id="2_jmbdi"]
 
 [resource]
