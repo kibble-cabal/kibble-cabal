@@ -1,4 +1,4 @@
-class_name SpriteController extends Node2D
+class_name SpriteController extends Node3D
 
 var current_animation: String
 var current_time: float

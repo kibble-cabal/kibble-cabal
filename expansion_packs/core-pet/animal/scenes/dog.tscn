@@ -44,10 +44,10 @@ animations = [{
 "speed": 2.0
 }]
 
-[node name="SpriteController" type="Node2D"]
+[node name="SpriteController" type="Node3D"]
 script = ExtResource("1_go7h5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_bdwaq")
 animation = &"walk"

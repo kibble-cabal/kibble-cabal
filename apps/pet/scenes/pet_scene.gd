@@ -1,4 +1,4 @@
-class_name PetScene extends PlayerBody2D
+class_name PetScene extends PetBody3D
 
 @export var resource: PetResource
 
@@ -53,8 +53,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			interact_menu.close()
 
 
-func get_random_target() -> Vector2:
-	return Vector2(randf_range(0, 250), randf_range(0, 250))
+func get_random_target() -> Vector3:
+	return Vector3(randf_range(-2, 2), 0, randf_range(-2, 2))
 
 
 func destroy_thought_bubble(bubble: ThoughtBubble) -> void:
@@ -107,7 +107,8 @@ func _instantiate_sprite_controller() -> void:
 	var animal := resource.get_animal_resource()
 	if animal and animal.sprite_scene:
 		sprite_controller = animal.sprite_scene.instantiate()
-		sprite_controller.modulate = resource.modulate
+		# FIXME
+		#sprite_controller.modulate = resource.modulate
 		add_child(sprite_controller)
 		move_child(sprite_controller, 0)
 		move_started.connect(sprite_controller.start.bind("walk"))
@@ -118,9 +119,10 @@ func _update_collision() -> void:
 	if not resource: return
 	var animal := resource.get_animal_resource()
 	if animal:
-		(($CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
-		(($Interactable2D/CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
-		($FacingRay as RayCast2D).target_position = Vector2(0, animal.collision_radius * 1.5)
+		# FIXME
+		#(($CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
+		#(($Interactable2D/CollisionShape2D as CollisionShape2D).shape as CircleShape2D).radius = animal.collision_radius
+		($FacingRay as RayCast3D).target_position = Vector3(animal.collision_radius * 1.5, 0, 0)
 
 
 func _on_move_finished() -> void:
@@ -133,4 +135,6 @@ func _on_interact_menu_opening() -> void:
 
 func _on_interactable_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventScreenTouch and event.is_pressed():
-		interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))
+		# FIXME
+		pass
+		#interact_menu.open(PetActionMenuItem.Ctx.new(self, resource))

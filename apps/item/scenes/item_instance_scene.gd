@@ -1,4 +1,4 @@
-extends Node2D
+extends Node3D
 
 @onready var ability_system := $AbilitySystem as AbilitySystem
 

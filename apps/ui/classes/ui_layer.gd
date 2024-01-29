@@ -5,7 +5,7 @@ class_name UILayer extends CanvasLayer
 @export var centered: bool = false
 @export var extra_offset: Vector2
 
-@onready var parent: Node2D = get_parent()
+@onready var parent: Node3D = get_parent()
 @onready var viewport := get_viewport()
 
 
@@ -15,5 +15,6 @@ func _init() -> void:
 
 func _process(_delta: float) -> void:
 	if parent and is_inside_tree() and visible:
-		offset = (parent.position + extra_offset) * parent.global_scale
+		# FIXME
+		#offset = (parent.position + extra_offset) * parent.global_scale
 		if centered and viewport: offset -= Vector2(viewport.size) / 2

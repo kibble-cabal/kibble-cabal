@@ -4,7 +4,7 @@ extends SpriteController
 ## It definitely will not make it into the final game.
 
 @onready var player = get_parent()
-@onready var sprite := $AnimatedSprite2D as AnimatedSprite2D
+@onready var sprite := $AnimatedSprite3D as AnimatedSprite3D
 
 
 func play(animation: String) -> void:
