@@ -149,6 +149,10 @@ behavior_tree/behavior_tree_default_dir="res://"
 behavior_tree/user_task_dir_1="res://apps/ai/classes/tasks"
 behavior_tree/user_task_dir_2="res://expansion_packs/core-pet/ai/classes/tasks"
 
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+
 [rendering]
 
 environment/defaults/default_clear_color=Color(0.208088, 0.208088, 0.208088, 1)
