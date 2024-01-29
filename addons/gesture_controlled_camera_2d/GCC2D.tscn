@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://3lggs2524kme"]
-
-[ext_resource type="Script" path="res://addons/gesture_controlled_camera_2d/GCC2D.gd" id="1"]
-
-[node name="GCC2D" type="Camera2D"]
-script = ExtResource("1")
-movement_gesture = 1
