@@ -6,6 +6,9 @@ class_name PetScene extends PetBody3D
 @onready var ability_system := $AbilitySystem as AbilitySystem
 @onready var interact_menu := %InteractMenu as ActionMenu
 
+@onready var viewport := get_viewport()
+@onready var camera := viewport.get_camera_3d()
+
 var sprite_controller: SpriteController
 
 
@@ -31,6 +34,7 @@ func _ready() -> void:
 		
 		global_position = resource.current_position
 		_update_collision()
+		_update_speed()
 	
 	# Update the cached ability system state whenever the game is saved
 	SaveSystem.before_saved.connect(
@@ -40,9 +44,6 @@ func _ready() -> void:
 	)
 	
 	super._ready()
-	
-	await get_tree().create_timer(2.0).timeout
-	spawn_thought_bubble("Some text", 3.0, 200)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -119,9 +120,17 @@ func _update_collision() -> void:
 	if not resource: return
 	var animal := resource.get_animal_resource()
 	if animal:
+		($NavigationAgent as NavigationAgent).radius = animal.collision_radius
 		(($CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius
 		(($Area/CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius
 		($FacingRay as RayCast3D).target_position = Vector3(animal.collision_radius * 1.5, 0, 0)
+
+
+func _update_speed() -> void:
+	if not resource: return
+	var animal := resource.get_animal_resource()
+	if animal:
+		($NavigationAgent as NavigationAgent).max_speed = animal.speed
 
 
 func _on_move_finished() -> void:

@@ -5,8 +5,10 @@ const SchemaPath := "res://apps/animal/animal_resource.schema.json"
 @export var name: StringName
 @export_range(0, 1) var speed: float = 0.5
 @export var sprite_scene: PackedScene
-@export var collision_radius: float = 20
-@export var detection_radius: float = 2000
+## Radius (in meters) of this animal's body.
+@export var collision_radius: float = 0.15
+## Radius (in meters) that this animal can detect items.
+@export var detection_radius: float = 1000
 
 func lua_fields() -> Array:
 	return super() + [

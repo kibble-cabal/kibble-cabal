@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansion_packs/core/item/sprites/flower_icon_placeholder.png" id="1_48gd8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_fgrfs"]
-radius = 0.1
+radius = 0.2
 
 [node name="StaticBody2D" type="StaticBody3D"]
 collision_layer = 8
@@ -15,3 +15,10 @@ texture = ExtResource("1_48gd8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_fgrfs")
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -0.25, 2.08165e-12)
+radius = 0.1
+height = 0.5
+vertices = PackedVector3Array(-0.1, 2.08165e-12, -0.2, 0.1, 2.08165e-12, -0.2, 0.2, 2.08165e-12, 2.08165e-12, 0.1, 2.08165e-12, 0.2, -0.1, 2.08165e-12, 0.2, -0.2, 2.08165e-12, 2.08165e-12)
+avoidance_layers = 8

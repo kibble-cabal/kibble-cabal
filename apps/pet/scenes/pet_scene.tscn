@@ -23,17 +23,14 @@ behavior_tree = ExtResource("5_w602o")
 [node name="AbilitySystem" type="AbilitySystem" parent="."]
 
 [node name="NavigationAgent" type="NavigationAgent3D" parent="." node_paths=PackedStringArray("character")]
-path_desired_distance = 100.0
-target_desired_distance = 100.0
-navigation_layers = 7
-path_postprocessing = 1
+path_desired_distance = 0.5
+target_desired_distance = 0.25
+navigation_layers = 31
 avoidance_enabled = true
-radius = 12.0
-neighbor_distance = 32.0
-time_horizon_agents = 0.5
-max_speed = 144.0
+max_speed = 0.5
 avoidance_layers = 4
-avoidance_mask = 7
+avoidance_mask = 31
+debug_enabled = true
 script = ExtResource("2_oapg6")
 character = NodePath("..")
 
