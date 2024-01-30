@@ -57,6 +57,9 @@ func get_mesh() -> ProceduralRoomMesh:
 	mesh.material_wall_exterior = create_material_from_item(get_exterior_resource())
 	mesh.material_wall_interior = create_material_from_item(get_interior_resource())
 	mesh.material_floor_top = create_material_from_item(get_floor_resource())
+	mesh.wall_height = BuildingConfig.WallHeight
+	mesh.wall_thickness = BuildingConfig.WallThickness
+	mesh.floor_thickness = BuildingConfig.FloorThickness
 	mesh.generate()
 	return mesh
 

@@ -17,9 +17,6 @@ class_name ProceduralRoomMesh extends ArrayMesh
 @export var material_wall_tops: BaseMaterial3D
 
 var floor_mesh := ProceduralPolygonMesh.new()
-var wall_meshes: Array[ProceduralWallMesh] = []
-
-var surface: SurfaceTool
 
 
 func generate() -> void:
@@ -39,7 +36,7 @@ func generate() -> void:
 	floor_mesh.material_sides = material_floor_sides
 	
 	# Generate wall meshes
-	wall_meshes.clear()
+	var wall_meshes: Array[ProceduralWallMesh] = []
 	for i in range(polygon.size() - 1):
 		var mesh := ProceduralWallMesh.new()
 		mesh.thickness = wall_thickness
