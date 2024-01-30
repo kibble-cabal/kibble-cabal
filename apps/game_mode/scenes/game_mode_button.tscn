@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5x18wkjwfcdy"]
+
+[ext_resource type="Material" uid="uid://ddsj5vgsrbvh8" path="res://apps/game_mode/resources/game_mode_button_focus_material.tres" id="1_714s5"]
+[ext_resource type="Script" path="res://apps/game_mode/scenes/game_mode_button.gd" id="1_psi5a"]
+[ext_resource type="Texture2D" uid="uid://clmltol0sck7i" path="res://expansion_packs/core-building/game_mode/icons/build_mode_icon.svg" id="3_copb3"]
+
+[node name="KButton" type="Button"]
+material = ExtResource("1_714s5")
+offset_right = 32.0
+offset_bottom = 12.0
+pivot_offset = Vector2(186.5, 51.5)
+theme_type_variation = &"GameModeButton"
+text = "build"
+script = ExtResource("1_psi5a")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+use_parent_material = true
+custom_minimum_size = Vector2(120, 130)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -130.0
+offset_right = 120.0
+grow_vertical = 0
+texture = ExtResource("3_copb3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShadowRect" type="ColorRect" parent="."]
+show_behind_parent = true
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+mouse_filter = 2
+color = Color(0.15, 0.15, 0.15, 1)

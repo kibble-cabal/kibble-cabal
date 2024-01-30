@@ -16,6 +16,10 @@ static func get_ui_root() -> Node:
 	return Meta.get_tree().get_first_node_in_group("ui_root")
 
 
+static func get_game_mode_ui_root() -> Node:
+	return Meta.get_tree().get_first_node_in_group("game_mode_ui_root")
+
+
 static func lua_fields() -> Array:
 	return [
 		"ButtonSound",

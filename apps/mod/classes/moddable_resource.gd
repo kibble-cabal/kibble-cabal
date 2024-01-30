@@ -32,8 +32,7 @@ func find_subresource_key(by: Callable) -> String:
 
 func call_subscript(script: Script, method_name: StringName, args: Array = [], default = null, expect: bool = false):
 	if script and method_name:
-		var methods := script.get_script_method_list()
-		if methods.find(func(method: Dictionary) -> bool: return method.name == method_name):
+		if script_has_method(script, method_name):
 			var instance = script.new()
 			return instance[method_name].callv(args)
 		else:
@@ -42,6 +41,12 @@ func call_subscript(script: Script, method_name: StringName, args: Array = [], d
 	if expect:
 		Log.error("Failed to call method on script. ({0}.{1})".format([script, method_name]))
 	return default
+
+
+func script_has_method(script: Script, method_name: StringName) -> bool:
+	if not script: return false
+	var methods := script.get_script_method_list()
+	return methods.any(func(method: Dictionary) -> bool: return method.name == method_name)
 
 
 func lua_fields() -> Array:

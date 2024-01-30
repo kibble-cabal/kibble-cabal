@@ -21,10 +21,11 @@ var ui_scene_instance: Node
 
 func before_enter() -> void:
 	# Add UI scene
-	if ui_scene: 
+	var ui_root := UIConfig.get_game_mode_ui_root()
+	if ui_scene and ui_root: 
 		var instance := ui_scene.instantiate()
 		instance.add_to_group(UISceneGroupName)
-		UIConfig.get_ui_root().add_child(instance)
+		ui_root.add_child(instance)
 	call_subscript(transition_script, before_enter_method)
 
 
@@ -34,7 +35,7 @@ func after_enter() -> void:
 
 func before_exit() -> void:
 	# Remove UI scene
-	var ui_instance := Nodes.get_first_child_in_group(UIConfig.get_ui_root(), UISceneGroupName)
+	var ui_instance := Nodes.get_first_child_in_group(UIConfig.get_game_mode_ui_root(), UISceneGroupName)
 	if ui_instance: ui_instance.queue_free()
 	call_subscript(transition_script, before_exit_method)
 

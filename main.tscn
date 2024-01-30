@@ -99,3 +99,8 @@ size_flags_vertical = 0
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+
+[node name="GameModeUIRoot" type="Control" parent="UI/VBoxContainer" groups=["game_mode_ui_root"]]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2

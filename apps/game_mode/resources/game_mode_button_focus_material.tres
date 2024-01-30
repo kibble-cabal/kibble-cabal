@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ddsj5vgsrbvh8"]
+
+[ext_resource type="Shader" path="res://content/shaders/canvas_item/replace_colors.gdshader" id="1_gmd3h"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_gmd3h")
+shader_parameter/should_replace_color_1 = true
+shader_parameter/replace_color_1 = Color(0.0509804, 0.0509804, 0.0509804, 1)
+shader_parameter/use_color_1 = Color(0.0509804, 0.0509804, 0.0509804, 1)
+shader_parameter/should_replace_color_2 = true
+shader_parameter/replace_color_2 = Color(1, 1, 1, 1)
+shader_parameter/use_color_2 = Color(1, 1, 1, 1)
+shader_parameter/should_replace_color_3 = null
+shader_parameter/replace_color_3 = null
+shader_parameter/use_color_3 = null
+shader_parameter/should_replace_color_4 = null
+shader_parameter/replace_color_4 = null
+shader_parameter/use_color_4 = null
