@@ -1,5 +1,8 @@
 extends Object
 
+const GameModes = [
+	preload("game_mode/resources/build_mode.tres")
+]
 
 const Items = [
 	preload("item/resources/basic_wood_floor.tres"),
@@ -9,4 +12,5 @@ const Items = [
 
 
 func _init() -> void:
+	GameModes.map(GameModeDB.register)
 	Items.map(ItemDB.register)
