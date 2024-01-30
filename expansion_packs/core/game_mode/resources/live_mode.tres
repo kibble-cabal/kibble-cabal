@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="GameModeResource" load_steps=5 format=3 uid="uid://b7coc2rowgwiu"]
+
+[ext_resource type="Script" path="res://apps/game_mode/classes/game_mode_resource.gd" id="1_tual5"]
+[ext_resource type="Script" path="res://expansion_packs/core/game_mode/scripts/live_mode_script.gd" id="2_ev8qg"]
+[ext_resource type="Texture2D" uid="uid://cmvofrceycbys" path="res://expansion_packs/core/game_mode/icons/live_mode_icon.svg" id="3_x5p7y"]
+[ext_resource type="PackedScene" uid="uid://bpgug5rexvxva" path="res://expansion_packs/core/live/scenes/live_mode_ui.tscn" id="4_u6c52"]
+
+[resource]
+script = ExtResource("1_tual5")
+name = "Live"
+world_paused = false
+transition_script = ExtResource("2_ev8qg")
+before_enter_method = &""
+before_exit_method = &"before_exit"
+after_enter_method = &""
+after_exit_method = &""
+ui_color = Color(0.466667, 0.807843, 0.631373, 1)
+ui_scene = ExtResource("4_u6c52")
+ui_menu_index = 0
+ui_icon = ExtResource("3_x5p7y")
+subresources = {}

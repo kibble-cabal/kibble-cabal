@@ -3,8 +3,8 @@ class_name CoreExpansionPack
 const PauseScene = preload("res://expansion_packs/core/ui/scenes/paused_scene.tscn")
 
 const GameModes = [
-	preload("res://expansion_packs/core/game_mode/resources/live_mode_resource.tres"),
-	preload("res://expansion_packs/core/game_mode/resources/live_paused_mode_resource.tres"),
+	preload("res://expansion_packs/core/game_mode/resources/live_mode.tres"),
+	preload("res://expansion_packs/core/game_mode/resources/live_paused_mode.tres"),
 ]
 
 const Locations = [
