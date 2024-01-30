@@ -1,7 +1,8 @@
 class_name GameModeResource extends ModdableResource
 
+const UISceneGroupName := &"game_mode_ui_scene"
+
 @export var name: String
-@export var icon: Texture2D
 @export var world_paused: bool
 @export var transition_script: Script
 @export var before_enter_method: StringName
@@ -9,8 +10,21 @@ class_name GameModeResource extends ModdableResource
 @export var after_enter_method: StringName
 @export var after_exit_method: StringName
 
+@export_group("UI", "ui_")
+@export var ui_color: Color
+@export var ui_scene: PackedScene
+## If less than 0, will not show in menu.
+@export var ui_menu_index: int = -1
+@export var ui_icon: Texture2D
+
+var ui_scene_instance: Node
 
 func before_enter() -> void:
+	# Add UI scene
+	if ui_scene: 
+		var instance := ui_scene.instantiate()
+		instance.add_to_group(UISceneGroupName)
+		UIConfig.get_ui_root().add_child(instance)
 	call_subscript(transition_script, before_enter_method)
 
 
@@ -19,6 +33,9 @@ func after_enter() -> void:
 
 
 func before_exit() -> void:
+	# Remove UI scene
+	var ui_instance := Nodes.get_first_child_in_group(UIConfig.get_ui_root(), UISceneGroupName)
+	if ui_instance: ui_instance.queue_free()
 	call_subscript(transition_script, before_exit_method)
 
 
@@ -29,7 +46,10 @@ func after_exit() -> void:
 func lua_fields() -> Array:
 	return super() + [
 		"name",
-		"icon",
+		"ui_icon",
+		"ui_color",
+		"ui_scene",
+		"ui_menu_index",
 		"world_paused",
 		"transition_script",
 		"before_enter_method",
