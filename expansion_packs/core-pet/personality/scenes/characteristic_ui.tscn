@@ -1,0 +1,88 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4axy3sijjqxv"]
+
+[ext_resource type="Script" path="res://apps/ui/classes/nodes/pill_range.gd" id="1_omyva"]
+[ext_resource type="Script" path="res://expansion_packs/core-pet/personality/scenes/characteristic_ui.gd" id="1_pcvsh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xc3u7"]
+bg_color = Color(1, 1, 1, 0.490196)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ane42"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="CharacteristicUI" type="HBoxContainer"]
+custom_minimum_size = Vector2(500, 2.08165e-12)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("1_pcvsh")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(350, 2.08165e-12)
+layout_mode = 2
+text = "conscientiousness"
+horizontal_alignment = 2
+
+[node name="PillRange" type="Range" parent="."]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(400, 2.08165e-12)
+layout_direction = 0
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 2.0
+auto_translate = true
+localize_numeral_system = true
+tooltip_text = ""
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+min_value = 0.0
+max_value = 5.0
+step = 1.0
+page = 0.0
+value = 3.0
+exp_edit = false
+rounded = false
+allow_greater = false
+allow_lesser = false
+script = ExtResource("1_omyva")
+theme_override_stylebox_empty = SubResource("StyleBoxFlat_xc3u7")
+theme_override_stylebox_filled = SubResource("StyleBoxFlat_ane42")
+theme_override_constant_v_separation = 2
+theme_override_constant_h_separation = 10
+theme_override_constant_pill_min_width = 20
+theme_override_constant_pill_min_height = 30

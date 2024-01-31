@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr4b6vdd5aojd"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-pet/personality/scenes/characteristic_set_ui.gd" id="1_7wc2o"]
+
+[node name="CharacteristicSetUI" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7wc2o")
