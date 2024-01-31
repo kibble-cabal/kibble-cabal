@@ -4,9 +4,13 @@ extends Node
 signal databases_ready
 signal systems_ready
 
+signal singleton_added(node: Node)
 
 var are_databases_ready := false
 var are_systems_ready := false
+
+## [Dictionary][[Script], [Node]]
+var singletons := {}
 
 
 func _process(_delta: float) -> void:
@@ -63,10 +67,25 @@ func get_systems() -> Array[Node]:
 	]
 
 
+func add_or_get_singleton(script: Script) -> Node:
+	if script in singletons:
+		return singletons[script]
+	var node: Node = script.new()
+	singletons[script] = node
+	add_child(node)
+	singleton_added.emit(node)
+	return node
+
+
+func get_singleton(script: Script) -> Node:
+	return singletons.get(script)
+
+
 func lua_fields() -> Array:
 	return [
 		"are_databases_ready",
 		"are_systems_ready",
 		"get_databases",
-		"get_systems"
+		"get_systems",
+		"get_singleton"
 	]
