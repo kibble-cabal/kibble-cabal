@@ -50,6 +50,7 @@ script = ExtResource("2_rwq8w")
 visible = false
 
 [node name="UI" type="CanvasLayer" parent="." groups=["ui_root"]]
+process_mode = 3
 
 [node name="GameModeButtonContainer" parent="UI" instance=ExtResource("4_h1txm")]
 anchors_preset = 2

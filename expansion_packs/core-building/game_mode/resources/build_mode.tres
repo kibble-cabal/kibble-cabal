@@ -1,19 +1,21 @@
-[gd_resource type="Resource" script_class="GameModeResource" load_steps=4 format=3 uid="uid://b21agyvceoyvq"]
+[gd_resource type="Resource" script_class="GameModeResource" load_steps=5 format=3 uid="uid://b21agyvceoyvq"]
 
 [ext_resource type="Script" path="res://apps/game_mode/classes/game_mode_resource.gd" id="1_epjp2"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/classes/build_mode_state.gd" id="2_16oo3"]
 [ext_resource type="Texture2D" uid="uid://clmltol0sck7i" path="res://expansion_packs/core-building/game_mode/icons/build_mode_icon.svg" id="2_luexh"]
-[ext_resource type="PackedScene" uid="uid://d3wpvhh7qfr43" path="res://expansion_packs/core-building/building/scenes/build_mode_ui.tscn" id="3_vqrdp"]
+[ext_resource type="PackedScene" uid="uid://d3wpvhh7qfr43" path="res://expansion_packs/core-building/building/scenes/ui/build_mode_ui.tscn" id="4_enksm"]
 
 [resource]
 script = ExtResource("1_epjp2")
 name = "Build"
 world_paused = true
+state = ExtResource("2_16oo3")
 before_enter_method = &""
 before_exit_method = &""
 after_enter_method = &""
 after_exit_method = &""
 ui_color = Color(0.901961, 0.65098, 0.447059, 1)
-ui_scene = ExtResource("3_vqrdp")
+ui_scene = ExtResource("4_enksm")
 ui_menu_index = 1
 ui_icon = ExtResource("2_luexh")
 subresources = {}

@@ -6,6 +6,11 @@ class_name RoomResource extends ModdableResource
 		polygon = value
 		emit_changed()
 
+@export var origin: Vector2:
+	set(value):
+		origin = value
+		emit_changed()
+
 @export_category("Design")
 
 @export var interior_id: StringName:
