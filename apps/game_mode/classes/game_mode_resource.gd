@@ -4,6 +4,8 @@ const UISceneGroupName := &"game_mode_ui_scene"
 
 @export var name: String
 @export var world_paused: bool
+## Should extend [GameModeState].
+@export var state: Script
 @export var transition_script: Script
 @export var before_enter_method: StringName
 @export var before_exit_method: StringName

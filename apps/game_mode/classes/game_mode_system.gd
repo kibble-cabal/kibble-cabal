@@ -9,6 +9,7 @@ signal before_game_mode_entered(mode: GameModeResource)
 signal before_game_mode_exited(mode: GameModeResource)
 
 var current_mode: GameModeResource = null
+var current_state: GameModeState = null
 
 
 func _ready() -> void:
@@ -28,6 +29,12 @@ func _enter(mode: GameModeResource) -> void:
 		mode.before_enter()
 		current_mode = mode
 		
+		# Instantiate state
+		if current_mode and current_mode.state:
+			current_state = current_mode.state.new()
+			add_child(current_state)
+		
+		# Set pause mode
 		get_tree().paused = mode.world_paused
 		_update_pause_ui()
 		
@@ -40,10 +47,19 @@ func _exit() -> void:
 		Log.from(self, "Exiting game mode: " + current_mode.name)
 		before_game_mode_exited.emit(current_mode)
 		current_mode.before_exit()
+		
 		var prev_mode := current_mode
 		current_mode = null
+		
+		# Remove state
+		if current_state:
+			current_state.queue_free()
+			current_state = null
+		
+		# Set pause mode
 		get_tree().paused = true
 		_update_pause_ui()
+		
 		game_mode_exited.emit(prev_mode)
 		prev_mode.after_exit()
 
