@@ -7,20 +7,20 @@ const Subtrees = [
 ]
 
 const Abilities = [
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/eat.ability.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/eat_cooldown.ability.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/drink.ability.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/drink_cooldown.ability.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/sleep.ability.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/sleep_cooldown.ability.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/abilities/play.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/eat.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/eat_cooldown.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/drink.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/drink_cooldown.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/sleep.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/sleep_cooldown.ability.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/abilities/play.ability.tres"),
 ]
 
 const Attributes = [
-	preload("res://expansion_packs/core-pet/ability/resources/attributes/activity.attribute.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/attributes/hunger.attribute.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/attributes/thirst.attribute.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/attributes/energy.attribute.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/attributes/activity.attribute.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/attributes/hunger.attribute.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/attributes/thirst.attribute.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/attributes/energy.attribute.tres"),
 ]
 
 const Animals = [
@@ -39,13 +39,13 @@ const ActionScripts = [
 ]
 
 const Tags = [
-	preload("res://expansion_packs/core-pet/ability/resources/tags/activity_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/tags/energy_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/tags/hunger_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/tags/thirst_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/tags/just_ate.tag.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/tags/just_drank.tag.tres"),
-	preload("res://expansion_packs/core-pet/ability/resources/tags/just_slept.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/activity_provider.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/energy_provider.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/hunger_provider.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/thirst_provider.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/just_ate.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/just_drank.tag.tres"),
+	preload("res://expansion_packs/core-pet/need/resources/tags/just_slept.tag.tres"),
 ]
 
 

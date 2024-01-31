@@ -1,6 +1,6 @@
 [gd_resource type="Ability" load_steps=5 format=3 uid="uid://dm8bdx1shx125"]
 
-[ext_resource type="Tag" uid="uid://dptvbckqfix4w" path="res://expansion_packs/core-pet/ability/resources/tags/just_slept.tag.tres" id="1_r3an1"]
+[ext_resource type="Tag" uid="uid://dptvbckqfix4w" path="res://expansion_packs/core-pet/need/resources/tags/just_slept.tag.tres" id="1_r3an1"]
 
 [sub_resource type="TagEffect" id="TagEffect_8d56f"]
 tags = Array[Tag]([ExtResource("1_r3an1")])

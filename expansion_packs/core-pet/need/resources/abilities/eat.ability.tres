@@ -1,8 +1,8 @@
 [gd_resource type="Ability" load_steps=7 format=3 uid="uid://3hc46m6lprys"]
 
-[ext_resource type="Attribute" uid="uid://cff7l8jdss50m" path="res://expansion_packs/core-pet/ability/resources/attributes/hunger.attribute.tres" id="1_cxqq7"]
-[ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansion_packs/core-pet/ability/resources/tags/just_ate.tag.tres" id="2_gvvw7"]
-[ext_resource type="Ability" uid="uid://boshvv54x0qsl" path="res://expansion_packs/core-pet/ability/resources/abilities/eat_cooldown.ability.tres" id="2_ovqi4"]
+[ext_resource type="Attribute" uid="uid://cff7l8jdss50m" path="res://expansion_packs/core-pet/need/resources/attributes/hunger.attribute.tres" id="1_cxqq7"]
+[ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansion_packs/core-pet/need/resources/tags/just_ate.tag.tres" id="2_gvvw7"]
+[ext_resource type="Ability" uid="uid://boshvv54x0qsl" path="res://expansion_packs/core-pet/need/resources/abilities/eat_cooldown.ability.tres" id="2_ovqi4"]
 
 [sub_resource type="WaitEffect" id="WaitEffect_6q2h0"]
 min_wait_time = 5.0

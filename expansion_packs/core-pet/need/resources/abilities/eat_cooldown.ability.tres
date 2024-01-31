@@ -1,6 +1,6 @@
 [gd_resource type="Ability" load_steps=5 format=3 uid="uid://boshvv54x0qsl"]
 
-[ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansion_packs/core-pet/ability/resources/tags/just_ate.tag.tres" id="1_s7fw8"]
+[ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansion_packs/core-pet/need/resources/tags/just_ate.tag.tres" id="1_s7fw8"]
 
 [sub_resource type="TagEffect" id="TagEffect_rddxb"]
 tags = Array[Tag]([ExtResource("1_s7fw8")])

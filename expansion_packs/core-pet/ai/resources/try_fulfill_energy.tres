@@ -1,8 +1,8 @@
 [gd_resource type="BehaviorTree" load_steps=8 format=3 uid="uid://o0r1dnjti8l3"]
 
-[ext_resource type="Ability" uid="uid://tw20pwfsslh2" path="res://expansion_packs/core-pet/ability/resources/abilities/sleep.ability.tres" id="1_r2hdc"]
-[ext_resource type="Attribute" uid="uid://4k4ae0yxf52m" path="res://expansion_packs/core-pet/ability/resources/attributes/energy.attribute.tres" id="2_5mnib"]
-[ext_resource type="Tag" uid="uid://cw7junfddyuiy" path="res://expansion_packs/core-pet/ability/resources/tags/energy_provider.tag.tres" id="3_pac0x"]
+[ext_resource type="Ability" uid="uid://tw20pwfsslh2" path="res://expansion_packs/core-pet/need/resources/abilities/sleep.ability.tres" id="1_r2hdc"]
+[ext_resource type="Attribute" uid="uid://4k4ae0yxf52m" path="res://expansion_packs/core-pet/need/resources/attributes/energy.attribute.tres" id="2_5mnib"]
+[ext_resource type="Tag" uid="uid://cw7junfddyuiy" path="res://expansion_packs/core-pet/need/resources/tags/energy_provider.tag.tres" id="3_pac0x"]
 [ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/try_fulfill_need.gd" id="4_0iscf"]
 
 [sub_resource type="BBNode" id="BBNode_qgdrk"]

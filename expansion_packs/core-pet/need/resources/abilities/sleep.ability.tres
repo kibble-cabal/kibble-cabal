@@ -1,7 +1,7 @@
 [gd_resource type="Ability" load_steps=6 format=3 uid="uid://tw20pwfsslh2"]
 
-[ext_resource type="Attribute" uid="uid://4k4ae0yxf52m" path="res://expansion_packs/core-pet/ability/resources/attributes/energy.attribute.tres" id="1_jaasn"]
-[ext_resource type="Ability" uid="uid://dm8bdx1shx125" path="res://expansion_packs/core-pet/ability/resources/abilities/sleep_cooldown.ability.tres" id="2_2f3p4"]
+[ext_resource type="Attribute" uid="uid://4k4ae0yxf52m" path="res://expansion_packs/core-pet/need/resources/attributes/energy.attribute.tres" id="1_jaasn"]
+[ext_resource type="Ability" uid="uid://dm8bdx1shx125" path="res://expansion_packs/core-pet/need/resources/abilities/sleep_cooldown.ability.tres" id="2_2f3p4"]
 
 [sub_resource type="WaitEffect" id="WaitEffect_1wl51"]
 min_wait_time = 10.0

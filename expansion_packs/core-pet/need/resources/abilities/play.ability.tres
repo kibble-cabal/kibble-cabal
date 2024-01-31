@@ -1,6 +1,6 @@
 [gd_resource type="Ability" load_steps=4 format=3 uid="uid://d6dqu2nxhusn"]
 
-[ext_resource type="Attribute" uid="uid://jwkvud0o86m7" path="res://expansion_packs/core-pet/ability/resources/attributes/activity.attribute.tres" id="1_8rypb"]
+[ext_resource type="Attribute" uid="uid://jwkvud0o86m7" path="res://expansion_packs/core-pet/need/resources/attributes/activity.attribute.tres" id="1_8rypb"]
 
 [sub_resource type="WaitEffect" id="WaitEffect_xmgp5"]
 min_wait_time = 5.0
