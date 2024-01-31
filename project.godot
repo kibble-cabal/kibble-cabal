@@ -51,7 +51,6 @@ LuaSystem="*res://apps/mod/classes/lua_system.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
 Sx="*res://addons/signal_extensions/sx_autoload.gd"
 UIAnimManager="*res://addons/ui_anim/autoload/ui_anim_manager.gd"
-InputManager="*res://addons/touch_input_manager/InputManager.gd"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
