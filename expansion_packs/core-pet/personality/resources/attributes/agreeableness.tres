@@ -1,0 +1,6 @@
+[gd_resource type="Attribute" format=3 uid="uid://dw1r5wkoymtt6"]
+
+[resource]
+identifier = &"agreeableness"
+default_value = 0.5
+ui_color = Color(0.203922, 0.827451, 0.6, 1)

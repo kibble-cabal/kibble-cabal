@@ -1,0 +1,6 @@
+[gd_resource type="Attribute" format=3 uid="uid://brac1h67c1k2g"]
+
+[resource]
+identifier = &"extraversion"
+default_value = 0.5
+ui_color = Color(0.956863, 0.447059, 0.713726, 1)

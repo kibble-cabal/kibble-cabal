@@ -1,0 +1,6 @@
+[gd_resource type="Attribute" format=3 uid="uid://bl12b23dnipxt"]
+
+[resource]
+identifier = &"openness"
+default_value = 0.5
+ui_color = Color(0.992157, 0.729412, 0.454902, 1)

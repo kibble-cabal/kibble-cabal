@@ -1,0 +1,6 @@
+[gd_resource type="Attribute" format=3 uid="uid://dea4tx2owh0gf"]
+
+[resource]
+identifier = &"neuroticism"
+default_value = 0.5
+ui_color = Color(0.219608, 0.741176, 0.972549, 1)

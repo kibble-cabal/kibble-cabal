@@ -3,56 +3,65 @@
 extends Object
 
 const Subtrees = [
-	preload("res://expansion_packs/core-pet/ai/resources/fulfill_lowest_need_subtree.tres")
+	preload("ai/resources/fulfill_lowest_need_subtree.tres")
 ]
 
 const Abilities = [
-	preload("res://expansion_packs/core-pet/need/resources/abilities/eat.ability.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/abilities/eat_cooldown.ability.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/abilities/drink.ability.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/abilities/drink_cooldown.ability.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/abilities/sleep.ability.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/abilities/sleep_cooldown.ability.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/abilities/play.ability.tres"),
+	preload("need/resources/abilities/eat.ability.tres"),
+	preload("need/resources/abilities/eat_cooldown.ability.tres"),
+	preload("need/resources/abilities/drink.ability.tres"),
+	preload("need/resources/abilities/drink_cooldown.ability.tres"),
+	preload("need/resources/abilities/sleep.ability.tres"),
+	preload("need/resources/abilities/sleep_cooldown.ability.tres"),
+	preload("need/resources/abilities/play.ability.tres"),
 ]
 
-const Attributes = [
-	preload("res://expansion_packs/core-pet/need/resources/attributes/activity.attribute.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/attributes/hunger.attribute.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/attributes/thirst.attribute.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/attributes/energy.attribute.tres"),
+const NeedAttributes = [
+	preload("need/resources/attributes/activity.attribute.tres"),
+	preload("need/resources/attributes/hunger.attribute.tres"),
+	preload("need/resources/attributes/thirst.attribute.tres"),
+	preload("need/resources/attributes/energy.attribute.tres"),
+]
+
+const PersonalityAttributes = [
+	preload("personality/resources/attributes/agreeableness.tres"),
+	preload("personality/resources/attributes/conscientiousness.tres"),
+	preload("personality/resources/attributes/extraversion.tres"),
+	preload("personality/resources/attributes/neuroticism.tres"),
+	preload("personality/resources/attributes/openness.tres"),
 ]
 
 const Animals = [
-	preload("res://expansion_packs/core-pet/animal/resources/dog.tres")
+	preload("animal/resources/dog.tres")
 ]
 
 const Actions = [
-	preload("res://expansion_packs/core-pet/action/resources/fulfill_hunger.instruction.tres"),
-	preload("res://expansion_packs/core-pet/action/resources/fulfill_thirst.instruction.tres"),
-	preload("res://expansion_packs/core-pet/action/resources/fulfill_energy.instruction.tres"),
-	preload("res://expansion_packs/core-pet/action/resources/fulfill_activity.instruction.tres"),
+	preload("action/resources/fulfill_hunger.instruction.tres"),
+	preload("action/resources/fulfill_thirst.instruction.tres"),
+	preload("action/resources/fulfill_energy.instruction.tres"),
+	preload("action/resources/fulfill_activity.instruction.tres"),
 ]
 
 const ActionScripts = [
-	preload("res://expansion_packs/core-pet/action/classes/rename_action.gd"),
+	preload("action/classes/rename_action.gd"),
 ]
 
 const Tags = [
-	preload("res://expansion_packs/core-pet/need/resources/tags/activity_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/tags/energy_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/tags/hunger_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/tags/thirst_provider.tag.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/tags/just_ate.tag.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/tags/just_drank.tag.tres"),
-	preload("res://expansion_packs/core-pet/need/resources/tags/just_slept.tag.tres"),
+	preload("need/resources/tags/activity_provider.tag.tres"),
+	preload("need/resources/tags/energy_provider.tag.tres"),
+	preload("need/resources/tags/hunger_provider.tag.tres"),
+	preload("need/resources/tags/thirst_provider.tag.tres"),
+	preload("need/resources/tags/just_ate.tag.tres"),
+	preload("need/resources/tags/just_drank.tag.tres"),
+	preload("need/resources/tags/just_slept.tag.tres"),
 ]
 
 
 func _init() -> void:
 	Subtrees.map(SubtreeDB.register)
 	Abilities.map(AbilityDB.register)
-	Attributes.map(AttributeDB.register)
+	NeedAttributes.map(AttributeDB.register)
+	PersonalityAttributes.map(AttributeDB.register)
 	Animals.map(AnimalDB.register)
 	Tags.map(TagDB.register)
 	Actions.map(ActionDB.register)
