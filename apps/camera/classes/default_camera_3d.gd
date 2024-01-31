@@ -11,28 +11,24 @@ enum Mode { NONE, ROTATE, PAN }
 
 var mode := Mode.NONE
 
-func _input(event):
+func _unhandled_input(event: InputEvent) -> void:
 	if not current:
 		return
 	
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-		if event is InputEventMouseMotion:
-			match mode:
-				Mode.PAN: _pan(event.relative)
-				Mode.ROTATE:
-					if abs(event.relative.y) > abs(event.relative.x):
-						_zoom(event.relative.normalized().y)
-					else:
-						_rotate(event.relative * Vector2(1, 0))
+	if event is InputEventMouseMotion:
+		match mode:
+			Mode.PAN: _pan(event.relative)
+			Mode.ROTATE:
+				if abs(event.relative.y) > abs(event.relative.x):
+					_zoom(event.relative.normalized().y)
+				else:
+					_rotate(event.relative * Vector2(1, 0))
 	
 	if event.is_action(&"click"):
 		mode = Mode.PAN if event.pressed else Mode.NONE
 	
 	if event.is_action(&"two_finger_click"):
 		mode = Mode.ROTATE if event.pressed else Mode.NONE
-	
-	if event.is_action(&"click") or event.is_action(&"two_finger_click"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if event.pressed else Input.MOUSE_MODE_VISIBLE)
 
 
 func _process(delta):

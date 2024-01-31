@@ -52,6 +52,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var menu_radius := maxf(interact_menu.size.x, interact_menu.size.y) / 2
 		if interact_menu.get_local_mouse_position().distance_to(interact_menu.size / 2) > menu_radius:
 			interact_menu.close()
+			viewport.set_input_as_handled()
 
 
 func get_random_target() -> Vector3:
@@ -122,7 +123,7 @@ func _update_collision() -> void:
 	if animal:
 		($NavigationAgent as NavigationAgent).radius = animal.collision_radius
 		(($CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius
-		(($Area/CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius
+		(($Area/CollisionShape as CollisionShape3D).shape as SphereShape3D).radius = animal.collision_radius * 1.5
 		($FacingRay as RayCast3D).target_position = Vector3(animal.collision_radius * 1.5, 0, 0)
 
 
