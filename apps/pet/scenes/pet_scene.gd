@@ -17,6 +17,10 @@ func _ready() -> void:
 	if resource:
 		_instantiate_sprite_controller()
 		
+		# Update ability system from cached state
+		if resource.ability_state:
+			resource.ability_state.merge_into_node(ability_system)
+		
 		# Add all attributes, if not preset
 		# FIXME this needs to be removed later
 		for need in NeedsConfig.Needs:
@@ -28,9 +32,9 @@ func _ready() -> void:
 			if ability: ability_system.grant_ability(ability)
 			if cooldown_ability: ability_system.grant_ability(cooldown_ability)
 		
-		# Update ability system from cached state
-		if resource.ability_state:
-			resource.ability_state.merge_into_node(ability_system)
+		# Add personality, if not preset
+		# FIXME this needs to be removed later
+		PersonalityConfig.randomize_personality(ability_system)
 		
 		global_position = resource.current_position
 		_update_collision()

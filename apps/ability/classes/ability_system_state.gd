@@ -33,7 +33,9 @@ func populate_node(node: AbilitySystem) -> void:
 	node.attributes = {}
 	for attribute_identifier in attributes.keys():
 		var attribute := AttributeDB.find(attribute_identifier)
-		if attribute: node.attributes[attribute] = attributes[attribute_identifier]
+		if attribute: 
+			node.grant_attribute(attribute)
+			node.set_attribute_value(attribute, attributes[attribute_identifier])
 	node.tags = []
 	for tag_identifier in tags:
 		var tag := TagDB.find(tag_identifier)
@@ -50,10 +52,9 @@ func merge_into_node(node: AbilitySystem) -> void:
 	for attribute_identifier in attributes.keys():
 		var attribute := AttributeDB.find(attribute_identifier)
 		if attribute:
-			if node.has_attribute(attribute):
-				node.set_attribute_value(attribute, attributes[attribute_identifier])
-			else:
-				node.attributes[attribute] = attributes[attribute_identifier]
+			if not node.has_attribute(attribute):
+				node.grant_attribute(attribute)
+			node.set_attribute_value(attribute, attributes[attribute_identifier])
 	for tag_identifier in tags:
 		var tag := TagDB.find(tag_identifier)
 		if tag and not tag in node.tags: node.tags.append(tag)
