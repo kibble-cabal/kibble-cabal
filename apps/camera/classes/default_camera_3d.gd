@@ -31,7 +31,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		mode = Mode.ROTATE if event.pressed else Mode.NONE
 
 
-func _process(delta):
+func _process(_delta: float) -> void:
 	if not current:
 		return
 	

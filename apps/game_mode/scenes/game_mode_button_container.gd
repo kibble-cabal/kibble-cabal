@@ -47,4 +47,4 @@ func _sort_children() -> void:
 	if children.size() > 0:
 		var total_degrees := 30
 		for i in range(children.size()):
-			children[i].rotation_degrees = i * total_degrees / children.size() - total_degrees / 2
+			children[i].rotation_degrees = float(i * total_degrees) / children.size() - float(total_degrees) / 2
