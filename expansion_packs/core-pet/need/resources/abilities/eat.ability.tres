@@ -1,19 +1,22 @@
-[gd_resource type="Ability" load_steps=7 format=3 uid="uid://3hc46m6lprys"]
+[gd_resource type="Ability" load_steps=8 format=3 uid="uid://3hc46m6lprys"]
 
 [ext_resource type="Attribute" uid="uid://cff7l8jdss50m" path="res://expansion_packs/core-pet/need/resources/attributes/hunger.attribute.tres" id="1_cxqq7"]
 [ext_resource type="Tag" uid="uid://cxdilmg6d1c5l" path="res://expansion_packs/core-pet/need/resources/tags/just_ate.tag.tres" id="2_gvvw7"]
 [ext_resource type="Ability" uid="uid://boshvv54x0qsl" path="res://expansion_packs/core-pet/need/resources/abilities/eat_cooldown.ability.tres" id="2_ovqi4"]
 
 [sub_resource type="WaitEffect" id="WaitEffect_6q2h0"]
-min_wait_time = 5.0
-max_wait_time = 10.0
+min_wait_time = 2.0
+max_wait_time = 3.0
 ui_name = &"eating..."
 
 [sub_resource type="AttributeEffect" id="AttributeEffect_dm1p2"]
 attribute = ExtResource("1_cxqq7")
-min_effect = 0.1
-max_effect = 0.2
+min_effect = 0.04
+max_effect = 0.08
 ui_name = &"nom nom"
+
+[sub_resource type="LoopEffect" id="LoopEffect_74lgt"]
+max_loops = 5
 
 [sub_resource type="TryActivateAbilityEffect" id="TryActivateAbilityEffect_5h6tp"]
 ability = ExtResource("2_ovqi4")
@@ -21,6 +24,6 @@ ability = ExtResource("2_ovqi4")
 [resource]
 identifier = &"eat"
 tags_blocking = Array[Tag]([ExtResource("2_gvvw7")])
-effects = Array[Effect]([SubResource("WaitEffect_6q2h0"), SubResource("AttributeEffect_dm1p2"), SubResource("WaitEffect_6q2h0"), SubResource("AttributeEffect_dm1p2"), SubResource("TryActivateAbilityEffect_5h6tp")])
+effects = Array[Effect]([SubResource("WaitEffect_6q2h0"), SubResource("AttributeEffect_dm1p2"), SubResource("LoopEffect_74lgt"), SubResource("TryActivateAbilityEffect_5h6tp")])
 effect_mode = 2
 ui_color = Color(0.980392, 0.501961, 0.262745, 1)

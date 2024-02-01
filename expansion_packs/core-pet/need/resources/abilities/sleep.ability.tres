@@ -1,18 +1,21 @@
-[gd_resource type="Ability" load_steps=6 format=3 uid="uid://tw20pwfsslh2"]
+[gd_resource type="Ability" load_steps=7 format=3 uid="uid://tw20pwfsslh2"]
 
 [ext_resource type="Attribute" uid="uid://4k4ae0yxf52m" path="res://expansion_packs/core-pet/need/resources/attributes/energy.attribute.tres" id="1_jaasn"]
 [ext_resource type="Ability" uid="uid://dm8bdx1shx125" path="res://expansion_packs/core-pet/need/resources/abilities/sleep_cooldown.ability.tres" id="2_2f3p4"]
 
 [sub_resource type="WaitEffect" id="WaitEffect_1wl51"]
-min_wait_time = 10.0
-max_wait_time = 20.0
+min_wait_time = 3.0
+max_wait_time = 4.0
 ui_name = &"sleeping..."
 
 [sub_resource type="AttributeEffect" id="AttributeEffect_fv0bo"]
 attribute = ExtResource("1_jaasn")
-min_effect = 0.1
-max_effect = 0.2
+min_effect = 0.04
+max_effect = 0.08
 ui_name = &"nom nom"
+
+[sub_resource type="LoopEffect" id="LoopEffect_dfy76"]
+max_loops = 10
 
 [sub_resource type="TryActivateAbilityEffect" id="TryActivateAbilityEffect_wcxgs"]
 ability = ExtResource("2_2f3p4")
@@ -20,6 +23,6 @@ ui_name = &"activate_cooldown"
 
 [resource]
 identifier = &"sleep"
-effects = Array[Effect]([SubResource("WaitEffect_1wl51"), SubResource("AttributeEffect_fv0bo"), SubResource("TryActivateAbilityEffect_wcxgs")])
+effects = Array[Effect]([SubResource("WaitEffect_1wl51"), SubResource("AttributeEffect_fv0bo"), SubResource("LoopEffect_dfy76"), SubResource("TryActivateAbilityEffect_wcxgs")])
 effect_mode = 2
 ui_color = Color(0.980392, 0.501961, 0.262745, 1)

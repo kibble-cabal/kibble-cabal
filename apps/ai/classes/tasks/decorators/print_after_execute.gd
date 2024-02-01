@@ -5,7 +5,7 @@ extends BTPrint
 
 
 func _generate_name() -> String:
-	return "Print \"{0}\", then...".format([string])
+	return "Print \"{0}\" after...".format([string])
 
 
 func _tick(delta: float) -> Status:
