@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=14 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bbidjdr5fxjcu" path="res://apps/game_mode/scenes/game_mode_button_container.tscn" id="4_h1txm"]
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
+[ext_resource type="Script" path="res://apps/ui/classes/nodes/ui_stack.gd" id="9_05fjn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ho1hl"]
 sky_top_color = Color(1, 1, 1, 1)
@@ -104,3 +105,4 @@ size_flags_vertical = 0
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
+script = ExtResource("9_05fjn")
