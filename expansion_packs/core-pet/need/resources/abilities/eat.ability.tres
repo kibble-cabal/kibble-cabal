@@ -8,14 +8,12 @@
 min_wait_time = 5.0
 max_wait_time = 10.0
 ui_name = &"eating..."
-ui_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AttributeEffect" id="AttributeEffect_dm1p2"]
 attribute = ExtResource("1_cxqq7")
 min_effect = 0.1
 max_effect = 0.2
 ui_name = &"nom nom"
-ui_color = Color(1, 1, 1, 1)
 
 [sub_resource type="TryActivateAbilityEffect" id="TryActivateAbilityEffect_5h6tp"]
 ability = ExtResource("2_ovqi4")

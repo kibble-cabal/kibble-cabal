@@ -6,7 +6,6 @@
 min_wait_time = 5.0
 max_wait_time = 10.0
 ui_name = &"playing..."
-ui_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AttributeEffect" id="AttributeEffect_0u5pi"]
 attribute = ExtResource("1_8rypb")

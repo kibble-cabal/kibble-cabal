@@ -54,53 +54,16 @@ shape = SubResource("SphereShape3D_vha77")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="AbilitySystemDebugger" type="GridContainer" parent="CanvasLayer"]
-unique_name_in_owner = true
+[node name="AbilitySystemViewer" type="AbilitySystemViewer" parent="CanvasLayer"]
+ability_system_path = NodePath("../../AbilitySystem")
 visible = false
-anchors_preset = 12
+custom_minimum_size = Vector2(600, 2.08165e-12)
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -180.0
-grow_horizontal = 2
+offset_top = -196.0
+offset_right = 187.0
 grow_vertical = 0
-columns = 2
-
-[node name="Abilities" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
-layout_mode = 2
-text = "Abilities"
-
-[node name="AbilityViewer" type="AbilityViewer" parent="CanvasLayer/AbilitySystemDebugger"]
-ability_system_path = NodePath("../../../AbilitySystem")
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Tags" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
-layout_mode = 2
-text = "Tags"
-
-[node name="TagViewer" type="TagViewer" parent="CanvasLayer/AbilitySystemDebugger"]
-ability_system_path = NodePath("../../../AbilitySystem")
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Attributes" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
-layout_mode = 2
-text = "Attributes"
-
-[node name="AttributeViewer" type="AttributeViewer" parent="CanvasLayer/AbilitySystemDebugger"]
-ability_system_path = NodePath("../../../AbilitySystem")
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Events" type="Label" parent="CanvasLayer/AbilitySystemDebugger"]
-layout_mode = 2
-text = "Events"
-
-[node name="EventViewer" type="EventViewer" parent="CanvasLayer/AbilitySystemDebugger"]
-ability_system_path = NodePath("../../../AbilitySystem")
-layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
