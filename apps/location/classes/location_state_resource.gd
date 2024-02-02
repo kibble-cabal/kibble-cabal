@@ -25,6 +25,17 @@ func remove_spawner(spawner: Spawner) -> void:
 		spawners_changed.emit()
 
 
+func has_spawners_with_resource(resource: Resource) -> bool:
+	return spawners.any(func(spawner): return spawner.resource == resource)
+
+
+func remove_spawners_with_resource(resource: Resource) -> void:
+	for spawner in spawners.duplicate():
+		if spawner.resource == resource:
+			spawners.erase(spawner)
+			spawners_changed.emit()
+
+
 func get_location_resource() -> LocationResource:
 	return LocationDB.find(location_name) if LocationDB else null
 
