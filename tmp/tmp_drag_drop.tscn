@@ -1,0 +1,232 @@
+[gd_scene load_steps=28 format=3 uid="uid://dcnw00qqwq063"]
+
+[ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="1_t41oy"]
+[ext_resource type="Script" path="res://apps/polygon_editor/classes/droppable_area_3d.gd" id="2_wwdbq"]
+[ext_resource type="Script" path="res://apps/polygon_editor/classes/draggable_component_3d.gd" id="4_3rfcr"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bjv6d"]
+sky_top_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
+
+[sub_resource type="Sky" id="Sky_1gkft"]
+sky_material = SubResource("ProceduralSkyMaterial_bjv6d")
+
+[sub_resource type="Environment" id="Environment_mmajb"]
+background_mode = 2
+sky = SubResource("Sky_1gkft")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cnwsi"]
+albedo_color = Color(0.129412, 0.458824, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bojuj"]
+material = SubResource("StandardMaterial3D_cnwsi")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y4n1y"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3ck1i"]
+albedo_color = Color(0.913725, 0.419608, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7c8jd"]
+material = SubResource("StandardMaterial3D_3ck1i")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tuycf"]
+size = Vector3(2, 0.25, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2mya"]
+albedo_color = Color(0.470588, 0.470588, 0.470588, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lp5u6"]
+material = SubResource("StandardMaterial3D_j2mya")
+
+[sub_resource type="Gradient" id="Gradient_xjokr"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.143, 0.286, 0.429, 0.571, 0.714, 0.857)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.626637, 0, 1, 1, 0.962072, 0, 1, 0.352636, 1, 0, 1, 0, 1, 0.906836, 1, 0, 0.396078, 1, 1, 0.521601, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qgv7u"]
+gradient = SubResource("Gradient_xjokr")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ojj23"]
+albedo_texture = SubResource("GradientTexture1D_qgv7u")
+
+[sub_resource type="SphereMesh" id="SphereMesh_ee2mf"]
+material = SubResource("StandardMaterial3D_ojj23")
+radius = 0.25
+height = 0.5
+radial_segments = 24
+rings = 12
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5838c"]
+radius = 0.4
+
+[sub_resource type="Gradient" id="Gradient_ml57i"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5)
+colors = PackedColorArray(0.345098, 0.615686, 0.972549, 1, 0.913725, 0.6, 0.976471, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n6hnu"]
+gradient = SubResource("Gradient_ml57i")
+width = 64
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_futp6"]
+albedo_texture = SubResource("GradientTexture1D_n6hnu")
+
+[sub_resource type="SphereMesh" id="SphereMesh_pcq6n"]
+material = SubResource("StandardMaterial3D_futp6")
+radius = 0.25
+height = 0.5
+radial_segments = 24
+rings = 12
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i670u"]
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o3kt3"]
+albedo_color = Color(0.913725, 0.596078, 0.976471, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_4uw8g"]
+material = SubResource("StandardMaterial3D_o3kt3")
+radius = 0.25
+height = 0.5
+radial_segments = 24
+rings = 12
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8akgs"]
+radius = 0.4
+
+[node name="Drag Drop" type="Node3D"]
+process_mode = 3
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mmajb")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+process_mode = 3
+transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707107, 0.707107, -5.95416e-16, -0.707107, 0.707107, 2.08165e-12, 4, 4)
+projection = 1
+current = true
+size = 10.0
+script = ExtResource("1_t41oy")
+
+[node name="Drop Area 1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 2.08165e-12, 2.08165e-12)
+collision_layer = 1024
+collision_mask = 512
+input_ray_pickable = false
+monitoring = false
+script = ExtResource("2_wwdbq")
+
+[node name="Label" type="Label3D" parent="Drop Area 1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
+billboard = 1
+text = "Drop area 1"
+
+[node name="Mesh" type="MeshInstance3D" parent="Drop Area 1"]
+mesh = SubResource("PlaneMesh_bojuj")
+skeleton = NodePath("../..")
+
+[node name="Collider" type="CollisionShape3D" parent="Drop Area 1"]
+shape = SubResource("BoxShape3D_y4n1y")
+
+[node name="Drop Area 2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 2.08165e-12, 2.08165e-12)
+collision_layer = 1024
+collision_mask = 512
+input_ray_pickable = false
+monitoring = false
+script = ExtResource("2_wwdbq")
+
+[node name="Label" type="Label3D" parent="Drop Area 2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
+billboard = 1
+text = "Drop area 2"
+
+[node name="Mesh" type="MeshInstance3D" parent="Drop Area 2"]
+mesh = SubResource("PlaneMesh_7c8jd")
+skeleton = NodePath("../..")
+
+[node name="Collider" type="CollisionShape3D" parent="Drop Area 2"]
+shape = SubResource("BoxShape3D_tuycf")
+
+[node name="Drop Area 3" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, -2.5)
+collision_layer = 1024
+collision_mask = 512
+input_ray_pickable = false
+monitoring = false
+script = ExtResource("2_wwdbq")
+reparent_on_drop = true
+disable_on_drop = true
+
+[node name="Label" type="Label3D" parent="Drop Area 3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
+billboard = 1
+text = "Disabling area"
+
+[node name="Mesh" type="MeshInstance3D" parent="Drop Area 3"]
+mesh = SubResource("PlaneMesh_lp5u6")
+skeleton = NodePath("../..")
+
+[node name="Collider" type="CollisionShape3D" parent="Drop Area 3"]
+shape = SubResource("BoxShape3D_tuycf")
+
+[node name="Node 1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.08165e-12, 2)
+mesh = SubResource("SphereMesh_ee2mf")
+
+[node name="DraggableComponent3D" type="Area3D" parent="Node 1"]
+collision_layer = 512
+collision_mask = 1024
+script = ExtResource("4_3rfcr")
+drop_mode = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 1/DraggableComponent3D"]
+shape = SubResource("SphereShape3D_5838c")
+
+[node name="Label3D" type="Label3D" parent="Node 1"]
+pixel_size = 0.0025
+billboard = 1
+no_depth_test = true
+text = "Drop
+Anywhere"
+
+[node name="Node 2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2)
+mesh = SubResource("SphereMesh_pcq6n")
+
+[node name="DraggableComponent3D" type="Area3D" parent="Node 2"]
+collision_layer = 512
+collision_mask = 1024
+script = ExtResource("4_3rfcr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 2/DraggableComponent3D"]
+shape = SubResource("SphereShape3D_i670u")
+
+[node name="Label3D" type="Label3D" parent="Node 2"]
+pixel_size = 0.0025
+billboard = 1
+no_depth_test = true
+text = "Drop
+Any Area"
+
+[node name="Node 3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.08165e-12, 2)
+mesh = SubResource("SphereMesh_4uw8g")
+
+[node name="DraggableComponent3D" type="Area3D" parent="Node 3" node_paths=PackedStringArray("drop_areas")]
+collision_layer = 512
+collision_mask = 1024
+script = ExtResource("4_3rfcr")
+drop_mode = 2
+drop_areas = [NodePath("../../Drop Area 2")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 3/DraggableComponent3D"]
+shape = SubResource("SphereShape3D_8akgs")
+
+[node name="Label3D" type="Label3D" parent="Node 3"]
+pixel_size = 0.0025
+billboard = 1
+no_depth_test = true
+text = "Drop
+Area 2"
