@@ -25,7 +25,7 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	is_moving = not [velocity.x, velocity.y, velocity.z].all(func(num): return is_zero_approx(num))
+	is_moving = not velocity.is_zero_approx()
 	if is_moving:
 		if facing_ray:
 			facing_ray.target_position = (Vector3(_facing_ray_length, _facing_ray_length, _facing_ray_length) * velocity.sign()).limit_length(_facing_ray_length)

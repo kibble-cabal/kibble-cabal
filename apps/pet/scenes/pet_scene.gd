@@ -8,6 +8,7 @@ class_name PetScene extends PetBody3D
 
 @onready var viewport := get_viewport()
 @onready var camera := viewport.get_camera_3d()
+@onready var behavior_tree := $BTPlayer as BTPlayer
 
 var sprite_controller: SpriteController
 
@@ -135,7 +136,7 @@ func _update_speed() -> void:
 	if not resource: return
 	var animal := resource.get_animal_resource()
 	if animal:
-		($NavigationAgent as NavigationAgent).max_speed = animal.speed
+		($NavigationAgent as NavigationAgent).max_speed = animal.speed * 2
 
 
 func _on_move_finished() -> void:

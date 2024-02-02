@@ -13,7 +13,7 @@ var current_state: GameModeState = null
 
 
 func _ready() -> void:
-	if not current_mode: get_tree().paused = true
+	if not current_mode: set_paused(true)
 
 
 func to(mode: GameModeResource) -> void:
@@ -35,8 +35,7 @@ func _enter(mode: GameModeResource) -> void:
 			add_child(current_state)
 		
 		# Set pause mode
-		get_tree().paused = mode.world_paused
-		_update_pause_ui()
+		set_paused(mode.world_paused)
 		
 		game_mode_entered.emit(mode)
 		mode.after_enter()
@@ -57,8 +56,7 @@ func _exit() -> void:
 			current_state = null
 		
 		# Set pause mode
-		get_tree().paused = true
-		_update_pause_ui()
+		set_paused(true)
 		
 		game_mode_exited.emit(prev_mode)
 		prev_mode.after_exit()
@@ -78,6 +76,13 @@ func _update_pause_ui() -> void:
 	
 	if not current_mode: create_ui.call()
 	elif current_mode.world_paused: create_ui.call()
+
+
+func set_paused(value: bool) -> void:
+	var world_root := get_tree().get_first_node_in_group("world_root")
+	if world_root:
+		world_root.process_mode = PROCESS_MODE_DISABLED if value else PROCESS_MODE_INHERIT
+		_update_pause_ui()
 
 
 func lua_fields() -> Array:
