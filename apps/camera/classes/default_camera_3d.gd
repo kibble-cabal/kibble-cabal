@@ -9,13 +9,14 @@ enum Mode { NONE, ROTATE, PAN }
 @export var max_speed : float = 1000
 @export var min_speed : float = 0.2
 
+var is_pressed := Toggle.new(false)
 var mode := Mode.NONE
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not current:
+	if not current or get_viewport().is_input_handled():
 		return
 	
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and is_pressed.is_true():
 		match mode:
 			Mode.PAN: _pan(event.relative)
 			Mode.ROTATE:
@@ -25,10 +26,18 @@ func _unhandled_input(event: InputEvent) -> void:
 					_rotate(event.relative * Vector2(1, 0))
 	
 	if event.is_action(&"click"):
-		mode = Mode.PAN if event.pressed else Mode.NONE
+		mode = Mode.PAN if event.is_pressed() else Mode.NONE
+		is_pressed.to(event.is_pressed())
 	
 	if event.is_action(&"two_finger_click"):
-		mode = Mode.ROTATE if event.pressed else Mode.NONE
+		mode = Mode.ROTATE if event.is_pressed() else Mode.NONE
+		is_pressed.to(event.is_pressed())
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and not event.pressed:
+		is_pressed.to(false)
+		mode = Mode.NONE
 
 
 func _process(_delta: float) -> void:
