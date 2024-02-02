@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://uiviik6ck4si"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/editing_building_ui.gd" id="1_ah6xs"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3w1hc"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="EditingBuildingUI" type="VBoxContainer"]
+offset_right = 282.0
+offset_bottom = 204.0
+mouse_filter = 2
+script = ExtResource("1_ah6xs")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_3w1hc")
+text = "Editing building..."
+
+[node name="CreateSquareRoomButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "tooltip tooltip
+"
+text = "+ Create square room"
+
+[node name="DoneButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "....."
+text = "✓ Done"
+
+[node name="CancelButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "....."
+text = "✕ Cancel"
+
+[node name="Spawner" type="Node3D" parent="."]
+
+[connection signal="pressed" from="CreateSquareRoomButton" to="." method="_on_create_square_room_button_pressed"]
+[connection signal="pressed" from="DoneButton" to="." method="_on_done_button_pressed"]
+[connection signal="pressed" from="CancelButton" to="." method="_on_cancel_button_pressed"]

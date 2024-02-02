@@ -1,83 +1,62 @@
 extends Control
 
-const EventNames = {
-	BuildingPicked = &"building_picked",
-	RoomPicked = &"room_picked",
-	RoomEdited = &"room_edited",
-	BuildingCreated = &"building_created",
-	RoomCreated = &"room_created",
-	RoomShapePicked = &"room_shape_picked",
-	RoomLocationPicked = &"room_location_picked",
-	BuildingDestroyed = &"building_destroyed",
-	RoomDestroyed = &"room_destroyed"
-}
 
-@onready var chart := $StateChart as StateChart
+const EditingBuildingUI := preload("editing_building_ui.tscn")
 
-var selected_building: BuildingResource
-var selected_room: RoomResource
-
-var state: BuildModeState:
-	get: return BuildingConfig.get_state()
+@onready var ui_root := UIConfig.get_game_mode_ui_root()
+@onready var world: Node3D = $World
 
 
-func create_building() -> void:
-	selected_building = BuildingResource.new()
-	chart.send_event(EventNames.BuildingCreated)
+func _enter_tree() -> void:
+	for building in get_buildings():
+		Sig.try_connect(building.edit_requested, _on_edit_building_requested.bind(building))
+		Sig.try_connect(building.destroy_requested, _on_destroy_building_requested.bind(building))
+	respawn()
 
 
-func select_building(building: BuildingResource) -> void:
-	selected_building = building
-	chart.send_event(EventNames.BuildingPicked)
+func _exit_tree() -> void:
+	for building in get_buildings():
+		Sig.disconnect_all_for_object(self, building.edit_requested)
+		Sig.disconnect_all_for_object(self, building.destroy_requested)
 
 
-func create_room() -> void:
-	if selected_building:
-		selected_room = RoomResource.new()
-		selected_building.rooms.append(selected_room)
-		chart.send_event(EventNames.RoomCreated)
+func respawn() -> void:
+	if not is_node_ready(): await ready
+	
+	if is_inside_tree():
+		if not world.is_node_ready():
+			await world.ready
+		
+		# Remove outdated nodes
+		for child in world.get_children():
+			child.queue_free()
+
+		# Add buildings and their UI
+		for building in get_buildings():
+			BuildingSpawner.new(building).spawn(world)
+			BuildingUISpawner.new(building).spawn(world)
 
 
-func select_room(room: RoomResource) -> void:
-	selected_room = room
-	chart.send_event(EventNames.RoomPicked)
+func get_buildings() -> Array[BuildingResource]:
+	var buildings: Array[BuildingResource] = []
+	for spawner in LocationSystem.current_state.spawners:
+		if spawner is BuildingSpawner:
+			buildings.append(spawner.resource as BuildingResource)
+	return buildings
 
 
-func pick_room_shape(polygon: Curve2D) -> void:
-	if selected_room:
-		selected_room.polygon = polygon
-		chart.send_event(EventNames.RoomShapePicked)
+func _on_create_building_button_pressed() -> void:
+	var scene := EditingBuildingUI.instantiate()
+	scene.building = BuildingResource.new()
+	if ui_root: ui_root.push(scene)
 
 
-func pick_room_location(location: Vector2) -> void:
-	if selected_room:
-		selected_room.origin = location
-		chart.send_event(EventNames.RoomLocationPicked)
+func _on_edit_building_requested(building: BuildingResource) -> void:
+	var scene := EditingBuildingUI.instantiate()
+	scene.building = building
+	if ui_root: ui_root.push(scene)
 
 
-func finish_editing_room() -> void:
-	if selected_room:
-		selected_room = null
-		chart.send_event(EventNames.RoomEdited)
-
-
-func destroy_building(building: BuildingResource) -> void:
-	selected_building = null
-	chart.send_event(EventNames.BuildingDestroyed)
-
-
-func destroy_room(room: RoomResource) -> void:
-	selected_room = null
-	chart.send_event(EventNames.RoomDestroyed)
-
-
-func any_states_in_group_active(group_name: StringName) -> bool:
-	return Nodes.get_children_in_group(chart, group_name).any(func(state: State) -> bool: return state.active)
-
-
-func _can_create_room() -> bool:
-	return any_states_in_group_active(&"can_create_room_during_state")
-
-
-func _can_create_building() -> bool:
-	return any_states_in_group_active(&"can_create_building_during_state")
+func _on_destroy_building_requested(building: BuildingResource) -> void:
+	LocationSystem.current_state.remove_spawners_with_resource(building)
+	respawn()

@@ -41,6 +41,7 @@ navigation_mesh = SubResource("NavigationMesh_rms5k")
 process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
+process_mode = 3
 transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707106, 0.707106, -5.95416e-16, -0.707106, 0.707106, 2.08165e-12, 4, 4)
 projection = 1
 current = true
@@ -102,6 +103,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 
 [node name="GameModeUIRoot" type="Control" parent="UI/VBoxContainer" groups=["game_mode_ui_root"]]
+process_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2

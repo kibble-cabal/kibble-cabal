@@ -1,5 +1,8 @@
 class_name RoomResource extends ModdableResource
 
+signal edit_requested
+signal destroy_requested
+
 
 @export var polygon: Curve2D = Curve2D.new():
 	set(value):
@@ -34,6 +37,11 @@ class_name RoomResource extends ModdableResource
 # @export var level: int = 0
 
 
+func add_point(point: Vector2) -> void:
+	polygon.add_point(point)
+	emit_changed()
+
+
 func get_interior_resource() -> ItemResource:
 	return ItemDB.find_by_id(interior_id)
 
@@ -53,6 +61,15 @@ func get_size() -> Vector2:
 	for point in points:
 		rect = rect.expand(point)
 	return rect.size + Vector2.ONE
+
+
+func get_rect() -> Rect2:
+	return Rect2(origin, get_size())
+
+
+func get_center() -> Vector2:
+	var rect := get_rect()
+	return rect.position + rect.size / 2
 
 
 func get_mesh() -> ProceduralRoomMesh:
