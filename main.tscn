@@ -14,12 +14,12 @@
 sky_top_color = Color(1, 1, 1, 1)
 ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
 
-[sub_resource type="Sky" id="Sky_1gkft"]
+[sub_resource type="Sky" id="Sky_fu48q"]
 sky_material = SubResource("ProceduralSkyMaterial_ho1hl")
 
 [sub_resource type="Environment" id="Environment_gp0l6"]
 background_mode = 2
-sky = SubResource("Sky_1gkft")
+sky = SubResource("Sky_fu48q")
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
 geometry_source_geometry_mode = 2

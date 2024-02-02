@@ -8,6 +8,9 @@ const L5 = 1 << 4
 const L6 = 1 << 5
 const L7 = 1 << 6
 const L8 = 1 << 7
+const L9 = 1 << 8
+const L10 = 1 << 9
+const L11 = 1 << 10
 
 
 enum Physics {
@@ -15,5 +18,9 @@ enum Physics {
 	PLAYERS = L2,
 	PETS = L3,
 	ITEMS = L4,
-	BUILDINGS = L5
+	BUILDINGS = L5,
+	
+	# UI
+	UI_DRAG = L10,
+	UI_DROP = L11,
 }
