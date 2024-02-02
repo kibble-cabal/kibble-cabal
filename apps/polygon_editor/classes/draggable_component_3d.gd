@@ -9,6 +9,8 @@ enum DropMode {
 
 signal drag_started
 signal drag_finished
+signal attempted_drop(drop_position: Vector3)
+signal dropped(drop_area: DroppableArea3D, drop_position: Vector3)
 
 @export_group("Drop")
 @export var drop_mode := DropMode.ANY_DROP_AREA
@@ -63,7 +65,7 @@ func _on_input_event(
 
 
 func _physics_process(_delta: float) -> void:
-	if dragging.is_false() and node.is_node_ready():
+	if dragging.is_false() and node.is_node_ready() and not Engine.is_editor_hint():
 		node.global_position = node.global_position.lerp(start_position, 0.1)
 
 
@@ -77,6 +79,9 @@ func _on_drag_finished() -> void:
 		var drop_area := get_drop_area()
 		if drop_area:
 			drop_area.drop(self, node.global_position)
+		dropped.emit(drop_area, node.global_position)
+	else:
+		attempted_drop.emit(node.global_position)
 
 
 func can_drop() -> bool:

@@ -8,12 +8,12 @@
 sky_top_color = Color(1, 1, 1, 1)
 ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
 
-[sub_resource type="Sky" id="Sky_1gkft"]
+[sub_resource type="Sky" id="Sky_8lcr8"]
 sky_material = SubResource("ProceduralSkyMaterial_bjv6d")
 
 [sub_resource type="Environment" id="Environment_mmajb"]
 background_mode = 2
-sky = SubResource("Sky_1gkft")
+sky = SubResource("Sky_8lcr8")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cnwsi"]
 albedo_color = Color(0.129412, 0.458824, 1, 1)

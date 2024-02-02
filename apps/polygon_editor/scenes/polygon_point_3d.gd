@@ -1,0 +1,96 @@
+@tool
+extends MeshInstance3D
+
+@export var curve: Curve2D:
+	set(value):
+		curve = value
+		update()
+
+@export var curve_index: int = -1:
+	set(value):
+		curve_index = value
+		update()
+
+@export_group("Behavior")
+
+@export var input_margin: float = 0.05:
+	set(value):
+		input_margin = value
+		update()
+
+@export var drop_mode := DraggableComponent3D.DropMode.ANYWHERE:
+	set(value):
+		drop_mode = value
+		update()
+
+@export var drop_areas: Array[DroppableArea3D] = []:
+	set(value):
+		drop_areas = value
+		update()
+
+@export_group("Appearance")
+
+@export var size: float = 0.5:
+	set(value):
+		size = value
+		update()
+
+@export var modulate: Color = Color.WHITE:
+	set(value):
+		modulate = value
+		update()
+
+@export var dragging_modulate: Color = Color.WHITE:
+	set(value):
+		dragging_modulate = value
+		update()
+
+var sphere_mesh: SphereMesh:
+	get: return mesh as SphereMesh
+
+var material: StandardMaterial3D:
+	get: return sphere_mesh.material as StandardMaterial3D
+
+@onready var draggable := $Draggable as DraggableComponent3D
+@onready var collider := $Draggable/CollisionShape as CollisionShape3D
+
+
+func _ready() -> void:
+	draggable.dropped.connect(_on_dropped)
+	draggable.drag_started.connect(_on_drag_started)
+	draggable.drag_finished.connect(_on_drag_finished)
+	update()
+
+
+func _on_drag_started() -> void:
+	if material:
+		create_tween().tween_property(material, "albedo_color", dragging_modulate, 0.25)
+		create_tween().tween_property(material, "emission", dragging_modulate, 0.25)
+
+
+func _on_drag_finished() -> void:
+	if material:
+		create_tween().tween_property(material, "albedo_color", modulate, 0.25)
+		create_tween().tween_property(material, "emission", modulate, 0.25)
+
+
+func _on_dropped(drop_area: DroppableArea3D, drop_position: Vector3) -> void:
+	if curve and curve_index >= 0 and curve.point_count > curve_index:
+		curve.set_point_position(curve_index, Vec2.from(drop_position))
+
+
+func update() -> void:
+	sphere_mesh.radius = size
+	sphere_mesh.height = size
+	if material and Engine.is_editor_hint():
+		material.albedo_color = modulate
+		material.emission = modulate
+	if collider:
+		(collider.shape as SphereShape3D).radius = size + input_margin
+	if curve and curve_index >= 0 and curve.point_count > curve_index:
+		var position_2d := curve.get_point_position(curve_index)
+		position = Vector3(position_2d.x, 0, position_2d.y)
+	if draggable:
+		draggable.drop_mode = drop_mode
+		draggable.drop_areas = drop_areas
+		draggable.start_position = global_position

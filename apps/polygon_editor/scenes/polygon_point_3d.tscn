@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn6q808lm3ecy"]
+
+[ext_resource type="Script" path="res://apps/polygon_editor/scenes/polygon_point_3d.gd" id="1_y3tdw"]
+[ext_resource type="Script" path="res://apps/polygon_editor/classes/draggable_component_3d.gd" id="2_mwhub"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68g6g"]
+resource_local_to_scene = true
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_arvd4"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_68g6g")
+height = 0.5
+radial_segments = 24
+rings = 24
+is_hemisphere = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lh74k"]
+radius = 0.15
+
+[node name="PolygonPoint3D" type="MeshInstance3D"]
+mesh = SubResource("SphereMesh_arvd4")
+script = ExtResource("1_y3tdw")
+dragging_modulate = null
+
+[node name="Draggable" type="Area3D" parent="."]
+collision_layer = 512
+collision_mask = 1024
+script = ExtResource("2_mwhub")
+drop_mode = 0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Draggable"]
+shape = SubResource("SphereShape3D_lh74k")

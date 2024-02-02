@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://cn46e4ryt05y4"]
+
+[ext_resource type="Script" path="res://tmp/tmp_polygon_editor.gd" id="1_ij2bv"]
+[ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="2_v5ng3"]
+[ext_resource type="Script" path="res://apps/polygon_editor/classes/polygon_editor_3d.gd" id="4_0bjds"]
+
+[sub_resource type="Curve2D" id="Curve2D_bipy8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2.08165e-12, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 2.08165e-12, 1)
+}
+point_count = 4
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_b2vr5"]
+sky_top_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
+
+[sub_resource type="Sky" id="Sky_1gkft"]
+sky_material = SubResource("ProceduralSkyMaterial_b2vr5")
+
+[sub_resource type="Environment" id="Environment_g5jb1"]
+background_mode = 2
+sky = SubResource("Sky_1gkft")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xwj6u"]
+albedo_color = Color(0.137255, 0.137255, 0.137255, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cpx31"]
+material = SubResource("StandardMaterial3D_xwj6u")
+size = Vector2(3, 3)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_ij2bv")
+curve = SubResource("Curve2D_bipy8")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_g5jb1")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+process_mode = 3
+transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707107, 0.707107, -5.95416e-16, -0.707107, 0.707107, 2.08165e-12, 4, 4)
+projection = 1
+current = true
+size = 10.0
+script = ExtResource("2_v5ng3")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_cpx31")
+
+[node name="PolygonEditor3D" type="Node3D" parent="."]
+script = ExtResource("4_0bjds")
+size = 0.1
+dragging_modulate = Color(0.501961, 1, 0.858824, 1)
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(100, 100)
+points = PackedVector2Array(0, 0, 100, 2.08165e-12, 100, 100, 2.08165e-12, 100)
+closed = true
+width = 20.0
+default_color = Color(0, 0, 0, 1)
