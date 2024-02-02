@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dn0j1kalkb2rk"]
+
+[ext_resource type="Script" path="res://apps/ui/scenes/cursor_3d.gd" id="1_0jdln"]
+
+[sub_resource type="Gradient" id="Gradient_q1wwy"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.744268, 0.906526, 0.987654)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iipsp"]
+gradient = SubResource("Gradient_q1wwy")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Cursor" type="Decal"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 4.9, 2.08165e-12)
+size = Vector3(1, 10, 1)
+texture_albedo = SubResource("GradientTexture2D_iipsp")
+lower_fade = 8.0
+script = ExtResource("1_0jdln")
