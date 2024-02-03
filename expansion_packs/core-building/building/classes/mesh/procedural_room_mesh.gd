@@ -43,8 +43,8 @@ func generate() -> void:
 		mesh.height = wall_height
 		mesh.point_1 = Vector3(polygon[i].x, 0, polygon[i].y)
 		mesh.point_2 = Vector3(polygon[i + 1].x, 0, polygon[i + 1].y)
-		mesh.point_1_bezel_amount = wall_thickness
-		mesh.point_2_bezel_amount = wall_thickness
+		mesh.point_1_bezel_amount = wall_thickness / 2
+		mesh.point_2_bezel_amount = wall_thickness / 2
 		mesh.outside_material = material_wall_exterior
 		mesh.inside_material = material_wall_interior
 		mesh.top_material = material_wall_tops

@@ -19,3 +19,7 @@ static func project_position_to_floor(camera: Camera3D, pos: Vector2) -> Vector3
 static func move_away(p1: Vector3, p2: Vector3, amount: float) -> Vector3:
 	var diff := p1.move_toward(p2, amount) - p1
 	return p1 - diff
+
+
+static func perpendicular(p: Vector3) -> Vector3:
+	return Vector3(p.z, p.y, -p.x)

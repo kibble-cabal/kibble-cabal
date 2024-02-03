@@ -31,24 +31,15 @@ func get_generated_faces() -> Array[PackedVector3Array]:
 	
 	var height_vec := Vector3(0, height, 0)
 	var direction := point_1.direction_to(point_2)
-	var perpendicular := Vector3(direction.z, direction.y, -direction.x)
-	var inside_delta := Vector3.ZERO.move_toward(perpendicular, thickness)
+	var inside_delta := Vec3.perpendicular(direction) * thickness
 	
 	# Bezel point 1
-	var point_1_bezeled := point_1.move_toward(point_2, abs(point_1_bezel_amount))
-	var point_1_outside := point_1 - inside_delta / 2
+	var point_1_outside := Vec3.move_away(point_1, point_2, point_1_bezel_amount) - inside_delta / 2
 	var point_1_inside := point_1 + inside_delta / 2
 	
-	if point_1_bezel_amount > 0: point_1_inside = point_1_bezeled + inside_delta / 2
-	else: point_1_outside = point_1_bezeled - inside_delta / 2
-	
 	# Bezel point 2
-	var point_2_bezeled := point_2.move_toward(point_1, abs(point_2_bezel_amount))
-	var point_2_outside := point_2 - inside_delta / 2
+	var point_2_outside := Vec3.move_away(point_2, point_1, point_2_bezel_amount) - inside_delta / 2
 	var point_2_inside := point_2 + inside_delta / 2
-	
-	if point_2_bezel_amount > 0: point_2_inside = point_2_bezeled + inside_delta / 2
-	else: point_2_outside = point_2_bezeled - inside_delta / 2
 	
 	# Wall outside
 	faces.append(PackedVector3Array([
