@@ -16,6 +16,11 @@ const SquareRoomPoints: Array[Vector2] = [
 @onready var ui_root := UIConfig.get_game_mode_ui_root()
 
 
+func _ready() -> void:
+	$DesignBuildingUI.building = building
+	$DesignBuildingUI.update()
+
+
 func _enter_tree() -> void:
 	Sig.try_connect(building.changed, respawn)
 	

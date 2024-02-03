@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://uiviik6ck4si"]
+[gd_scene load_steps=4 format=3 uid="uid://uiviik6ck4si"]
 
 [ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/editing_building_ui.gd" id="1_ah6xs"]
+[ext_resource type="PackedScene" uid="uid://7brv2g8hp2n0" path="res://expansion_packs/core-building/building/scenes/ui/design_building_ui.tscn" id="2_plvx7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3w1hc"]
 bg_color = Color(1, 1, 1, 1)
@@ -17,6 +18,9 @@ size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_3w1hc")
 text = "Editing building..."
+
+[node name="DesignBuildingUI" parent="." instance=ExtResource("2_plvx7")]
+layout_mode = 2
 
 [node name="CreateSquareRoomButton" type="Button" parent="."]
 layout_mode = 2

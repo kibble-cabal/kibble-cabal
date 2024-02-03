@@ -7,6 +7,8 @@ extends VBoxContainer
 
 
 func _ready() -> void:
+	$DesignRoomUI.room = room
+	$DesignRoomUI.update()
 	room.changed.connect(respawn)
 	respawn()
 

@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://7brv2g8hp2n0"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/design_building_ui.gd" id="1_473wp"]
+
+[node name="DesignBuildingUI" type="PanelContainer"]
+script = ExtResource("1_473wp")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="RoofLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Roof"
+
+[node name="RoofItemList" type="ItemList" parent="GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 2.08165e-12)
+layout_mode = 2
+size_flags_horizontal = 3
+max_text_lines = 2
+auto_height = true
+item_count = 1
+item_0/text = "None"
+
+[connection signal="item_selected" from="GridContainer/RoofItemList" to="." method="_on_roof_item_list_item_selected"]
