@@ -91,4 +91,6 @@ func create_material_from_item(item: ItemResource) -> BaseMaterial3D:
 	var mat := StandardMaterial3D.new()
 	if item and item.physics_resource and item.physics_resource.static_image:
 		mat.albedo_texture = item.physics_resource.static_image
+		mat.uv1_triplanar = true
+		mat.uv1_scale.y = 1.0 / BuildingConfig.WallHeight
 	return mat

@@ -38,11 +38,19 @@ func generate() -> void:
 	# Generate wall meshes
 	var wall_meshes: Array[ProceduralWallMesh] = []
 	for i in range(polygon.size() - 1):
+		var prev_point := polygon[i - 1]
+		var current_point := polygon[i]
+		var next_point := polygon[i + 1]
+		
+		# TODO: use this to calculate bezel
+		var point_1_angle = prev_point.angle_to_point(current_point)
+		var point_2_angle = current_point.angle_to_point(next_point)
+		
 		var mesh := ProceduralWallMesh.new()
 		mesh.thickness = wall_thickness
 		mesh.height = wall_height
-		mesh.point_1 = Vector3(polygon[i].x, 0, polygon[i].y)
-		mesh.point_2 = Vector3(polygon[i + 1].x, 0, polygon[i + 1].y)
+		mesh.point_1 = Vec3.from(current_point)
+		mesh.point_2 = Vec3.from(next_point)
 		mesh.point_1_bezel_amount = wall_thickness / 2
 		mesh.point_2_bezel_amount = wall_thickness / 2
 		mesh.outside_material = material_wall_exterior
