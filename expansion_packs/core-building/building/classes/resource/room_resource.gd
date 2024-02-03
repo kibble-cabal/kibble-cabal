@@ -6,6 +6,7 @@ signal destroy_requested
 
 @export var polygon: Curve2D = Curve2D.new():
 	set(value):
+		Sig.switch_connection(polygon, value, &"changed", emit_changed)
 		polygon = value
 		emit_changed()
 
@@ -57,10 +58,10 @@ func get_floor_resource() -> ItemResource:
 func get_size() -> Vector2:
 	var points := polygon.tessellate(3)
 	if points.is_empty(): return Vector2.ZERO
-	var rect := Rect2(points[0], Vector2.ONE)
+	var rect := Rect2(points[0], Vector2.ZERO)
 	for point in points:
 		rect = rect.expand(point)
-	return rect.size + Vector2.ONE
+	return rect.size
 
 
 func get_rect() -> Rect2:

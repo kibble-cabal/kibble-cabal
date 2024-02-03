@@ -3,6 +3,7 @@ extends MeshInstance3D
 
 @export var room: RoomResource:
 	set(value):
+		Sig.switch_connection(room, value, &"changed", update)
 		room = value
 		update()
 
