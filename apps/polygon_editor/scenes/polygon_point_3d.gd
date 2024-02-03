@@ -93,4 +93,4 @@ func update() -> void:
 	if draggable:
 		draggable.drop_mode = drop_mode
 		draggable.drop_areas = drop_areas
-		draggable.start_position = global_position
+		draggable.start_position = position

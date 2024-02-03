@@ -35,7 +35,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	start_position = node.global_position
+	start_position = node.position
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -50,7 +50,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_input_event(
 	_camera: Node, 
 	event: InputEvent, 
-	event_position: Vector3, 
+	_event_position: Vector3, 
 	_normal: Vector3, 
 	_shape_idx: int
 ) -> void:
@@ -58,7 +58,6 @@ func _on_input_event(
 		if event.is_action_pressed("click"):
 			if viewport: viewport.set_input_as_handled()
 			dragging.to(true)
-			if node: node.global_position = event_position
 		if event.is_action_released("click"):
 			if viewport: viewport.set_input_as_handled()
 			dragging.to(false)
@@ -66,22 +65,22 @@ func _on_input_event(
 
 func _physics_process(_delta: float) -> void:
 	if dragging.is_false() and node.is_node_ready() and not Engine.is_editor_hint():
-		node.global_position = node.global_position.lerp(start_position, 0.1)
+		node.position = node.position.lerp(start_position, 0.1)
 
 
 func _on_drag_started() -> void:
-	if node: start_position = node.global_position
+	if node: start_position = node.position
 
 
 func _on_drag_finished() -> void:
 	if can_drop():
-		start_position = node.global_position
+		start_position = node.position
 		var drop_area := get_drop_area()
 		if drop_area:
-			drop_area.drop(self, node.global_position)
-		dropped.emit(drop_area, node.global_position)
+			drop_area.drop(self, node.position)
+		dropped.emit(drop_area, node.position)
 	else:
-		attempted_drop.emit(node.global_position)
+		attempted_drop.emit(node.position)
 
 
 func can_drop() -> bool:

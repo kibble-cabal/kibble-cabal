@@ -17,12 +17,11 @@ rings = 24
 is_hemisphere = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lh74k"]
-radius = 0.15
+radius = 0.55
 
 [node name="PolygonPoint3D" type="MeshInstance3D"]
 mesh = SubResource("SphereMesh_arvd4")
 script = ExtResource("1_y3tdw")
-dragging_modulate = null
 
 [node name="Draggable" type="Area3D" parent="."]
 collision_layer = 512
