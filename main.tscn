@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=14 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
@@ -9,8 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
 [ext_resource type="Script" path="res://apps/ui/classes/nodes/ui_stack.gd" id="9_05fjn"]
-[ext_resource type="Texture2D" uid="uid://bqugd0kvf5xdl" path="res://expansion_packs/core-building/item/sprites/basic_wood_floor.svg" id="10_1s0e0"]
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/classes/mesh/procedural_polygon_mesh.gd" id="11_qyl1j"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ho1hl"]
 sky_top_color = Color(1, 1, 1, 1)
@@ -26,66 +24,6 @@ sky = SubResource("Sky_fu48q")
 [sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
 geometry_source_geometry_mode = 2
 geometry_source_group_name = &"navigation_mesh"
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8r7w8"]
-albedo_texture = ExtResource("10_1s0e0")
-uv1_triplanar = true
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_7nk6p"]
-_surfaces = [{
-"aabb": AABB(0, 0.1, 0, 2, 9.99868e-06, 2.00001),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": 34359738391,
-"material": SubResource("StandardMaterial3D_8r7w8"),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 6,
-"vertex_data": PackedByteArray(160, 123, 18, 44, 205, 204, 204, 61, 0, 0, 0, 64, 0, 0, 0, 0, 205, 204, 204, 61, 0, 0, 0, 0, 0, 0, 0, 64, 205, 204, 204, 61, 160, 123, 18, 44, 0, 0, 0, 64, 205, 204, 204, 61, 160, 123, 18, 44, 0, 0, 0, 64, 205, 204, 204, 61, 0, 0, 0, 64, 160, 123, 18, 44, 205, 204, 204, 61, 0, 0, 0, 64, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128, 255, 127, 255, 255, 0, 0, 0, 128)
-}, {
-"aabb": AABB(0, 0, 0, 2, 1e-05, 2.00001),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": 34359738391,
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 6,
-"vertex_data": PackedByteArray(160, 123, 18, 44, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 64, 0, 0, 0, 0, 160, 123, 18, 44, 0, 0, 0, 64, 0, 0, 0, 0, 160, 123, 18, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 123, 18, 44, 0, 0, 0, 0, 0, 0, 0, 64, 255, 127, 0, 0, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0, 0, 128, 255, 127, 0, 0, 0, 0, 0, 128)
-}, {
-"aabb": AABB(0, 0, 0, 1e-05, 0.1, 2.00001),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": 34359738391,
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 6,
-"vertex_data": PackedByteArray(160, 123, 18, 44, 0, 0, 0, 0, 0, 0, 0, 64, 160, 123, 18, 44, 205, 204, 204, 61, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 123, 18, 44, 205, 204, 204, 61, 0, 0, 0, 64, 0, 0, 0, 0, 205, 204, 204, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 127, 255, 255, 255, 191, 255, 255, 255, 127, 255, 255, 255, 191, 255, 255, 255, 127, 255, 255, 255, 191, 255, 255, 255, 127, 255, 255, 255, 191, 255, 255, 255, 127, 255, 255, 255, 191, 255, 255, 255, 127, 255, 255, 255, 191)
-}, {
-"aabb": AABB(0, 0, 0, 2, 0.1, 1e-05),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": 34359738391,
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 6,
-"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 205, 204, 204, 61, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 160, 123, 18, 44, 0, 0, 0, 0, 205, 204, 204, 61, 0, 0, 0, 0, 0, 0, 0, 64, 205, 204, 204, 61, 160, 123, 18, 44, 0, 0, 0, 64, 0, 0, 0, 0, 160, 123, 18, 44, 255, 127, 255, 127, 255, 255, 255, 63, 255, 127, 255, 127, 255, 255, 255, 63, 255, 127, 255, 127, 255, 255, 255, 63, 255, 127, 255, 127, 255, 255, 255, 63, 255, 127, 255, 127, 255, 255, 255, 63, 255, 127, 255, 127, 255, 255, 255, 63)
-}, {
-"aabb": AABB(2, 0, 2.08165e-12, 1.00136e-05, 0.1, 2),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": 34359738391,
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 6,
-"vertex_data": PackedByteArray(0, 0, 0, 64, 0, 0, 0, 0, 160, 123, 18, 44, 0, 0, 0, 64, 205, 204, 204, 61, 160, 123, 18, 44, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 64, 205, 204, 204, 61, 160, 123, 18, 44, 0, 0, 0, 64, 205, 204, 204, 61, 0, 0, 0, 64, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 255, 127, 255, 255, 255, 191, 0, 0, 255, 127, 255, 255, 255, 191, 0, 0, 255, 127, 255, 255, 255, 191, 0, 0, 255, 127, 255, 255, 255, 191, 0, 0, 255, 127, 255, 255, 255, 191, 0, 0, 255, 127, 255, 255, 255, 191)
-}, {
-"aabb": AABB(2.08165e-12, 0, 2, 2.00001, 0.1, 1.00136e-05),
-"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-"format": 34359738391,
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 6,
-"vertex_data": PackedByteArray(0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 64, 205, 204, 204, 61, 0, 0, 0, 64, 160, 123, 18, 44, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 64, 205, 204, 204, 61, 0, 0, 0, 64, 160, 123, 18, 44, 205, 204, 204, 61, 0, 0, 0, 64, 160, 123, 18, 44, 0, 0, 0, 0, 0, 0, 0, 64, 255, 255, 255, 255, 255, 255, 255, 191, 255, 255, 255, 255, 255, 255, 255, 191, 255, 255, 255, 255, 255, 255, 255, 191, 255, 255, 255, 255, 255, 255, 255, 191, 255, 255, 255, 255, 255, 255, 255, 191, 255, 255, 255, 255, 255, 255, 255, 191)
-}]
-script = ExtResource("11_qyl1j")
-points = PackedVector2Array(0, 0, 2, 2.08165e-12, 2, 2, 2.08165e-12, 2)
-thickness = 0.1
-material_top = SubResource("StandardMaterial3D_8r7w8")
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_gay8e")
@@ -168,7 +106,3 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("9_05fjn")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
-mesh = SubResource("ArrayMesh_7nk6p")

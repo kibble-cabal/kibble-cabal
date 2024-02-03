@@ -8,11 +8,11 @@
 	.st2{fill:#F2F2F2;}
 	.st3{fill:#CCCCCC;}
 </style>
-<rect y="5" class="st0" width="50" height="87"/>
-<rect y="5" class="st1" width="10" height="87"/>
-<rect x="25" y="5" class="st1" width="10" height="87"/>
+<rect y="5" class="st0" width="50" height="82.5"/>
+<rect y="5" class="st1" width="10" height="82.5"/>
+<rect x="25" y="5" class="st1" width="10" height="82.5"/>
 <rect class="st2" width="50" height="5"/>
-<rect y="92" class="st2" width="50" height="8"/>
+<rect y="90" class="st2" width="50" height="10"/>
 <rect class="st3" width="50" height="2.5"/>
-<rect y="92" class="st3" width="50" height="2.5"/>
+<rect y="87.5" class="st3" width="50" height="2.5"/>
 </svg>
