@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxgep5136y6jp"]
+
+[ext_resource type="Script" path="res://apps/ui/classes/nodes/control_3d.gd" id="1_p8d20"]
+
+[node name="RemovePointButton" type="Button"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -6.0
+offset_right = 16.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "✖︎"
+script = ExtResource("1_p8d20")

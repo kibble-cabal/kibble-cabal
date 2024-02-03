@@ -1,6 +1,8 @@
 class_name PolygonEditor3D extends Node3D
 
 const PointScene := preload("../scenes/polygon_point_3d.tscn")
+const AddPointScene := preload("../scenes/add_point_button.tscn")
+const RemovePointScene := preload("../scenes/remove_point_button.tscn")
 
 @export var curve: Curve2D:
 	set(value):
@@ -9,40 +11,52 @@ const PointScene := preload("../scenes/polygon_point_3d.tscn")
 
 @export_group("Behavior")
 
+@export var enable_add_points: bool = false:
+	set(value):
+		enable_add_points = value
+		update_add_button_list()
+
+@export var enable_remove_points: bool = false:
+	set(value):
+		enable_remove_points = value
+		update_remove_button_list()
+
 @export var input_margin: float = 0.05:
 	set(value):
 		input_margin = value
-		update_point_nodes()
+		points.map(update_point)
 
 @export var drop_mode := DraggableComponent3D.DropMode.ANYWHERE:
 	set(value):
 		drop_mode = value
-		update_point_nodes()
+		points.map(update_point)
 
 @export var drop_areas: Array[DroppableArea3D] = []:
 	set(value):
 		drop_areas = value
-		update_point_nodes()
+		points.map(update_point)
 
 @export_group("Appearance")
 
 @export var size: float = 0.5:
 	set(value):
 		size = value
-		update_point_nodes()
+		points.map(update_point)
 
 @export var modulate: Color = Color.WHITE:
 	set(value):
 		modulate = value
-		update_point_nodes()
+		points.map(update_point)
 
 @export var dragging_modulate: Color = Color.WHITE:
 	set(value):
 		dragging_modulate = value
-		update_point_nodes()
+		points.map(update_point)
 
 
 var points: Array[Node3D] = []
+var add_buttons: Array[Button] = []
+var remove_buttons: Array[Button] = []
 
 
 func _ready() -> void:
@@ -50,34 +64,78 @@ func _ready() -> void:
 	update_point_list()
 
 
+func update_node_list(list: Array, max_size: int, update_node: Callable, make_node: Callable) -> void:	
+	if list.size() > max_size:
+		for i in range(max_size, list.size()):
+			list[i].queue_free()
+	list.resize(max_size)
+	for i in range(max_size):
+		if list[i] != null: update_node.call(list[i], i)
+		else:
+			list[i] = make_node.call(i)
+			add_child(list[i])
+			update_node.call(list[i], i)
+
+
 func update_point_list() -> void:
 	if not curve: return
-	for i in range(curve.point_count):
-		if points.size() > i:
-			points[i].curve_index = i
-		else:
-			var scene := PointScene.instantiate()
-			scene.curve_index = i
-			points.append(scene)
-			add_child(scene)
-	
-	if points.size() > curve.point_count:
-		for i in range(curve.point_count, points.size()):
-			points[i].queue_free()
-		points.resize(curve.point_count)
-	
-	update_point_nodes()
+	update_node_list(
+		points,
+		curve.point_count,
+		func(node: Node3D, i: int) -> void: 
+			node.curve_index = i
+			update_point(node),
+		func(i: int) -> Node3D: return PointScene.instantiate()
+	)
+	update_add_button_list()
+	update_remove_button_list()
 
 
-func update_point_nodes() -> void:
-	for point in points:
-		point.curve = curve
-		point.size = size
-		point.modulate = modulate
-		point.dragging_modulate = dragging_modulate
-		point.drop_areas = drop_areas
-		point.drop_mode = drop_mode
-		point.input_margin = input_margin
+func get_midpoint(a_index: int, b_index: int) -> Vector2:
+	var a := curve.get_point_position(a_index)
+	var b := curve.get_point_position(b_index)
+	return a.lerp(b, 0.5)
+
+
+func update_add_button_list() -> void:
+	if not curve or curve.point_count == 0: return
+	update_node_list(
+		add_buttons,
+		curve.point_count if enable_add_points else 0,
+		func(node: Button, i: int) -> void:
+			var midpoint := get_midpoint(i, (i - 1) if i > 0 else curve.point_count - 1)
+			node.local_position = Vec3.from(midpoint, size * 3)
+			node.set_meta(&"curve_index", i),
+		func(_i: int) -> Button:
+			var node: Button = AddPointScene.instantiate()
+			node.pressed.connect(self._on_add_button_pressed.bind(node))
+			return node
+	)
+
+
+func update_remove_button_list() -> void:
+	if not curve: return
+	update_node_list(
+		remove_buttons,
+		curve.point_count if enable_remove_points else 0,
+		func(node: Button, i: int) -> void:
+			node.local_position = Vec3.from(curve.get_point_position(i), size * 3)
+			node.set_meta(&"curve_index", i),
+		func(_i: int) -> Button:
+			var node: Button = RemovePointScene.instantiate()
+			node.pressed.connect(self._on_remove_button_pressed.bind(node))
+			return node
+	)
+
+
+func update_point(point: Node) -> void:
+	point.curve = curve
+	point.size = size
+	point.modulate = modulate
+	point.dragging_modulate = dragging_modulate
+	point.drop_areas = drop_areas
+	point.drop_mode = drop_mode
+	point.input_margin = input_margin
 		
 
 func _on_curve_changed() -> void:
@@ -85,3 +143,19 @@ func _on_curve_changed() -> void:
 		Sig.try_connect(curve.changed, update_point_list)
 	if is_node_ready():
 		update_point_list()
+
+
+func _on_add_button_pressed(button: Node) -> void:
+	var index: int = button.get_meta(&"curve_index", -1)
+	if curve and index >= 0 and index <= curve.point_count:
+		var midpoint := get_midpoint(index, (index - 1) if index > 0 else curve.point_count - 1)
+		curve.add_point(midpoint, Vector2.ZERO, Vector2.ZERO, index)
+		update_point_list()
+
+
+func _on_remove_button_pressed(button: Node) -> void:
+	var index: int = button.get_meta(&"curve_index", -1)
+	if curve and index >= 0 and index < curve.point_count:
+		curve.remove_point(index)
+		update_point_list()
+	

@@ -36,3 +36,7 @@ static func get_point_on_circle(center: Vector2, radius: float, angle: float) ->
 static func move_away(p1: Vector2, p2: Vector2, amount: float) -> Vector2:
 	var diff := p1.move_toward(p2, amount) - p1
 	return p1 - diff
+
+
+static func midpoint(p1: Vector2, p2: Vector2) -> Vector2:
+	return p1.lerp(p2, 0.5)

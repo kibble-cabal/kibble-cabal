@@ -38,7 +38,7 @@ extends MeshInstance3D
 @export var modulate: Color = Color.WHITE:
 	set(value):
 		modulate = value
-		update()
+		update(true)
 
 @export var dragging_modulate: Color = Color.WHITE:
 	set(value):
@@ -59,19 +59,19 @@ func _ready() -> void:
 	draggable.dropped.connect(_on_dropped)
 	draggable.drag_started.connect(_on_drag_started)
 	draggable.drag_finished.connect(_on_drag_finished)
-	update()
+	update(true)
 
 
 func _on_drag_started() -> void:
 	if material:
-		create_tween().tween_property(material, "albedo_color", dragging_modulate, 0.25)
-		create_tween().tween_property(material, "emission", dragging_modulate, 0.25)
+		create_tween().tween_property(material, "albedo_color", dragging_modulate, 0.125)
+		create_tween().tween_property(material, "emission", dragging_modulate, 0.125)
 
 
 func _on_drag_finished() -> void:
 	if material:
-		create_tween().tween_property(material, "albedo_color", modulate, 0.25)
-		create_tween().tween_property(material, "emission", modulate, 0.25)
+		create_tween().tween_property(material, "albedo_color", modulate, 0.125)
+		create_tween().tween_property(material, "emission", modulate, 0.125)
 
 
 func _on_dropped(drop_area: DroppableArea3D, drop_position: Vector3) -> void:
@@ -79,10 +79,10 @@ func _on_dropped(drop_area: DroppableArea3D, drop_position: Vector3) -> void:
 		curve.set_point_position(curve_index, Vec2.from(drop_position))
 
 
-func update() -> void:
+func update(override_modulate := false) -> void:
 	sphere_mesh.radius = size
 	sphere_mesh.height = size
-	if material and Engine.is_editor_hint():
+	if material and override_modulate:
 		material.albedo_color = modulate
 		material.emission = modulate
 	if collider:
