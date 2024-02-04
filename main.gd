@@ -26,20 +26,3 @@ func _debug_remake_location_inventory() -> void:
 	item.location = Vector3(1, 0, 1)
 	state.inventory = InventoryResource.new()
 	state.inventory.item_instances.append(item)
-	
-
-func _debug_spawn_building() -> void:
-	var room := RoomResource.new()
-	room.interior_id = &"build/wall/striped_with_trim"
-	room.exterior_id = &"build/wall/basic_siding"
-	room.floor_id = &"build/floor/basic_wood"
-	for point in [
-		Vector2(2, 2),
-		Vector2(2, 0),
-		Vector2(0, 0),
-		Vector2(0, 2),
-	]: room.polygon.add_point(point + Vector2(0, 1))
-	var building := BuildingResource.new()
-	building.rooms = [room]
-	var spawner := BuildingSpawner.new(building)
-	spawner.spawn($World)

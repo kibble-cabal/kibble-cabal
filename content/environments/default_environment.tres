@@ -1,0 +1,16 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://b8m1cm2ovxejb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ho1hl"]
+sky_top_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
+
+[sub_resource type="Sky" id="Sky_fu48q"]
+sky_material = SubResource("ProceduralSkyMaterial_ho1hl")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_fu48q")
+sky_custom_fov = 110.0
+ssao_enabled = true
+sdfgi_enabled = true
+volumetric_fog_enabled = true

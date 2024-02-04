@@ -1,25 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=13 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="2_rwq8w"]
+[ext_resource type="Environment" uid="uid://b8m1cm2ovxejb" path="res://content/environments/default_environment.tres" id="2_sq8pg"]
 [ext_resource type="PackedScene" uid="uid://bas4c8x6j0yhe" path="res://apps/fate/scenes/fate_label.tscn" id="3_iahvw"]
+[ext_resource type="CameraAttributesPractical" uid="uid://dex7ourw610ud" path="res://content/environments/default_camera_attributes.tres" id="3_yw036"]
 [ext_resource type="PackedScene" uid="uid://u22a8ibom3dn" path="res://apps/save/scenes/saves_list.tscn" id="4_f7rny"]
 [ext_resource type="PackedScene" uid="uid://bbidjdr5fxjcu" path="res://apps/game_mode/scenes/game_mode_button_container.tscn" id="4_h1txm"]
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
 [ext_resource type="Script" path="res://apps/ui/classes/nodes/ui_stack.gd" id="9_05fjn"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ho1hl"]
-sky_top_color = Color(1, 1, 1, 1)
-ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
-
-[sub_resource type="Sky" id="Sky_fu48q"]
-sky_material = SubResource("ProceduralSkyMaterial_ho1hl")
-
-[sub_resource type="Environment" id="Environment_gp0l6"]
-background_mode = 2
-sky = SubResource("Sky_fu48q")
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
 geometry_source_geometry_mode = 2
@@ -29,10 +20,20 @@ geometry_source_group_name = &"navigation_mesh"
 script = ExtResource("1_gay8e")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_gp0l6")
+environment = ExtResource("2_sq8pg")
+camera_attributes = ExtResource("3_yw036")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 4, 2.08165e-12)
+transform = Transform3D(0.707107, -0.5, 0.5, 2.4663e-16, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 2.08165e-12, 7, 2)
+light_energy = 0.5
+light_indirect_energy = 0.5
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 4.0
+directional_shadow_mode = 0
+directional_shadow_split_1 = 0.7
+directional_shadow_blend_splits = true
+directional_shadow_pancake_size = 10.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_rms5k")
@@ -41,9 +42,9 @@ navigation_mesh = SubResource("NavigationMesh_rms5k")
 process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707106, 0.707106, -5.95416e-16, -0.707106, 0.707106, 2.08165e-12, 4, 4)
-projection = 1
+transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707106, 0.707106, -5.95416e-16, -0.707106, 0.707106, 2.08165e-12, 8, 8)
 current = true
+fov = 35.0
 size = 10.0
 script = ExtResource("2_rwq8w")
 

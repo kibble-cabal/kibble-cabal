@@ -1,0 +1,10 @@
+[gd_resource type="CameraAttributesPractical" format=3 uid="uid://dex7ourw610ud"]
+
+[resource]
+auto_exposure_enabled = true
+dof_blur_far_enabled = true
+dof_blur_far_distance = 12.0
+dof_blur_far_transition = 3.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 8.0
+dof_blur_near_transition = 3.0
