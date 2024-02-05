@@ -96,7 +96,6 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	# Do raycasting
 	if not Engine.is_editor_hint() and dragging.is_true():
-		var viewport := get_viewport()
 		var camera := viewport.get_camera_3d()
 		var mouse_position := viewport.get_mouse_position()
 		query.from = camera.global_position

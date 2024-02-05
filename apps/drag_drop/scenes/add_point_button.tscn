@@ -1,8 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://deqwob5avrl7g"]
 
-[ext_resource type="Script" path="res://apps/ui/classes/nodes/control_3d.gd" id="1_nogsx"]
+[ext_resource type="Script" path="res://apps/ui/classes/nodes/control_3d.gd" id="1_3wgnn"]
 
 [node name="AddPointButton" type="Button"]
+z_index = -1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -15,4 +16,4 @@ offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "+"
-script = ExtResource("1_nogsx")
+script = ExtResource("1_3wgnn")

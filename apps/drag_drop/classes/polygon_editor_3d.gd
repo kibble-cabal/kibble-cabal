@@ -85,7 +85,7 @@ func update_point_list() -> void:
 		func(node: Node3D, i: int) -> void: 
 			node.curve_index = i
 			update_point(node),
-		func(i: int) -> Node3D: return PointScene.instantiate()
+		func(_i: int) -> Node3D: return PointScene.instantiate()
 	)
 	update_add_button_list()
 	update_remove_button_list()

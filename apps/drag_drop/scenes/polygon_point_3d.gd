@@ -74,7 +74,7 @@ func _on_drag_finished() -> void:
 		create_tween().tween_property(material, "emission", modulate, 0.125)
 
 
-func _on_dropped(drop_area: DroppableArea3D, drop_position: Vector3) -> void:
+func _on_dropped(_drop_area: DroppableArea3D, drop_position: Vector3) -> void:
 	if curve and curve_index >= 0 and curve.point_count > curve_index:
 		curve.set_point_position(curve_index, Vec2.from(drop_position))
 

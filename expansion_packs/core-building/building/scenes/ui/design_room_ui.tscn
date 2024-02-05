@@ -17,12 +17,12 @@ text = "Floor"
 
 [node name="FloorItemList" type="ItemList" parent="GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 2.08165e-12)
+custom_minimum_size = Vector2(500, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 max_text_lines = 2
-auto_height = true
 item_count = 1
+icon_scale = 0.5
 item_0/text = "None"
 
 [node name="HSeparator" type="HSeparator" parent="GridContainer"]
@@ -39,12 +39,12 @@ text = "Interior"
 
 [node name="InteriorItemList" type="ItemList" parent="GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 2.08165e-12)
+custom_minimum_size = Vector2(500, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 max_text_lines = 2
-auto_height = true
 item_count = 1
+icon_scale = 0.5
 item_0/text = "None"
 
 [node name="HSeparator3" type="HSeparator" parent="GridContainer"]
@@ -61,12 +61,12 @@ text = "Exterior"
 
 [node name="ExteriorItemList" type="ItemList" parent="GridContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(500, 2.08165e-12)
+custom_minimum_size = Vector2(500, 200)
 layout_mode = 2
 size_flags_horizontal = 3
 max_text_lines = 2
-auto_height = true
 item_count = 1
+icon_scale = 0.5
 item_0/text = "None"
 
 [connection signal="item_selected" from="GridContainer/FloorItemList" to="." method="_on_floor_item_list_item_selected"]

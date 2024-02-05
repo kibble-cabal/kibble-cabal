@@ -76,7 +76,6 @@ static func clamp_barycentric_coords(coords: Vector3, p0: Vector3, p1: Vector3, 
 ## Returns the nearest position within the nearest face of the mesh to local_pos.
 ## This can be used for snapping points to mesh surfaces.
 static func get_closest_point_on_mesh(mesh: Mesh, local_pos: Vector3) -> Vector3:
-	var dist := INF
 	var face := get_closest_face_on_mesh(mesh, local_pos)
 	if face.size():
 		var weights := clamp_barycentric_coords(

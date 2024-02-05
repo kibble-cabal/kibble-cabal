@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/room_hud.gd" id="1_ilevf"]
 
 [node name="RoomHUD" type="PanelContainer"]
+z_index = -1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

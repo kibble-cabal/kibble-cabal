@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/building_hud.gd" id="1_1xtal"]
 
 [node name="BuildingHUD" type="PanelContainer"]
+z_index = -1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

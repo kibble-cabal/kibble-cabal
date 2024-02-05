@@ -197,8 +197,6 @@ monitoring = false
 script = ExtResource("2_wwdbq")
 reparent_on_drop = true
 disable_on_drop = true
-snap_debug_enabled = null
-snap_debug_color = null
 snap_mesh = null
 snap_points = PackedVector3Array()
 
