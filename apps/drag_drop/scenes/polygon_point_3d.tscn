@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dn6q808lm3ecy"]
 
-[ext_resource type="Script" path="res://apps/polygon_editor/scenes/polygon_point_3d.gd" id="1_y3tdw"]
-[ext_resource type="Script" path="res://apps/polygon_editor/classes/draggable_component_3d.gd" id="2_mwhub"]
+[ext_resource type="Script" path="res://apps/drag_drop/scenes/polygon_point_3d.gd" id="1_y3tdw"]
+[ext_resource type="Script" path="res://apps/drag_drop/classes/draggable_component_3d.gd" id="2_mwhub"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68g6g"]
 resource_local_to_scene = true

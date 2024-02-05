@@ -1,8 +1,8 @@
 [gd_scene load_steps=35 format=3 uid="uid://dcnw00qqwq063"]
 
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="1_t41oy"]
-[ext_resource type="Script" path="res://apps/polygon_editor/classes/droppable_area_3d.gd" id="2_wwdbq"]
-[ext_resource type="Script" path="res://apps/polygon_editor/classes/draggable_component_3d.gd" id="4_3rfcr"]
+[ext_resource type="Script" path="res://apps/drag_drop/classes/droppable_area_3d.gd" id="2_wwdbq"]
+[ext_resource type="Script" path="res://apps/drag_drop/classes/draggable_component_3d.gd" id="4_3rfcr"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7xitx"]
 size = Vector2(1.5, 1.5)
