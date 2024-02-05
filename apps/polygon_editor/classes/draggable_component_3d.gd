@@ -16,6 +16,9 @@ signal dropped(drop_area: DroppableArea3D, drop_position: Vector3)
 @export var drop_mode := DropMode.ANY_DROP_AREA
 @export var drop_areas: Array[DroppableArea3D] = []
 
+@export_group("Snapping")
+@export var enable_snapping := true
+
 @onready var node: Node3D = get_parent()
 @onready var viewport := get_viewport()
 
@@ -43,6 +46,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if viewport: viewport.set_input_as_handled()
 		if event is InputEventMouseMotion:
 			node.global_position = Vec3.project_position_to_floor(get_viewport().get_camera_3d(), event.position)
+			_snap()
 		if event.is_action_released("click"):
 			dragging.to(false)
 
@@ -83,29 +87,39 @@ func _on_drag_finished() -> void:
 		attempted_drop.emit(node.position)
 
 
+func _snap() -> void:
+	if not enable_snapping: return
+	var areas := get_drop_areas()
+	areas.reverse()
+	for area in areas:
+		node.global_position = area.snap(node.global_position)
+
+
 func can_drop() -> bool:
 	match drop_mode:
 		DropMode.ANYWHERE:
 			return true
-		DropMode.ANY_DROP_AREA:
-			return get_overlapping_areas().any(
-				func(area: Area3D) -> bool: return area is DroppableArea3D
-			)
-		DropMode.SOME_DROP_AREAS:
-			return get_overlapping_areas().any(
-				func(area: Area3D) -> bool: return area in drop_areas
-			)
+		DropMode.ANY_DROP_AREA, DropMode.SOME_DROP_AREAS:
+			return not get_drop_areas().is_empty()
 	return false
 
 
 func get_drop_area() -> DroppableArea3D:
 	if drop_mode != DropMode.ANYWHERE:
-		var areas: Array = get_overlapping_areas().filter(
-			func(area: Area3D) -> bool: return area is DroppableArea3D
-		)
-		areas.sort_custom(
-			func(a: DroppableArea3D, b: DroppableArea3D) -> bool:
-				return a.drop_priority > b.drop_priority
-		)
-		if areas.size(): return areas[0]
+		return get_drop_areas().pop_front()
 	return null
+
+
+func get_drop_areas() -> Array[DroppableArea3D]:
+	var areas: Array[DroppableArea3D] = []
+	for area in get_overlapping_areas(): 
+		if area is DroppableArea3D: 
+			match drop_mode:
+				DropMode.ANY_DROP_AREA: areas.append(area)
+				DropMode.SOME_DROP_AREAS:
+					if area in drop_areas: areas.append(area)
+	areas.sort_custom(
+		func(a: DroppableArea3D, b: DroppableArea3D) -> bool:
+			return a.drop_priority > b.drop_priority
+	)
+	return areas

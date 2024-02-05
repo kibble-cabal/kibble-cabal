@@ -1,19 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://dcnw00qqwq063"]
+[gd_scene load_steps=26 format=3 uid="uid://dcnw00qqwq063"]
 
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="1_t41oy"]
 [ext_resource type="Script" path="res://apps/polygon_editor/classes/droppable_area_3d.gd" id="2_wwdbq"]
 [ext_resource type="Script" path="res://apps/polygon_editor/classes/draggable_component_3d.gd" id="4_3rfcr"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bjv6d"]
-sky_top_color = Color(1, 1, 1, 1)
-ground_bottom_color = Color(0.32549, 0.32549, 0.32549, 1)
-
-[sub_resource type="Sky" id="Sky_8lcr8"]
-sky_material = SubResource("ProceduralSkyMaterial_bjv6d")
-
-[sub_resource type="Environment" id="Environment_mmajb"]
-background_mode = 2
-sky = SubResource("Sky_8lcr8")
+[sub_resource type="PlaneMesh" id="PlaneMesh_7xitx"]
+size = Vector2(1.5, 1.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cnwsi"]
 albedo_color = Color(0.129412, 0.458824, 1, 1)
@@ -98,13 +90,9 @@ radius = 0.4
 [node name="Drag Drop" type="Node3D"]
 process_mode = 3
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_mmajb")
-
 [node name="Camera3D" type="Camera3D" parent="."]
 process_mode = 3
 transform = Transform3D(1, -5.95416e-16, 2.46629e-16, 2.4663e-16, 0.707107, 0.707107, -5.95416e-16, -0.707107, 0.707107, 2.08165e-12, 4, 4)
-projection = 1
 current = true
 size = 10.0
 script = ExtResource("1_t41oy")
@@ -116,6 +104,12 @@ collision_mask = 512
 input_ray_pickable = false
 monitoring = false
 script = ExtResource("2_wwdbq")
+snap_mode = 1
+snap_threshold = 0.5
+snap_debug_enabled = true
+snap_debug_color = Color(0, 0.694118, 1, 1)
+snap_mesh = SubResource("PlaneMesh_7xitx")
+snap_points = PackedVector3Array(2.08165e-12, 0.5, 2.08165e-12)
 
 [node name="Label" type="Label3D" parent="Drop Area 1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
@@ -136,6 +130,11 @@ collision_mask = 512
 input_ray_pickable = false
 monitoring = false
 script = ExtResource("2_wwdbq")
+snap_mode = 2
+snap_threshold = 0.5
+snap_debug_enabled = true
+snap_mesh = null
+snap_points = PackedVector3Array(-1, 0.25, -1, 1, 0.25, 1, 2.08165e-12, 0.25, 2.08165e-12, -1, 0.25, 1, 1, 0.25, -1)
 
 [node name="Label" type="Label3D" parent="Drop Area 2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
@@ -158,6 +157,10 @@ monitoring = false
 script = ExtResource("2_wwdbq")
 reparent_on_drop = true
 disable_on_drop = true
+snap_debug_enabled = null
+snap_debug_color = null
+snap_mesh = null
+snap_points = PackedVector3Array()
 
 [node name="Label" type="Label3D" parent="Drop Area 3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
