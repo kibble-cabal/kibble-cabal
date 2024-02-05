@@ -53,6 +53,12 @@ Sx="*res://addons/signal_extensions/sx_autoload.gd"
 UIAnimManager="*res://addons/ui_anim/autoload/ui_anim_manager.gd"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
+[debug_draw_3d]
+
+settings/3d/add_bevel_to_volumetric_geometry=false
+settings/3d/volumetric_defaults/thickness=0.02
+settings/3d/volumetric_defaults/hd_spheres=true
+
 [display]
 
 window/size/viewport_width=2880
