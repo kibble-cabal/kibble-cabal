@@ -11,6 +11,7 @@ const L8 = 1 << 7
 const L9 = 1 << 8
 const L10 = 1 << 9
 const L11 = 1 << 10
+const L12 = 1 << 11
 
 
 enum Physics {
@@ -23,4 +24,5 @@ enum Physics {
 	# UI
 	UI_DRAG = L10,
 	UI_DROP = L11,
+	UI_PHYSICS_RAY = L12
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dcnw00qqwq063"]
+[gd_scene load_steps=35 format=3 uid="uid://dcnw00qqwq063"]
 
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="1_t41oy"]
 [ext_resource type="Script" path="res://apps/polygon_editor/classes/droppable_area_3d.gd" id="2_wwdbq"]
@@ -86,6 +86,46 @@ rings = 12
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8akgs"]
 radius = 0.4
+
+[sub_resource type="Gradient" id="Gradient_l7jav"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tg8oe"]
+gradient = SubResource("Gradient_l7jav")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xq17a"]
+albedo_texture = SubResource("GradientTexture1D_tg8oe")
+uv1_scale = Vector3(6, 6, 6)
+uv1_triplanar = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_d2ncj"]
+material = SubResource("StandardMaterial3D_xq17a")
+radius = 0.25
+height = 0.5
+radial_segments = 24
+rings = 12
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ayqqm"]
+size = Vector3(20, 20, 0.1)
+
+[sub_resource type="Gradient" id="Gradient_8p5t5"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.008)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_drr22"]
+gradient = SubResource("Gradient_8p5t5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wf8so"]
+albedo_texture = SubResource("GradientTexture1D_drr22")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_mo3ay"]
+material = SubResource("StandardMaterial3D_wf8so")
+size = Vector3(20, 20, 0.1)
+subdivide_width = 3
+subdivide_height = 3
+subdivide_depth = 3
 
 [node name="Drag Drop" type="Node3D"]
 process_mode = 3
@@ -183,6 +223,7 @@ collision_layer = 512
 collision_mask = 1024
 script = ExtResource("4_3rfcr")
 drop_mode = 0
+debug_show_ray = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node 1/DraggableComponent3D"]
 shape = SubResource("SphereShape3D_5838c")
@@ -202,6 +243,7 @@ mesh = SubResource("SphereMesh_pcq6n")
 collision_layer = 512
 collision_mask = 1024
 script = ExtResource("4_3rfcr")
+debug_show_ray = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node 2/DraggableComponent3D"]
 shape = SubResource("SphereShape3D_i670u")
@@ -223,6 +265,7 @@ collision_mask = 1024
 script = ExtResource("4_3rfcr")
 drop_mode = 2
 drop_areas = [NodePath("../../Drop Area 2")]
+debug_show_ray = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node 3/DraggableComponent3D"]
 shape = SubResource("SphereShape3D_8akgs")
@@ -233,3 +276,37 @@ billboard = 1
 no_depth_test = true
 text = "Drop
 Area 2"
+
+[node name="Node 4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 3)
+mesh = SubResource("SphereMesh_d2ncj")
+
+[node name="DraggableComponent3D" type="Area3D" parent="Node 4"]
+collision_layer = 512
+collision_mask = 1024
+script = ExtResource("4_3rfcr")
+drop_mode = 0
+simple_raycast = false
+debug_show_ray = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 4/DraggableComponent3D"]
+shape = SubResource("SphereShape3D_8akgs")
+
+[node name="Label3D" type="Label3D" parent="Node 4"]
+pixel_size = 0.0025
+billboard = 1
+no_depth_test = true
+text = "I raycast
+to the 
+back wall"
+
+[node name="Custom Ray Example" type="Area3D" parent="."]
+transform = Transform3D(0.866025, -0.383022, 0.321394, 2.24196e-16, 0.642788, 0.766044, -0.5, -0.663414, 0.55667, 2.08165e-12, 2.08165e-12, -6)
+collision_layer = 2048
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Custom Ray Example"]
+shape = SubResource("BoxShape3D_ayqqm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Custom Ray Example"]
+mesh = SubResource("BoxMesh_mo3ay")
