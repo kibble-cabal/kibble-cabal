@@ -79,7 +79,7 @@ func _update_pause_ui() -> void:
 
 
 func set_paused(value: bool) -> void:
-	var world_root := get_tree().get_first_node_in_group("world_root")
+	var world_root := LocationSystem.get_world_root()
 	if world_root:
 		world_root.process_mode = PROCESS_MODE_DISABLED if value else PROCESS_MODE_INHERIT
 		_update_pause_ui()
@@ -88,7 +88,8 @@ func set_paused(value: bool) -> void:
 func lua_fields() -> Array:
 	return [
 		"current_mode",
-		"to"
+		"to",
+		"set_paused"
 	]
 
 

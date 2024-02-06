@@ -35,8 +35,8 @@ func update() -> void:
 
 ## Despawns nodes from world.
 ## [br][b]Note:[/b] should not be overridden. Override [method _despawn] instead.
-func despawn(world: Node3D) -> void:
-	_despawn(world)
+func despawn() -> void:
+	_despawn(spawned_nodes)
 	has_spawned = false
 
 
@@ -49,7 +49,6 @@ func _update(_nodes: Array[Node]) -> void: pass
 
 
 ## Virtual function. Override to add custom despawn logic.
-func _despawn(_world: Node3D) -> void:
-	for node in spawned_nodes:
-		if Nodes.can_queue_free(node): node.queue_free()
-	spawned_nodes.clear()
+func _despawn(nodes: Array[Node]) -> void:
+	for node in nodes.filter(Nodes.can_queue_free): node.queue_free()
+	nodes.clear()

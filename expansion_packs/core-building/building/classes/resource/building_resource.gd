@@ -17,8 +17,12 @@ signal edit_requested
 		emit_changed()
 
 
+func has_room(room: RoomResource) -> bool:
+	return room in rooms
+
+
 func add_room(room: RoomResource) -> void:
-	if not room in rooms:
+	if not has_room(room):
 		rooms.append(room)
 		emit_changed()
 

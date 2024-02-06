@@ -33,6 +33,7 @@ signal destroy_requested
 		floor_id = value
 		emit_changed()
 
+
 # Additional properties I may add later:
 # @export var interior_trim_id: StringName
 # @export var exterior_trim_id: StringName
@@ -42,6 +43,10 @@ signal destroy_requested
 func add_point(point: Vector2) -> void:
 	polygon.add_point(point)
 	emit_changed()
+
+
+func set_origin(value: Vector2) -> void:
+	origin = value
 
 
 func get_interior_resource() -> ItemResource:

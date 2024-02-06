@@ -39,11 +39,15 @@ func exit() -> void:
 	if not current_location: location_changed.emit()
 
 
+func get_world_root() -> Node3D:
+	return get_tree().get_first_node_in_group(&"world_root") as Node3D
+
+
 ## Spawns the map for the current location.
 func _spawn_map() -> void:
 	if not current_location or not current_location.map: return
 	current_map = current_location.map.instantiate()
-	var world_root := get_tree().get_first_node_in_group("world_root")
+	var world_root := get_world_root()
 	if world_root:
 		world_root.add_child(current_map)
 		world_root.move_child(current_map, 0)
@@ -70,7 +74,7 @@ func _on_spawners_changed() -> void:
 	for node in get_tree().get_nodes_in_group(Spawner.GroupName):
 		var spawner: Spawner = node.get_meta(Spawner.MetaName)
 		if spawner and not spawner in state.spawners:
-			spawner.despawn(current_map)
+			spawner.despawn()
 
 
 ## Despawns the map for the current location.
@@ -84,11 +88,11 @@ func _despawn_spawners() -> void:
 	if not state or not current_map: return
 	Sig.try_disconnect(state.spawners_changed, _on_spawners_changed)
 	for spawner in state.spawners:
-		spawner.despawn(current_map)
+		spawner.despawn()
 
 
 func lua_fields() -> Array:
-	return ["enter", "exit", "current_location"]
+	return ["enter", "exit", "current_location", "current_state", "current_map", "get_world_root"]
 
 
 func _to_string() -> String:

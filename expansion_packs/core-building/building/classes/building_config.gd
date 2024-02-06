@@ -12,7 +12,3 @@ static func lua_fields() -> Array:
 		"WallThickness",
 		"FloorThickness"
 	]
-
-
-static func get_state() -> BuildModeState:
-	return GameModeSystem.current_state as BuildModeState
