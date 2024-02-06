@@ -23,9 +23,14 @@ alignment = 1
 layout_mode = 2
 text = "Edit"
 
+[node name="MoveButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Move"
+
 [node name="DestroyButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Destroy"
 
 [connection signal="pressed" from="VBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MoveButton" to="." method="_on_move_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]

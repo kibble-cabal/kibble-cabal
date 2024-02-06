@@ -1,6 +1,7 @@
 class_name RoomResource extends ModdableResource
 
 signal edit_requested
+signal move_requested
 signal destroy_requested
 
 

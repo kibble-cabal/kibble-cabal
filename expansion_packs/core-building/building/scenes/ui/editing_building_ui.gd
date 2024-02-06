@@ -24,6 +24,7 @@ func _ready() -> void:
 func _enter_tree() -> void:
 	for room in building.rooms:
 		Sig.try_connect(room.edit_requested, _on_edit_room_requested.bind(room))
+		Sig.try_connect(room.move_requested, _on_move_room_requested.bind(room))
 		Sig.try_connect(room.destroy_requested, _on_destroy_room_requested.bind(room))
 	
 	respawn()
@@ -32,6 +33,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	for room in building.rooms:
 		Sig.disconnect_all_for_object(self, room.edit_requested)
+		Sig.disconnect_all_for_object(self, room.move_requested)
 		Sig.disconnect_all_for_object(self, room.destroy_requested)
 
 
@@ -53,13 +55,18 @@ func respawn() -> void:
 
 
 func _on_create_square_room_button_pressed() -> void:
-	var scene := SelectRoomOriginUI.instantiate()
 	var room := RoomResource.new()
 	for point in SquareRoomPoints:
 		room.polygon.add_point(point)
-	scene.building = building
-	scene.room = room
-	if ui_root: ui_root.push(scene)
+	var edit_scene := EditingRoomUI.instantiate()
+	edit_scene.building = building
+	edit_scene.room = room
+	var move_scene := SelectRoomOriginUI.instantiate()
+	move_scene.building = building
+	move_scene.room = room
+	if ui_root:
+		ui_root.push(edit_scene)
+		ui_root.push(move_scene)
 
 
 func _on_done_button_pressed() -> void:
@@ -76,6 +83,13 @@ func _on_cancel_button_pressed() -> void:
 
 func _on_edit_room_requested(room: RoomResource) -> void:
 	var scene := EditingRoomUI.instantiate()
+	scene.building = building
+	scene.room = room
+	if ui_root: ui_root.push(scene)
+
+
+func _on_move_room_requested(room: RoomResource) -> void:
+	var scene := SelectRoomOriginUI.instantiate()
 	scene.building = building
 	scene.room = room
 	if ui_root: ui_root.push(scene)
