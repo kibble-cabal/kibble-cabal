@@ -71,7 +71,7 @@ func _on_spawners_changed() -> void:
 		print("Spawning", spawner)
 		spawner.spawn(current_map)
 	# Remove spawners that no longer exist on the state.
-	for node in get_tree().get_nodes_in_group(Spawner.GroupName):
+	for node in get_tree().get_nodes_in_group(Spawner.TopLevelGroupName):
 		var spawner: Spawner = node.get_meta(Spawner.MetaName)
 		if spawner and not spawner in state.spawners:
 			spawner.despawn()

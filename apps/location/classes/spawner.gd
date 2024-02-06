@@ -2,6 +2,7 @@ class_name Spawner extends ModdableResource
 
 const GroupName := &"spawned"
 const MetaName := &"spawner"
+const TopLevelGroupName := &"spawned_top_level"
 
 @export var resource: Resource:
 	set(value):
@@ -22,6 +23,8 @@ func spawn(world: Node3D) -> void:
 	spawned_nodes = _spawn(world)
 	for node in spawned_nodes:
 		node.add_to_group(GroupName)
+		if not _is_subspawner():
+			node.add_to_group(TopLevelGroupName)
 		node.set_meta(MetaName, self)
 	has_spawned = true
 	update()
@@ -52,3 +55,7 @@ func _update(_nodes: Array[Node]) -> void: pass
 func _despawn(nodes: Array[Node]) -> void:
 	for node in nodes.filter(Nodes.can_queue_free): node.queue_free()
 	nodes.clear()
+
+
+func _is_subspawner() -> bool:
+	return false

@@ -30,7 +30,8 @@ func has_spawners_with_resource(resource: Resource) -> bool:
 
 
 func remove_spawners_with_resource(resource: Resource) -> void:
-	for spawner in spawners.duplicate():
+	for i in range(spawners.size(), 0, -1):
+		var spawner := spawners[i - 1]
 		if spawner.resource == resource:
 			spawners.erase(spawner)
 			spawners_changed.emit()
