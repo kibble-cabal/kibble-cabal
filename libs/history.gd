@@ -73,6 +73,8 @@ class Item extends RefCounted:
 		return [self, with]
 
 
+signal before_do(item: Item)
+signal after_do(item: Item)
 signal before_undo(item: Item)
 signal after_undo(item: Item)
 signal before_redo(item: Item)
@@ -134,7 +136,9 @@ func add_item(item: Item) -> Item:
 	undone_stack.clear()
 	
 	# Perform item
+	before_do.emit(item)
 	item.do()
+	after_do.emit(item)
 	changed.emit()
 	
 	if render_do and item.renderable:
@@ -172,6 +176,27 @@ func clear() -> void:
 	stack.clear()
 	undone_stack.clear()
 	changed.emit()
+
+
+func on_after_do(item_name: StringName, callable: Callable) -> void:
+	after_do.connect(
+		func(item: Item) -> void:
+			if item.name == item_name and callable.is_valid(): callable.call()
+	)
+
+
+func on_after_undo(item_name: StringName, callable: Callable) -> void:
+	after_undo.connect(
+		func(item: Item) -> void:
+			if item.name == item_name and callable.is_valid(): callable.call()
+	)
+
+
+func on_after_redo(item_name: StringName, callable: Callable) -> void:
+	after_redo.connect(
+		func(item: Item) -> void:
+			if item.name == item_name and callable.is_valid(): callable.call()
+	)
 
 
 func _render_notification(text: String) -> void:
