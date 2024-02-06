@@ -7,26 +7,45 @@ extends PanelContainer
 @onready var interior_list := %InteriorItemList as ItemList
 @onready var exterior_list := %ExteriorItemList as ItemList
 
+@onready var history := BuildModeState.get_history()
+
 
 func _ready() -> void:
 	ItemDB.item_registered.connect(func(_item): update())
 	ItemDB.item_unregistered.connect(func(_item): update())
 	update()
+	
+	if history: history.changed.connect(update)
 
 
 func _on_floor_item_list_item_selected(index: int) -> void:
 	var item_id = floor_list.get_item_metadata(index)
-	if room: room.floor_id = item_id
+	if room and history: history.add(
+		room,
+		"Set Floor",
+		room.set.bind(&"floor_id", item_id),
+		room.set.bind(&"floor_id", room.floor_id)
+	)
 
 
 func _on_interior_item_list_item_selected(index: int) -> void:
 	var item_id = interior_list.get_item_metadata(index)
-	if room: room.interior_id = item_id
+	if room and history: history.add(
+		room,
+		"Set Interior",
+		room.set.bind(&"interior_id", item_id),
+		room.set.bind(&"interior_id", room.interior_id)
+	)
 
 
 func _on_exterior_item_list_item_selected(index: int) -> void:
 	var item_id = exterior_list.get_item_metadata(index)
-	if room: room.exterior_id = item_id
+	if room and history: history.add(
+		room,
+		"Set Exterior",
+		room.set.bind(&"exterior_id", item_id),
+		room.set.bind(&"exterior_id", room.exterior_id)
+	)
 
 
 func update() -> void:

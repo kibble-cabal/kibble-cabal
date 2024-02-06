@@ -4,6 +4,7 @@ extends PanelContainer
 @export var building: BuildingResource
 
 @onready var roof_list := %RoofItemList as ItemList
+@onready var history := BuildModeState.get_history()
 
 
 func _ready() -> void:
@@ -14,7 +15,12 @@ func _ready() -> void:
 
 func _on_roof_item_list_item_selected(index: int) -> void:
 	var item_id = roof_list.get_item_metadata(index)
-	if building: building.roof_id = item_id
+	if building and history: history.add(
+		building,
+		"Set Roof",
+		building.set.bind(&"roof_id", item_id),
+		building.set.bind(&"roof_id", building.roof_id)
+	)
 
 
 func update() -> void:
