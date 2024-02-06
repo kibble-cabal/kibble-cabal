@@ -77,10 +77,10 @@ func _on_drag_finished() -> void:
 
 
 func _on_position_changed(new_position: Vector3, old_position: Vector3) -> void:
-	if history: history.add(self,
+	if history: history.merge_add(self,
 		"Move Point",
-		[move_point.bind(new_position)],
-		[move_point.bind(old_position)],
+		move_point.bind(new_position),
+		move_point.bind(old_position),
 		func can_merge(a: History.Item, b: History.Item) -> bool:
 			return a.caller == b.caller
 	)

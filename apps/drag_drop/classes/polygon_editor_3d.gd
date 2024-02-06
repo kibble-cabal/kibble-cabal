@@ -65,14 +65,6 @@ func _ready() -> void:
 	update_point_list()
 
 
-func _input(event: InputEvent) -> void:
-	if history and event.is_action_pressed("ui_undo"):
-		history.undo()
-	
-	if history and event.is_action_pressed("ui_redo"):
-		history.redo()
-
-
 func update_node_list(list: Array, max_size: int, update_node: Callable, make_node: Callable) -> void:	
 	if list.size() > max_size:
 		for i in range(max_size, list.size()):
@@ -174,8 +166,8 @@ func _on_add_button_pressed(button: Node) -> void:
 	if index != -1 and index < curve.point_count:
 		if history: history.add(self,
 			"Add Point",
-			[add_point.bind(index)],
-			[remove_point.bind(index)]
+			add_point.bind(index),
+			remove_point.bind(index)
 		)
 		else: add_point(index)
 
@@ -185,8 +177,8 @@ func _on_remove_button_pressed(button: Node) -> void:
 	if index != -1 and index < curve.point_count:
 		if history: history.add(self,
 			"Remove Point",
-			[remove_point.bind(index)],
-			[add_point.bind(index, curve.get_point_position(index))]
+			remove_point.bind(index),
+			add_point.bind(index, curve.get_point_position(index))
 		)
 		else: remove_point(index)
 	

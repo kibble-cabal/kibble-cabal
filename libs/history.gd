@@ -10,6 +10,8 @@ class Item extends RefCounted:
 	
 	var time := Time.get_ticks_msec()
 	
+	var mergable: bool = false
+	
 	## If provided, will be called to check if it's possible to merge two [Item]s.
 	## [br][code]func(a: Item, b: Item) -> bool[/code]
 	var can_merge_method: Callable
@@ -26,6 +28,7 @@ class Item extends RefCounted:
 		name_value: String,
 		do_methods_value: Array[Callable] = [],
 		undo_methods_value: Array[Callable] = [],
+		mergable_value := false,
 		can_merge_method_value := Callable(),
 		custom_merge_method_value := Callable(),
 		renderable_value := true,
@@ -34,14 +37,14 @@ class Item extends RefCounted:
 		name = name_value
 		do_methods = do_methods_value
 		undo_methods = undo_methods_value
+		mergable = mergable_value
 		can_merge_method = can_merge_method_value
 		custom_merge_method = custom_merge_method_value
 		renderable = renderable_value
 	
 	
 	func do() -> void:
-		for i in range(do_methods.size()):
-			var method := do_methods[i]
+		for method in do_methods:
 			if method.is_valid(): method.call()
 	
 	
@@ -52,7 +55,7 @@ class Item extends RefCounted:
 	
 	
 	func can_merge(with: Item) -> bool:
-		if name == with.name and abs(with.time - time) < 10000:
+		if mergable and name == with.name and abs(with.time - time) < 10000:
 			if can_merge_method.is_valid(): return can_merge_method.call(self, with)
 			else: return true
 		return false
@@ -90,24 +93,37 @@ var undone_stack: Array[Item] = []
 func add(
 	caller: Object,
 	name: String,
-	do_methods: Array[Callable] = [],
-	undo_methods: Array[Callable] = [],
+	do_method := Callable(),
+	undo_method := Callable(),
+	renderable := true,
+) -> Item:
+	var item := Item.new(caller, name, [do_method], [undo_method])
+	item.renderable = renderable
+	return add_item(item)
+
+
+func merge_add(
+	caller: Object,
+	name: String,
+	do_method := Callable(),
+	undo_method := Callable(),
 	can_merge_method := Callable(),
 	custom_merge_method := Callable(),
 	renderable := true,
-) -> void:
-	add_item(Item.new(
+) -> Item:
+	return add_item(Item.new(
 		caller,
 		name, 
-		do_methods,
-		undo_methods, 
+		[do_method],
+		[undo_method], 
+		true,
 		can_merge_method,
 		custom_merge_method,
 		renderable
 	))
 
 
-func add_item(item: Item) -> void:
+func add_item(item: Item) -> Item:
 	# Add item to stack
 	if not stack.is_empty():
 		var prev_item: Item = stack.pop_back()
@@ -123,6 +139,8 @@ func add_item(item: Item) -> void:
 	
 	if render_do and item.renderable:
 		_render_notification(item.name)
+	
+	return item
 
 
 func undo() -> void:
