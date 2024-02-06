@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://d3dr3s5qgylsx"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://d3dr3s5qgylsx"]
 
 [ext_resource type="StyleBox" uid="uid://bcne2abw7pn2y" path="res://content/styleboxes/default_button_stylebox.tres" id="1_2gqq5"]
 [ext_resource type="FontFile" uid="uid://c13i808uo34yf" path="res://content/fonts/montagu_slab/MontaguSlab16pt-Bold.otf" id="1_hkiae"]
@@ -6,6 +6,9 @@
 [ext_resource type="FontFile" uid="uid://b32pk7c60jk6" path="res://content/fonts/montagu_slab/MontaguSlab16pt-Medium.otf" id="3_50xg8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rbmyk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q53kj"]
+bg_color = Color(0.1, 0.1, 0.1, 0.490196)
 
 [resource]
 default_font = ExtResource("3_50xg8")
@@ -24,3 +27,5 @@ GameModeButton/styles/focus = SubResource("StyleBoxEmpty_rbmyk")
 GameModeButton/styles/hover = ExtResource("3_6s76c")
 GameModeButton/styles/normal = ExtResource("3_6s76c")
 GameModeButton/styles/pressed = ExtResource("3_6s76c")
+HistoryNotification/base_type = &"Label"
+HistoryNotification/styles/normal = SubResource("StyleBoxFlat_q53kj")
