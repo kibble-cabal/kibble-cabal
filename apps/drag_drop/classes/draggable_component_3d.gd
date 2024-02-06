@@ -11,6 +11,7 @@ signal drag_started
 signal drag_finished
 signal attempted_drop(drop_position: Vector3)
 signal dropped(drop_area: DroppableArea3D, drop_position: Vector3)
+signal position_changed(new_position: Vector3, old_position: Vector3)
 
 @export_group("Drop")
 @export var drop_mode := DropMode.ANY_DROP_AREA
@@ -66,7 +67,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		if viewport: viewport.set_input_as_handled()
 		if event is InputEventMouseMotion and "position" in query_result:
 			set_global_pos(query_result.position)
-			snap()
 
 		if event.is_action_released("click"):
 			dragging.to(false)
@@ -117,11 +117,13 @@ func _on_drag_started() -> void:
 
 func _on_drag_finished() -> void:
 	if can_drop():
+		var old_position := start_position
 		start_position = node.position
 		var drop_area := get_drop_area()
 		if drop_area:
 			drop_area.drop(self, node.position)
 		dropped.emit(drop_area, node.position)
+		position_changed.emit(node.position, old_position)
 	else:
 		attempted_drop.emit(node.position)
 
@@ -131,14 +133,19 @@ func snap() -> void:
 	var areas := get_drop_areas()
 	areas.reverse()
 	for area in areas:
-		set_global_pos(area.snap(node.global_position))
+		node.global_position = locked(area.snap(node.global_position))
+
+
+func locked(global_pos: Vector3) -> Vector3:
+	if axis_lock_x: global_pos.x = node.global_position.x
+	if axis_lock_y: global_pos.y = node.global_position.y
+	if axis_lock_z: global_pos.z = node.global_position.z
+	return global_pos
 
 
 func set_global_pos(pos: Vector3) -> void:
-	if axis_lock_x: pos.x = node.global_position.x
-	if axis_lock_y: pos.y = node.global_position.y
-	if axis_lock_z: pos.z = node.global_position.z
-	node.global_position = pos
+	node.global_position = locked(pos)
+	snap()
 
 
 func can_drop() -> bool:

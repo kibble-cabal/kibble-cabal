@@ -16,5 +16,4 @@ func _update(nodes: Array[Node]) -> void:
 		var room := resource as RoomResource
 		if node and room:
 			var center := room.get_center()
-			print(center)
 			node.local_position = Vector3(center.x, BuildingConfig.WallHeight, center.y)

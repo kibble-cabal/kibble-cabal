@@ -54,6 +54,7 @@ const RemovePointScene := preload("../scenes/remove_point_button.tscn")
 		points.map(update_point)
 
 
+var history: History
 var points: Array[Node3D] = []
 var add_buttons: Array[Button] = []
 var remove_buttons: Array[Button] = []
@@ -62,6 +63,14 @@ var remove_buttons: Array[Button] = []
 func _ready() -> void:
 	_on_curve_changed()
 	update_point_list()
+
+
+func _input(event: InputEvent) -> void:
+	if history and event.is_action_pressed("ui_undo"):
+		history.undo()
+	
+	if history and event.is_action_pressed("ui_redo"):
+		history.redo()
 
 
 func update_node_list(list: Array, max_size: int, update_node: Callable, make_node: Callable) -> void:	
@@ -129,6 +138,7 @@ func update_remove_button_list() -> void:
 
 
 func update_point(point: Node) -> void:
+	point.history = history
 	point.curve = curve
 	point.size = size
 	point.modulate = modulate
@@ -136,7 +146,21 @@ func update_point(point: Node) -> void:
 	point.drop_areas = drop_areas
 	point.drop_mode = drop_mode
 	point.input_margin = input_margin
-		
+
+
+func add_point(index: int, pos := Vector2.INF) -> void:
+	if curve and index >= 0 and index <= curve.point_count:
+		var midpoint := get_midpoint(index, (index - 1) if index > 0 else curve.point_count - 1)
+		var point_pos := pos if pos.is_finite() else midpoint
+		curve.add_point(point_pos, Vector2.ZERO, Vector2.ZERO, index)
+		update_point_list()
+
+
+func remove_point(index: int) -> void:
+	if curve and index >= 0 and index < curve.point_count:
+		curve.remove_point(index)
+		update_point_list()
+
 
 func _on_curve_changed() -> void:
 	if curve:
@@ -147,15 +171,22 @@ func _on_curve_changed() -> void:
 
 func _on_add_button_pressed(button: Node) -> void:
 	var index: int = button.get_meta(&"curve_index", -1)
-	if curve and index >= 0 and index <= curve.point_count:
-		var midpoint := get_midpoint(index, (index - 1) if index > 0 else curve.point_count - 1)
-		curve.add_point(midpoint, Vector2.ZERO, Vector2.ZERO, index)
-		update_point_list()
+	if index != -1 and index < curve.point_count:
+		if history: history.add(self,
+			"Add Point",
+			[add_point.bind(index)],
+			[remove_point.bind(index)]
+		)
+		else: add_point(index)
 
 
 func _on_remove_button_pressed(button: Node) -> void:
 	var index: int = button.get_meta(&"curve_index", -1)
-	if curve and index >= 0 and index < curve.point_count:
-		curve.remove_point(index)
-		update_point_list()
+	if index != -1 and index < curve.point_count:
+		if history: history.add(self,
+			"Remove Point",
+			[remove_point.bind(index)],
+			[add_point.bind(index, curve.get_point_position(index))]
+		)
+		else: remove_point(index)
 	

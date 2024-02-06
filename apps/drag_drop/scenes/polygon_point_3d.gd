@@ -45,6 +45,8 @@ extends MeshInstance3D
 		dragging_modulate = value
 		update()
 
+var history: History
+
 var sphere_mesh: SphereMesh:
 	get: return mesh as SphereMesh
 
@@ -56,9 +58,9 @@ var material: StandardMaterial3D:
 
 
 func _ready() -> void:
-	draggable.dropped.connect(_on_dropped)
 	draggable.drag_started.connect(_on_drag_started)
 	draggable.drag_finished.connect(_on_drag_finished)
+	draggable.position_changed.connect(_on_position_changed)
 	update(true)
 
 
@@ -74,9 +76,20 @@ func _on_drag_finished() -> void:
 		create_tween().tween_property(material, "emission", modulate, 0.125)
 
 
-func _on_dropped(_drop_area: DroppableArea3D, drop_position: Vector3) -> void:
+func _on_position_changed(new_position: Vector3, old_position: Vector3) -> void:
+	if history: history.add(self,
+		"Move Point",
+		[move_point.bind(new_position)],
+		[move_point.bind(old_position)],
+		func can_merge(a: History.Item, b: History.Item) -> bool:
+			return a.caller == b.caller
+	)
+	else: move_point(new_position)
+
+
+func move_point(global_pos: Vector3) -> void:
 	if curve and curve_index >= 0 and curve.point_count > curve_index:
-		curve.set_point_position(curve_index, Vec2.from(drop_position))
+		curve.set_point_position(curve_index, Vec2.from(global_pos))
 
 
 func update(override_modulate := false) -> void:
