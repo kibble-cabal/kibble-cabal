@@ -22,11 +22,12 @@ func push(scene: Control) -> void:
 	add_child(scene)
 
 
-func pop() -> void:
-	# Remove current scene
-	if current:
-		current.queue_free()
-		stack.pop_back()
+func pop(n: int = 1) -> void:
+	# Remove n scenes
+	for i in range(n):
+		if current:
+			current.queue_free()
+			stack.pop_back()
 	# Add previous scene
 	if current and not current.is_inside_tree():
 		add_child(current)
