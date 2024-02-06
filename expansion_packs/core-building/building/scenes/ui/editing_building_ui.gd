@@ -22,8 +22,6 @@ func _ready() -> void:
 
 
 func _enter_tree() -> void:
-	Sig.try_connect(building.changed, respawn)
-	
 	for room in building.rooms:
 		Sig.try_connect(room.edit_requested, _on_edit_room_requested.bind(room))
 		Sig.try_connect(room.destroy_requested, _on_destroy_room_requested.bind(room))
@@ -32,8 +30,6 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
-	Sig.try_disconnect(building.changed, respawn)
-	
 	for room in building.rooms:
 		Sig.disconnect_all_for_object(self, room.edit_requested)
 		Sig.disconnect_all_for_object(self, room.destroy_requested)
