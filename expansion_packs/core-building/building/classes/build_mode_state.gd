@@ -27,6 +27,10 @@ func make_history_ui() -> Control:
 	return node
 
 
+static func get_state() -> BuildModeState:
+	return GameModeSystem.current_state as BuildModeState
+
+
 static func get_history() -> History:
 	if GameModeSystem.current_state is BuildModeState:
 		return (GameModeSystem.current_state as BuildModeState).history

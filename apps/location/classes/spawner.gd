@@ -33,7 +33,7 @@ func spawn(world: Node3D) -> void:
 ## Called right after spawn, or when [member resource] changes.
 ## [br][b]Note:[/b] should not be overridden. Override [method _update] instead.
 func update() -> void:
-	_update(spawned_nodes)
+	if has_spawned: _update(spawned_nodes)
 
 
 ## Despawns nodes from world.

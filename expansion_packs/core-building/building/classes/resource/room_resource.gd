@@ -40,6 +40,10 @@ signal destroy_requested
 # @export var level: int = 0
 
 
+func _init() -> void:
+	Sig.try_connect(polygon.changed, emit_changed)
+
+
 func add_point(point: Vector2) -> void:
 	polygon.add_point(point)
 	emit_changed()

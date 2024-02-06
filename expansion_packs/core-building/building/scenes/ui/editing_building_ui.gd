@@ -19,6 +19,9 @@ const SquareRoomPoints: Array[Vector2] = [
 func _ready() -> void:
 	$DesignBuildingUI.building = building
 	$DesignBuildingUI.update()
+	building.changed.connect(respawn)
+	
+	BuildModeState.get_history().on_after_undo(&"Add Building", _on_undo_add_building)
 
 
 func _enter_tree() -> void:
@@ -49,7 +52,6 @@ func respawn() -> void:
 			child.queue_free()
 		
 		# Spawn new nodes
-		BuildingSpawner.new(building).spawn(world)
 		for room in building.rooms:
 			RoomUISpawner.new(room).spawn(world)
 
@@ -70,14 +72,6 @@ func _on_create_square_room_button_pressed() -> void:
 
 
 func _on_done_button_pressed() -> void:
-	var spawner := BuildingSpawner.new(building)
-	if LocationSystem.current_state and not LocationSystem.current_state.has_spawners_with_resource(building):
-		LocationSystem.current_state.add_spawner(spawner)
-	SaveSystem.commit_changes()
-	if ui_root: ui_root.pop()
-
-
-func _on_cancel_button_pressed() -> void:
 	if ui_root: ui_root.pop()
 
 
@@ -96,5 +90,13 @@ func _on_move_room_requested(room: RoomResource) -> void:
 
 
 func _on_destroy_room_requested(room: RoomResource) -> void:
-	building.rooms.erase(room)
-	respawn()
+	if building.has_room(room): BuildModeState.get_history().add(
+		building,
+		"Destroy Room",
+		building.remove_room.bind(room),
+		building.add_room.bind(room)
+	)
+
+
+func _on_undo_add_building() -> void:
+	if ui_root: ui_root.pop()

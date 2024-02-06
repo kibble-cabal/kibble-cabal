@@ -35,14 +35,7 @@ size_flags_horizontal = 0
 tooltip_text = "....."
 text = "✓ Done"
 
-[node name="CancelButton" type="Button" parent="."]
-layout_mode = 2
-size_flags_horizontal = 0
-tooltip_text = "....."
-text = "✕ Cancel"
-
 [node name="Spawner" type="Node3D" parent="."]
 
 [connection signal="pressed" from="CreateSquareRoomButton" to="." method="_on_create_square_room_button_pressed"]
 [connection signal="pressed" from="DoneButton" to="." method="_on_done_button_pressed"]
-[connection signal="pressed" from="CancelButton" to="." method="_on_cancel_button_pressed"]

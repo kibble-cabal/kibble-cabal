@@ -4,26 +4,19 @@ extends VBoxContainer
 @export var room: RoomResource
 
 @onready var ui_root := UIConfig.get_game_mode_ui_root()
+@onready var spawner := RoomPolygonUISpawner.new(room)
 
 
 func _ready() -> void:
 	$DesignRoomUI.room = room
 	$DesignRoomUI.update()
-	respawn()
-
-
-func respawn() -> void:
-	if is_inside_tree():
-		for child in $Spawner.get_children():
-			child.queue_free()
-		RoomSpawner.new(room).spawn($Spawner)
-		RoomPolygonUISpawner.new(room).spawn($Spawner)
+	spawner.spawn($Spawner)
+	BuildModeState.get_history().on_after_undo(&"Add Room", _on_undo_add_room)
 
 
 func _on_done_button_pressed() -> void:
-	building.add_room(room)
 	if ui_root: ui_root.pop()
 
 
-func _on_cancel_button_pressed() -> void:
+func _on_undo_add_room() -> void:
 	if ui_root: ui_root.pop()

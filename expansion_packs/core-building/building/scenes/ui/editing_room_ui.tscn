@@ -32,13 +32,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "✓ Done"
 
-[node name="CancelButton" type="Button" parent="."]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "✕ Cancel"
-
 [node name="Spawner" type="Node3D" parent="."]
 
 [connection signal="pressed" from="DoneButton" to="." method="_on_done_button_pressed"]
-[connection signal="pressed" from="CancelButton" to="." method="_on_cancel_button_pressed"]
