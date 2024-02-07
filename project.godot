@@ -17,7 +17,7 @@ attribute_table_dock/custom_dir="res://"
 
 config/name="KibbleCabal2D"
 run/main_scene="res://main.tscn"
-config/features=PackedStringArray("4.2")
+config/features=PackedStringArray("4.2", "C#")
 config/icon="res://icon.svg"
 
 [autoload]
