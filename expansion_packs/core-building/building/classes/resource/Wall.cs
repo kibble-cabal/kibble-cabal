@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Godot;
 
 using Array = Godot.Collections.Array;
@@ -55,9 +57,15 @@ public record Wall
 
     public Vector2[] Tessellate(int maxStages = 5, float tolerance = 4) => Tessellator.tessellate(Start, End, StartHandle, EndHandle, maxStages, tolerance);
 
-    public bool IsTouching(Wall other)
+    public bool IsTouching(Wall other, float threshold)
     {
-        throw new System.NotImplementedException();
+        (Vector2 a, Vector2 b)[] pairs = [
+            (Start, other.Start),
+            (Start, other.End),
+            (End, other.Start),
+            (End, other.End)
+        ];
+        return pairs.Any((pair) => Mathf.Abs(pair.a.DistanceTo(pair.b)) < threshold);
     }
 
     public Array ToData()

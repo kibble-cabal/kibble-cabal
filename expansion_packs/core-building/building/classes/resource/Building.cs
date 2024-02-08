@@ -70,7 +70,7 @@ public partial class Building : Resource
         for (var i = 0; i < value.Count; i++)
             Floors.Add(Floor.FromData(value[i].As<Array>()));
         foreach (var floor in Floors)
-            floor.Polygon.Connect("changed", Callable.From(EmitChanged));
+            floor.Polygon.Connect("changed", ChangedCallable);
     }
 
     private Wall GetWall(int index) => has_wall(index) ? Walls[index] : null;
@@ -239,16 +239,20 @@ public partial class Building : Resource
 
     public void set_floor_id(int index, StringName id) => set_floor_material_id(index, "floor", id);
 
-    public Vector2 get_wall_start(int index) => GetWall(index).Start;
-    public Vector2 get_wall_end(int index) => GetWall(index).End;
-    public Vector2 get_wall_start_handle(int index) => GetWall(index).StartHandle;
-    public Vector2 get_wall_end_handle(int index) => GetWall(index).EndHandle;
+    public Vector2 get_wall_start(int index) => GetWall(index)?.Start ?? Vector2.Inf;
+    public Vector2 get_wall_end(int index) => GetWall(index)?.End ?? Vector2.Inf;
+    public Vector2 get_wall_start_handle(int index) => GetWall(index)?.StartHandle ?? Vector2.Inf;
+    public Vector2 get_wall_end_handle(int index) => GetWall(index)?.EndHandle ?? Vector2.Inf;
 
-    public Curve2D get_floor_polygon(int index) => GetFloor(index).Polygon;
+    public Curve2D get_floor_polygon(int index) => GetFloor(index)?.Polygon;
 
     public Vector2[] tessellate_wall(int index) => tessellate_wall(index, 5, 4);
     public Vector2[] tessellate_wall(int index, int max_stages) => tessellate_wall(index, max_stages, 4);
-    public Vector2[] tessellate_wall(int index, int max_stages, float tolerance_degrees) => GetWall(index).Tessellate(max_stages, tolerance_degrees);
+    public Vector2[] tessellate_wall(int index, int max_stages, float tolerance_degrees) => GetWall(index)?.Tessellate(max_stages, tolerance_degrees) ?? [];
+
+    public Vector2[] tessellate_floor(int index, bool closed) => tessellate_floor(index, closed, 5, 4);
+    public Vector2[] tessellate_floor(int index, bool closed, int max_stages) => tessellate_floor(index, closed, max_stages, 4);
+    public Vector2[] tessellate_floor(int index, bool closed, int max_stages, float tolerance_degrees) => GetFloor(index)?.Tessellate(closed, max_stages, tolerance_degrees) ?? [];
 
     /// <summary>
     /// Returns a new position, snapped to the nearest wall point, if the distance is below threshold.
@@ -274,4 +278,9 @@ public partial class Building : Resource
         }
         return dist < threshold ? closestPoint : position;
     }
+
+    public bool are_walls_touching(int a, int b, float threshold) => has_wall(a) && has_wall(b) ? GetWall(a).IsTouching(GetWall(b), threshold) : false;
+    public bool are_floors_touching(int a, int b, float threshold) => has_floor(a) && has_floor(b) ? GetFloor(a).IsTouching(GetFloor(b), threshold) : false;
+
+    public Vector2[] get_floor_point_positions(int index) => GetFloor(index)?.GetPointPositions() ?? [];
 }

@@ -76,7 +76,7 @@ public partial class Tessellator : RefCounted
 
     public static Curve2D smoothed(Curve2D curve) => smoothed(curve, 0, curve.PointCount - 1);
 
-    public static Curve2D simplified(Curve2D curve, float position_tolerance)
+    public static Curve2D simplified(Curve2D curve, float position_tolerance, float angle_tolerance)
     {
         Curve2D simplifiedCurve = new();
         if (curve.PointCount < 1) return simplifiedCurve;
@@ -86,13 +86,16 @@ public partial class Tessellator : RefCounted
         {
             var simplifiedIndex = simplifiedCurve.PointCount - 1;
             var point = curve.GetPointPosition(i);
-            if (Mathf.Abs(simplifiedCurve.GetPointPosition(simplifiedIndex).DistanceTo(point)) > position_tolerance)
+            var isPointClose = Mathf.Abs(simplifiedCurve.GetPointPosition(simplifiedIndex).DistanceTo(point)) <= position_tolerance;
+            var isAngleClose = Mathf.Abs(simplifiedCurve.GetPointPosition(simplifiedIndex).AngleTo(point)) <= angle_tolerance;
+            if (!isPointClose || !isAngleClose)
             {
                 // Add an averaged point
                 Vector2 inHandle = curve.GetPointIn(i);
                 Vector2 outHandle = curve.GetPointOut(i);
-                if (skippedPoints > 0)
-                    outHandle += (point - curve.GetPointPosition(i - skippedPoints)) / 2;
+                for (int skippedIndex = 0; skippedIndex < skippedPoints; skippedIndex++)
+                    outHandle += point - curve.GetPointPosition(i - skippedIndex);
+                outHandle /= skippedPoints;
                 simplifiedCurve.AddPoint(point, inHandle, outHandle);
                 skippedPoints = 0;
             }
@@ -103,7 +106,7 @@ public partial class Tessellator : RefCounted
         return simplifiedCurve;
     }
 
-    public static Curve2D smoothed_simplified(Curve2D curve, float position_tolerance) => smoothed(simplified(curve, position_tolerance));
+    public static Curve2D smoothed_simplified(Curve2D curve, float position_tolerance, float angle_tolerance) => smoothed(simplified(curve, position_tolerance, angle_tolerance));
 
     public static Vector2[] tessellate(
         Vector2 start,

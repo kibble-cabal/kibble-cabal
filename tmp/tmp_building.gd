@@ -3,23 +3,24 @@ extends Node2D
 @export var building: Building
 @export var line_color: Color = Color.ORANGE
 @export var handles_color: Color = Color.GRAY
+@export var fill_color: Color = Color.DIM_GRAY
 @export var snap_tolerance: float = 100
 
-var current_wall_index: int:
-	get: return building.wall_count - 1 if building else -1
-
 var current_wall: WallRef:
-	get: return building.get_wall(current_wall_index) if building else null
+	get: return building.get_wall(building.wall_count - 1) if building else null
+
+var current_floor: FloorRef:
+	get: return building.get_floor(building.floor_count - 1) if building else null
 
 var curve := Curve2D.new()
 
 enum Mode {
-	POINTS,
-	DRAW,
+	WALLS,
+	FLOORS,
+	CURVE,
 }
 
-var mode := Mode.DRAW
-
+var mode := Mode.CURVE
 
 
 func _ready() -> void:
@@ -33,22 +34,25 @@ func _handle_switch_mode() -> void:
 	building = Building.new()
 	building.changed.connect(queue_redraw)
 	building.add_wall()
+	building.add_floor()
 
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
 		match event.keycode:
-			KEY_D: mode = Mode.DRAW
-			KEY_P: mode = Mode.POINTS
+			KEY_C: mode = Mode.CURVE
+			KEY_W: mode = Mode.WALLS
+			KEY_F: mode = Mode.FLOORS
 		_handle_switch_mode()
 		queue_redraw()
 	
 	match mode:
-		Mode.DRAW: _handle_draw_input(event)
-		Mode.POINTS: _handle_points_input(event)
+		Mode.CURVE: _handle_curve_input(event)
+		Mode.WALLS: _handle_walls_input(event)
+		Mode.FLOORS: _handle_floors_input(event)
 
 
-func _handle_draw_input(event: InputEvent) -> void:
+func _handle_curve_input(event: InputEvent) -> void:
 	if event.is_action_pressed("click"):
 		curve = Curve2D.new()
 	
@@ -57,7 +61,7 @@ func _handle_draw_input(event: InputEvent) -> void:
 		queue_redraw()
 
 
-func _handle_points_input(event: InputEvent) -> void:
+func _handle_walls_input(event: InputEvent) -> void:
 	var wall := current_wall
 	if not wall: return
 	if event.is_action_pressed("click"):
@@ -77,14 +81,38 @@ func _handle_points_input(event: InputEvent) -> void:
 		queue_redraw()
 
 
-func _draw() -> void:
-	if not building: return
-	_draw_walls()
-	_draw_editor()
+func _handle_floors_input(event: InputEvent) -> void:
+	var floor := current_floor
+	if not floor: return
+	if event.is_action_pressed("click"):
+		var snapped_position = building.snap_to_nearest_wall(event.position, snap_tolerance)
+		floor.add_point(snapped_position)
+		queue_redraw()
 	
-	if mode == Mode.DRAW and curve.point_count >= 2:
-		curve = Tessellator.new().smoothed_simplified(curve, 100)
-		draw_curve(curve)
+	if event is InputEventScreenDrag:
+		var delta: Vector2 = event.position - floor.get_position(floor.point_count - 1)
+		floor.set_handles(floor.point_count - 1, delta.rotated(PI), delta)
+	
+	if event is InputEventKey:
+		if event.is_pressed() and event.keycode == KEY_ENTER:
+			building.add_floor()
+
+
+func _draw() -> void:
+	match mode: 
+		Mode.CURVE: 
+			if curve.point_count >= 2:
+				curve = Tessellator.new().smoothed_simplified(curve, 200, PI/16)
+				draw_curve(curve)
+		Mode.WALLS:
+			if building:
+				_draw_walls()
+				_draw_walls_editor()
+		Mode.FLOORS:
+			if building:
+				_draw_floors()
+				_draw_floors_editor()
+			
 
 
 func draw_curve(line: Curve2D, points: bool = true, handles: bool = true) -> void:
@@ -92,14 +120,12 @@ func draw_curve(line: Curve2D, points: bool = true, handles: bool = true) -> voi
 	if points:
 		for i in range(line.point_count):
 			var point := line.get_point_position(i)
-			circle(point, line_color, 5)
 			if handles:
 				var in_handle := line.get_point_in(i)
 				var out_handle := line.get_point_out(i)
-				circle(point + in_handle, handles_color, 3)
-				circle(point + out_handle, handles_color, 3)
-				draw_line(point + in_handle, point, handles_color, 2)
-				draw_line(point + out_handle, point, handles_color, 2)
+				draw_point_and_handles(point, in_handle, out_handle)
+			else:
+				circle(point, line_color, 5)
 
 
 func _draw_walls() -> void:
@@ -108,17 +134,45 @@ func _draw_walls() -> void:
 			draw_polyline(building.tessellate_wall(i), line_color, 2, true)
 
 
-func _draw_editor() -> void:
+func _draw_walls_editor() -> void:
 	var wall := current_wall
 	if wall:
-		if wall.has_start():
-			draw_dashed_line(wall.start, wall.start + wall.start_handle, handles_color, 2, 8)
-		if wall.has_end():
-			draw_dashed_line(wall.end, wall.end + wall.end_handle, handles_color, 2, 8)
-		for point in [wall.start + wall.start_handle, wall.end + wall.end_handle]:
-			if point.is_finite(): circle(point, handles_color)
-		for point in [wall.start, wall.end]:
-			if point.is_finite(): circle(point, line_color)
+		draw_point_and_handles(wall.start, wall.start_handle, Vector2.INF)
+		draw_point_and_handles(wall.end, wall.end_handle, Vector2.INF)
+
+
+func draw_point_and_handles(point: Vector2, in_handle: Vector2, out_handle: Vector2) -> void:
+	if point.is_finite(): 
+		if in_handle.is_finite(): 
+			draw_dashed_line(point, point + in_handle, handles_color, 2, 8)
+			circle(point + in_handle, handles_color)
+		if out_handle.is_finite(): 
+			draw_dashed_line(point, point + out_handle, handles_color, 2, 8)
+			circle(point + out_handle, handles_color)
+		circle(point, line_color)
+
+
+func _draw_floors() -> void:
+	for i in range(building.floor_count):
+		var floor: FloorRef = building.get_floor(i)
+		if floor.point_count < 2: continue
+		if building.is_floor_valid(i):
+			draw_colored_polygon(floor.tessellate(true), fill_color)
+		else:
+			draw_polyline(floor.tessellate(true), Color.RED, 2, true)	
+
+
+func _draw_floors_editor() -> void:
+	var floor := current_floor
+	if floor and floor.point_count > 0:
+		for i in range(floor.point_count):
+			draw_point_and_handles(
+				floor.get_position(i),
+				floor.get_in_handle(i), 
+				floor.get_out_handle(i)
+			)
+		for point in floor.get_point_positions():
+			circle(point, line_color)
 
 
 func circle(pos: Vector2, color := Color.WHITE, size := 5) -> void:

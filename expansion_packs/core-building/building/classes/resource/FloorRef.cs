@@ -8,8 +8,11 @@ using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringN
 /// data into multiple resources.
 /// </summary>
 [GlobalClass]
-public partial class FloorRef(Building building, int index) : RefCounted
+public partial class FloorRef(Building Building, int Index) : RefCounted
 {
+    public int index => Index;
+    public Building building => Building;
+
     public Curve2D polygon
     {
         get => building.get_floor_polygon(index);
@@ -32,9 +35,26 @@ public partial class FloorRef(Building building, int index) : RefCounted
 
     public override string ToString() => $"Floor({polygon})";
 
-    public Vector2[] tessellate(int max_stages, float tolerance_degrees) => polygon.Tessellate(max_stages, tolerance_degrees);
-    public Vector2[] tessellate(int max_stages) => polygon.Tessellate(max_stages);
-    public Vector2[] tessellate() => polygon.Tessellate();
+    public Vector2[] tessellate(bool closed, int max_stages, float tolerance_degrees) => building.tessellate_floor(index, closed, max_stages, tolerance_degrees);
+    public Vector2[] tessellate(bool closed, int max_stages) => building.tessellate_floor(index, closed, max_stages);
+    public Vector2[] tessellate(bool closed) => building.tessellate_floor(index, closed);
 
-    public bool is_valid() => polygon.PointCount > 2;
+    public bool is_valid() => building.is_floor_valid(index);
+    public bool is_touching(int other, float threshold) => building.are_floors_touching(index, other, threshold);
+    public bool is_touching(FloorRef other, float threshold) => building.are_floors_touching(index, other.index - 1, threshold);
+
+    public void add_point(Vector2 position, Vector2 in_handle, Vector2 out_handle) => polygon.AddPoint(position, in_handle, out_handle);
+    public void add_point(Vector2 position) => polygon.AddPoint(position);
+
+    public void set_handles(int point_index, Vector2 in_handle, Vector2 out_handle)
+    {
+        polygon.SetPointIn(point_index, in_handle);
+        polygon.SetPointOut(point_index, out_handle);
+    }
+
+    public Vector2 get_position(int point_index) => polygon.GetPointPosition(point_index);
+    public Vector2 get_in_handle(int point_index) => polygon.GetPointIn(point_index);
+    public Vector2 get_out_handle(int point_index) => polygon.GetPointOut(point_index);
+
+    public Vector2[] get_point_positions() => building.get_floor_point_positions(index);
 }

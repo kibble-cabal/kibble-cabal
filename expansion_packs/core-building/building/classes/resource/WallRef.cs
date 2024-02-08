@@ -8,8 +8,11 @@ using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringN
 /// data into multiple resources.
 /// </summary>
 [GlobalClass]
-public partial class WallRef(Building building, int index) : RefCounted
+public partial class WallRef(Building Building, int Index) : RefCounted
 {
+    public Building building => Building;
+    public int index => Index;
+
     public Vector2 start
     {
         get => building.get_wall_start(index);
@@ -66,4 +69,7 @@ public partial class WallRef(Building building, int index) : RefCounted
     public bool is_valid() => building.is_wall_valid(index);
     public bool has_start() => start.IsFinite();
     public bool has_end() => end.IsFinite();
+
+    public bool is_touching(int other, float threshold) => building.are_walls_touching(index, other, threshold);
+    public bool is_touching(WallRef other, float threshold) => building.are_walls_touching(index, other.index, threshold);
 }

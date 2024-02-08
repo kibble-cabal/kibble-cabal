@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 using Godot.Collections;
@@ -15,7 +16,15 @@ public record Floor
         set => Materials["floor"] = value;
     }
 
-    public Floor(Curve2D polygon) => this.Polygon = polygon;
+    public Floor(Curve2D polygon) => this.Polygon = polygon ?? new();
+
+    public Vector2[] GetPointPositions()
+    {
+        Vector2[] points = new Vector2[Polygon.PointCount];
+        for (int i = 0; i < Polygon.PointCount; i++)
+            points[i] = Polygon.GetPointPosition(i);
+        return points;
+    }
 
     public void AddPoint(Vector2 point) => Polygon.AddPoint(point);
     public void AddPoint(Vector2 point, Vector2 inHandle, Vector2 outHandle) => Polygon.AddPoint(point, inHandle, outHandle);
@@ -25,13 +34,41 @@ public record Floor
 
     public void RemovePoint(int index) => Polygon.RemovePoint(index);
 
-    public Vector2[] Tessellate(int maxStages, float toleranceDegrees) => Polygon.Tessellate(maxStages, toleranceDegrees);
-
-    public bool IsValid() => Polygon.PointCount > 2;
-
-    public bool IsTouching(Floor other)
+    public Vector2[] Tessellate(bool closed = true, int maxStages = 5, float toleranceDegrees = 4)
     {
-        throw new System.NotImplementedException();
+        if (!closed) return Polygon.Tessellate(maxStages, toleranceDegrees);
+        Array<Vector2> points = new(Polygon.Tessellate(maxStages, toleranceDegrees));
+        if (Polygon.PointCount >= 2 && points.Count > 0)
+        {
+            Vector2[] endPoints = Tessellator.tessellate(points[points.Count - 1], points[0], Polygon.GetPointOut(Polygon.PointCount - 1), Polygon.GetPointIn(0));
+            foreach (var point in endPoints) points.Add(point);
+        }
+        Vector2[] value = new Vector2[points.Count];
+        points.CopyTo(value, 0);
+        return value;
+    }
+
+    public bool IsValid()
+    {
+        if (Polygon.PointCount <= 2) return false;
+        return !Geometry2D.TriangulatePolygon(Tessellate()).IsEmpty();
+    }
+
+    public bool IsTouching(Floor other, float threshold)
+    {
+        var polygonA = Tessellate();
+        var polygonB = other.Tessellate();
+        foreach (var point in polygonA)
+            if (Geometry2D.IsPointInPolygon(point, polygonB)) return true;
+
+        foreach (var aPoint in polygonA)
+            foreach (var bPoint in polygonB)
+            {
+                var dist = Mathf.Abs(aPoint.DistanceTo(bPoint));
+                if (dist < threshold) return true;
+            }
+
+        return false;
     }
 
     public Array ToData()
