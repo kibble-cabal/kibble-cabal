@@ -65,7 +65,7 @@ func _handle_walls_input(event: InputEvent) -> void:
 	var wall := current_wall
 	if not wall: return
 	if event.is_action_pressed("click"):
-		var snapped_position = building.snap_to_nearest_wall(event.position, snap_tolerance)
+		var snapped_position = building.snap(event.position, snap_tolerance)
 		if wall.has_start(): wall.end = snapped_position
 		else: wall.start = snapped_position
 		queue_redraw()
@@ -85,7 +85,7 @@ func _handle_floors_input(event: InputEvent) -> void:
 	var floor := current_floor
 	if not floor: return
 	if event.is_action_pressed("click"):
-		var snapped_position = building.snap_to_nearest_wall(event.position, snap_tolerance)
+		var snapped_position = building.snap_to_floors(event.position, snap_tolerance)
 		floor.add_point(snapped_position)
 		queue_redraw()
 	

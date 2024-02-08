@@ -5,20 +5,20 @@ using Godot.Collections;
 
 using BakedPointsDictionary = System.Collections.Generic.SortedDictionary<float, Godot.Vector2>;
 using BakedPoint = System.Collections.Generic.KeyValuePair<float, Godot.Vector2>;
-using System.Linq;
+
+public static class MathExtension
+{
+    public static Vector2 Closest(this Vector2 toPoint, Vector2 a, Vector2 b) => Mathf.Abs(a.DistanceTo(toPoint)) < Mathf.Abs(b.DistanceTo(toPoint)) ? a : b;
+
+    /// <summary>
+    /// If threshold is less than zero, returns snapped position. Otherwise, returns snapped position only if the snap distance is below the threshold.
+    /// </summary>
+    public static Vector2 Snap(this Vector2 position, Vector2 snapPoint, float threshold) => threshold < 0 || Mathf.Abs(position.DistanceTo(snapPoint)) < threshold ? snapPoint : position;
+}
 
 [GlobalClass]
 public partial class Tessellator : RefCounted
 {
-    private static int GetBakedSize(int maxStages)
-    {
-        int size = 2;
-        for (int stage = 0; stage < maxStages; stage++)
-        {
-            size += 2 * stage;
-        }
-        return size;
-    }
 
     private static void Bake(
         ref BakedPointsDictionary baked,
@@ -49,6 +49,57 @@ public partial class Tessellator : RefCounted
             Bake(ref baked, points, mp, end, depth + 1, maxDepth, tolerance);
         }
     }
+
+    private static Vector2 ClosestPointToBezierCurve(
+        Vector2 toPoint,
+        Vector2 start,
+        Vector2 end,
+        Vector2 startHandle,
+        Vector2 endHandle,
+        float min = 0.0f,
+        float max = 1.0f,
+        float epsilon = 0.05f
+    )
+    {
+        var increment = (max - min) / 2;
+        var currentOffset = min + increment;
+        var currentPoint = start.BezierInterpolate(start + startHandle, end + endHandle, end, min + increment);
+        if (increment > epsilon)
+        {
+            var highPoint = ClosestPointToBezierCurve(toPoint, start, end, startHandle, endHandle, currentOffset, currentOffset + increment, epsilon);
+            var lowPoint = ClosestPointToBezierCurve(toPoint, start, end, startHandle, endHandle, currentOffset - increment, currentOffset, epsilon);
+            return toPoint.Closest(toPoint.Closest(highPoint, lowPoint), currentPoint);
+        }
+        return currentPoint;
+    }
+
+    public static Vector2 closest_point_to_bezier_curve(
+        Vector2 to_point,
+        Vector2 start,
+        Vector2 end,
+        Vector2 start_handle,
+        Vector2 end_handle
+    ) => ClosestPointToBezierCurve(to_point, start, end, start_handle, end_handle, 0.0f, 1.0f, 0.05f);
+
+    public static Vector2 closest_point_to_bezier_curve(
+        Vector2 to_point,
+        Vector2 start,
+        Vector2 end,
+        Vector2 start_handle,
+        Vector2 end_handle,
+        float epsilon
+    ) => ClosestPointToBezierCurve(to_point, start, end, start_handle, end_handle, 0.0f, 1.0f, epsilon);
+
+    public static Vector2 closest_point_to_bezier_curve(
+        Vector2 to_point,
+        Vector2 start,
+        Vector2 end,
+        Vector2 start_handle,
+        Vector2 end_handle,
+        float min,
+        float max,
+        float epsilon
+    ) => ClosestPointToBezierCurve(to_point, start, end, start_handle, end_handle, min, max, epsilon);
 
     public static Curve2D smoothed(Curve2D curve, int start_index, int end_index)
     {

@@ -57,4 +57,10 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
     public Vector2 get_out_handle(int point_index) => polygon.GetPointOut(point_index);
 
     public Vector2[] get_point_positions() => building.get_floor_point_positions(index);
+
+    public Vector2 snap(Vector2 position, float threshold) => building.snap_to_floor(index, position, threshold);
+    public Vector2 snap(Vector2 position) => snap(position, -1);
+
+    public Vector2 snap_to_surface(Vector2 position, float threshold) => building.snap_to_floor_surface(index, position, threshold);
+    public Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 }

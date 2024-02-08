@@ -254,30 +254,82 @@ public partial class Building : Resource
     public Vector2[] tessellate_floor(int index, bool closed, int max_stages) => tessellate_floor(index, closed, max_stages, 4);
     public Vector2[] tessellate_floor(int index, bool closed, int max_stages, float tolerance_degrees) => GetFloor(index)?.Tessellate(closed, max_stages, tolerance_degrees) ?? [];
 
+    public Vector2 snap_to_wall(int index, Vector2 position, float threshold) => position.Snap(
+        GetWall(index)?.Snap(position) ?? position,
+        threshold
+    );
+    public Vector2 snap_to_wall(int index, Vector2 position) => snap_to_wall(index, position, -1);
+    public Vector2 snap_to_wall_surface(int index, Vector2 position, float threshold) => position.Snap(
+        GetWall(index)?.SnapToSurface(position) ?? position,
+        threshold
+    );
+    public Vector2 snap_to_wall_surface(int index, Vector2 position) => snap_to_wall_surface(index, position, -1);
     /// <summary>
     /// Returns a new position, snapped to the nearest wall point, if the distance is below threshold.
     /// </summary>
-    public Vector2 snap_to_nearest_wall(Vector2 position, float threshold)
+    public Vector2 snap_to_walls(Vector2 position, float threshold)
     {
-        var dist = float.PositiveInfinity;
-        var closestPoint = position;
+        var closestPoint = Vector2.Inf;
         foreach (var wall in Walls)
-        {
-            var distToStart = Mathf.Abs(wall.Start.DistanceTo(position));
-            var distToEnd = Mathf.Abs(wall.End.DistanceTo(position));
-            if (distToStart < dist)
-            {
-                closestPoint = wall.Start;
-                dist = distToStart;
-            }
-            if (distToEnd < dist)
-            {
-                closestPoint = wall.End;
-                dist = distToEnd;
-            }
-        }
-        return dist < threshold ? closestPoint : position;
+            closestPoint = position.Closest(closestPoint, wall.Snap(position));
+        return position.Snap(closestPoint, threshold);
     }
+    public Vector2 snap_to_walls_surface(Vector2 position, float threshold)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var wall in Walls)
+            closestPoint = position.Closest(closestPoint, wall.SnapToSurface(position));
+        return position.Snap(closestPoint, threshold);
+    }
+    public Vector2 snap_to_walls(Vector2 position) => snap_to_walls(position, -1);
+    public Vector2 snap_to_walls_surface(Vector2 position) => snap_to_walls_surface(position, -1);
+
+    public Vector2 snap_to_floor(int index, Vector2 position, float threshold) => position.Snap(
+        GetFloor(index)?.Snap(position) ?? position,
+        threshold
+    );
+    public Vector2 snap_to_floor(int index, Vector2 position) => snap_to_floor(index, position, -1);
+    public Vector2 snap_to_floor_surface(int index, Vector2 position, float threshold) => position.Snap(
+        GetFloor(index)?.SnapToSurface(position) ?? position,
+        threshold
+    );
+    public Vector2 snap_to_floor_surface(int index, Vector2 position) => snap_to_floor_surface(index, position, -1);
+    /// <summary>
+    /// Returns a new position, snapped to the nearest floor point, if the distance is below threshold.
+    /// </summary>
+    public Vector2 snap_to_floors(Vector2 position, float threshold)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var floor in Floors)
+            closestPoint = position.Closest(closestPoint, floor.Snap(position));
+        return position.Snap(closestPoint, threshold);
+    }
+    public Vector2 snap_to_floors_surface(Vector2 position, float threshold)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var floor in Floors)
+            closestPoint = position.Closest(closestPoint, floor.SnapToSurface(position));
+        return position.Snap(closestPoint, threshold);
+    }
+    public Vector2 snap_to_floors(Vector2 position) => snap_to_floors(position, -1);
+    public Vector2 snap_to_floors_surface(Vector2 position) => snap_to_floors_surface(position, -1);
+
+    public Vector2 snap(Vector2 position, float threshold) => position.Snap(
+        position.Closest(
+            snap_to_floors(position),
+            snap_to_walls(position)
+        ),
+        threshold
+    );
+    public Vector2 snap(Vector2 position) => snap(position, -1);
+    public Vector2 snap_to_surface(Vector2 position, float threshold) => position.Snap(
+        position.Closest(
+            snap_to_walls_surface(position),
+            snap_to_floors_surface(position)
+        ),
+        threshold
+    );
+    public Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 
     public bool are_walls_touching(int a, int b, float threshold) => has_wall(a) && has_wall(b) ? GetWall(a).IsTouching(GetWall(b), threshold) : false;
     public bool are_floors_touching(int a, int b, float threshold) => has_floor(a) && has_floor(b) ? GetFloor(a).IsTouching(GetFloor(b), threshold) : false;

@@ -68,6 +68,19 @@ public record Wall
         return pairs.Any((pair) => Mathf.Abs(pair.a.DistanceTo(pair.b)) < threshold);
     }
 
+    public Vector2 Sample(float offset) => Start.BezierInterpolate(StartHandle, EndHandle, End, offset);
+
+    public Vector2 ClosestPoint(Vector2 position) => position.Closest(Start, End);
+    public Vector2 ClosestPointOnSurface(Vector2 toPoint, float epsilon) => Tessellator.closest_point_to_bezier_curve(toPoint, Start, End, StartHandle, EndHandle, epsilon);
+    public Vector2 ClosestPointOnSurface(Vector2 toPoint) => ClosestPointOnSurface(toPoint, 0.05f);
+
+    public Vector2 Snap(Vector2 position, float threshold) => position.Snap(ClosestPoint(position), threshold);
+    public Vector2 Snap(Vector2 position) => Snap(position, -1);
+
+    public Vector2 SnapToSurface(Vector2 position, float threshold, float epsilon) => position.Snap(ClosestPointOnSurface(position, epsilon), threshold);
+    public Vector2 SnapToSurface(Vector2 position, float threshold) => SnapToSurface(position, threshold, 0.05f);
+    public Vector2 SnapToSurface(Vector2 position) => SnapToSurface(position, -1, 0.05f);
+
     public Array ToData()
     {
         Vector2[] positions = [Start, StartHandle, End, EndHandle];

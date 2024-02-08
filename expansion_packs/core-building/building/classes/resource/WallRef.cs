@@ -72,4 +72,10 @@ public partial class WallRef(Building Building, int Index) : RefCounted
 
     public bool is_touching(int other, float threshold) => building.are_walls_touching(index, other, threshold);
     public bool is_touching(WallRef other, float threshold) => building.are_walls_touching(index, other.index, threshold);
+
+    public Vector2 snap(Vector2 position, float threshold) => building.snap_to_wall(index, position, threshold);
+    public Vector2 snap(Vector2 position) => snap(position, -1);
+
+    public Vector2 snap_to_surface(Vector2 position, float threshold) => building.snap_to_wall_surface(index, position, threshold);
+    public Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 }
