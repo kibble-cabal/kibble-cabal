@@ -26,6 +26,10 @@ static func get_perpendicular_direction(p1: Vector2, p2: Vector2) -> Vector2:
 	return Vector2(direction.y, -direction.x)
 
 
+static func perpendicular(p: Vector2) -> Vector2:
+	return Vector2(p.y, -p.x)
+
+
 static func get_point_on_circle(center: Vector2, radius: float, angle: float) -> Vector2:
 	return Vector2(
 		center.x + (radius * cos(angle)),

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnnl43wunaq72"]
+
+[ext_resource type="Script" path="res://tmp/tmp_building.gd" id="1_rjj5v"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/classes/resource/Building.cs" id="2_s5113"]
+
+[sub_resource type="Resource" id="Resource_byl74"]
+script = ExtResource("2_s5113")
+wall_data = null
+floor_data = null
+
+[node name="Node" type="Node2D"]
+script = ExtResource("1_rjj5v")
+building = SubResource("Resource_byl74")
