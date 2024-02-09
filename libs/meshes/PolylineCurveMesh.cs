@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Godot;
 
@@ -6,7 +5,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class CurveMesh : PolygonMesh
+public partial class PolylineCurveMesh : PolylineMeshBase
 {
     /* Private variables */
     protected Curve2D? Curve;
@@ -51,7 +50,7 @@ public partial class CurveMesh : PolygonMesh
         }
     }
 
-    public CurveMesh()
+    public PolylineCurveMesh()
     {
         InternalMesh = new(GetTriangles, this);
         GenerateCallable = new Callable(this, "_Generate");

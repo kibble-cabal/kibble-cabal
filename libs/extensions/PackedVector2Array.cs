@@ -3,6 +3,13 @@ using Godot.Collections;
 
 public static class PackedVector2ArrayExtensions
 {
+    public static T[] ToPackedArray<[MustBeVariant] T>(this Array<T> array)
+    {
+        T[] newArray = new T[array.Count];
+        array.CopyTo(newArray, 0);
+        return newArray;
+    }
+
     public static Vector2 Closest(this Vector2[] vectors, Vector2 toPoint)
     {
         if (vectors.Length == 0) return Vector2.Inf;

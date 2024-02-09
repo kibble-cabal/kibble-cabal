@@ -71,6 +71,18 @@ public record Floor
     public Vector2 SnapToSurface(Vector2 position, float threshold) => position.Snap(ClosestPointOnSurface(position), threshold);
     public Vector2 SnapToSurface(Vector2 position) => SnapToSurface(position, -1);
 
+    public ExtrudeCurveMesh GenerateMesh(int tessellationStages = 5, float tessellationTolerance = 4)
+    {
+        var mesh = new ExtrudeCurveMesh()
+        {
+            curve = Polygon,
+            tessellation_stages = tessellationStages,
+            tessellation_tolerance_degrees = tessellationTolerance
+        };
+        // TODO: Material
+        return mesh;
+    }
+
     public Array ToData() => [Polygon, Materials];
     public static Floor FromData(Array data)
     {

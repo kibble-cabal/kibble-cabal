@@ -2,7 +2,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class ExtrudeCurveMesh : ExtrudePointsMesh
+public partial class ExtrudeCurveMesh : ExtrudePackedVector2ArrayMesh
 {
     private int TessellationStages = 3;
     private float TessellationToleranceDegrees = 4;
@@ -10,7 +10,7 @@ public partial class ExtrudeCurveMesh : ExtrudePointsMesh
     private Callable GenerateCallable;
 
     [Export]
-    private Curve2D curve
+    public Curve2D curve
     {
         get => Curve;
         set
@@ -18,56 +18,43 @@ public partial class ExtrudeCurveMesh : ExtrudePointsMesh
             Curve?.TryDisconnectChanged(GenerateCallable);
             value?.TryConnectChanged(GenerateCallable);
             Curve = value;
-            generate();
+            InternalMesh.Generate(this);
         }
     }
 
     [Export]
-    private int tessellation_stages
+    public int tessellation_stages
     {
         get => TessellationStages;
         set
         {
             TessellationStages = value;
-            generate();
+            InternalMesh.Generate(this);
         }
     }
 
     [Export]
-    private float tessellation_tolerance_degrees
+    public float tessellation_tolerance_degrees
     {
         get => TessellationToleranceDegrees;
         set
         {
             TessellationToleranceDegrees = value;
-            generate();
+            InternalMesh.Generate(this);
         }
     }
 
     public ExtrudeCurveMesh()
     {
-        GenerateCallable = new Callable(this, "generate");
+        this.InternalMesh = new(GetTriangles, this);
+        GenerateCallable = new Callable(this, "_Generate");
     }
 
-    protected override void Clear()
-    {
-        Points = [];
-        base.Clear();
-    }
+    internal void _Generate() => InternalMesh.Generate(this);
 
-    protected bool BakePoints()
+    internal override bool _BakePoints()
     {
-        if (!CanBake()) return false;
-        Points = Curve.Tessellate(TessellationStages, TessellationToleranceDegrees);
+        Points = Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
         return Points.Length >= 2;
     }
-
-    protected override bool Bake() => BakePoints() && base.Bake();
-
-    protected override bool CanBake() => (
-        Curve != null
-        && Curve.PointCount >= 2
-        && TessellationStages >= 0
-        && Surface != null
-    );
 }

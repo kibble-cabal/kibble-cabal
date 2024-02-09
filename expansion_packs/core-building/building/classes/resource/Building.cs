@@ -335,4 +335,15 @@ public partial class Building : Resource
     public bool are_floors_touching(int a, int b, float threshold) => has_floor(a) && has_floor(b) ? GetFloor(a).IsTouching(GetFloor(b), threshold) : false;
 
     public Vector2[] get_floor_point_positions(int index) => GetFloor(index)?.GetPointPositions() ?? [];
+
+    public CompoundMesh generate_mesh(int tessellation_stages, float tessellation_tolerance_degrees)
+    {
+        var mesh = new CompoundMesh();
+        foreach (var wall in Walls)
+            mesh.meshes.AddRange(wall.GenerateMeshes(tessellation_stages, tessellation_tolerance_degrees));
+        foreach (var floor in Floors)
+            mesh.meshes.Add(floor.GenerateMesh(tessellation_stages, tessellation_tolerance_degrees));
+        Connect("changed", Callable.From(mesh.generate));
+        return mesh;
+    }
 }

@@ -11,6 +11,8 @@ public record Wall
     public Vector2 StartHandle = Vector2.Zero;
     public Vector2 End;
     public Vector2 EndHandle = Vector2.Zero;
+    public float Height = 2.0f;
+    public float Thickness = 0.1f;
 
     public Wall(Vector2 aPosition, Vector2 startHandle, Vector2 bPosition, Vector2 endHandle)
     {
@@ -80,6 +82,30 @@ public record Wall
     public Vector2 SnapToSurface(Vector2 position, float threshold, float epsilon) => position.Snap(ClosestPointOnSurface(position, epsilon), threshold);
     public Vector2 SnapToSurface(Vector2 position, float threshold) => SnapToSurface(position, threshold, 0.05f);
     public Vector2 SnapToSurface(Vector2 position) => SnapToSurface(position, -1, 0.05f);
+
+    private ExtrudePointsMesh GenerateMesh(Vector2[] points) => new ExtrudePointsMesh
+    {
+        points = points,
+        direction = Vector3.Up,
+        length = Height
+    };
+
+    private PolylineMesh GenerateTopMesh(Vector2[] points) => new PolylineMesh
+    {
+        points = points,
+        thickness = Thickness,
+        custom_transform = Transform3D.Identity.Translated(new Vector3(0, Height, 0))
+    };
+
+    public ArrayMesh[] GenerateMeshes(int tessellationStages = 5, float tessellationTolerance = 4)
+    {
+        var points = Tessellate(tessellationStages, tessellationTolerance);
+        var interiorMesh = GenerateMesh(points.Select(point => point - Vector2.One * Thickness / 2).ToArray());
+        var exteriorMesh = GenerateMesh(points.Select(point => point + Vector2.One * Thickness / 2).ToArray());
+        var topMesh = GenerateTopMesh(points.Select(point => point - Vector2.One * Thickness / 2).ToArray());
+        // TODO: Materials
+        return [interiorMesh, exteriorMesh, topMesh];
+    }
 
     public Array ToData()
     {

@@ -2,9 +2,8 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class ExtrudePointsMesh : ExtrudePackedVector2ArrayMesh
+public partial class PolygonMesh : PolygonMeshBase
 {
-    /* Public variables */
     [Export]
     public Vector2[] points
     {
