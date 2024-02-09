@@ -7,6 +7,7 @@ using Segment = (Godot.Vector3 A, Godot.Vector3 B);
 
 using Godot.Collections;
 using System.Linq;
+using System;
 
 public static class ToPackedArrayExtension
 {
@@ -53,14 +54,17 @@ struct Triangle
 struct ExtrudeSegment
 {
     public Segment Points;
+    public float Offset;
     public Vector3 Direction;
     public float Length;
+    public float SegmentLength => Points.A.DistanceTo(Points.B);
 
-    public ExtrudeSegment(Segment points, Vector3 direction, float length)
+    public ExtrudeSegment(Segment points, Vector3 direction, float length, float offset)
     {
         this.Points = points;
         this.Direction = direction;
         this.Length = length;
+        this.Offset = offset;
     }
 
     public (Triangle A, Triangle B) GetTriangles()
@@ -92,8 +96,14 @@ struct ExtrudeSegment
 
     public void BakeUVs(ref Array<Vector2> uvs)
     {
-        uvs.AddRange([Vector2.Zero, Vector2.One, new Vector2(0, 1)]);
-        uvs.AddRange([Vector2.One, Vector2.Zero, new Vector2(1, 0)]);
+        var o = new Vector2(Offset, 0);
+        var e = new Vector2(SegmentLength, Direction.Length() * Length);
+        var tl = o + e * new Vector2(0, 0);
+        var tr = o + e * new Vector2(1, 0);
+        var br = o + e * new Vector2(1, 1);
+        var bl = o + e * new Vector2(0, 1);
+        uvs.AddRange([tl, br, bl]);
+        uvs.AddRange([br, tl, tr]);
     }
 }
 
@@ -172,10 +182,10 @@ public partial class ExtrudePointsMesh : ArrayMesh
 
     protected virtual Segment GetSegment(Vector2 a, Vector2 b) => (new Vector3(a.X, 0, a.Y), new Vector3(b.X, 0, b.Y));
 
-    private void BakeSegment(Vector2 a, Vector2 b)
+    private void BakeSegment(Vector2 a, Vector2 b, float offset)
     {
         var segment = GetSegment(a, b);
-        var extruded = new ExtrudeSegment(segment, Direction, Length);
+        var extruded = new ExtrudeSegment(segment, Direction, Length, offset);
         extruded.BakeVertices(ref BakedVertices);
         extruded.BakeNormals(ref BakedNormals);
         extruded.BakeUVs(ref BakedUVs);
@@ -195,10 +205,12 @@ public partial class ExtrudePointsMesh : ArrayMesh
         if (!CanBake()) return false;
         var bakedPoints = Points;
         if (Flip) bakedPoints = bakedPoints.Reverse().ToArray();
+        float offset = 0;
         for (int i = 0; i < bakedPoints.Length - 1; i += 1)
         {
             Vector2 a = bakedPoints[i], b = bakedPoints[i + 1];
-            BakeSegment(a, b);
+            BakeSegment(a, b, offset);
+            offset += a.DistanceTo(b);
         }
         return IsBakeValid();
     }

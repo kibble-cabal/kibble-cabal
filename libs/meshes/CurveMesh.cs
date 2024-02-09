@@ -15,6 +15,7 @@ public partial class CurveMesh : ArrayMesh
     protected bool Flip = false;
     protected Curve2D Curve;
     protected int TessellationStages = 3;
+    protected float TessellationToleranceDegrees = 4;
     protected Callable GenerateCallable;
 
     /* Public variables */
@@ -54,6 +55,17 @@ public partial class CurveMesh : ArrayMesh
         }
     }
 
+    [Export]
+    private float tessellation_tolerance_degrees
+    {
+        get => TessellationToleranceDegrees;
+        set
+        {
+            TessellationToleranceDegrees = value;
+            generate();
+        }
+    }
+
     public CurveMesh()
     {
         GenerateCallable = new Callable(this, "generate");
@@ -73,7 +85,7 @@ public partial class CurveMesh : ArrayMesh
     protected virtual bool BakePoints()
     {
         if (!CanBake()) return false;
-        BakedPoints = Curve.Tessellate(TessellationStages);
+        BakedPoints = Curve.Tessellate(TessellationStages, TessellationToleranceDegrees);
         return BakedPoints.Length >= 2;
     }
 

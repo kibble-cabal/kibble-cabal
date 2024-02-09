@@ -5,6 +5,7 @@ using Godot;
 public partial class ExtrudeCurveMesh : ExtrudePointsMesh
 {
     private int TessellationStages = 3;
+    private float TessellationToleranceDegrees = 4;
     private Curve2D Curve;
     private Callable GenerateCallable;
 
@@ -32,6 +33,17 @@ public partial class ExtrudeCurveMesh : ExtrudePointsMesh
         }
     }
 
+    [Export]
+    private float tessellation_tolerance_degrees
+    {
+        get => TessellationToleranceDegrees;
+        set
+        {
+            TessellationToleranceDegrees = value;
+            generate();
+        }
+    }
+
     public ExtrudeCurveMesh()
     {
         GenerateCallable = new Callable(this, "generate");
@@ -46,7 +58,7 @@ public partial class ExtrudeCurveMesh : ExtrudePointsMesh
     protected bool BakePoints()
     {
         if (!CanBake()) return false;
-        Points = Curve.Tessellate(TessellationStages);
+        Points = Curve.Tessellate(TessellationStages, TessellationToleranceDegrees);
         return Points.Length >= 2;
     }
 
