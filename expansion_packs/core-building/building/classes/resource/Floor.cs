@@ -17,13 +17,7 @@ public record Floor
 
     public Floor(Curve2D polygon) => this.Polygon = polygon ?? new();
 
-    public Vector2[] GetPointPositions()
-    {
-        Vector2[] points = new Vector2[Polygon.PointCount];
-        for (int i = 0; i < Polygon.PointCount; i++)
-            points[i] = Polygon.GetPointPosition(i);
-        return points;
-    }
+    public Vector2[] GetPointPositions() => this.Polygon?.GetPointPositions() ?? [];
 
     public void AddPoint(Vector2 point) => Polygon.AddPoint(point);
     public void AddPoint(Vector2 point, Vector2 inHandle, Vector2 outHandle) => Polygon.AddPoint(point, inHandle, outHandle);
@@ -70,31 +64,14 @@ public record Floor
         return false;
     }
 
-    public Vector2 ClosestPoint(Vector2 position)
-    {
-        if (Polygon.PointCount == 0) return Vector2.Inf;
-        Vector2 point = Polygon.GetPointPosition(0);
-        foreach (var currentPoint in GetPointPositions())
-            point = position.Closest(currentPoint, point);
-        return point;
-    }
-    public Vector2 ClosestPointOnSurface(Vector2 position)
-    {
-        if (Polygon.PointCount == 0) return Vector2.Inf;
-        float offset = Polygon.GetClosestOffset(position);
-        return Polygon.Samplef(offset);
-    }
-
+    public Vector2 ClosestPoint(Vector2 position) => this.Polygon?.ClosestPoint(position) ?? position;
+    public Vector2 ClosestPointOnSurface(Vector2 position) => this.Polygon?.ClosestPointOnSurface(position) ?? position;
     public Vector2 Snap(Vector2 position, float threshold) => position.Snap(ClosestPoint(position), threshold);
     public Vector2 Snap(Vector2 position) => Snap(position, -1);
     public Vector2 SnapToSurface(Vector2 position, float threshold) => position.Snap(ClosestPointOnSurface(position), threshold);
     public Vector2 SnapToSurface(Vector2 position) => SnapToSurface(position, -1);
 
-    public Array ToData()
-    {
-        return [Polygon, Materials];
-    }
-
+    public Array ToData() => [Polygon, Materials];
     public static Floor FromData(Array data)
     {
         Floor floor = new Floor(new Curve2D());

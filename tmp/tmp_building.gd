@@ -18,9 +18,10 @@ enum Mode {
 	WALLS,
 	FLOORS,
 	CURVE,
+	MESH,
 }
 
-var mode := Mode.CURVE
+var mode := Mode.MESH
 
 
 func _ready() -> void:
