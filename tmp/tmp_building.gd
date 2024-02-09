@@ -21,13 +21,11 @@ enum Mode {
 	MESH,
 }
 
-var mode := Mode.MESH
+var mode := Mode.FLOORS
 
 
 func _ready() -> void:
-	if building:
-		building.changed.connect(queue_redraw)
-		building.add_wall()
+	_handle_switch_mode()
 
 
 func _handle_switch_mode() -> void:
@@ -89,6 +87,13 @@ func _handle_floors_input(event: InputEvent) -> void:
 		var snapped_position = building.snap_to_floors(event.position, snap_tolerance)
 		floor.add_point(snapped_position)
 		queue_redraw()
+		
+		var new_polygon: Curve2D = floor.polygon.duplicate()
+		for i in range(new_polygon.point_count):
+			new_polygon.set_point_position(i, new_polygon.get_point_position(i) / 150 - Vector2(8, 6))
+			new_polygon.set_point_in(i, new_polygon.get_point_in(i) / 150)
+			new_polygon.set_point_out(i, new_polygon.get_point_out(i) / 150)
+		%BuildingMesh.set_curve(new_polygon)
 	
 	if event is InputEventScreenDrag:
 		var delta: Vector2 = event.position - floor.get_position(floor.point_count - 1)

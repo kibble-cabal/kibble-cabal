@@ -2,27 +2,40 @@
 extends Node3D
 
 
-@export var regenerate_outer_mesh: bool:
-	set(value): generate_outer_mesh()
+@onready var mesh_instance: MeshInstance3D = $CompoundMesh
 
-@onready var inner_mesh_instance := $InnerMesh as MeshInstance3D
-@onready var outer_mesh_instance := $OuterMesh as MeshInstance3D
+
+var mesh: CompoundMesh:
+	get: return mesh_instance.mesh if mesh_instance else null
+
+var exterior_mesh: ExtrudePointsMesh:
+	get: return mesh.meshes[0] if mesh else null
+
+var interior_mesh: ExtrudeCurveMesh:
+	get: return mesh.meshes[1] if mesh else null
+
+var floor_mesh: CurveMesh:
+	get: return mesh.meshes[2] if mesh else null
+
+var top_mesh: PolylineMesh:
+	get: return mesh.meshes[3] if mesh else null
 
 
 func _ready() -> void:
-	generate_outer_mesh()
-	pass
+	if not Engine.is_editor_hint():
+		mesh_instance.mesh = mesh.duplicate(true)
 
 
-func generate_outer_mesh() -> void:
-	if not outer_mesh_instance or not inner_mesh_instance: return
-	var inner_mesh := inner_mesh_instance.mesh as ExtrudePointsMesh
-	if inner_mesh:
-		var new_polygons := Geometry2D.offset_polygon(inner_mesh.points, 0.1)
+func set_curve(curve: Curve2D) -> void:
+	if interior_mesh: interior_mesh.curve = curve
+	if top_mesh: top_mesh.curve = curve
+	if floor_mesh: floor_mesh.curve = curve
+	generate_exterior_mesh()
+	print(curve.point_count)
+
+
+func generate_exterior_mesh() -> void:
+	if interior_mesh and exterior_mesh:
+		var new_polygons := Geometry2D.offset_polygon(interior_mesh.points, 0.1)
 		if not new_polygons.is_empty():
-			var outer_mesh := ExtrudePointsMesh.new()
-			outer_mesh.direction = inner_mesh.direction
-			outer_mesh.flip = not inner_mesh.flip
-			outer_mesh.length = inner_mesh.length
-			outer_mesh.points = new_polygons[0]
-			outer_mesh_instance.mesh = outer_mesh
+			exterior_mesh.points = new_polygons[0]
