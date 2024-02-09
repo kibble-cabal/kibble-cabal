@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
 using Godot;
-using Godot.Collections;
+
+#nullable enable
 
 [Tool]
 [GlobalClass]
@@ -9,13 +10,15 @@ public partial class CurveMesh : ArrayMesh
 {
     /* Private variables */
     protected Vector2[] BakedPoints = [];
-    protected Array<Vector3> BakedVertices = [];
-    protected Array<Vector2> BakedUVs = [];
+    protected Vector3[] BakedVertices = [];
+    protected Vector2[] BakedUVs = [];
     protected SurfaceTool Surface = new();
     protected bool Flip = false;
-    protected Curve2D Curve;
+    protected Curve2D? Curve;
     protected int TessellationStages = 3;
     protected float TessellationToleranceDegrees = 4;
+    protected Transform3D CustomTransform = Transform3D.Identity;
+    protected BaseMaterial3D? Material;
     protected Callable GenerateCallable;
 
     /* Public variables */
@@ -32,7 +35,7 @@ public partial class CurveMesh : ArrayMesh
     }
 
     [Export]
-    private Curve2D curve
+    private Curve2D? curve
     {
         get => Curve;
         set
@@ -66,6 +69,28 @@ public partial class CurveMesh : ArrayMesh
         }
     }
 
+    [Export]
+    private Transform3D custom_transform
+    {
+        get => CustomTransform;
+        set
+        {
+            CustomTransform = value;
+            generate();
+        }
+    }
+
+    [Export]
+    private BaseMaterial3D? material
+    {
+        get => Material;
+        set
+        {
+            Material = value;
+            generate();
+        }
+    }
+
     public CurveMesh()
     {
         GenerateCallable = new Callable(this, "generate");
@@ -73,11 +98,16 @@ public partial class CurveMesh : ArrayMesh
 
     /* Private methods */
 
+    protected void ResizeMeshArrays(int size)
+    {
+        BakedVertices = new Vector3[size];
+        BakedUVs = new Vector2[size];
+    }
+
     protected virtual void Clear()
     {
         BakedPoints = [];
-        BakedVertices.Clear();
-        BakedUVs.Clear();
+        ResizeMeshArrays(0);
         Surface.Clear();
         ClearSurfaces();
     }
@@ -85,20 +115,23 @@ public partial class CurveMesh : ArrayMesh
     protected virtual bool BakePoints()
     {
         if (!CanBake()) return false;
-        BakedPoints = Curve.Tessellate(TessellationStages, TessellationToleranceDegrees);
+        BakedPoints = Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
         return BakedPoints.Length >= 2;
     }
 
     protected virtual bool Bake()
     {
         if (!BakePoints()) return false;
-        var bakedPoints = Geometry2D.TriangulatePolygon(BakedPoints);
-        if (Flip) bakedPoints = bakedPoints.Reverse().ToArray();
-        foreach (int vertexIndex in bakedPoints)
+        var bakedPointIndices = Geometry2D.TriangulatePolygon(BakedPoints);
+        ResizeMeshArrays(bakedPointIndices.Length);
+        if (Flip) bakedPointIndices = bakedPointIndices.Reverse().ToArray();
+        int i = 0;
+        foreach (int vertexIndex in bakedPointIndices)
         {
             var vertex = BakedPoints[vertexIndex];
-            BakedVertices.Add(new Vector3(vertex.X, 0, vertex.Y));
-            BakedUVs.Add(vertex);
+            BakedVertices[i] = new Vector3(vertex.X, 0, vertex.Y);
+            BakedUVs[i] = vertex;
+            i += 1;
         }
         return IsBakeValid();
     }
@@ -111,9 +144,9 @@ public partial class CurveMesh : ArrayMesh
 
     protected virtual bool IsBakeValid() => (
         BakedPoints.Length >= 2
-        && BakedVertices.Count >= 3
-        && BakedVertices.Count % 3 == 0
-        && BakedUVs.Count == BakedVertices.Count
+        && BakedVertices.Length >= 3
+        && BakedVertices.Length % 3 == 0
+        && BakedUVs.Length == BakedVertices.Length
     );
 
     /* Public Methods */
@@ -123,15 +156,16 @@ public partial class CurveMesh : ArrayMesh
         Clear();
         if (!Bake()) return;
         Surface.Begin(PrimitiveType.Triangles);
-        for (int i = 0; i < BakedVertices.Count; i++)
+        for (int i = 0; i < BakedVertices.Length; i++)
         {
-            if (BakedUVs.Count > i)
+            if (BakedUVs.Length > i)
                 Surface.SetUV(BakedUVs[i]);
-            Surface.AddVertex(BakedVertices[i]);
+            Surface.AddVertex(BakedVertices[i] * CustomTransform.AffineInverse());
         }
         Surface.GenerateNormals();
         Surface.GenerateTangents();
         Surface.Commit(this);
+        if (GetSurfaceCount() > 0) SurfaceSetMaterial(0, Material);
         EmitChanged();
     }
 }

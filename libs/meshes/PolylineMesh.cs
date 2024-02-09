@@ -25,6 +25,8 @@ public partial class PolylineMesh : CurveMesh
         var bakedPoints = BakedPoints;
         var offsetPolygon = BakedPoints.Grow(Thickness);
         if (Flip) bakedPoints = bakedPoints.Reverse().ToArray();
+        ResizeMeshArrays(bakedPoints.Length * 6);
+        int vertexOffset = 0, uvOffset = 0;
         for (int i = 1; i < bakedPoints.Length; i++)
         {
             var point = bakedPoints[i];
@@ -33,10 +35,10 @@ public partial class PolylineMesh : CurveMesh
             var innerPrevPoint = offsetPolygon.Closest(prevPoint);
             var triangle1 = new Triangle(prevPoint.ToVector3(), innerPoint.ToVector3(), point.ToVector3());
             var triangle2 = new Triangle(prevPoint.ToVector3(), innerPrevPoint.ToVector3(), innerPoint.ToVector3());
-            triangle1.BakeVertices(ref BakedVertices);
-            triangle2.BakeVertices(ref BakedVertices);
-            triangle1.BakeUVs(ref BakedUVs);
-            triangle2.BakeUVs(ref BakedUVs);
+            triangle1.BakeVertices(ref BakedVertices, ref vertexOffset);
+            triangle2.BakeVertices(ref BakedVertices, ref vertexOffset);
+            triangle1.BakeUVs(ref BakedUVs, ref uvOffset);
+            triangle2.BakeUVs(ref BakedUVs, ref uvOffset);
         }
         return IsBakeValid();
     }

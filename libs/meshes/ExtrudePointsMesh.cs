@@ -39,16 +39,29 @@ struct Triangle
         return this;
     }
 
-    public void BakeVertices(ref Array<Vector3> vertices) => vertices.AddRange([Points.A, Points.B, Points.C]);
-    public void BakeNormals(ref Array<Vector3> normals)
+    public void BakeVertices(ref Vector3[] vertices, ref int offset)
+    {
+        vertices[offset] = Points.A;
+        vertices[offset + 1] = Points.B;
+        vertices[offset + 2] = Points.C;
+        offset += 3;
+    }
+    public void BakeNormals(ref Vector3[] normals, ref int offset)
     {
         var normal = GetNormal();
-        normals.AddRange([normal, normal, normal]);
+        for (int i = 0; i < 3; i++) normals[offset + i] = normal;
+        offset += 3;
     }
     /// <summary>
     /// Bakes in world coordinates. Assumes the normal is pointed up, will be updated later.
     /// </summary>
-    public void BakeUVs(ref Array<Vector2> uvs) => uvs.AddRange([Points.A.FromVector3(), Points.B.FromVector3(), Points.C.FromVector3()]);
+    public void BakeUVs(ref Vector2[] uvs, ref int offset)
+    {
+        uvs[offset] = Points.A.FromVector3();
+        uvs[offset + 1] = Points.B.FromVector3();
+        uvs[offset + 2] = Points.C.FromVector3();
+        offset += 3;
+    }
 }
 
 struct ExtrudeSegment
@@ -81,20 +94,20 @@ struct ExtrudeSegment
         );
     }
 
-    public void BakeVertices(ref Array<Vector3> vertices)
+    public void BakeVertices(ref Vector3[] vertices, ref int offset)
     {
         var (A, B) = GetTriangles();
-        A.BakeVertices(ref vertices);
-        B.BakeVertices(ref vertices);
+        A.BakeVertices(ref vertices, ref offset);
+        B.BakeVertices(ref vertices, ref offset);
     }
-    public void BakeNormals(ref Array<Vector3> normals)
+    public void BakeNormals(ref Vector3[] normals, ref int offset)
     {
         var (A, B) = GetTriangles();
-        A.BakeNormals(ref normals);
-        B.BakeNormals(ref normals);
+        A.BakeNormals(ref normals, ref offset);
+        B.BakeNormals(ref normals, ref offset);
     }
 
-    public void BakeUVs(ref Array<Vector2> uvs)
+    public void BakeUVs(ref Vector2[] uvs, ref int offset)
     {
         var o = new Vector2(Offset, 0);
         var e = new Vector2(SegmentLength, Direction.Length() * Length);
@@ -102,8 +115,9 @@ struct ExtrudeSegment
         var tr = o + e * new Vector2(1, 0);
         var br = o + e * new Vector2(1, 1);
         var bl = o + e * new Vector2(0, 1);
-        uvs.AddRange([tl, br, bl]);
-        uvs.AddRange([br, tl, tr]);
+        Vector2[] nextUvs = [tl, br, bl, br, tl, tr];
+        nextUvs.CopyTo(uvs, offset);
+        offset += 6;
     }
 }
 
@@ -112,15 +126,17 @@ struct ExtrudeSegment
 public partial class ExtrudePointsMesh : ArrayMesh
 {
     /* Private variables */
-    protected Array<Vector3> BakedVertices = [];
-    protected Array<Vector3> BakedNormals = [];
-    protected Array<Vector2> BakedUVs = [];
+    protected Vector3[] BakedVertices = [];
+    protected Vector3[] BakedNormals = [];
+    protected Vector2[] BakedUVs = [];
     protected SurfaceTool Surface = new();
     protected Vector2[] Points = [];
     protected Vector3 Direction = Vector3.Up;
     protected float Length = 1.0f;
     protected bool Flip = false;
     protected bool SmoothNormals = true;
+    protected Transform3D CustomTransform = Transform3D.Identity;
+    protected BaseMaterial3D? Material;
 
     /* Public variables */
     [Export]
@@ -178,24 +194,53 @@ public partial class ExtrudePointsMesh : ArrayMesh
         }
     }
 
+    [Export]
+    private Transform3D custom_transform
+    {
+        get => CustomTransform;
+        set
+        {
+            CustomTransform = value;
+            generate();
+        }
+    }
+
+    [Export]
+    private BaseMaterial3D material
+    {
+        get => Material;
+        set
+        {
+            Material = value;
+            generate();
+        }
+    }
+
     /* Private methods */
+
+    protected void ResizeMeshArrays(int size)
+    {
+        BakedVertices = new Vector3[size];
+        BakedNormals = new Vector3[size];
+        BakedUVs = new Vector2[size];
+    }
 
     protected virtual Segment GetSegment(Vector2 a, Vector2 b) => (new Vector3(a.X, 0, a.Y), new Vector3(b.X, 0, b.Y));
 
-    private void BakeSegment(Vector2 a, Vector2 b, float offset)
+    private void BakeSegment(Vector2 a, Vector2 b, float offset, ref int vertexOffset, ref int normalOffset, ref int uvOffset)
     {
         var segment = GetSegment(a, b);
         var extruded = new ExtrudeSegment(segment, Direction, Length, offset);
-        extruded.BakeVertices(ref BakedVertices);
-        extruded.BakeNormals(ref BakedNormals);
-        extruded.BakeUVs(ref BakedUVs);
+        extruded.BakeVertices(ref BakedVertices, ref vertexOffset);
+        extruded.BakeNormals(ref BakedNormals, ref normalOffset);
+        extruded.BakeUVs(ref BakedUVs, ref uvOffset);
     }
 
     protected virtual void Clear()
     {
-        BakedVertices.Clear();
-        BakedNormals.Clear();
-        BakedUVs.Clear();
+        BakedVertices = [];
+        BakedNormals = [];
+        BakedUVs = [];
         Surface.Clear();
         ClearSurfaces();
     }
@@ -205,11 +250,13 @@ public partial class ExtrudePointsMesh : ArrayMesh
         if (!CanBake()) return false;
         var bakedPoints = Points;
         if (Flip) bakedPoints = bakedPoints.Reverse().ToArray();
+        ResizeMeshArrays(bakedPoints.Length * 6);
         float offset = 0;
+        int vertexOffset = 0, normalOffset = 0, uvOffset = 0;
         for (int i = 0; i < bakedPoints.Length - 1; i += 1)
         {
             Vector2 a = bakedPoints[i], b = bakedPoints[i + 1];
-            BakeSegment(a, b, offset);
+            BakeSegment(a, b, offset, ref vertexOffset, ref normalOffset, ref uvOffset);
             offset += a.DistanceTo(b);
         }
         return IsBakeValid();
@@ -222,10 +269,10 @@ public partial class ExtrudePointsMesh : ArrayMesh
 
     protected virtual bool IsBakeValid() => (
         Points.Length >= 2
-        && BakedVertices.Count >= 3
-        && BakedVertices.Count % 3 == 0
-        && BakedNormals.Count == BakedVertices.Count
-        && BakedUVs.Count == BakedVertices.Count
+        && BakedVertices.Length >= 3
+        && BakedVertices.Length % 3 == 0
+        && BakedNormals.Length == BakedVertices.Length
+        && BakedUVs.Length == BakedVertices.Length
     );
 
     /* Public Methods */
@@ -235,17 +282,18 @@ public partial class ExtrudePointsMesh : ArrayMesh
         Clear();
         if (!Bake()) return;
         Surface.Begin(PrimitiveType.Triangles);
-        for (int i = 0; i < BakedVertices.Count; i++)
+        for (int i = 0; i < BakedVertices.Length; i++)
         {
-            if (BakedUVs.Count > i)
+            if (BakedUVs.Length > i)
                 Surface.SetUV(BakedUVs[i]);
-            if (!SmoothNormals && BakedNormals.Count > i)
-                Surface.SetNormal(BakedNormals[i]);
-            Surface.AddVertex(BakedVertices[i]);
+            if (!SmoothNormals && BakedNormals.Length > i)
+                Surface.SetNormal((BakedNormals[i] * CustomTransform.AffineInverse()).Normalized());
+            Surface.AddVertex(BakedVertices[i] * CustomTransform.AffineInverse());
         }
         if (SmoothNormals) Surface.GenerateNormals();
         Surface.GenerateTangents();
         Surface.Commit(this);
+        if (GetSurfaceCount() > 0) SurfaceSetMaterial(0, Material);
         EmitChanged();
     }
 }
