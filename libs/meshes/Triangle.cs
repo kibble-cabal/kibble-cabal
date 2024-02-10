@@ -96,29 +96,40 @@ public struct Triangle
 
 public struct Quad
 {
-    public Vector2[] Points;
-    public Vector2 A => Points[0];
-    public Vector2 B => Points[1];
-    public Vector2 C => Points[2];
-    public Vector2 D => Points[3];
+    public Vector2 TopRight = Vector2.Zero;
+    public Vector2 BottomRight = Vector2.Zero;
+    public Vector2 TopLeft = Vector2.Zero;
+    public Vector2 BottomLeft = Vector2.Zero;
 
-    public Quad() => this.Points = [Vector2.Inf, Vector2.Inf, Vector2.Inf, Vector2.Inf];
-    public Quad(Vector2[] points) => this.Points = points;
+    public Quad() { }
 
     public (Triangle A, Triangle B) GetTriangles()
     {
         var points = (
-            A: Points[0].ToVector3(),
-            B: Points[1].ToVector3(),
-            C: Points[2].ToVector3(),
-            D: Points[3].ToVector3()
+            TopRight: TopRight.ToVector3(),
+            BottomRight: BottomRight.ToVector3(),
+            TopLeft: TopLeft.ToVector3(),
+            BottomLeft: BottomLeft.ToVector3()
         );
-        var triangleA = new Triangle(points.A, points.B, points.C);
-        var triangleB = new Triangle(points.D, points.C, points.B);
+        var triangleA = new Triangle(points.TopRight, points.BottomRight, points.TopLeft);
+        var triangleB = new Triangle(points.BottomLeft, points.TopLeft, points.BottomRight);
         return (triangleA, triangleB);
     }
 
-    public override string ToString() => $"Quad({Points[0]}, {Points[1]}, {Points[2]}, {Points[3]})";
+    public (Quad Previous, Quad Next) Joined(Quad previous)
+    {
+        var dir = TopRight.DirectionTo(BottomRight);
+        var prevDir = previous.TopRight.DirectionTo(previous.BottomRight);
+        var intersectionA = TopRight.Intersect(dir, previous.BottomRight, prevDir);
+        var intersectionB = TopLeft.Intersect(dir, previous.BottomLeft, prevDir);
+        TopRight = intersectionA;
+        previous.BottomRight = intersectionA;
+        TopLeft = intersectionB;
+        previous.BottomLeft = intersectionB;
+        return (previous, this);
+    }
+
+    public override string ToString() => $"Quad[TL: {TopLeft}, TR: {TopRight}, BL: {BottomLeft}, BR: {BottomRight})";
 }
 
 public struct Segment
