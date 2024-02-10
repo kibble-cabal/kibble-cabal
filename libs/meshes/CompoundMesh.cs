@@ -6,7 +6,6 @@ using Godot.Collections;
 public partial class CompoundMesh : ArrayMesh
 {
     private Array<Mesh> Meshes = [];
-    private Callable GenerateCallable;
 
     [Export]
     public Array<Mesh> meshes
@@ -15,15 +14,13 @@ public partial class CompoundMesh : ArrayMesh
         set
         {
             foreach (Mesh mesh in Meshes)
-                mesh?.TryDisconnectChanged(GenerateCallable);
+                mesh?.TryDisconnectChanged(new Callable(this, "generate"));
             foreach (Mesh mesh in value)
-                mesh?.TryConnectChanged(GenerateCallable);
+                mesh?.TryConnectChanged(new Callable(this, "generate"));
             Meshes = value;
             generate();
         }
     }
-
-    public CompoundMesh() => this.GenerateCallable = new Callable(this, "generate");
 
     public override Aabb _GetAabb()
     {

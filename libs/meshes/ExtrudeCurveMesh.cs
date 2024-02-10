@@ -7,7 +7,6 @@ public partial class ExtrudeCurveMesh : ExtrudePackedVector2ArrayMesh
     private int TessellationStages = 3;
     private float TessellationToleranceDegrees = 4;
     private Curve2D Curve;
-    private Callable GenerateCallable;
 
     [Export]
     public Curve2D curve
@@ -15,8 +14,8 @@ public partial class ExtrudeCurveMesh : ExtrudePackedVector2ArrayMesh
         get => Curve;
         set
         {
-            Curve?.TryDisconnectChanged(GenerateCallable);
-            value?.TryConnectChanged(GenerateCallable);
+            Curve?.TryDisconnectChanged(new Callable(this, "_Generate"));
+            value?.TryConnectChanged(new Callable(this, "_Generate"));
             Curve = value;
             InternalMesh.Generate(this);
         }
@@ -47,7 +46,6 @@ public partial class ExtrudeCurveMesh : ExtrudePackedVector2ArrayMesh
     public ExtrudeCurveMesh()
     {
         this.InternalMesh = new(GetTriangles, this);
-        GenerateCallable = new Callable(this, "_Generate");
     }
 
     internal void _Generate() => InternalMesh.Generate(this);

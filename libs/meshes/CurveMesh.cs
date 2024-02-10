@@ -12,7 +12,6 @@ public partial class CurveMesh : PolygonMesh
     protected Curve2D? Curve;
     protected int TessellationStages = 3;
     protected float TessellationToleranceDegrees = 4;
-    protected Callable GenerateCallable;
 
     /* Public variables */
 
@@ -22,8 +21,8 @@ public partial class CurveMesh : PolygonMesh
         get => Curve;
         set
         {
-            Curve?.TryDisconnectChanged(GenerateCallable);
-            value?.TryConnectChanged(GenerateCallable);
+            Curve?.TryDisconnectChanged(new Callable(this, "_Generate"));
+            value?.TryConnectChanged(new Callable(this, "_Generate"));
             Curve = value;
             InternalMesh.Generate(this);
         }
@@ -54,7 +53,6 @@ public partial class CurveMesh : PolygonMesh
     public CurveMesh()
     {
         InternalMesh = new(GetTriangles, this);
-        GenerateCallable = new Callable(this, "_Generate");
     }
 
     /* Private methods */
