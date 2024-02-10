@@ -2,7 +2,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class ExtrudeCurveMesh : ExtrudePackedVector2ArrayMesh
+public partial class ExtrudeCurveMesh : ExtrudeVolumePackedVector2ArrayMesh
 {
     private int TessellationStages = 3;
     private float TessellationToleranceDegrees = 4;
@@ -45,14 +45,10 @@ public partial class ExtrudeCurveMesh : ExtrudePackedVector2ArrayMesh
 
     public ExtrudeCurveMesh()
     {
-        this.InternalMesh = new(GetTriangles, this);
+        this.InternalMesh = new(GetTriangles, GetSurfaces, this);
     }
 
     internal void _Generate() => InternalMesh.Generate(this);
 
-    internal override bool _BakePoints()
-    {
-        Points = Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
-        return Points.Length >= 2;
-    }
+    internal override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 #nullable enable
@@ -7,7 +8,7 @@ using Godot;
 /// Base class for generating meshes based on sets of points.
 /// </summary>
 [Tool]
-public partial class PackedVector2ArrayMesh : ArrayMesh
+public abstract partial class PackedVector2ArrayMesh : ArrayMesh
 {
     /* Private variables */
     internal ProceduralMesh InternalMesh;
@@ -46,19 +47,33 @@ public partial class PackedVector2ArrayMesh : ArrayMesh
         }
     }
 
+    internal bool IsClosed()
+    {
+        if (Points.Length >= 3) return Points[0].IsEqualApprox(Points[^1]);
+        return false;
+    }
+
     internal Triangle[] GetTriangles()
     {
-        if (!_BakePoints()) return [];
+        if (!_CanBakePoints()) return [];
+        Points = _BakePoints();
+        if (!_ArePointsValid()) return [];
         return _GetTriangles();
     }
 
-    internal virtual bool _BakePoints() => true;
+    internal int[] GetSurfaces() => _ArePointsValid() ? _GetSurfaces() : [];
+
+    /* Virtual methods */
+    internal virtual bool _CanBakePoints() => true;
+    internal virtual Vector2[] _BakePoints() => Points;
+    internal virtual bool _ArePointsValid() => Points.Length >= 2 && Points.All(point => point.IsFinite());
     internal virtual Triangle[] _GetTriangles() => [];
+    internal virtual int[] _GetSurfaces() => [];
 
     /* Public Methods */
 
     public PackedVector2ArrayMesh()
     {
-        this.InternalMesh = new(GetTriangles, this);
+        this.InternalMesh = new(GetTriangles, GetSurfaces, this);
     }
 }

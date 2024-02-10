@@ -17,8 +17,8 @@ public struct ProceduralMesh
 
     /* Public variables */
 
-    // public int[] Surfaces; // indices at which to begin a new surface
     public Func<Triangle[]> GetTriangles;
+    public Func<int[]>? GetSurfaces;
     public bool FlipFaces = false;
     public bool SmoothNormals = true;
     public Transform3D CustomTransform = Transform3D.Identity;
@@ -66,7 +66,6 @@ public struct ProceduralMesh
 
     internal void SetMaterials(ArrayMesh mesh)
     {
-        // GD.Print("Setting materials", OverrideMaterials);
         int surfaceCount = mesh.GetSurfaceCount();
         for (int i = 0; i < Math.Min(StoredMaterials.Length, surfaceCount); i++)
             mesh.SurfaceSetMaterial(i, StoredMaterials[i]);
@@ -99,23 +98,10 @@ public struct ProceduralMesh
         && BakedUVs.Length % 3 == 0
     );
 
-    /* Public methods */
-
-    public ProceduralMesh(Func<Triangle[]> getTriangles, ArrayMesh mesh)
+    internal void GenerateSurface(ArrayMesh mesh, int startTriangleIndex, int endTriangleIndex)
     {
-        this.GetTriangles = getTriangles;
-        this.Generate(mesh);
-    }
-
-    public bool Generate(ArrayMesh mesh)
-    {
-        mesh.ClearSurfaces();
-        StoreMaterials(mesh);
-        Clear();
-        Bake();
-        if (!IsBakeValid()) return false;
         Surface.Begin(Mesh.PrimitiveType.Triangles);
-        for (int i = 0; i < BakedVertices.Length; i++)
+        for (int i = startTriangleIndex * 3; i < endTriangleIndex * 3; i++)
         {
             if (BakedUVs.Length > i)
                 Surface.SetUV(BakedUVs[i]);
@@ -126,6 +112,34 @@ public struct ProceduralMesh
         if (SmoothNormals) Surface.GenerateNormals();
         Surface.GenerateTangents();
         Surface.Commit(mesh);
+    }
+
+    internal int[] GetSurfaceIndices()
+    {
+        if (GetSurfaces is Func<int[]> getSurfaces)
+            return [0, .. getSurfaces(), BakedTriangles.Length];
+        return [0, BakedTriangles.Length];
+    }
+
+    /* Public methods */
+
+    public ProceduralMesh(Func<Triangle[]> getTriangles, Func<int[]>? getSurfaces, ArrayMesh mesh)
+    {
+        this.GetTriangles = getTriangles;
+        this.GetSurfaces = getSurfaces;
+        this.Generate(mesh);
+    }
+
+    public bool Generate(ArrayMesh mesh)
+    {
+        mesh.ClearSurfaces();
+        StoreMaterials(mesh);
+        Clear();
+        Bake();
+        if (!IsBakeValid()) return false;
+        int[] surfaces = GetSurfaceIndices();
+        for (int i = 0; i < surfaces.Length - 1; i++)
+            GenerateSurface(mesh, surfaces[i], surfaces[i + 1]);
         SetMaterials(mesh);
         return true;
     }

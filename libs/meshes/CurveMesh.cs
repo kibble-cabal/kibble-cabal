@@ -52,21 +52,16 @@ public partial class CurveMesh : PolygonMesh
 
     public CurveMesh()
     {
-        InternalMesh = new(GetTriangles, this);
+        this.InternalMesh = new(GetTriangles, GetSurfaces, this);
     }
 
     /* Private methods */
 
     internal void _Generate() => InternalMesh.Generate(this);
 
-    internal override bool _BakePoints()
-    {
-        if (!CanBake()) return false;
-        Points = Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
-        return base._BakePoints();
-    }
+    internal override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
 
-    internal bool CanBake() => (
+    internal override bool _CanBakePoints() => (
         Curve != null
         && Curve.PointCount >= 2
         && Curve.GetPointPositions().All(point => point.IsFinite())
