@@ -3,12 +3,13 @@ using Godot;
 
 public struct Polygon : IMeshComponent
 {
+    public bool Invert { get; set; }
+    public int Surface { get; set; }
     public Vector2[] Points;
 
-    public bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
+    public readonly bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
 
-    public int GetTriangleCount() => Geometry2D.TriangulatePolygon(Points).Length / 3;
-    public Triangle[] GetTriangles()
+    public readonly Triangle[] GetTriangles()
     {
         if (Points.Length < 3) return [];
         var indices = Geometry2D.TriangulatePolygon(Points);
@@ -19,12 +20,13 @@ public struct Polygon : IMeshComponent
                 Points[indices[i]].ToVector3(),
                 Points[indices[i + 1]].ToVector3(),
                 Points[indices[i + 2]].ToVector3(),
-                null,
-                (
+                customUVs: (
                     Points[indices[i]],
                     Points[indices[i + 1]],
                     Points[indices[i + 2]]
-                )
+                ),
+                inverted: Invert,
+                surface: Surface
             );
             triangles[i / 3] = triangle;
         }

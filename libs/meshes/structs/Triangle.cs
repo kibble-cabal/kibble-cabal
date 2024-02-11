@@ -6,19 +6,23 @@ using System.Linq;
 
 public struct Triangle : IMeshComponent
 {
+    public bool Invert { get; set; }
+    public int Surface { get; set; }
     public Tri3D Points;
     public Tri3D? CustomNormals = null;
     public Tri2D? CustomUVs = null;
 
-    public Triangle(Vector3 a, Vector3 b, Vector3 c, Tri3D? customNormals = null, Tri2D? customUVs = null)
+    public Triangle(Vector3 a, Vector3 b, Vector3 c, Tri3D? customNormals = null, Tri2D? customUVs = null, int surface = 0, bool inverted = false)
     {
         this.Points = (a, b, c);
         this.CustomNormals = customNormals;
         this.CustomUVs = customUVs;
+        this.Surface = surface;
+        if (inverted) this = Inverted();
     }
 
-    public Vector3 GetNormal() => (Points.B - Points.C).Cross(Points.A - Points.C).Normalized();
-    public Vector3 GetInvertedNormal() => (Points.B - Points.A).Cross(Points.C - Points.A).Normalized();
+    public readonly Vector3 GetNormal() => (Points.B - Points.C).Cross(Points.A - Points.C).Normalized();
+    public readonly Vector3 GetInvertedNormal() => (Points.B - Points.A).Cross(Points.C - Points.A).Normalized();
 
     public Triangle Inverted()
     {
@@ -34,6 +38,7 @@ public struct Triangle : IMeshComponent
             var (normalA, normalB, normalC) = customNormals;
             CustomNormals = (normalC, normalB, normalA);
         }
+        Invert = !Invert;
         return this;
     }
 
@@ -43,7 +48,7 @@ public struct Triangle : IMeshComponent
         && Points.C.IsFinite()
     );
 
-    public void BakeVertices(ref Vector3[] vertices, ref int offset)
+    public readonly void BakeVertices(ref Vector3[] vertices, ref int offset)
     {
         if (!IsValid()) return;
         vertices[offset] = Points.A;
@@ -72,7 +77,7 @@ public struct Triangle : IMeshComponent
     /// <summary>
     /// Bakes in world coordinates. Assumes the normal is pointed up, will be updated later.
     /// </summary>
-    public void BakeUVs(ref Vector2[] uvs, ref int offset)
+    public readonly void BakeUVs(ref Vector2[] uvs, ref int offset)
     {
         if (!IsValid()) return;
         if (CustomUVs is Tri2D customUVs)
@@ -90,10 +95,9 @@ public struct Triangle : IMeshComponent
         offset += 3;
     }
 
-    public override string ToString() => $"Triangle({Points.A}, {Points.B}, {Points.C})";
+    public override readonly string ToString() => $"Triangle({Points.A}, {Points.B}, {Points.C})";
 
-    public int GetTriangleCount() => 1;
-    public Triangle[] GetTriangles() => [this];
+    public readonly Triangle[] GetTriangles() => [this];
 }
 
 

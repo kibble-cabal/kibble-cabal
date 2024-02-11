@@ -9,13 +9,15 @@ using Godot;
 public abstract partial class ExtrudeVolumePackedVector2ArrayMesh : ExtrudePackedVector2ArrayMesh
 {
     /* Private variables */
-    internal float Thickness = 0.5f;
-    internal Vector2 ThicknessVector => Thickness.ToVector2() / 2;
-    internal bool RenderTop = true;
-    internal bool RenderBottom = true;
-    internal bool RenderEnds = true;
+    protected float Thickness = 0.5f;
+    protected Vector2 ThicknessVector => Thickness.ToVector2() / 2;
+    protected bool RenderTop = true;
+    protected bool RenderBottom = true;
+    protected bool RenderEnds = true;
 
     /* Public variables */
+    protected Vector2? JoinStart = null;
+    protected Vector2? JoinEnd = null;
 
     [Export]
     public float thickness
@@ -63,9 +65,29 @@ public abstract partial class ExtrudeVolumePackedVector2ArrayMesh : ExtrudePacke
         }
     }
 
+    public Vector2? join_start
+    {
+        get => JoinStart;
+        set
+        {
+            JoinStart = value;
+            InternalMesh.Generate(this);
+        }
+    }
+
+    public Vector2? join_end
+    {
+        get => JoinEnd;
+        set
+        {
+            JoinEnd = value;
+            InternalMesh.Generate(this);
+        }
+    }
+
     /* Private methods */
 
-    internal VolumePolyline GetPolyline() => new VolumePolyline
+    protected VolumePolyline GetPolyline() => new VolumePolyline
     {
         Points = Points,
         Thickness = Thickness,
@@ -73,9 +95,11 @@ public abstract partial class ExtrudeVolumePackedVector2ArrayMesh : ExtrudePacke
         Length = Length,
         RenderTop = RenderTop,
         RenderBottom = RenderBottom,
-        RenderEnds = RenderEnds
+        RenderEnds = RenderEnds,
+        JoinStart = JoinStart,
+        JoinEnd = JoinEnd
     };
 
-    internal override Triangle[] _GetTriangles() => GetPolyline().GetTriangles();
-    internal override int[] _GetSurfaces() => GetPolyline().GetSurfaces();
+    protected override IMeshComponent[] _GetComponents() => [GetPolyline()];
+
 }

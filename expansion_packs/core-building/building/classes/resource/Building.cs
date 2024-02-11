@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 using Godot.Collections;
@@ -10,8 +11,8 @@ public partial class Building : Resource
 {
     /* Private properties */
 
-    private Collections.List<Wall> Walls = [];
-    private Collections.List<Floor> Floors = [];
+    public Collections.List<Wall> Walls = [];
+    public Collections.List<Floor> Floors = [];
     private Callable ChangedCallable;
 
     Building()
@@ -331,7 +332,7 @@ public partial class Building : Resource
     );
     public Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 
-    public bool are_walls_touching(int a, int b, float threshold) => has_wall(a) && has_wall(b) ? GetWall(a).IsTouching(GetWall(b), threshold) : false;
+    public bool are_walls_touching(int a, int b) => has_wall(a) && has_wall(b) ? GetWall(a).IsTouching(GetWall(b)) : false;
     public bool are_floors_touching(int a, int b, float threshold) => has_floor(a) && has_floor(b) ? GetFloor(a).IsTouching(GetFloor(b), threshold) : false;
 
     public Vector2[] get_floor_point_positions(int index) => GetFloor(index)?.GetPointPositions() ?? [];
@@ -339,11 +340,26 @@ public partial class Building : Resource
     public CompoundMesh generate_mesh(int tessellation_stages, float tessellation_tolerance_degrees)
     {
         var mesh = new CompoundMesh();
-        foreach (var wall in Walls)
-            mesh.meshes.AddRange(wall.GenerateMeshes(tessellation_stages, tessellation_tolerance_degrees));
-        foreach (var floor in Floors)
+        foreach (var wall in Walls.Where(wall => wall.IsValid()))
+            mesh.meshes.AddRange(wall.GenerateMeshes(this, tessellation_stages, tessellation_tolerance_degrees));
+        foreach (var floor in Floors.Where(floor => floor.IsValid()))
             mesh.meshes.Add(floor.GenerateMesh(tessellation_stages, tessellation_tolerance_degrees));
-        Connect("changed", Callable.From(mesh.generate));
+        // Connect("changed", new Callable(mesh, "generate"));
+        mesh.generate();
         return mesh;
+    }
+
+    public int[] get_walls_touching(int wall_index)
+    {
+        Wall currentWall = GetWall(wall_index);
+        if (currentWall == null) return [];
+        return Walls.Select((wall, index) => wall.IsTouching(currentWall) ? index : -1).Where(index => index != -1).ToArray();
+    }
+
+    public int[] get_floors_touching(int floor_index, float threshold)
+    {
+        Floor currentFloor = GetFloor(floor_index);
+        if (currentFloor == null) return [];
+        return Floors.Select((floor, index) => currentFloor.IsTouching(floor, threshold) ? index : -1).Where(index => index != -1).ToArray();
     }
 }

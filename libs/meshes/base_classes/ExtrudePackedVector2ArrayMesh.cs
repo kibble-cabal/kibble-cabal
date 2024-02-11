@@ -51,27 +51,24 @@ public abstract partial class ExtrudePackedVector2ArrayMesh : PackedVector2Array
 
     /* Private methods */
 
-    internal Segment GetSegment(Vector2 a, Vector2 b, float offsetFromStart) => new Segment(
-        (a, b),
-         Direction,
-         Length,
-         offsetFromStart
-    );
-
-    internal override Triangle[] _GetTriangles()
+    protected Segment GetSegment(Vector2 a, Vector2 b, float offsetFromStart) => new Segment
     {
-        Triangle[] triangles = new Triangle[Points.Length * 2];
+        Points = (a, b),
+        Direction = Direction,
+        Length = Length,
+        Offset = offsetFromStart
+    };
+
+    protected override IMeshComponent[] _GetComponents()
+    {
+        IMeshComponent[] segments = new IMeshComponent[Points.Length - 1];
         float offset = 0;
         for (int i = 0; i < Points.Length - 1; i++)
         {
             var segment = GetSegment(Points[i], Points[i + 1], offset);
-            var segmentTriangles = segment.GetTriangles();
-            triangles[i * 2] = segmentTriangles[0];
-            triangles[i * 2 + 1] = segmentTriangles[1];
+            segments[i] = segment;
             offset += Points[i].DistanceTo(Points[i + 1]);
         }
-        return triangles;
+        return segments;
     }
-
-    internal override int[] _GetSurfaces() => [];
 }

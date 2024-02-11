@@ -45,10 +45,10 @@ public partial class ExtrudeCurveMesh : ExtrudeVolumePackedVector2ArrayMesh
 
     public ExtrudeCurveMesh()
     {
-        this.InternalMesh = new(GetTriangles, GetSurfaces, this);
+        this.InternalMesh = new(GetComponents, this);
     }
 
-    internal void _Generate() => InternalMesh.Generate(this);
+    protected void _Generate() => InternalMesh.Generate(this);
 
-    internal override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
+    protected override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
 }

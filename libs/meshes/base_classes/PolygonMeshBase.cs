@@ -9,7 +9,7 @@ using Godot;
 public abstract partial class PolygonMeshBase : PackedVector2ArrayMesh
 {
     /* Private variables */
-    internal BaseMaterial3D? Material;
+    protected BaseMaterial3D? Material;
 
     /* Public variables */
 
@@ -28,8 +28,9 @@ public abstract partial class PolygonMeshBase : PackedVector2ArrayMesh
 
     /* Private methods */
 
-    internal Polygon GetPolygon() => new Polygon { Points = Points };
+    protected Polygon GetPolygon() => new Polygon { Points = Points, Invert = Invert };
 
-    internal override Vector2[] _BakePoints() => Points;
-    internal override Triangle[] _GetTriangles() => GetPolygon().GetTriangles();
+    protected override Vector2[] _BakePoints() => Points;
+    protected override IMeshComponent[] _GetComponents() => [GetPolygon()];
+    // protected override Triangle[] _GetTriangles() => GetPolygon().GetTriangles();
 }

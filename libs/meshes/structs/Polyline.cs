@@ -1,13 +1,19 @@
+using System.Linq;
 using Godot;
 
 public struct Polyline : IMeshComponent
 {
+    public bool Invert { get; set; }
+    public int Surface { get; set; }
     public Vector2[] Points;
     public Vector3.Axis ZeroAxis;
     public Vector3 Offset;
     public float Thickness;
 
-    public bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
+    public Vector2? JoinStart;
+    public Vector2? JoinEnd;
+
+    public readonly bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
 
     public Quad[] GetQuads()
     {
@@ -27,6 +33,8 @@ public struct Polyline : IMeshComponent
                 BottomLeft = nextPoint + thickness.Rotated(angle),
                 Offset = Offset,
                 ZeroAxis = ZeroAxis,
+                Invert = Invert,
+                Surface = Surface
             };
 
             // Account for angle at start
@@ -40,14 +48,16 @@ public struct Polyline : IMeshComponent
             quads[i] = quad;
         }
         quads.Join(isClosed);
+
+        // TODO: Join Code
+
         return quads;
     }
 
-    public int GetTriangleCount() => Points.Length * 2;
     public Triangle[] GetTriangles()
     {
         var quads = GetQuads();
-        Triangle[] triangles = new Triangle[Points.Length * 2];
+        Triangle[] triangles = new Triangle[quads.Length * 2];
         for (int i = 0; i < quads.Length; i++)
         {
             var quadTriangles = quads[i].GetTriangles();

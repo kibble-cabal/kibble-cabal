@@ -51,16 +51,16 @@ public partial class PolylineCurveMesh : PolylineMeshBase
 
     public PolylineCurveMesh()
     {
-        this.InternalMesh = new(GetTriangles, GetSurfaces, this);
+        this.InternalMesh = new(GetComponents, this);
     }
 
     /* Private methods */
 
-    internal void _Generate() => InternalMesh.Generate(this);
+    protected void _Generate() => InternalMesh.Generate(this);
 
-    internal override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
+    protected override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
 
-    internal override bool _CanBakePoints() => (
+    protected override bool _CanBakePoints() => (
         Curve != null
         && Curve.PointCount >= 2
         && Curve.GetPointPositions().All(point => point.IsFinite())

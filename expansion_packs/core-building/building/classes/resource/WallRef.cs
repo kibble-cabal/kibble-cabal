@@ -70,8 +70,8 @@ public partial class WallRef(Building Building, int Index) : RefCounted
     public bool has_start() => start.IsFinite();
     public bool has_end() => end.IsFinite();
 
-    public bool is_touching(int other, float threshold) => building.are_walls_touching(index, other, threshold);
-    public bool is_touching(WallRef other, float threshold) => building.are_walls_touching(index, other.index, threshold);
+    public bool is_touching(int other) => building.are_walls_touching(index, other);
+    public bool is_touching(WallRef other) => building.are_walls_touching(index, other.index);
 
     public Vector2 snap(Vector2 position, float threshold) => building.snap_to_wall(index, position, threshold);
     public Vector2 snap(Vector2 position) => snap(position, -1);

@@ -1,6 +1,10 @@
 
+using System.Linq;
+
 public interface IMeshComponent
 {
-    int GetTriangleCount();
+    bool Invert { get; set; }
+    int Surface { get; set; }
+
     Triangle[] GetTriangles();
 }

@@ -11,16 +11,17 @@ using Godot;
 public abstract partial class PackedVector2ArrayMesh : ArrayMesh
 {
     /* Private variables */
-    internal ProceduralMesh InternalMesh;
+    protected bool Invert = false;
+    protected ProceduralMesh InternalMesh;
     protected Vector2[] Points = [];
 
     [Export]
     public bool flip
     {
-        get => InternalMesh.FlipFaces;
+        get => Invert;
         set
         {
-            InternalMesh.FlipFaces = value;
+            Invert = value;
             InternalMesh.Generate(this);
         }
     }
@@ -47,33 +48,42 @@ public abstract partial class PackedVector2ArrayMesh : ArrayMesh
         }
     }
 
-    internal bool IsClosed()
+    protected bool IsClosed()
     {
         if (Points.Length >= 3) return Points[0].IsEqualApprox(Points[^1]);
         return false;
     }
 
-    internal Triangle[] GetTriangles()
+    // protected Triangle[] GetTriangles()
+    // {
+    //     if (!_CanBakePoints()) return [];
+    //     Points = _BakePoints();
+    //     if (!_ArePointsValid()) return [];
+    //     return _GetTriangles();
+    // }
+
+    protected IMeshComponent[] GetComponents()
     {
         if (!_CanBakePoints()) return [];
         Points = _BakePoints();
         if (!_ArePointsValid()) return [];
-        return _GetTriangles();
+        return _GetComponents().Select(component =>
+        {
+            component.Invert = Invert;
+            return component;
+        }).ToArray();
     }
 
-    internal int[] GetSurfaces() => _ArePointsValid() ? _GetSurfaces() : [];
-
     /* Virtual methods */
-    internal virtual bool _CanBakePoints() => true;
-    internal virtual Vector2[] _BakePoints() => Points;
-    internal virtual bool _ArePointsValid() => Points.Length >= 2 && Points.All(point => point.IsFinite());
-    internal virtual Triangle[] _GetTriangles() => [];
-    internal virtual int[] _GetSurfaces() => [];
+    protected virtual bool _CanBakePoints() => true;
+    protected virtual Vector2[] _BakePoints() => Points;
+    protected virtual bool _ArePointsValid() => Points.Length >= 2 && Points.All(point => point.IsFinite());
+    protected virtual IMeshComponent[] _GetComponents() => [];
 
     /* Public Methods */
 
     public PackedVector2ArrayMesh()
     {
-        this.InternalMesh = new(GetTriangles, GetSurfaces, this);
+        this.InternalMesh = new(GetComponents, this);
     }
 }

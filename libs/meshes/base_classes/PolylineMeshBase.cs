@@ -6,8 +6,8 @@ using Godot;
 [Tool]
 public abstract partial class PolylineMeshBase : PolygonMeshBase
 {
-    internal float Thickness = 0.1f;
-    internal Vector3.Axis ZeroAxis = Vector3.Axis.Y;
+    protected float Thickness = 0.1f;
+    protected Vector3.Axis ZeroAxis = Vector3.Axis.Y;
 
     [Export]
     public float thickness
@@ -31,7 +31,8 @@ public abstract partial class PolylineMeshBase : PolygonMeshBase
         }
     }
 
-    internal Polyline GetPolyline() => new Polyline { Points = Points, Thickness = Thickness, ZeroAxis = ZeroAxis, Offset = Vector3.Zero };
+    protected Polyline GetPolyline() => new Polyline { Points = Points, Thickness = Thickness, ZeroAxis = ZeroAxis, Offset = Vector3.Zero, Invert = Invert };
 
-    internal override Triangle[] _GetTriangles() => GetPolyline().GetTriangles();
+    protected override IMeshComponent[] _GetComponents() => [GetPolyline()];
+    // protected override Triangle[] _GetTriangles() => GetPolyline().GetTriangles();
 }
