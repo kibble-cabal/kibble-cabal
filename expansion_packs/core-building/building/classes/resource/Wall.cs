@@ -108,13 +108,12 @@ public record Wall
         var mesh = new ExtrudePointsMesh
         {
             points = Tessellate(tessellationStages, tessellationTolerance),
-            thickness = Thickness,
-            direction = Vector3.Up,
-            length = Height,
+            extrude_thickness = Thickness,
+            extrude_height = Height,
             render_bottom = false,
             join_start = GetJoin(building, Start),
             join_end = GetJoin(building, End),
-            material = [
+            materials = [
                 MakeMaterial(1, 0, 0),
                 MakeMaterial(1, 1, 0),
                 MakeMaterial(0, 0, 1),

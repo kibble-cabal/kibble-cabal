@@ -16,8 +16,8 @@ public struct VolumePolyline : IMeshComponent
     public int Surface { get; set; }
     public Vector2[] Points;
     public float Thickness;
-    public Vector3 Direction;
-    public float Length;
+    public Vector3 ExtrudeDirection;
+    public float ExtrudeAmount;
     public bool RenderTop;
     public bool RenderBottom;
     public bool RenderEnds;
@@ -35,70 +35,65 @@ public struct VolumePolyline : IMeshComponent
 
     public readonly bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]) && JoinStart == null && JoinEnd == null;
 
-    private Segment GetSegment(Vector2 a, Vector2 b, float offsetFromStart, SurfaceIndex surface, bool inverted = false) => new Segment
+    public IMeshComponent[] GetComponents()
     {
-        Points = (a, b),
-        Direction = Direction,
-        Length = Length,
-        Offset = offsetFromStart,
-        Invert = inverted,
-        Surface = (int)surface,
-    };
-
-    private (Segment[] Outer, Segment[] Inner) GetSegments()
-    {
-        var isClosed = IsClosed();
-        Segment[] outerSegments = new Segment[Points.Length - 1];
-        Segment[] innerSegments = new Segment[Points.Length - 1];
-        float offset = 0;
-        for (int i = 0; i < Points.Length - 1; i++)
+        Line outerLine = new Line
         {
-            Vector2 a = Points[i], b = Points[i + 1];
-            var outerSegment = GetSegment(a, b, offset, SurfaceIndex.Outer).OffsetBy(Thickness / 2);
-            var innerSegment = GetSegment(a, b, offset, SurfaceIndex.Inner, true).OffsetBy(-Thickness / 2);
-
-            outerSegments[i] = outerSegment;
-            innerSegments[i] = innerSegment;
-            offset += a.DistanceTo(b);
-        }
-        outerSegments.Join(isClosed);
-        innerSegments.Join(isClosed);
-
-        if (Points.Length > 1 && !isClosed)
+            Points = Points,
+            ProjectionAxis = Vector3.Axis.Y,
+            ExtrudeAmount = ExtrudeAmount,
+            ExtrudeDirection = ExtrudeDirection,
+            Flat = false,
+            Invert = false,
+            Surface = 0,
+            CustomTransform = Transform3D.Identity
+        }.OffsetBy(Thickness / 2);
+        Line innerLine = new Line
         {
-            // Account for angle at start
-            innerSegments[0].Points.A = innerSegments[0].Points.A.MoveToward(innerSegments[0].Points.B, Thickness);
-            // Account for angle at end
-            outerSegments[^1].Points.B = outerSegments[^1].Points.B.MoveToward(outerSegments[^1].Points.A, Thickness);
-
-            // TODO: Join Code
-            // if (JoinStart is Vector2 prevPoint)
-            // {
-            //     var outerJoinSegment = GetSegment(prevPoint, Points[0], 0, SurfaceIndex.Outer);
-            //     outerSegments[0] = outerSegments[0].SimulateJoinedStart(outerJoinSegment);
-            // }
-
-        }
-
-        return (outerSegments, innerSegments);
+            Points = Points,
+            ProjectionAxis = Vector3.Axis.Y,
+            ExtrudeAmount = ExtrudeAmount,
+            ExtrudeDirection = ExtrudeDirection,
+            Flat = false,
+            Invert = true,
+            Surface = 1,
+            CustomTransform = Transform3D.Identity
+        }.OffsetBy(-Thickness / 2);
+        IMeshComponent[] components = [outerLine, innerLine];
+        if (RenderTop) components = [..components, new Line
+        {
+            Points = Points,
+            ProjectionAxis = Vector3.Axis.Y,
+            ExtrudeDirection = Vector3.Zero,
+            ExtrudeAmount = Thickness,
+            Flat = true,
+            Surface = 2,
+            CustomTransform = Transform3D.Identity.Translated(new Vector3(0, ExtrudeAmount, 0))
+        }];
+        if (RenderBottom) components = [..components,  new Line
+        {
+            Points = Points,
+            ProjectionAxis = Vector3.Axis.Y,
+            ExtrudeDirection = Vector3.Zero,
+            ExtrudeAmount = Thickness,
+            Flat = true,
+            Invert = true,
+            Surface = 3,
+            CustomTransform = Transform3D.Identity
+        }];
+        if (RenderEnds && !IsClosed())
+            return [
+                ..components,
+                .. GetSideTriangles(outerLine.Points[0], innerLine.Points[0], true),
+                .. GetSideTriangles(outerLine.Points[^1], outerLine.Points[^1], false)
+            ];
+        return components;
     }
-
-    private Polyline GetPolyline(Vector3 offset, SurfaceIndex surface, bool inverted = false) => new()
-    {
-        Points = Points,
-        Thickness = Thickness,
-        ZeroAxis = Vector3.Axis.Y,
-        Offset = offset,
-        JoinStart = JoinStart,
-        JoinEnd = JoinEnd,
-        Invert = inverted,
-        Surface = (int)surface
-    };
 
     private readonly Triangle[] GetSideTriangles(Vector2 a, Vector2 b, bool inverted)
     {
         Triangle[] triangles = new Triangle[2];
-        var lengthVector = new Vector3(0, Length, 0);
+        var lengthVector = new Vector3(0, ExtrudeAmount, 0);
         var bl = a.ToVector3();
         var br = b.ToVector3();
         var tl = bl + lengthVector;
@@ -106,24 +101,6 @@ public struct VolumePolyline : IMeshComponent
         triangles[0] = new Triangle(tr, br, tl, inverted: inverted, surface: (int)SurfaceIndex.End);
         triangles[1] = new Triangle(bl, tl, br, inverted: inverted, surface: (int)SurfaceIndex.End);
         return triangles;
-    }
-
-    public IMeshComponent[] GetComponents()
-    {
-        var (outerSegments, innerSegments) = GetSegments();
-        IMeshComponent[] components = [
-            .. outerSegments,
-            .. innerSegments
-        ];
-        if (RenderTop) components = [.. components, GetPolyline(new Vector3(0, Length, 0), SurfaceIndex.Top)];
-        if (RenderBottom) components = [.. components, GetPolyline(Vector3.Zero, SurfaceIndex.Bottom, true)];
-        if (RenderEnds && !IsClosed())
-            components = [
-                .. components,
-                .. GetSideTriangles(outerSegments[0].Points.A, innerSegments[0].Points.A, true),
-                .. GetSideTriangles(outerSegments[^1].Points.B, innerSegments[^1].Points.B, false)
-            ];
-        return components;
     }
 
     public Triangle[] GetTriangles() => GetComponents().SelectMany(component => component.GetTriangles()).ToArray();

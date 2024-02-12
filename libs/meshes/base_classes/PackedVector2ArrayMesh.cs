@@ -5,7 +5,7 @@ using Godot;
 
 
 /// <summary>
-/// Base class for generating meshes based on sets of points.
+/// Base class for generating meshes.
 /// </summary>
 [Tool]
 public abstract partial class PackedVector2ArrayMesh : ArrayMesh
@@ -14,6 +14,7 @@ public abstract partial class PackedVector2ArrayMesh : ArrayMesh
     protected bool Invert = false;
     protected ProceduralMesh InternalMesh;
     protected Vector2[] Points = [];
+    protected BaseMaterial3D[] Materials = [];
 
     [Export]
     public bool flip
@@ -38,6 +39,18 @@ public abstract partial class PackedVector2ArrayMesh : ArrayMesh
     }
 
     [Export]
+    public BaseMaterial3D[] materials
+    {
+        get => Materials;
+        set
+        {
+            Materials = value;
+            InternalMesh.OverrideMaterials = Materials;
+            InternalMesh.Generate(this);
+        }
+    }
+
+    [Export]
     public Transform3D custom_transform
     {
         get => InternalMesh.CustomTransform;
@@ -53,14 +66,6 @@ public abstract partial class PackedVector2ArrayMesh : ArrayMesh
         if (Points.Length >= 3) return Points[0].IsEqualApprox(Points[^1]);
         return false;
     }
-
-    // protected Triangle[] GetTriangles()
-    // {
-    //     if (!_CanBakePoints()) return [];
-    //     Points = _BakePoints();
-    //     if (!_ArePointsValid()) return [];
-    //     return _GetTriangles();
-    // }
 
     protected IMeshComponent[] GetComponents()
     {

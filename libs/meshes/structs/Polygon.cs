@@ -6,6 +6,7 @@ public struct Polygon : IMeshComponent
     public bool Invert { get; set; }
     public int Surface { get; set; }
     public Vector2[] Points;
+    public Vector3.Axis ProjectionAxis;
 
     public readonly bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
 
@@ -17,9 +18,9 @@ public struct Polygon : IMeshComponent
         for (int i = 0; i < indices.Length - 2; i += 3)
         {
             var triangle = new Triangle(
-                Points[indices[i]].ToVector3(),
-                Points[indices[i + 1]].ToVector3(),
-                Points[indices[i + 2]].ToVector3(),
+                Points[indices[i]].ToVector3(ProjectionAxis),
+                Points[indices[i + 1]].ToVector3(ProjectionAxis),
+                Points[indices[i + 2]].ToVector3(ProjectionAxis),
                 customUVs: (
                     Points[indices[i]],
                     Points[indices[i + 1]],

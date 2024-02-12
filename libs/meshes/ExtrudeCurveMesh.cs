@@ -2,7 +2,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class ExtrudeCurveMesh : ExtrudeVolumePackedVector2ArrayMesh
+public partial class ExtrudeCurveMesh : PolylineMeshBase
 {
     private int TessellationStages = 3;
     private float TessellationToleranceDegrees = 4;

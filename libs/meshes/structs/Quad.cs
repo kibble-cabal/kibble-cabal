@@ -1,72 +1,64 @@
 using Godot;
 
-public struct Quad : IMeshComponent
+public struct Quad2D : IMeshComponent
 {
     public bool Invert { get; set; }
     public int Surface { get; set; }
-    public Vector2 TopRight = Vector2.Zero;
-    public Vector2 BottomRight = Vector2.Zero;
-    public Vector2 TopLeft = Vector2.Zero;
-    public Vector2 BottomLeft = Vector2.Zero;
-    public Vector3 Offset = Vector3.Zero;
-    public Vector3.Axis ZeroAxis = Vector3.Axis.Y;
 
-    public Quad() { }
+    public Vector2 TopLeft;
+    public Vector2 TopRight;
+    public Vector2 BottomLeft;
+    public Vector2 BottomRight;
+    public float OffsetFromLineStart;
+    public Vector3.Axis ProjectionAxis;
+    public Vector3 ExtrudeDirection;
+    public float ExtrudeAmount;
 
-    public readonly Triangle[] GetTriangles()
+    public readonly Vector2 Direction => TopLeft.DirectionTo(BottomLeft);
+    public readonly float ExtrudeLength => (ExtrudeDirection * ExtrudeAmount).Length().Abs();
+    public readonly float Length => TopLeft.DistanceTo(BottomLeft).Abs();
+
+    private readonly Vector2[] GetUVs()
+    {
+        var origin = new Vector2(OffsetFromLineStart, 0);
+        var end = new Vector2(Length, ExtrudeLength);
+        var tl = origin + end * new Vector2(0, 0);
+        var tr = origin + end * new Vector2(1, 0);
+        var br = origin + end * new Vector2(1, 1);
+        var bl = origin + end * new Vector2(0, 1);
+        return [br, tl, tr, tl, br, bl];
+    }
+
+    public Triangle[] GetTriangles()
     {
         var points = (
-            TopRight: TopRight.ToVector3(ZeroAxis) + Offset,
-            BottomRight: BottomRight.ToVector3(ZeroAxis) + Offset,
-            TopLeft: TopLeft.ToVector3(ZeroAxis) + Offset,
-            BottomLeft: BottomLeft.ToVector3(ZeroAxis) + Offset
+            TopRight: TopRight.ToVector3(ProjectionAxis) + ExtrudeDirection * ExtrudeAmount,
+            BottomRight: BottomRight.ToVector3(ProjectionAxis) + ExtrudeDirection * ExtrudeAmount,
+            TopLeft: TopLeft.ToVector3(ProjectionAxis),
+            BottomLeft: BottomLeft.ToVector3(ProjectionAxis)
         );
-        var triangleA = new Triangle(points.TopRight, points.BottomRight, points.TopLeft, inverted: Invert, surface: Surface);
-        var triangleB = new Triangle(points.BottomLeft, points.TopLeft, points.BottomRight, inverted: Invert, surface: Surface);
+        var uvs = GetUVs();
+        var triangleA = new Triangle(points.TopLeft, points.BottomRight, points.TopRight, customUVs: (uvs[0], uvs[1], uvs[2]), inverted: Invert, surface: Surface);
+        var triangleB = new Triangle(points.BottomRight, points.TopLeft, points.BottomLeft, customUVs: (uvs[3], uvs[4], uvs[5]), inverted: Invert, surface: Surface);
         return [triangleA, triangleB];
     }
 
-    public Quad SimulateJoined(Vector2 prevDirection, Vector2 prevBottomRight, Vector2 prevBottomLeft)
+    public static void Join(ref Quad2D a, ref Quad2D b)
     {
-        var dir = TopRight.DirectionTo(BottomRight);
-        var intersectionA = TopRight.Intersect(dir, prevBottomRight, prevDirection);
-        var intersectionB = TopLeft.Intersect(dir, prevBottomLeft, prevDirection);
-        TopRight = intersectionA;
-        TopLeft = intersectionB;
-        return this;
+        if (a.TopRight.IsEqualApprox(b.BottomRight) && a.TopLeft.IsEqualApprox(b.BottomLeft)) return;
+        var intersectionA = b.TopRight.Intersect(b.Direction, a.BottomRight, a.Direction, 5);
+        var intersectionB = b.TopLeft.Intersect(b.Direction, a.BottomLeft, a.Direction, 5);
+        b.TopRight = intersectionA;
+        a.BottomRight = intersectionA;
+        b.TopLeft = intersectionB;
+        a.BottomLeft = intersectionB;
     }
 
-    public (Quad Previous, Quad Next) Joined(Quad previous)
-    {
-        var dir = TopRight.DirectionTo(BottomRight);
-        var prevDir = previous.TopRight.DirectionTo(previous.BottomRight);
-        var intersectionA = TopRight.Intersect(dir, previous.BottomRight, prevDir);
-        var intersectionB = TopLeft.Intersect(dir, previous.BottomLeft, prevDir);
-        TopRight = intersectionA;
-        previous.BottomRight = intersectionA;
-        TopLeft = intersectionB;
-        previous.BottomLeft = intersectionB;
-        return (previous, this);
-    }
-
-    public override readonly string ToString() => $"Quad[TL: {TopLeft}, TR: {TopRight}, BL: {BottomLeft}, BR: {BottomRight})";
-}
-
-public static class QuadExtensions
-{
-    public static void Join(this Quad[] quads, bool isClosed)
+    public static void Join(ref Quad2D[] quads, bool isClosed)
     {
         for (int i = 0; i < quads.Length - 1; i++)
-        {
-            var (prev, next) = quads[i + 1].Joined(quads[i]);
-            quads[i] = prev;
-            quads[i + 1] = next;
-        }
+            Join(ref quads[i], ref quads[i + 1]);
         if (isClosed && quads.Length >= 2)
-        {
-            var (prev, next) = quads[0].Joined(quads[^1]);
-            quads[0] = next;
-            quads[^1] = prev;
-        }
+            Join(ref quads[^1], ref quads[0]);
     }
 }

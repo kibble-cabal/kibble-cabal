@@ -9,28 +9,25 @@ using Godot;
 public abstract partial class PolygonMeshBase : PackedVector2ArrayMesh
 {
     /* Private variables */
-    protected BaseMaterial3D? Material;
+    protected Vector3.Axis ProjectionAxis = Vector3.Axis.Y;
 
     /* Public variables */
 
     [Export]
-    public BaseMaterial3D? material
+    public Vector3.Axis projection_axis
     {
-        get => Material;
+        get => ProjectionAxis;
         set
         {
-            Material = value;
-            if (Material is Material mat)
-                InternalMesh.OverrideMaterials = [mat];
+            ProjectionAxis = value;
             InternalMesh.Generate(this);
         }
     }
 
     /* Private methods */
 
-    protected Polygon GetPolygon() => new Polygon { Points = Points, Invert = Invert };
+    protected Polygon GetPolygon() => new Polygon { Points = Points, Invert = Invert, ProjectionAxis = ProjectionAxis };
 
     protected override Vector2[] _BakePoints() => Points;
     protected override IMeshComponent[] _GetComponents() => [GetPolygon()];
-    // protected override Triangle[] _GetTriangles() => GetPolygon().GetTriangles();
 }

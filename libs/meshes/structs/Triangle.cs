@@ -29,15 +29,9 @@ public struct Triangle : IMeshComponent
         var (A, B, C) = Points;
         Points = (C, B, A);
         if (CustomUVs is Tri2D customUVs)
-        {
-            var (uvA, uvB, uvC) = customUVs;
-            CustomUVs = (uvC, uvB, uvA);
-        }
+            CustomUVs = (customUVs.C, customUVs.B, customUVs.A);
         if (CustomNormals is Tri3D customNormals)
-        {
-            var (normalA, normalB, normalC) = customNormals;
-            CustomNormals = (normalC, normalB, normalA);
-        }
+            CustomNormals = (customNormals.C, customNormals.B, customNormals.A);
         Invert = !Invert;
         return this;
     }
@@ -62,9 +56,9 @@ public struct Triangle : IMeshComponent
         if (!IsValid()) return;
         if (CustomNormals is Tri3D customNormals)
         {
-            normals[offset] = customNormals.A;
-            normals[offset + 1] = customNormals.B;
-            normals[offset + 2] = customNormals.C;
+            normals[offset] = customNormals.A.Normalized();
+            normals[offset + 1] = customNormals.B.Normalized();
+            normals[offset + 2] = customNormals.C.Normalized();
         }
         else
         {
@@ -88,9 +82,9 @@ public struct Triangle : IMeshComponent
         }
         else
         {
-            uvs[offset] = Points.A.FromVector3();
-            uvs[offset + 1] = Points.B.FromVector3();
-            uvs[offset + 2] = Points.C.FromVector3();
+            uvs[offset] = Points.A.ToVector2();
+            uvs[offset + 1] = Points.B.ToVector2();
+            uvs[offset + 2] = Points.C.ToVector2();
         }
         offset += 3;
     }
@@ -98,6 +92,20 @@ public struct Triangle : IMeshComponent
     public override readonly string ToString() => $"Triangle({Points.A}, {Points.B}, {Points.C})";
 
     public readonly Triangle[] GetTriangles() => [this];
+
+    public static Triangle operator *(Triangle triangle, Transform3D transform)
+    {
+        triangle.Points.A *= transform;
+        triangle.Points.B *= transform;
+        triangle.Points.C *= transform;
+        if (triangle.CustomNormals is Tri3D customNormals)
+            triangle.CustomNormals = (
+                (customNormals.A * transform).Normalized(),
+                (customNormals.B * transform).Normalized(),
+                (customNormals.C * transform).Normalized()
+            );
+        return triangle;
+    }
 }
 
 

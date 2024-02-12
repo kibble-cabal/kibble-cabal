@@ -2,7 +2,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class ExtrudePointsMesh : ExtrudeVolumePackedVector2ArrayMesh
+public partial class ExtrudePointsMesh : PolylineMeshBase
 {
     /* Public variables */
     [Export]
