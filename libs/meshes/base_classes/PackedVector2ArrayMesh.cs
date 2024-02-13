@@ -14,7 +14,7 @@ public abstract partial class PackedVector2ArrayMesh : ArrayMesh
     protected bool Invert = false;
     protected ProceduralMesh InternalMesh;
     protected Vector2[] Points = [];
-    protected BaseMaterial3D[] Materials = [];
+    protected Material[] Materials = [];
 
     [Export]
     public bool flip
@@ -39,7 +39,7 @@ public abstract partial class PackedVector2ArrayMesh : ArrayMesh
     }
 
     [Export]
-    public BaseMaterial3D[] materials
+    public Material[] materials
     {
         get => Materials;
         set

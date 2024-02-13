@@ -6,7 +6,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class CurveMesh : PolygonMesh
+public partial class PolygonCurveMesh : PolygonMeshBase
 {
     /* Private variables */
     protected Curve2D? Curve;
@@ -48,11 +48,6 @@ public partial class CurveMesh : PolygonMesh
             TessellationToleranceDegrees = value;
             InternalMesh.Generate(this);
         }
-    }
-
-    public CurveMesh()
-    {
-        this.InternalMesh = new(GetComponents, this);
     }
 
     /* Private methods */

@@ -2,7 +2,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class PolygonMesh : PolygonMeshBase
+public partial class PolygonPointsMesh : PolygonMeshBase
 {
     [Export]
     public Vector2[] points

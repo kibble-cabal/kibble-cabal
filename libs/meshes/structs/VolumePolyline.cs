@@ -37,39 +37,47 @@ public struct VolumePolyline : IMeshComponent
 
     public IMeshComponent[] GetComponents()
     {
-        Line outerLine = new Line
-        {
-            Points = Points,
-            ProjectionAxis = Vector3.Axis.Y,
-            ExtrudeAmount = ExtrudeAmount,
-            ExtrudeDirection = ExtrudeDirection,
-            Flat = false,
-            Invert = false,
-            Surface = 0,
-            CustomTransform = Transform3D.Identity
-        }.OffsetBy(Thickness / 2);
-        Line innerLine = new Line
-        {
-            Points = Points,
-            ProjectionAxis = Vector3.Axis.Y,
-            ExtrudeAmount = ExtrudeAmount,
-            ExtrudeDirection = ExtrudeDirection,
-            Flat = false,
-            Invert = true,
-            Surface = 1,
-            CustomTransform = Transform3D.Identity
-        }.OffsetBy(-Thickness / 2);
-        IMeshComponent[] components = [outerLine, innerLine];
-        if (RenderTop) components = [..components, new Line
+        var topLine = new Line
         {
             Points = Points,
             ProjectionAxis = Vector3.Axis.Y,
             ExtrudeDirection = Vector3.Zero,
             ExtrudeAmount = Thickness,
             Flat = true,
+            Invert = Invert,
             Surface = 2,
-            CustomTransform = Transform3D.Identity.Translated(new Vector3(0, ExtrudeAmount, 0))
-        }];
+            CustomTransform = Transform3D.Identity.Translated(new Vector3(0, ExtrudeAmount, 0)),
+            JoinStart = JoinStart,
+            JoinEnd = JoinEnd
+        };
+        Line outerLine = new Line
+        {
+            Points = topLine.GetFlatInnerPolygon(),
+            ProjectionAxis = Vector3.Axis.Y,
+            ExtrudeAmount = ExtrudeAmount,
+            ExtrudeDirection = ExtrudeDirection,
+            Flat = false,
+            Invert = Invert,
+            Surface = 0,
+            CustomTransform = Transform3D.Identity,
+            JoinStart = JoinStart,
+            JoinEnd = JoinEnd
+        };
+        Line innerLine = new Line
+        {
+            Points = topLine.GetFlatOuterPolygon(),
+            ProjectionAxis = Vector3.Axis.Y,
+            ExtrudeAmount = ExtrudeAmount,
+            ExtrudeDirection = ExtrudeDirection,
+            Flat = false,
+            Invert = !Invert,
+            Surface = 1,
+            CustomTransform = Transform3D.Identity,
+            JoinStart = JoinStart,
+            JoinEnd = JoinEnd
+        };
+        IMeshComponent[] components = [outerLine, innerLine];
+        if (RenderTop) components = [.. components, topLine];
         if (RenderBottom) components = [..components,  new Line
         {
             Points = Points,
@@ -77,9 +85,11 @@ public struct VolumePolyline : IMeshComponent
             ExtrudeDirection = Vector3.Zero,
             ExtrudeAmount = Thickness,
             Flat = true,
-            Invert = true,
+            Invert = !Invert,
             Surface = 3,
-            CustomTransform = Transform3D.Identity
+            CustomTransform = Transform3D.Identity,
+            JoinStart = JoinStart,
+            JoinEnd = JoinEnd
         }];
         if (RenderEnds && !IsClosed())
             return [

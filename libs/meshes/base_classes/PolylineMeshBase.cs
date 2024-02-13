@@ -136,14 +136,16 @@ public abstract partial class PolylineMeshBase : PolygonMeshBase
 
     protected Line GetLine() => new Line
     {
-        Points = Points,
+        Points = Reverse ? Points.Reverse().ToArray() : Points,
         ProjectionAxis = ProjectionAxis,
         ExtrudeDirection = ExtrudeDirection,
-        ExtrudeAmount = ExtrudeAmount,
+        ExtrudeAmount = Thickness,
         Flat = Flat,
         Invert = Invert,
         Surface = 0,
-        CustomTransform = Transform3D.Identity
+        CustomTransform = Transform3D.Identity,
+        JoinStart = JoinStart,
+        JoinEnd = JoinEnd
     };
 
     protected VolumePolyline GetPolyline() => new VolumePolyline
@@ -156,8 +158,9 @@ public abstract partial class PolylineMeshBase : PolygonMeshBase
         RenderBottom = RenderBottom,
         RenderEnds = RenderEnds,
         JoinStart = JoinStart,
-        JoinEnd = JoinEnd
+        JoinEnd = JoinEnd,
+        Invert = Invert,
     };
 
-    protected override IMeshComponent[] _GetComponents() => [Thickness < F.AlmostZero ? GetLine() : GetPolyline()];
+    protected override IMeshComponent[] _GetComponents() => [Flat ? GetLine() : GetPolyline()];
 }

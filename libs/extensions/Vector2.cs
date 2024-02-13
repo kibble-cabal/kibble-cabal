@@ -1,5 +1,7 @@
+using System;
 using Godot;
 
+public class MiterLimitReachedException : Exception { }
 
 public static class Vector2Extensions
 {
@@ -18,17 +20,17 @@ public static class Vector2Extensions
                 return new Vector3(vector.X, zeroValue, vector.Y);
         }
     }
-    public static Vector2 FromVector3(this Vector3 vector) => new Vector2(vector.X, vector.Z);
 
-    public static Vector2 Intersect(this Vector2 a, Vector2 aDirection, Vector2 b, Vector2 bDirection, float limit = 5)
+    public static Vector2 Intersect(this Vector2 a, Vector2 aDirection, Vector2 b, Vector2 bDirection, float upperLimit, float lowerLimit)
     {
         var u = (a.Y * bDirection.X + bDirection.Y * b.X - b.Y * bDirection.X - bDirection.Y * a.X) / (aDirection.X * bDirection.Y - aDirection.Y * bDirection.X);
-        if (limit >= 0 && u.Abs() > limit)
-            return a + aDirection * limit * u.Sign();
-        if (u.Abs() > F.AlmostZero)
-            return a + aDirection * u;
-        return a;
+        if (u > upperLimit || u < lowerLimit)
+            throw new MiterLimitReachedException { }; ;
+        return a + aDirection * u;
     }
+
+    public static Vector2 Intersect(this Vector2 a, Vector2 aDirection, Vector2 b, Vector2 bDirection, float limit = 1) => a.Intersect(aDirection, b, bDirection, limit, -limit);
+
 
     public static Vector2 MoveAway(this Vector2 a, Vector2 b, float amount)
     {
@@ -40,40 +42,26 @@ public static class Vector2Extensions
     {
         if (points.Length <= 2) return points;
 
-        (Vector2 A, Vector2 B)[] segments = new (Vector2 A, Vector2 B)[points.Length];
+        Vector2[] newPoints = new Vector2[points.Length - 1];
 
         // Expand each line segment by the given amount
         for (int i = 0; i < points.Length - 1; i++)
         {
             Vector2 p1 = points[i], p2 = points[i + 1];
             Vector2 rotation = amount.ToVector2().Rotated(p2.AngleToPoint(p1));
-            segments[i] = (p1 + rotation, p2 + rotation);
-        }
-        segments[^1] = (points[^1], points[^1]);
-
-        // Find the new points by finding intersections between expanded points
-        Vector2[] newPoints = new Vector2[segments.Length];
-        newPoints[0] = segments[0].A;
-        for (int i = 0; i < segments.Length - 1; i++)
-        {
-            var (a1, a2) = segments[i];
-            var (b1, b2) = segments[i + 1];
-            var aDir = a1.DirectionTo(a2);
-            var bDir = b1.DirectionTo(b2);
-            var intersection = a2.Intersect(aDir, b1, bDir);
-            newPoints[i + 1] = intersection;
+            newPoints[i] = p1 + rotation;
         }
 
-        // Handle closed shapes
         if (isClosed)
-        {
-            var aDir = newPoints[0].DirectionTo(newPoints[1]);
-            var bDir = newPoints[^1].DirectionTo(newPoints[^2]);
-            var intersection = newPoints[0].Intersect(aDir, newPoints[^1], bDir);
-            newPoints[0] = intersection;
-            newPoints[^1] = intersection;
-        }
+            newPoints = [.. newPoints, newPoints[0]];
 
         return newPoints;
     }
+
+    public static string ToPrecisionString(this Vector2 point, int precision = 2) => $"({point.X.ToPrecisionString(precision)}, {point.Y.ToPrecisionString(precision)})";
+
+    public static Vector2 Midpoint(this Vector2 p1, Vector2 p2) => p1 + (p2 - p1) / 2;
+
+    public static Vector2 GetNormal(this Vector2 prev, Vector2 next) => new Vector2(-(next.Y - prev.Y), next.X - prev.X).Normalized();
+
 }

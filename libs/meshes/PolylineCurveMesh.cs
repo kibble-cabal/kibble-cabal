@@ -1,21 +1,15 @@
-using System.Linq;
 using Godot;
-
-#nullable enable
 
 [Tool]
 [GlobalClass]
 public partial class PolylineCurveMesh : PolylineMeshBase
 {
-    /* Private variables */
-    protected Curve2D? Curve;
-    protected int TessellationStages = 3;
-    protected float TessellationToleranceDegrees = 4;
-
-    /* Public variables */
+    private int TessellationStages = 3;
+    private float TessellationToleranceDegrees = 4;
+    private Curve2D Curve;
 
     [Export]
-    private Curve2D? curve
+    public Curve2D curve
     {
         get => Curve;
         set
@@ -28,7 +22,7 @@ public partial class PolylineCurveMesh : PolylineMeshBase
     }
 
     [Export]
-    private int tessellation_stages
+    public int tessellation_stages
     {
         get => TessellationStages;
         set
@@ -39,7 +33,7 @@ public partial class PolylineCurveMesh : PolylineMeshBase
     }
 
     [Export]
-    private float tessellation_tolerance_degrees
+    public float tessellation_tolerance_degrees
     {
         get => TessellationToleranceDegrees;
         set
@@ -49,20 +43,7 @@ public partial class PolylineCurveMesh : PolylineMeshBase
         }
     }
 
-    public PolylineCurveMesh()
-    {
-        this.InternalMesh = new(GetComponents, this);
-    }
-
-    /* Private methods */
-
     protected void _Generate() => InternalMesh.Generate(this);
 
     protected override Vector2[] _BakePoints() => Curve?.Tessellate(TessellationStages, TessellationToleranceDegrees) ?? [];
-
-    protected override bool _CanBakePoints() => (
-        Curve != null
-        && Curve.PointCount >= 2
-        && Curve.GetPointPositions().All(point => point.IsFinite())
-    );
 }

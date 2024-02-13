@@ -337,13 +337,13 @@ public partial class Building : Resource
 
     public Vector2[] get_floor_point_positions(int index) => GetFloor(index)?.GetPointPositions() ?? [];
 
-    public CompoundMesh generate_mesh(int tessellation_stages, float tessellation_tolerance_degrees)
+    public CompoundMesh generate_mesh()
     {
         var mesh = new CompoundMesh();
         foreach (var wall in Walls.Where(wall => wall.IsValid()))
-            mesh.meshes.AddRange(wall.GenerateMeshes(this, tessellation_stages, tessellation_tolerance_degrees));
+            mesh.meshes.AddRange(wall.GenerateMeshes(this));
         foreach (var floor in Floors.Where(floor => floor.IsValid()))
-            mesh.meshes.Add(floor.GenerateMesh(tessellation_stages, tessellation_tolerance_degrees));
+            mesh.meshes.Add(floor.GenerateMesh(Wall.TessellationStages, Wall.TessellationToleranceDegrees));
         // Connect("changed", new Callable(mesh, "generate"));
         mesh.generate();
         return mesh;

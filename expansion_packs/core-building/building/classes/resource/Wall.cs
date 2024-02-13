@@ -5,14 +5,18 @@ using Godot;
 using Array = Godot.Collections.Array;
 using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
 
-public record Wall
+public record Wall : IEquatable<Wall>
 {
-    public Vector2 Start;
+    public const int TessellationStages = 3;
+    public const float TessellationToleranceDegrees = 3;
+
+    public Vector2 Start = Vector2.Inf;
     public Vector2 StartHandle = Vector2.Zero;
-    public Vector2 End;
+    public Vector2 End = Vector2.Inf;
     public Vector2 EndHandle = Vector2.Zero;
     public float Height = 2.0f;
     public float Thickness = 0.1f;
+    public MaterialMap Materials = [];
 
     public Wall(Vector2 aPosition, Vector2 startHandle, Vector2 bPosition, Vector2 endHandle)
     {
@@ -30,8 +34,6 @@ public record Wall
 
     public Wall() { }
 
-    public MaterialMap Materials = [];
-
     public StringName InteriorID
     {
         get => Materials.ContainsKey("interior") ? Materials["interior"] : new StringName();
@@ -43,6 +45,19 @@ public record Wall
         get => Materials.ContainsKey("exterior") ? Materials["exterior"] : new StringName();
         set => Materials["exterior"] = value;
     }
+
+    public virtual bool Equals(Wall other)
+    {
+        (Vector2 A, Vector2 B)[] pairs = [
+            (Start, other.Start),
+            (StartHandle, other.StartHandle),
+            (End, other.End),
+            (EndHandle, other.EndHandle)
+        ];
+        return pairs.All(pair => pair.A.IsEqualApprox(pair.B)) && Materials == other.Materials;
+    }
+
+    public override int GetHashCode() => Start.GetHashCode() ^ StartHandle.GetHashCode() ^ End.GetHashCode() ^ EndHandle.GetHashCode() ^ Materials.GetHashCode();
 
     private void AddPoints(Vector2[] points)
     {
@@ -57,7 +72,10 @@ public record Wall
 
     public bool IsValid() => Start.IsFinite() && End.IsFinite();
 
-    public Vector2[] Tessellate(int maxStages = 5, float tolerance = 4) => Tessellator.tessellate(Start, End, StartHandle, EndHandle, maxStages, tolerance);
+    public Vector2[] Tessellate(
+        int maxStages = TessellationStages,
+        float tolerance = TessellationToleranceDegrees
+    ) => Tessellator.tessellate(Start, End, StartHandle, EndHandle, maxStages, tolerance);
 
     public bool IsTouching(Wall other)
     {
@@ -82,8 +100,8 @@ public record Wall
         if (others.Length == 0) return null;
         var otherPoints = others[0].tessellate();
         if (otherPoints.Length < 2) return null;
-        if (position.DistanceTo(others[0].start).Abs() < F.AlmostZero) return otherPoints[^1];
-        if (position.DistanceTo(others[0].end).Abs() < F.AlmostZero) return otherPoints[1];
+        if (position.DistanceTo(otherPoints[0]).Abs() < F.AlmostZero) return otherPoints[1];
+        if (position.DistanceTo(otherPoints[^1]).Abs() < F.AlmostZero) return otherPoints[^2];
         return null;
     }
 
@@ -102,12 +120,13 @@ public record Wall
 
     private BaseMaterial3D MakeMaterial(float r, float g, float b) => new StandardMaterial3D { AlbedoColor = new Color(r, g, b) };
 
-    public ArrayMesh[] GenerateMeshes(Building building, int tessellationStages = 5, float tessellationTolerance = 4)
+    public ArrayMesh[] GenerateMeshes(Building building)
     {
         // TODO: Materials
-        var mesh = new ExtrudePointsMesh
+        GD.PrintS("Join Start:", GetJoin(building, Start), "Join End:", GetJoin(building, End));
+        var mesh = new PolylinePointsMesh()
         {
-            points = Tessellate(tessellationStages, tessellationTolerance),
+            points = Tessellate(),
             extrude_thickness = Thickness,
             extrude_height = Height,
             render_bottom = false,
@@ -117,7 +136,7 @@ public record Wall
                 MakeMaterial(1, 0, 0),
                 MakeMaterial(1, 1, 0),
                 MakeMaterial(0, 0, 1),
-            ]
+            ],
         };
         return [mesh];
     }
