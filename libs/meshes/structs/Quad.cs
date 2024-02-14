@@ -5,7 +5,7 @@ using Godot;
 
 public struct Quad2D : IMeshComponent
 {
-    public const float MiterLimit = 2;
+    public const float MiterLimit = 0.5f;
 
     public bool Invert { get; set; }
     public int Surface { get; set; }
@@ -126,9 +126,9 @@ public struct Quad2D : IMeshComponent
             i += 1;
         }
 
-        if (results.Length < 2) return;
+        results = [.. results, quads[^1]];
 
-        if (isClosed)
+        if (results.Length >= 2 && isClosed)
         {
             if (!Join(ref results[^1], ref results[0]))
             {
@@ -137,11 +137,6 @@ public struct Quad2D : IMeshComponent
                 Join(ref bevel, ref results[0]);
                 results = [.. results, bevel];
             }
-        }
-        else
-        {
-            results = [.. results, quads[^1]];
-            // Join(ref results[^2], ref results[^1]);
         }
 
         quads = results;

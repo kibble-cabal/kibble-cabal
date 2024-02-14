@@ -13,18 +13,11 @@ public struct Line : IMeshComponent
     public Vector3 ExtrudeDirection;
     public float ExtrudeAmount;
     public Transform3D CustomTransform;
-    // public int[]? Surfaces;
 
     public Vector2? JoinStart;
     public Vector2? JoinEnd;
 
-    public bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
-
-    public Line OffsetBy(float amount)
-    {
-        Points = Points.OffsetBy(amount, IsClosed());
-        return this;
-    }
+    public bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]) && JoinStart == null && JoinEnd == null;
 
     public Vector2[] GetFlatInnerPolygon()
     {
@@ -79,40 +72,24 @@ public struct Line : IMeshComponent
         };
     }
 
-    public Vector2[] GetPoints()
-    {
-        var points = Points;
-        if (JoinStart is Vector2 joinStart) points = [joinStart, .. points];
-        if (JoinEnd is Vector2 joinEnd) points = [.. points, joinEnd];
-        return points;
-    }
-
     public Quad2D[] GetQuads()
     {
-        var points = Points;
-        if (points.Length <= 1) return [];
-        Quad2D[] quads = new Quad2D[points.Length - 1];
+        if (Points.Length <= 1) return [];
+        Quad2D[] quads = new Quad2D[Points.Length - 1];
         float offsetFromLineStart = 0.0f;
-        for (int i = 0; i < points.Length - 1; i++)
+        for (int i = 0; i < Points.Length - 1; i++)
         {
-            Vector2 p1 = points[i], p2 = points[i + 1];
+            Vector2 p1 = Points[i], p2 = Points[i + 1];
             quads[i] = GetQuad(p1, p2, offsetFromLineStart);
             offsetFromLineStart += quads[i].Length;
         }
 
         Quad2D.Joined(ref quads, IsClosed());
 
-        // if (quads.Length > 0 && JoinStart != null)
-        //     quads = quads.Skip(1).ToArray();
-
-        // if (quads.Length > 0 && JoinEnd != null)
-        //     quads = quads.SkipLast(1).ToArray();
-
-        if (quads.Length > 0 && JoinStart is Vector2 joinStart)
-            Quad2D.SimulateJoinStart(ref quads, GetQuad(joinStart, points[0], 0));
-
-        if (quads.Length > 0 && JoinEnd is Vector2 joinEnd)
-            Quad2D.SimulateJoinEnd(ref quads, GetQuad(joinEnd, points[^1], 0));
+        if (JoinStart is Vector2 joinStart)
+            Quad2D.SimulateJoinStart(ref quads, GetQuad(joinStart, Points[0], 0));
+        if (JoinEnd is Vector2 joinEnd)
+            Quad2D.SimulateJoinEnd(ref quads, GetQuad(Points[^1], joinEnd, offsetFromLineStart));
 
         return quads;
     }
@@ -127,11 +104,6 @@ public struct Line : IMeshComponent
             var tris = quads[i].GetTriangles();
             triangles[i * 2] = tris[0] * CustomTransform.AffineInverse();
             triangles[i * 2 + 1] = tris[1] * CustomTransform.AffineInverse();
-            // if (Surfaces is int[] surfaces)
-            // {
-            //     triangles[i * 2].Surface = surfaces[i];
-            //     triangles[i * 2 + 1].Surface = surfaces[i];
-            // }
         }
         return triangles;
     }

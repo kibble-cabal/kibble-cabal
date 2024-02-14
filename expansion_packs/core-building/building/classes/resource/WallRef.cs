@@ -62,8 +62,6 @@ public partial class WallRef(Building Building, int Index) : RefCounted
         return $"Wall[start: {start}, end: {end}]";
     }
 
-    public Vector2[] tessellate(int max_stages = Wall.TessellationStages, float tolerance_degrees = Wall.TessellationToleranceDegrees) => building.tessellate_wall(index, max_stages, tolerance_degrees);
-    public Vector2[] tessellate(int max_stages = Wall.TessellationStages) => building.tessellate_wall(index, max_stages);
     public Vector2[] tessellate() => building.tessellate_wall(index);
 
     public bool is_valid() => building.is_wall_valid(index);

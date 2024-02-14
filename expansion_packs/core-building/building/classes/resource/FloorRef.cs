@@ -35,8 +35,6 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
 
     public override string ToString() => $"Floor({polygon})";
 
-    public Vector2[] tessellate(bool closed, int max_stages, float tolerance_degrees) => building.tessellate_floor(index, closed, max_stages, tolerance_degrees);
-    public Vector2[] tessellate(bool closed, int max_stages) => building.tessellate_floor(index, closed, max_stages);
     public Vector2[] tessellate(bool closed) => building.tessellate_floor(index, closed);
 
     public bool is_valid() => building.is_floor_valid(index);

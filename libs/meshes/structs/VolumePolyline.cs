@@ -94,8 +94,8 @@ public struct VolumePolyline : IMeshComponent
         if (RenderEnds && !IsClosed())
             return [
                 ..components,
-                .. GetSideTriangles(outerLine.Points[0], innerLine.Points[0], true),
-                .. GetSideTriangles(outerLine.Points[^1], outerLine.Points[^1], false)
+                .. GetSideTriangles(outerLine.Points[0], innerLine.Points[0], false),
+                .. GetSideTriangles(outerLine.Points[^1], innerLine.Points[^1], true)
             ];
         return components;
     }

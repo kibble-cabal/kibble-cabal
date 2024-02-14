@@ -4,7 +4,7 @@ using Godot.Collections;
 using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
 
 
-public record Floor
+public record Floor : IGodotSerializable<Floor>
 {
     public Curve2D Polygon;
     public MaterialMap Materials = [];
@@ -27,7 +27,7 @@ public record Floor
 
     public void RemovePoint(int index) => Polygon.RemovePoint(index);
 
-    public Vector2[] Tessellate(bool closed = true, int maxStages = 5, float toleranceDegrees = 4)
+    public Vector2[] Tessellate(bool closed = true, int maxStages = Wall.TessellationStages, float toleranceDegrees = Wall.TessellationToleranceDegrees)
     {
         if (!closed) return Polygon.Tessellate(maxStages, toleranceDegrees);
         Array<Vector2> points = new(Polygon.Tessellate(maxStages, toleranceDegrees));
@@ -43,7 +43,7 @@ public record Floor
 
     public bool IsValid()
     {
-        if (Polygon.PointCount <= 2) return false;
+        if (Polygon == null || Polygon.PointCount <= 2) return false;
         return !Geometry2D.TriangulatePolygon(Tessellate()).IsEmpty();
     }
 
@@ -83,8 +83,8 @@ public record Floor
         return mesh;
     }
 
-    public Array ToData() => [Polygon, Materials];
-    public static Floor FromData(Array data)
+    public Array Serialize() => [Polygon, Materials];
+    public static Floor Deserialize(Array data)
     {
         Floor floor = new Floor(new Curve2D());
         if (data.Count >= 2)

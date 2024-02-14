@@ -5,6 +5,7 @@ using Godot.Collections;
 using Collections = System.Collections.Generic;
 using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
 
+#nullable enable
 
 [GlobalClass]
 public partial class Building : Resource
@@ -13,7 +14,7 @@ public partial class Building : Resource
 
     public Collections.List<Wall> Walls = [];
     public Collections.List<Floor> Floors = [];
-    private Callable ChangedCallable;
+    internal Callable ChangedCallable;
 
     Building()
     {
@@ -42,137 +43,59 @@ public partial class Building : Resource
 
     /* Private methods */
 
-    private Array GetWallData()
-    {
-        Array data = [];
-        foreach (var wall in Walls)
-            data.Add(wall.ToData());
-        return data;
-    }
+    private Array GetWallData() => Walls.Select(wall => (Variant)wall.Serialize()).ToGodotArray();
 
     private void SetWallData(Array value)
     {
         Walls.Clear();
-        for (var i = 0; i < value.Count; i++)
-            Walls.Add(Wall.FromData(value[i].As<Array>()));
+        foreach (var val in value) Walls.Add(Wall.Deserialize(val.As<Array>()));
     }
 
-    private Array GetFloorData()
-    {
-        Array data = [];
-        foreach (var floor in Floors)
-            data.Add(floor.ToData());
-        return data;
-    }
+    private Array GetFloorData() => Floors.Select(floor => (Variant)floor.Serialize()).ToGodotArray();
 
     private void SetFloorData(Array value)
     {
         Floors.Clear();
-        for (var i = 0; i < value.Count; i++)
-            Floors.Add(Floor.FromData(value[i].As<Array>()));
-        foreach (var floor in Floors)
-            floor.Polygon.Connect("changed", ChangedCallable);
+        foreach (var val in value) Floors.Add(Floor.Deserialize(val.As<Array>()));
+        foreach (var floor in Floors) floor.Polygon.TryConnectChanged(ChangedCallable);
     }
 
-    private Wall GetWall(int index) => has_wall(index) ? Walls[index] : null;
-    private Floor GetFloor(int index) => has_floor(index) ? Floors[index] : null;
+    /* Public wall methods */
 
-    private void TryConnectChanged(Resource resource)
-    {
-        if (!resource.IsConnected("changed", ChangedCallable))
-            resource.Connect("changed", ChangedCallable);
-    }
+    public WallRef? get_wall(int index) => this.GetWallRef(index);
+    public void remove_invalid_walls() => this.RemoveInvalidWalls();
+    public bool has_wall(int index) => this.HasWall(index);
+    public bool is_wall_valid(int index) => this.IsWallValid(index);
+    public int add_wall() => this.AddWall(Vector2.Inf, Vector2.Inf);
+    public int add_wall(Vector2 start, Vector2 end) => this.AddWall(start, end);
+    public int add_wall(Vector2 start, Vector2 start_handle, Vector2 end, Vector2 end_handle) => this.AddWall(start, start_handle, end, end_handle);
+    public Vector2 get_wall_start(int index) => this.GetWallStart(index);
+    public Vector2 get_wall_end(int index) => this.GetWallEnd(index);
+    public Vector2 get_wall_start_handle(int index) => this.GetWallStartHandle(index);
+    public Vector2 get_wall_end_handle(int index) => this.GetWallEndHandle(index);
+    public void set_wall_positions(int index, Vector2 start, Vector2 end) => this.SetWallPositions(index, start, end);
+    public void set_wall_handles(int index, Vector2 start_handle, Vector2 end_handle) => this.SetWallHandles(index, start_handle, end_handle);
+    public void set_wall(int index, Vector2 start, Vector2 start_handle, Vector2 end, Vector2 end_handle) => this.SetWall(index, start, start_handle, end, end_handle);
+    public void set_wall_start(int index, Vector2 position) => this.SetWallStart(index, position);
+    public void set_wall_end(int index, Vector2 position) => this.SetWallEnd(index, position);
+    public void set_wall_start_handle(int index, Vector2 position) => this.SetWallStartHandle(index, position);
+    public void set_wall_end_handle(int index, Vector2 position) => this.SetWallEndHandle(index, position);
 
-    /* Public methods */
+    /* Public floor methods */
 
-    public WallRef get_wall(int index) => new(this, index);
-    public FloorRef get_floor(int index) => new(this, index);
-
-    /// <summary>
-    /// Removes all invalid walls from this building. See <see cref="Wall.IsValid"/> 
-    /// </summary>
-    public void remove_invalid_walls()
-    {
-        for (var i = Walls.Count - 1; i >= 0; i--)
-            if (!Walls[i].IsValid()) remove_wall(i);
-    }
-
-    public void remove_invalid_floors()
-    {
-        for (var i = Floors.Count - 1; i >= 0; i--)
-            if (!Floors[i].IsValid()) remove_floor(i);
-    }
-
-    public bool has_wall(int index) => index >= 0 && Walls.Count > index;
-    public bool has_floor(int index) => index >= 0 && Floors.Count > index;
-    public bool is_wall_valid(int index) => GetWall(index)?.IsValid() ?? false;
-    public bool is_floor_valid(int index) => GetFloor(index)?.IsValid() ?? false;
-
-    public int add_wall() => add_wall(Vector2.Inf, Vector2.Inf);
-    public int add_wall(Vector2 a_position, Vector2 b_position)
-    {
-        Walls.Add(new Wall(a_position, b_position));
-        EmitChanged();
-        return Walls.Count - 1;
-    }
-
-    public int add_floor() => add_floor(new Curve2D());
-    public int add_floor(Curve2D polygon)
-    {
-        Floors.Add(new Floor(polygon));
-        TryConnectChanged(polygon);
-        EmitChanged();
-        return Floors.Count - 1;
-    }
-
-    public void set_wall_positions(int index, Vector2 a_position, Vector2 b_position)
-    {
-        set_wall_start(index, a_position);
-        set_wall_end(index, b_position);
-    }
-
-    public void set_wall_handles(int index, Vector2 start_handle, Vector2 end_handle)
-    {
-        set_wall_start_handle(index, start_handle);
-        set_wall_end_handle(index, end_handle);
-    }
-
-    public void set_wall(int index, Vector2 a_position, Vector2 start_handle, Vector2 b_position, Vector2 end_handle)
-    {
-        set_wall_positions(index, a_position, b_position);
-        set_wall_handles(index, start_handle, end_handle);
-    }
-
-    public void set_wall_start(int index, Vector2 position)
-    {
-        if (has_wall(index)) Walls[index].Start = position;
-        EmitChanged();
-    }
-
-    public void set_wall_end(int index, Vector2 position)
-    {
-        if (has_wall(index)) Walls[index].End = position;
-        EmitChanged();
-    }
-
-    public void set_wall_start_handle(int index, Vector2 position)
-    {
-        if (has_wall(index)) Walls[index].StartHandle = position;
-        EmitChanged();
-    }
-
-    public void set_wall_end_handle(int index, Vector2 position)
-    {
-        if (has_wall(index)) Walls[index].EndHandle = position;
-        EmitChanged();
-    }
+    public FloorRef? get_floor(int index) => this.GetFloorRef(index);
+    public void remove_invalid_floors() => this.RemoveInvalidFloors();
+    public bool has_floor(int index) => this.HasFloor(index);
+    public bool is_floor_valid(int index) => this.IsFloorValid(index);
+    public int add_floor() => this.AddFloor(new Curve2D());
+    public int add_floor(Curve2D polygon) => this.AddFloor(polygon);
 
     public void set_floor_polygon(int index, Curve2D polygon)
     {
         if (has_floor(index))
         {
             Floors[index].Polygon = polygon;
-            TryConnectChanged(polygon);
+            polygon.TryConnectChanged(ChangedCallable);
             EmitChanged();
         }
     }
@@ -191,7 +114,7 @@ public partial class Building : Resource
         EmitChanged();
     }
 
-    public MaterialMap get_wall_materials(int index) => GetWall(index)?.Materials ?? new MaterialMap();
+    public MaterialMap get_wall_materials(int index) => this.GetWall(index)?.Materials ?? new MaterialMap();
 
     public StringName get_wall_material_id(int index, StringName material_name)
     {
@@ -202,7 +125,7 @@ public partial class Building : Resource
     public StringName get_wall_interior_id(int index) => get_wall_material_id(index, "interior");
     public StringName get_wall_exterior_id(int index) => get_wall_material_id(index, "exterior");
 
-    public MaterialMap get_floor_materials(int index) => GetFloor(index)?.Materials ?? new MaterialMap();
+    public MaterialMap get_floor_materials(int index) => this.GetFloor(index)?.Materials ?? new MaterialMap();
     public StringName get_floor_material_id(int index, StringName material_name)
     {
         if (has_floor(index) && Floors[index].Materials.ContainsKey(material_name)) return Floors[index].Materials[material_name];
@@ -240,28 +163,19 @@ public partial class Building : Resource
 
     public void set_floor_id(int index, StringName id) => set_floor_material_id(index, "floor", id);
 
-    public Vector2 get_wall_start(int index) => GetWall(index)?.Start ?? Vector2.Inf;
-    public Vector2 get_wall_end(int index) => GetWall(index)?.End ?? Vector2.Inf;
-    public Vector2 get_wall_start_handle(int index) => GetWall(index)?.StartHandle ?? Vector2.Inf;
-    public Vector2 get_wall_end_handle(int index) => GetWall(index)?.EndHandle ?? Vector2.Inf;
+    public Curve2D? get_floor_polygon(int index) => this.GetFloor(index)?.Polygon;
 
-    public Curve2D get_floor_polygon(int index) => GetFloor(index)?.Polygon;
-
-    public Vector2[] tessellate_wall(int index) => tessellate_wall(index, 5, 4);
-    public Vector2[] tessellate_wall(int index, int max_stages) => tessellate_wall(index, max_stages, 4);
-    public Vector2[] tessellate_wall(int index, int max_stages, float tolerance_degrees) => GetWall(index)?.Tessellate(max_stages, tolerance_degrees) ?? [];
-
-    public Vector2[] tessellate_floor(int index, bool closed) => tessellate_floor(index, closed, 5, 4);
-    public Vector2[] tessellate_floor(int index, bool closed, int max_stages) => tessellate_floor(index, closed, max_stages, 4);
-    public Vector2[] tessellate_floor(int index, bool closed, int max_stages, float tolerance_degrees) => GetFloor(index)?.Tessellate(closed, max_stages, tolerance_degrees) ?? [];
+    public Vector2[] tessellate_wall(int index) => this.GetWall(index)?.Tessellate() ?? [];
+    public Vector2[] tessellate_floor(int index, bool closed) => this.GetFloor(index)?.Tessellate(closed) ?? [];
 
     public Vector2 snap_to_wall(int index, Vector2 position, float threshold) => position.Snap(
-        GetWall(index)?.Snap(position) ?? position,
+        this.GetWall(index)?.Snap(position) ?? position,
         threshold
     );
+
     public Vector2 snap_to_wall(int index, Vector2 position) => snap_to_wall(index, position, -1);
     public Vector2 snap_to_wall_surface(int index, Vector2 position, float threshold) => position.Snap(
-        GetWall(index)?.SnapToSurface(position) ?? position,
+        this.GetWall(index)?.SnapToSurface(position) ?? position,
         threshold
     );
     public Vector2 snap_to_wall_surface(int index, Vector2 position) => snap_to_wall_surface(index, position, -1);
@@ -286,12 +200,12 @@ public partial class Building : Resource
     public Vector2 snap_to_walls_surface(Vector2 position) => snap_to_walls_surface(position, -1);
 
     public Vector2 snap_to_floor(int index, Vector2 position, float threshold) => position.Snap(
-        GetFloor(index)?.Snap(position) ?? position,
+        this.GetFloor(index)?.Snap(position) ?? position,
         threshold
     );
     public Vector2 snap_to_floor(int index, Vector2 position) => snap_to_floor(index, position, -1);
     public Vector2 snap_to_floor_surface(int index, Vector2 position, float threshold) => position.Snap(
-        GetFloor(index)?.SnapToSurface(position) ?? position,
+        this.GetFloor(index)?.SnapToSurface(position) ?? position,
         threshold
     );
     public Vector2 snap_to_floor_surface(int index, Vector2 position) => snap_to_floor_surface(index, position, -1);
@@ -332,18 +246,20 @@ public partial class Building : Resource
     );
     public Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 
-    public bool are_walls_touching(int a, int b) => has_wall(a) && has_wall(b) ? GetWall(a).IsTouching(GetWall(b)) : false;
-    public bool are_floors_touching(int a, int b, float threshold) => has_floor(a) && has_floor(b) ? GetFloor(a).IsTouching(GetFloor(b), threshold) : false;
+    public bool are_walls_touching(int a, int b) => this.GetWall(a)?.IsTouching(this.GetWall(b)) ?? false;
+    public bool are_floors_touching(int a, int b, float threshold) => this.GetFloor(a)?.IsTouching(this.GetFloor(b), threshold) ?? false;
 
-    public Vector2[] get_floor_point_positions(int index) => GetFloor(index)?.GetPointPositions() ?? [];
+    public Vector2[] get_floor_point_positions(int index) => this.GetFloor(index)?.GetPointPositions() ?? [];
 
     public CompoundMesh generate_mesh()
     {
-        var mesh = new CompoundMesh();
-        foreach (var wall in Walls.Where(wall => wall.IsValid()))
-            mesh.meshes.AddRange(wall.GenerateMeshes(this));
-        foreach (var floor in Floors.Where(floor => floor.IsValid()))
-            mesh.meshes.Add(floor.GenerateMesh(Wall.TessellationStages, Wall.TessellationToleranceDegrees));
+        var mesh = new CompoundMesh()
+        {
+            meshes = [
+                ..Walls.Where(wall => wall.IsValid()).SelectMany(wall => wall.GenerateMeshes(this)),
+                ..Floors.Where(floor => floor.IsValid()).Select(floor => floor.GenerateMesh(Wall.TessellationStages, Wall.TessellationToleranceDegrees))
+            ]
+        };
         // Connect("changed", new Callable(mesh, "generate"));
         mesh.generate();
         return mesh;
@@ -351,14 +267,14 @@ public partial class Building : Resource
 
     public int[] get_walls_touching(int wall_index)
     {
-        Wall currentWall = GetWall(wall_index);
+        Wall? currentWall = this.GetWall(wall_index);
         if (currentWall == null) return [];
-        return Walls.Select((wall, index) => wall.IsTouching(currentWall) ? index : -1).Where(index => index != -1).ToArray();
+        return Walls.Select((wall, index) => wall.IsTouching(currentWall) ? index : -1).Where(index => index != -1 && index != wall_index).ToArray();
     }
 
     public int[] get_floors_touching(int floor_index, float threshold)
     {
-        Floor currentFloor = GetFloor(floor_index);
+        Floor? currentFloor = this.GetFloor(floor_index);
         if (currentFloor == null) return [];
         return Floors.Select((floor, index) => currentFloor.IsTouching(floor, threshold) ? index : -1).Where(index => index != -1).ToArray();
     }
