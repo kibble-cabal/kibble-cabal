@@ -91,7 +91,8 @@ func _process(_delta: float) -> void:
 
 
 func _pan(direction: Vector2) -> void:
-	target_position = global_position + (-Vec3.from(direction.normalized()) * 0.5 * sensitivity) * Transform3D.IDENTITY.rotated(Vector3.MODEL_TOP, rotation.y).affine_inverse()
+	var s = lerpf(0.25, 1.0, target_zoom / 40)
+	target_position = global_position + (-Vec3.from(direction.normalized()) * 0.5 * sensitivity * s) * Transform3D.IDENTITY.rotated(Vector3.MODEL_TOP, rotation.y).affine_inverse()
 
 
 func _rotate(direction: Vector2) -> void:
