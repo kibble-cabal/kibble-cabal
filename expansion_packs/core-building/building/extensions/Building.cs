@@ -171,7 +171,7 @@ internal static class BuildingFloorExtensions
     /// </summary>
     static internal void RemoveInvalidFloors(this Building building) => building.Floors.RemoveAll(floor => !floor.IsValid());
 
-    static internal bool IsFloorValid(this Building building, int index) => building.GetWall(index)?.IsValid() ?? false;
+    static internal bool IsFloorValid(this Building building, int index) => building.GetFloor(index)?.IsValid() ?? false;
 
     static internal int AddFloor(this Building building, Curve2D polygon)
     {

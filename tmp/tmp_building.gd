@@ -163,6 +163,7 @@ func _draw_floors() -> void:
 		if floor.point_count < 2: continue
 		var polygon: PackedVector2Array = floor.tessellate()
 		for p in range(polygon.size()): polygon[p] *= 600
+		if polygon.size() <= 2: continue
 		if building.is_floor_valid(i):
 			draw_colored_polygon(polygon, fill_color)
 		else:

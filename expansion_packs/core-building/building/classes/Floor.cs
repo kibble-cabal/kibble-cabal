@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 using Godot.Collections;
@@ -39,6 +40,13 @@ public record Floor : IGodotSerializable<Floor>
                 Polygon.GetPointIn(0)
             )];
         return points;
+    }
+
+    public Vector2[] Triangulate()
+    {
+        var points = Tessellate();
+        if (points.Length >= 2) return Geometry2D.TriangulatePolygon(points).Select(i => points[i]).ToArray();
+        return [];
     }
 
     public bool IsValid()
