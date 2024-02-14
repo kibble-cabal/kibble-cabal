@@ -10,70 +10,68 @@ using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringN
 [GlobalClass]
 public partial class WallRef(Building Building, int Index) : RefCounted
 {
-    public Building building => Building;
-    public int index => Index;
+    internal Building building => Building;
+    internal int index => Index;
 
-    public Vector2 start
+    private Vector2 start
     {
-        get => building.get_wall_start(index);
-        set => building.set_wall_start(index, value);
+        get => building.GetWallStart(index);
+        set => building.SetWallStart(index, value);
     }
 
-    public Vector2 end
+    private Vector2 end
     {
-        get => building.get_wall_end(index);
-        set => building.set_wall_end(index, value);
+        get => building.GetWallEnd(index);
+        set => building.SetWallEnd(index, value);
     }
 
-    public Vector2 start_handle
+    private Vector2 start_handle
     {
-        get => building.get_wall_start_handle(index);
-        set => building.set_wall_start_handle(index, value);
+        get => building.GetWallStartHandle(index);
+        set => building.SetWallStartHandle(index, value);
     }
 
-    public Vector2 end_handle
+    private Vector2 end_handle
     {
-        get => building.get_wall_end_handle(index);
-        set => building.set_wall_end_handle(index, value);
+        get => building.GetWallEndHandle(index);
+        set => building.SetWallEndHandle(index, value);
     }
 
-    public MaterialMap materials
+    private MaterialMap materials
     {
-        get => building.get_wall_materials(index);
-        set => building.set_wall_materials(index, value);
+        get => building.GetWallMaterials(index);
+        set => building.SetWallMaterials(index, value);
     }
 
-    public StringName interior_id
+    private StringName interior_id
     {
-        get => building.get_wall_interior_id(index);
-        set => building.set_wall_interior_id(index, value);
+        get => building.GetWallInteriorID(index);
+        set => building.SetWallInteriorID(index, value);
     }
 
-    public StringName exterior_id
+    private StringName exterior_id
     {
-        get => building.get_wall_exterior_id(index);
-        set => building.set_wall_exterior_id(index, value);
+        get => building.GetWallExteriorID(index);
+        set => building.SetWallExteriorID(index, value);
     }
 
     public override string ToString()
     {
-        if (start_handle.IsFinite() || end_handle.IsFinite())
-            return $"Wall[start: {start}, end: {end}, start_handle: {start_handle}, end_handle: {end_handle}]";
-        return $"Wall[start: {start}, end: {end}]";
+        if (start_handle.IsZeroApprox() && end_handle.IsZeroApprox()) return $"Wall {{ start: {start}, end: {end} }}";
+        return $"Wall {{ start: {start}, end: {end}, start_handle: {start_handle}, end_handle: {end_handle} }}";
     }
 
-    public Vector2[] tessellate() => building.tessellate_wall(index);
+    private Vector2[] tessellate() => building.TessellateWall(index);
 
-    public bool is_valid() => building.is_wall_valid(index);
-    public bool has_start() => start.IsFinite();
-    public bool has_end() => end.IsFinite();
+    private bool is_valid() => building.IsWallValid(index);
+    private bool has_start() => start.IsFinite();
+    private bool has_end() => end.IsFinite();
 
-    public bool is_touching(int other) => building.are_walls_touching(index, other);
-    public bool is_touching(WallRef other) => building.are_walls_touching(index, other.index);
+    private bool is_touching(int other) => building.AreWallsTouching(index, other);
 
-    public Vector2 snap(Vector2 position, float threshold) => building.snap_to_wall(index, position, threshold);
-    public Vector2 snap(Vector2 position) => snap(position, -1);
+    private Vector2 snap(Vector2 position, float threshold) => building.SnapToWall(index, position, threshold);
+    private Vector2 snap(Vector2 position) => snap(position, -1);
 
-    public Vector2 snap_to_surface(Vector2 position, float threshold) => building.snap_to_wall_surface(index, position, threshold);
-    public Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
+    private Vector2 snap_to_surface(Vector2 position, float threshold) => building.SnapToWallSurface(index, position, threshold);
+    private Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 }

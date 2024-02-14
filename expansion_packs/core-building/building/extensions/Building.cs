@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
+
+using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
 
 #nullable enable
 
@@ -76,6 +79,80 @@ internal static class BuildingWallExtensions
         building.EmitChanged();
     }
 
+    static internal void RemoveWall(this Building building, int index)
+    {
+        if (!building.HasWall(index)) return;
+        building.Walls.RemoveAt(index);
+        building.EmitChanged();
+    }
+
+    static internal MaterialMap GetWallMaterials(this Building building, int index) => building.GetWall(index)?.Materials ?? new MaterialMap();
+    static internal void SetWallMaterials(this Building building, int index, MaterialMap value)
+    {
+        if (building.HasWall(index)) building.Walls[index].Materials = value;
+        building.EmitChanged();
+    }
+
+    static internal StringName? GetWallMaterialID(this Building building, int index, StringName materialName)
+    {
+        if (building.GetWall(index)?.Materials.ContainsKey(materialName) ?? false) return building.Walls[index].Materials[materialName];
+        return null;
+    }
+    static internal void SetWallMaterialID(this Building building, int index, StringName materialName, StringName id)
+    {
+        if (building.HasWall(index)) building.Walls[index].Materials[materialName] = id;
+        building.EmitChanged();
+    }
+
+    static internal StringName? GetWallInteriorID(this Building building, int index) => building.GetWallMaterialID(index, "interior");
+    static internal void SetWallInteriorID(this Building building, int index, StringName id) => building.SetWallMaterialID(index, "interior", id);
+
+    static internal StringName? GetWallExteriorID(this Building building, int index) => building.GetWallMaterialID(index, "exterior");
+    static internal void SetWallExteriorID(this Building building, int index, StringName id) => building.SetWallMaterialID(index, "exterior", id);
+
+    static internal Vector2[] TessellateWall(this Building building, int index) => building.GetWall(index)?.Tessellate() ?? [];
+
+    static internal Vector2 SnapToWall(this Building building, int index, Vector2 position, float threshold = -1) => position.Snap(
+        building.GetWall(index)?.Snap(position) ?? position,
+        threshold
+    );
+
+    static internal Vector2 SnapToWallSurface(this Building building, int index, Vector2 position, float threshold = -1) => position.Snap(
+        building.GetWall(index)?.SnapToSurface(position) ?? position,
+        threshold
+    );
+
+    /// <summary>
+    /// Returns a new position, snapped to the nearest wall point, if the distance is below threshold.
+    /// </summary>
+    static internal Vector2 SnapToWalls(this Building building, Vector2 position, float threshold = -1)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var wall in building.Walls)
+            closestPoint = position.Closest(closestPoint, wall.Snap(position));
+        return position.Snap(closestPoint, threshold);
+    }
+
+    static internal Vector2 SnapToWallsSurface(this Building building, Vector2 position, float threshold = -1)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var wall in building.Walls)
+            closestPoint = position.Closest(closestPoint, wall.SnapToSurface(position));
+        return position.Snap(closestPoint, threshold);
+    }
+
+    static internal bool AreWallsTouching(this Building building, int indexA, int indexB) => building.GetWall(indexA)?.IsTouching(building.GetWall(indexB)) ?? false;
+
+    static internal IEnumerable<Wall> GetWallsTouching(this Building building, Wall? wall) => wall == null ? [] : building.Walls
+        .Where(currentWall => currentWall != wall && currentWall.IsValid())
+        .Select(currentWall => wall.IsTouching(currentWall) ? currentWall : null)
+        .WhereNotNull();
+
+    static internal IEnumerable<int> GetWallIndicesTouching(this Building building, Wall? wall) => building
+        .GetWallsTouching(wall)
+        .Select(currentWall => currentWall.GetIndex(building));
+
+    static internal IEnumerable<int> GetWallIndicesTouching(this Building building, int index) => building.GetWallIndicesTouching(building.GetWall(index));
 }
 
 /// <summary>
@@ -102,5 +179,123 @@ internal static class BuildingFloorExtensions
         polygon.TryConnectChanged(building.ChangedCallable);
         building.EmitChanged();
         return building.Floors.Count - 1;
+    }
+
+    static internal void SetFloorPolygon(this Building building, int index, Curve2D polygon)
+    {
+        if (building.HasFloor(index))
+        {
+            building.Floors[index].Polygon = polygon;
+            polygon.TryConnectChanged(building.ChangedCallable);
+            building.EmitChanged();
+        }
+    }
+
+    static internal void RemoveFloor(this Building building, int index)
+    {
+        if (!building.HasFloor(index)) return;
+        building.Floors.RemoveAt(index);
+        building.EmitChanged();
+    }
+
+    static internal MaterialMap GetFloorMaterials(this Building building, int index) => building.GetFloor(index)?.Materials ?? new MaterialMap();
+    static internal StringName GetFloorMaterialID(this Building building, int index, StringName materialName)
+    {
+        if (building.HasFloor(index) && building.Floors[index].Materials.ContainsKey(materialName)) return building.Floors[index].Materials[materialName];
+        return new StringName();
+    }
+
+    static internal StringName GetFloorID(this Building building, int index) => building.GetFloorMaterialID(index, "floor");
+
+    static internal void SetFloorMaterials(this Building building, int index, MaterialMap value)
+    {
+        if (building.HasFloor(index)) building.Floors[index].Materials = value;
+        building.EmitChanged();
+    }
+
+    static internal void SetFloorMaterialID(this Building building, int index, StringName materialName, StringName id)
+    {
+        if (building.HasFloor(index)) building.Floors[index].Materials[materialName] = id;
+        building.EmitChanged();
+    }
+
+    static internal void SetFloorID(this Building building, int index, StringName id) => building.SetFloorMaterialID(index, "floor", id);
+
+    static internal Curve2D? GetFloorPolygon(this Building building, int index) => building.GetFloor(index)?.Polygon;
+
+    static internal Vector2[] TessellateFloor(this Building building, int index) => building.GetFloor(index)?.Tessellate() ?? [];
+
+    static internal bool AreFloorsTouching(this Building building, int a, int b, float threshold) => building.GetFloor(a)?.IsTouching(building.GetFloor(b), threshold) ?? false;
+
+    static internal int[] GetFloorsTouching(this Building building, int floorIndex, float threshold)
+    {
+        Floor? currentFloor = building.GetFloor(floorIndex);
+        if (currentFloor == null) return [];
+        return building.Floors.Select((floor, index) => currentFloor.IsTouching(floor, threshold) ? index : -1).Where(index => index != -1).ToArray();
+    }
+
+    static internal Vector2[] GetFloorPointPositions(this Building building, int index) => building.GetFloor(index)?.GetPointPositions() ?? [];
+
+    static internal Vector2 SnapToFloor(this Building building, int index, Vector2 position, float threshold = -1) => position.Snap(
+        building.GetFloor(index)?.Snap(position) ?? position,
+        threshold
+    );
+
+    static internal Vector2 SnapToFloorSurface(this Building building, int index, Vector2 position, float threshold = -1) => position.Snap(
+        building.GetFloor(index)?.SnapToSurface(position) ?? position,
+        threshold
+    );
+
+    /// <summary>
+    /// Returns a new position, snapped to the nearest floor point, if the distance is below threshold.
+    /// </summary>
+    static internal Vector2 SnapToFloors(this Building building, Vector2 position, float threshold = -1)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var floor in building.Floors)
+            closestPoint = position.Closest(closestPoint, floor.Snap(position));
+        return position.Snap(closestPoint, threshold);
+    }
+
+    static internal Vector2 SnapToFloorsSurface(this Building building, Vector2 position, float threshold = -1)
+    {
+        var closestPoint = Vector2.Inf;
+        foreach (var floor in building.Floors)
+            closestPoint = position.Closest(closestPoint, floor.SnapToSurface(position));
+        return position.Snap(closestPoint, threshold);
+    }
+}
+
+public static class BuildingExtensions
+{
+
+    static internal Vector2 Snap(this Building building, Vector2 position, float threshold = -1) => position.Snap(
+        position.Closest(
+            building.SnapToFloors(position),
+            building.SnapToWalls(position)
+        ),
+        threshold
+    );
+
+    static internal Vector2 SnapToSurface(this Building building, Vector2 position, float threshold = -1) => position.Snap(
+        position.Closest(
+            building.SnapToWallsSurface(position),
+            building.SnapToFloorsSurface(position)
+        ),
+        threshold
+    );
+
+    static internal CompoundMesh GenerateMesh(this Building building)
+    {
+        var mesh = new CompoundMesh()
+        {
+            meshes = [
+                ..building.Walls.Where(wall => wall.IsValid()).SelectMany(wall => wall.GenerateMeshes(building)),
+                ..building.Floors.Where(floor => floor.IsValid()).Select(floor => floor.GenerateMesh())
+            ]
+        };
+        // Connect("changed", new Callable(mesh, "generate"));
+        mesh.generate();
+        return mesh;
     }
 }

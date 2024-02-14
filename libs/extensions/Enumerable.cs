@@ -7,7 +7,7 @@ using Godot;
 
 public static class EnumerableExtensions
 {
-    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T> value) => value.Where(value => value != null);
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> value) => value.Where(value => value != null).Select<T?, T>(value => value!);
 
     public static T? Find<T>(this IEnumerable<T> value, Func<T, bool> predicate)
     {

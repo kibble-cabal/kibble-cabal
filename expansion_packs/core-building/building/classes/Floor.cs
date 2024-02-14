@@ -27,23 +27,23 @@ public record Floor : IGodotSerializable<Floor>
 
     public void RemovePoint(int index) => Polygon.RemovePoint(index);
 
-    public Vector2[] Tessellate(bool closed = true, int maxStages = Wall.TessellationStages, float toleranceDegrees = Wall.TessellationToleranceDegrees)
+    public Vector2[] Tessellate()
     {
-        if (!closed) return Polygon.Tessellate(maxStages, toleranceDegrees);
-        Array<Vector2> points = new(Polygon.Tessellate(maxStages, toleranceDegrees));
-        if (Polygon.PointCount >= 2 && points.Count > 0)
-        {
-            Vector2[] endPoints = Tessellator.tessellate(points[points.Count - 1], points[0], Polygon.GetPointOut(Polygon.PointCount - 1), Polygon.GetPointIn(0));
-            foreach (var point in endPoints) points.Add(point);
-        }
-        Vector2[] value = new Vector2[points.Count];
-        points.CopyTo(value, 0);
-        return value;
+        if (Polygon == null || Polygon.PointCount < 3) return [];
+        Vector2[] points = Polygon.Tessellate(Building.TessellationStages, Building.TessellationToleranceDegrees);
+        if (Polygon.PointCount >= 2 && points.Length > 0)
+            points = [.. points, .. Tessellator.tessellate(
+                points[^1],
+                points[0],
+                Polygon.GetPointOut(Polygon.PointCount - 1),
+                Polygon.GetPointIn(0)
+            )];
+        return points;
     }
 
     public bool IsValid()
     {
-        if (Polygon == null || Polygon.PointCount <= 2) return false;
+        if (Polygon == null || Polygon.PointCount < 3) return false;
         return !Geometry2D.TriangulatePolygon(Tessellate()).IsEmpty();
     }
 
@@ -71,16 +71,16 @@ public record Floor : IGodotSerializable<Floor>
     public Vector2 SnapToSurface(Vector2 position, float threshold) => position.Snap(ClosestPointOnSurface(position), threshold);
     public Vector2 SnapToSurface(Vector2 position) => SnapToSurface(position, -1);
 
-    public PolylineCurveMesh GenerateMesh(int tessellationStages = 5, float tessellationTolerance = 4)
+    public PolygonCurveMesh GenerateMesh()
     {
-        var mesh = new PolylineCurveMesh()
+        // TODO: Material
+        return new PolygonCurveMesh()
         {
             curve = Polygon,
-            tessellation_stages = tessellationStages,
-            tessellation_tolerance_degrees = tessellationTolerance
+            tessellation_stages = Building.TessellationStages,
+            tessellation_tolerance_degrees = Building.TessellationToleranceDegrees,
+            materials = [new StandardMaterial3D { AlbedoColor = new Color(1, 0, 1) }]
         };
-        // TODO: Material
-        return mesh;
     }
 
     public Array Serialize() => [Polygon, Materials];

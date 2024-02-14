@@ -16,7 +16,7 @@ public partial class PolygonCurveMesh : PolygonMeshBase
     /* Public variables */
 
     [Export]
-    private Curve2D? curve
+    public Curve2D? curve
     {
         get => Curve;
         set
@@ -29,7 +29,7 @@ public partial class PolygonCurveMesh : PolygonMeshBase
     }
 
     [Export]
-    private int tessellation_stages
+    public int tessellation_stages
     {
         get => TessellationStages;
         set
@@ -40,7 +40,7 @@ public partial class PolygonCurveMesh : PolygonMeshBase
     }
 
     [Export]
-    private float tessellation_tolerance_degrees
+    public float tessellation_tolerance_degrees
     {
         get => TessellationToleranceDegrees;
         set

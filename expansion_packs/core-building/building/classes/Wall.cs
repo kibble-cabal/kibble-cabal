@@ -8,9 +8,6 @@ using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringN
 
 public class Wall : IGodotSerializable<Wall>
 {
-    public const int TessellationStages = 3;
-    public const float TessellationToleranceDegrees = 3;
-
     public Vector2 Start = Vector2.Inf;
     public Vector2 StartHandle = Vector2.Zero;
     public Vector2 End = Vector2.Inf;
@@ -62,7 +59,7 @@ public class Wall : IGodotSerializable<Wall>
 
     public bool IsValid() => Start.IsFinite() && End.IsFinite() && StartHandle.IsFinite() && EndHandle.IsFinite();
 
-    public Vector2[] Tessellate() => Tessellator.tessellate(Start, End, StartHandle, EndHandle, TessellationStages, TessellationToleranceDegrees);
+    public Vector2[] Tessellate() => Tessellator.tessellate(Start, End, StartHandle, EndHandle, Building.TessellationStages, Building.TessellationToleranceDegrees);
 
     public bool IsTouching(Wall other)
     {
@@ -84,9 +81,9 @@ public class Wall : IGodotSerializable<Wall>
 
     public Vector2? GetJoin(Building building, Vector2 position)
     {
-        foreach (var other in GetTouching(building).Select(building.GetWallRef).WhereNotNull())
+        foreach (var other in GetTouching(building).Select(building.GetWall).WhereNotNull())
         {
-            var otherPoints = other.tessellate();
+            var otherPoints = other.Tessellate();
             if (otherPoints.Length < 2) continue;
             if (position.DistanceTo(otherPoints[0]).Abs() < F.AlmostZero) return otherPoints[1];
             if (position.DistanceTo(otherPoints[^1]).Abs() < F.AlmostZero) return otherPoints[^2];
