@@ -1,34 +1,39 @@
-[gd_scene load_steps=5 format=3 uid="uid://bnnl43wunaq72"]
+[gd_scene load_steps=3 format=3 uid="uid://bnnl43wunaq72"]
 
 [ext_resource type="Script" path="res://tmp/tmp_building.gd" id="1_rjj5v"]
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/classes/resource/Building.cs" id="2_s5113"]
 [ext_resource type="PackedScene" uid="uid://5moays1owh0u" path="res://tmp/tmp_building_mesh.tscn" id="3_qymvq"]
-
-[sub_resource type="Resource" id="Resource_byl74"]
-script = ExtResource("2_s5113")
-wall_data = null
-floor_data = null
 
 [node name="Node" type="Node2D"]
 script = ExtResource("1_rjj5v")
-building = SubResource("Resource_byl74")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
-custom_minimum_size = Vector2(500, 500)
-anchors_preset = 1
+custom_minimum_size = Vector2(1000, 1000)
+anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -500.0
-offset_bottom = 500.0
+anchor_bottom = 1.0
 grow_horizontal = 0
+grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(500, 500)
+size = Vector2i(1000, 1620)
 render_target_update_mode = 4
 
 [node name="BuildingMesh" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("3_qymvq")]
 unique_name_in_owner = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
+transform = Transform3D(0.707107, -0.5, 0.5, 2.4663e-16, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 2.08165e-12, 7, 2)
+light_energy = 0.5
+light_indirect_energy = 0.5
+shadow_enabled = true
+shadow_bias = 0.05
+shadow_normal_bias = 4.0
+directional_shadow_mode = 0
+directional_shadow_split_1 = 0.7
+directional_shadow_blend_splits = true
+directional_shadow_pancake_size = 10.0
