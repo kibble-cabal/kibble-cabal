@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -8,12 +7,15 @@ using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringN
 
 public class Wall : IGodotSerializable<Wall>
 {
+    public const float DefaultHeight = 2.0f;
+    public const float DefaultThickness = 0.1f;
+
     public Vector2 Start = Vector2.Inf;
     public Vector2 StartHandle = Vector2.Zero;
     public Vector2 End = Vector2.Inf;
     public Vector2 EndHandle = Vector2.Zero;
-    public float Height = 2.0f;
-    public float Thickness = 0.1f;
+    public float Height = DefaultHeight;
+    public float Thickness = DefaultThickness;
     public MaterialMap Materials = [];
 
     public Wall(Vector2 start, Vector2 startHandle, Vector2 end, Vector2 endHandle)
@@ -122,16 +124,24 @@ public class Wall : IGodotSerializable<Wall>
     public Array Serialize()
     {
         Vector2[] positions = [Start, StartHandle, End, EndHandle];
-        return [positions, Materials];
+        return [new Godot.Collections.Dictionary<string, Variant> {
+            { "positions", positions },
+            { "thickness", Thickness },
+            { "height", Height },
+            { "materials", Materials }
+        }];
     }
 
     public static Wall Deserialize(Array data)
     {
         Wall wall = new();
-        if (data.Count >= 2)
+        if (data.Count >= 1)
         {
-            wall.AddPoints(data[0].As<Vector2[]>());
-            wall.Materials = data[1].As<MaterialMap>();
+            var values = data[0].As<Godot.Collections.Dictionary<string, Variant>>();
+            wall.AddPoints(values["positions"].As<Vector2[]>() ?? []);
+            wall.Thickness = values["thickness"].As<float>();
+            wall.Height = values["height"].As<float>();
+            wall.Materials = values["materials"].As<MaterialMap>();
         }
         return wall;
     }

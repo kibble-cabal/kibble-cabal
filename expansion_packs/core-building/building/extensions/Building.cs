@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -14,6 +15,25 @@ internal static class BuildingWallExtensions
     static internal Wall? GetWall(this Building building, int index) => building.Walls.ElementAtOrDefault(index);
 
     static internal WallRef? GetWallRef(this Building building, int index) => building.HasWall(index) ? new(building, index) : null;
+
+    static internal int[] GetAllConnectedWalls(this Building building, int index)
+    {
+        int[] connectedWalls = [], addedWalls = [index];
+        while (addedWalls.Length > 0)
+        {
+            var adding = addedWalls
+                .Except(connectedWalls)
+                .SelectMany(i => building.GetWallIndicesTouching(i).Except(connectedWalls).Except(addedWalls))
+                .ToArray();
+            connectedWalls = [.. connectedWalls, .. addedWalls];
+            addedWalls = adding;
+        }
+        return connectedWalls;
+    }
+
+    static internal void SelectConnectedWalls(this Building building, int index, Action<Wall, int> predicate) => building.GetAllConnectedWalls(index).ForEach(i => predicate(building.GetWall(i)!, i));
+    static internal T[] SelectConnectedWalls<T>(this Building building, int index, Func<Wall, T> predicate) => building.SelectConnectedWalls(index, (wall, _) => predicate(wall));
+    static internal T[] SelectConnectedWalls<T>(this Building building, int index, Func<Wall, int, T> predicate) => building.GetAllConnectedWalls(index).Select(i => predicate(building.GetWall(i)!, i)).ToArray();
 
     static internal bool HasWall(this Building building, int index) => index >= 0 && index < building.Walls.Count;
 
@@ -79,10 +99,48 @@ internal static class BuildingWallExtensions
         building.EmitChanged();
     }
 
+    static internal float GetWallHeight(this Building building, int index) => building.GetWall(index)?.Height ?? Wall.DefaultHeight;
+    static internal void SetWallHeight(this Building building, int index, float value)
+    {
+        if (building.GetWall(index) is Wall wall) wall.Height = value;
+        building.EmitChanged();
+    }
+
+    static internal float GetWallThickness(this Building building, int index) => building.GetWall(index)?.Thickness ?? Wall.DefaultThickness;
+    static internal void SetWallThickness(this Building building, int index, float value)
+    {
+        if (building.GetWall(index) is Wall wall) wall.Thickness = value;
+        building.EmitChanged();
+    }
+
+    /// <summary>
+    /// Modifies all connected walls' heights.
+    /// </summary>
+    static internal void FillWallHeight(this Building building, int index, float value)
+    {
+        building.SelectConnectedWalls(index, wall => wall.Height = value);
+        building.EmitChanged();
+    }
+
+    /// <summary>
+    /// Modifies all connected walls' thickness.
+    /// </summary>
+    static internal void FillWallThickness(this Building building, int index, float value)
+    {
+        building.SelectConnectedWalls(index, wall => wall.Thickness = value);
+        building.EmitChanged();
+    }
+
     static internal void RemoveWall(this Building building, int index)
     {
         if (!building.HasWall(index)) return;
         building.Walls.RemoveAt(index);
+        building.EmitChanged();
+    }
+
+    static internal void RemoveConnectedWalls(this Building building, int index)
+    {
+        building.GetAllConnectedWalls(index).Distinct().OrderByDescending(i => i).ForEach(building.Walls.RemoveAt);
         building.EmitChanged();
     }
 

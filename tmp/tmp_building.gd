@@ -42,6 +42,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_C: mode = Mode.CURVE
 			KEY_W: mode = Mode.WALLS
 			KEY_F: mode = Mode.FLOORS
+			KEY_BACKSPACE:
+				building.remove_connected_walls(0)
+			KEY_1:
+				building.fill_wall_height(0, 1)
 		_handle_switch_mode()
 		queue_redraw()
 	

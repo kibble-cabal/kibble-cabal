@@ -63,6 +63,10 @@ public partial class Building : Resource
     private Vector2 get_wall_end(int index) => this.GetWallEnd(index);
     private Vector2 get_wall_start_handle(int index) => this.GetWallStartHandle(index);
     private Vector2 get_wall_end_handle(int index) => this.GetWallEndHandle(index);
+    private float get_wall_height(int index) => this.GetWallHeight(index);
+    private float get_wall_thickness(int index) => this.GetWallThickness(index);
+    private void fill_wall_height(int index, float value) => this.FillWallHeight(index, value);
+    private void fill_wall_thickness(int index, float value) => this.FillWallThickness(index, value);
     private void set_wall_positions(int index, Vector2 start, Vector2 end) => this.SetWallPositions(index, start, end);
     private void set_wall_handles(int index, Vector2 start_handle, Vector2 end_handle) => this.SetWallHandles(index, start_handle, end_handle);
     private void set_wall(int index, Vector2 start, Vector2 start_handle, Vector2 end, Vector2 end_handle) => this.SetWall(index, start, start_handle, end, end_handle);
@@ -70,7 +74,10 @@ public partial class Building : Resource
     private void set_wall_end(int index, Vector2 position) => this.SetWallEnd(index, position);
     private void set_wall_start_handle(int index, Vector2 position) => this.SetWallStartHandle(index, position);
     private void set_wall_end_handle(int index, Vector2 position) => this.SetWallEndHandle(index, position);
+    private void set_wall_height(int index, float value) => this.SetWallHeight(index, value);
+    private void set_wall_thickness(int index, float value) => this.SetWallThickness(index, value);
     private void remove_wall(int index) => this.RemoveWall(index);
+    private void remove_connected_walls(int index) => this.RemoveConnectedWalls(index);
     private MaterialMap get_wall_materials(int index) => this.GetWallMaterials(index);
     private StringName get_wall_material_id(int index, StringName material_name) => this.GetWallMaterialID(index, material_name) ?? new();
     private StringName get_wall_interior_id(int index) => this.GetWallInteriorID(index) ?? new();
