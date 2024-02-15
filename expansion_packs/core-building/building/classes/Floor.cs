@@ -9,6 +9,7 @@ public record Floor : IGodotSerializable<Floor>
 {
     public Curve2D Polygon;
     public MaterialMap Materials = [];
+    public float Thickness = 1f;
 
     public StringName FloorID
     {
@@ -32,13 +33,15 @@ public record Floor : IGodotSerializable<Floor>
     {
         if (Polygon == null || Polygon.PointCount < 3) return [];
         Vector2[] points = Polygon.Tessellate(Building.TessellationStages, Building.TessellationToleranceDegrees);
-        if (Polygon.PointCount >= 2 && points.Length > 0)
-            points = [.. points, .. Tessellator.tessellate(
-                points[^1],
-                points[0],
-                Polygon.GetPointOut(Polygon.PointCount - 1),
-                Polygon.GetPointIn(0)
-            )];
+        // if (points.Length > 0)
+        //     return [.. points, .. Tessellator.tessellate(
+        //         points[^1],
+        //         points[0],
+        //         Polygon.GetPointOut(Polygon.PointCount - 1),
+        //         Polygon.GetPointIn(0),
+        //         Building.TessellationStages,
+        //         Building.TessellationToleranceDegrees
+        //     )];
         return points;
     }
 
@@ -82,12 +85,17 @@ public record Floor : IGodotSerializable<Floor>
     public PolygonCurveMesh GenerateMesh()
     {
         // TODO: Material
+        var mat = new StandardMaterial3D { AlbedoColor = new Color(1, 0, 1) };
         return new PolygonCurveMesh()
         {
             curve = Polygon,
             tessellation_stages = Building.TessellationStages,
             tessellation_tolerance_degrees = Building.TessellationToleranceDegrees,
-            materials = [new StandardMaterial3D { AlbedoColor = new Color(1, 0, 1) }]
+            materials = [mat, mat, mat],
+            extrude_height = Thickness,
+            render_sides = true,
+            render_top = true,
+            render_bottom = false
         };
     }
 

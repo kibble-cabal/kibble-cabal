@@ -7,6 +7,7 @@ public struct Polygon : IMeshComponent
     public int Surface { get; set; }
     public Vector2[] Points;
     public Vector3.Axis ProjectionAxis;
+    public Transform3D CustomTransform;
 
     public readonly bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]);
 
@@ -28,7 +29,7 @@ public struct Polygon : IMeshComponent
                 ),
                 inverted: Invert,
                 surface: Surface
-            );
+            ) * CustomTransform;
             triangles[i / 3] = triangle;
         }
         return triangles;
