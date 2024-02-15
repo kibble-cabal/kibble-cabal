@@ -1,26 +1,24 @@
-using System.Linq;
 using Godot;
 
 using Godot.Collections;
 
-
-public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
+public record Roof : IGodotSerializable<Roof>, IBuildingComponent<Roof>
 {
     public MaterialMap Materials { get; set; }
 
     public Curve2D Polygon;
-    public float Thickness = 1f;
+    public float Height = 1f;
 
-    public StringName FloorID
+    public StringName RoofID
     {
-        get => Materials.ContainsKey("floor") ? Materials["floor"] : new();
-        set => Materials.Add("floor", value);
+        get => Materials.ContainsKey("roof") ? Materials["roof"] : new();
+        set => Materials.Add("roof", value);
     }
 
-    public Floor() { }
-    public Floor(Curve2D polygon) => this.Polygon = polygon ?? new();
+    public Roof() { }
+    public Roof(Curve2D polygon) => this.Polygon = polygon ?? new();
 
-    public int GetIndex(Building building) => building.Floors.IndexOf(this);
+    public int GetIndex(Building building) => building.Roofs.IndexOf(this);
     public Vector2[] GetPointPositions() => this.Polygon?.GetPointPositions() ?? [];
     public void AddPoint(Vector2 point, Vector2? inHandle = null, Vector2? outHandle = null) => Polygon.AddPoint(point, inHandle, outHandle);
     public void InsertPoint(int index, Vector2 point, Vector2? inHandle = null, Vector2? outHandle = null) => Polygon.AddPoint(point, inHandle, outHandle, index);
@@ -34,7 +32,7 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
 
     public bool IsValid() => Polygon != null && Polygon.PointCount < 3 && !Geometry2D.TriangulatePolygon(Tessellate()).IsEmpty();
 
-    public bool IsTouching(Floor other, float threshold)
+    public bool IsTouching(Roof other, float threshold)
     {
         var polygonA = Tessellate();
         var polygonB = other.Tessellate();
@@ -57,27 +55,15 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
 
     public Mesh[] GenerateMeshes(Building building)
     {
-        // TODO: Material
-        var mat = new StandardMaterial3D { AlbedoColor = new Color(1, 0, 1) };
-        return [new PolygonCurveMesh()
-        {
-            curve = Polygon,
-            tessellation_stages = Building.TessellationStages,
-            tessellation_tolerance_degrees = Building.TessellationToleranceDegrees,
-            materials = [mat, mat, mat],
-            extrude_height = Thickness,
-            render_sides = true,
-            render_top = true,
-            render_bottom = false
-        }];
+        throw new System.NotImplementedException();
     }
 
     public Array Serialize() => [Polygon, Materials];
-    public static Result<Floor, GodotSerializationError> Deserialize(Array data) => Result.FromException(
-        () => new Floor
+    public static Result<Roof, GodotSerializationError> Deserialize(Array data) => Result.FromException(
+        () => new Roof
         {
             Polygon = data[0].As<Curve2D>(),
-            Materials = data[1]
+            Materials = data[1],
         },
         onError: _ => GodotSerializationError.IncorrectData
     );

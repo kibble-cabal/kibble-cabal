@@ -1,3 +1,7 @@
+public enum GodotSerializationError
+{
+    IncorrectData
+}
 
 /// <summary>
 /// This interface allows a native C# type to be converted to and from Godot-serializable data.
@@ -6,5 +10,5 @@
 public interface IGodotSerializable<T>
 {
     Godot.Collections.Array Serialize();
-    static T Deserialize(Godot.Collections.Array data) => throw new System.NotImplementedException();
+    static Result<T, GodotSerializationError> Deserialize(Godot.Collections.Array data) => throw new System.NotImplementedException();
 }

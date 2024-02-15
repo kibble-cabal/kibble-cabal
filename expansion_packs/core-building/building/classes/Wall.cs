@@ -3,10 +3,11 @@ using System.Linq;
 using Godot;
 
 using Array = Godot.Collections.Array;
-using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
 
-public class Wall : IGodotSerializable<Wall>
+public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
 {
+    public MaterialMap Materials { get; set; }
+
     public const float DefaultHeight = 2.0f;
     public const float DefaultThickness = 0.1f;
 
@@ -16,7 +17,8 @@ public class Wall : IGodotSerializable<Wall>
     public Vector2 EndHandle = Vector2.Zero;
     public float Height = DefaultHeight;
     public float Thickness = DefaultThickness;
-    public MaterialMap Materials = [];
+
+    public Wall(Vector2[] points) => this.AddPoints(points);
 
     public Wall(Vector2 start, Vector2 startHandle, Vector2 end, Vector2 endHandle)
     {
@@ -37,13 +39,13 @@ public class Wall : IGodotSerializable<Wall>
     public StringName InteriorID
     {
         get => Materials.ContainsKey("interior") ? Materials["interior"] : new StringName();
-        set => Materials["interior"] = value;
+        set => Materials.Add("interior", value);
     }
 
     public StringName ExteriorID
     {
         get => Materials.ContainsKey("exterior") ? Materials["exterior"] : new StringName();
-        set => Materials["exterior"] = value;
+        set => Materials.Add("exterior", value);
     }
 
     private void AddPoints(Vector2[] points)
@@ -57,13 +59,23 @@ public class Wall : IGodotSerializable<Wall>
         }
     }
 
+    public void MoveBy(Vector2 delta)
+    {
+        Start += delta;
+        End += delta;
+    }
+
+    public Rect2 GetBoundingBox() => Tessellate().GetBoundingBox();
+
+    public Vector2 GetMidpoint() => Sample(0.5f);
+
     public int GetIndex(Building building) => building.Walls.IndexOf(this);
 
     public bool IsValid() => Start.IsFinite() && End.IsFinite() && StartHandle.IsFinite() && EndHandle.IsFinite();
 
     public Vector2[] Tessellate() => Tessellator.tessellate(Start, End, StartHandle, EndHandle, Building.TessellationStages, Building.TessellationToleranceDegrees);
 
-    public bool IsTouching(Wall other)
+    public bool IsTouching(Wall other, float threshold = F.AlmostZero)
     {
         if (!other.IsValid()) return false;
         (Vector2 a, Vector2 b)[] pairs = [
@@ -72,7 +84,7 @@ public class Wall : IGodotSerializable<Wall>
             (End, other.Start),
             (End, other.End)
         ];
-        return pairs.Any(pair => pair.a.DistanceTo(pair.b).Abs() < F.AlmostZero);
+        return pairs.Any(pair => pair.a.DistanceTo(pair.b).Abs() < threshold);
     }
 
     public IEnumerable<int> GetTouching(Building building) => building.Walls
@@ -95,13 +107,11 @@ public class Wall : IGodotSerializable<Wall>
 
     public Vector2 Sample(float offset) => Start.BezierInterpolate(StartHandle, EndHandle, End, offset);
     public Vector2 ClosestPoint(Vector2 position) => position.Closest(Start, End);
-    public Vector2 ClosestPointOnSurface(Vector2 toPoint, float epsilon = 0.05f) => Tessellator.closest_point_to_bezier_curve(toPoint, Start, End, StartHandle, EndHandle, epsilon);
-    public Vector2 Snap(Vector2 position, float threshold = -1) => position.Snap(ClosestPoint(position), threshold);
-    public Vector2 SnapToSurface(Vector2 position, float threshold = -1, float epsilon = 0.05f) => position.Snap(ClosestPointOnSurface(position, epsilon), threshold);
+    public Vector2 ClosestPointOnSurface(Vector2 toPoint) => Tessellator.closest_point_to_bezier_curve(toPoint, Start, End, StartHandle, EndHandle, 0.05f);
 
     private BaseMaterial3D MakeMaterial(float r, float g, float b) => new StandardMaterial3D { AlbedoColor = new Color(r, g, b) };
 
-    public ArrayMesh[] GenerateMeshes(Building building)
+    public Mesh[] GenerateMeshes(Building building)
     {
         // TODO: Materials
         return [new PolylinePointsMesh()
@@ -131,18 +141,18 @@ public class Wall : IGodotSerializable<Wall>
             { "materials", Materials }
         }];
     }
-
-    public static Wall Deserialize(Array data)
-    {
-        Wall wall = new();
-        if (data.Count >= 1)
+    public static Result<Wall, GodotSerializationError> Deserialize(Array data) => Result.FromException(
+        () =>
         {
             var values = data[0].As<Godot.Collections.Dictionary<string, Variant>>();
-            wall.AddPoints(values["positions"].As<Vector2[]>() ?? []);
-            wall.Thickness = values["thickness"].As<float>();
-            wall.Height = values["height"].As<float>();
-            wall.Materials = values["materials"].As<MaterialMap>();
-        }
-        return wall;
-    }
+            Wall wall = new(values["positions"].As<Vector2[]>())
+            {
+                Thickness = values["thickness"].As<float>(),
+                Height = values["height"].As<float>(),
+                Materials = values["materials"]
+            };
+            return wall;
+        },
+        onError: _ => GodotSerializationError.IncorrectData
+    );
 }

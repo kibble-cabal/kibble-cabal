@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
-
 #nullable enable
 
 /// <summary>
@@ -31,6 +29,7 @@ internal static class BuildingWallExtensions
         return connectedWalls;
     }
 
+    static internal void SelectConnectedWalls(this Building building, int index, Action<Wall> predicate) => building.SelectConnectedWalls(index, wall => predicate(wall));
     static internal void SelectConnectedWalls(this Building building, int index, Action<Wall, int> predicate) => building.GetAllConnectedWalls(index).ForEach(i => predicate(building.GetWall(i)!, i));
     static internal T[] SelectConnectedWalls<T>(this Building building, int index, Func<Wall, T> predicate) => building.SelectConnectedWalls(index, (wall, _) => predicate(wall));
     static internal T[] SelectConnectedWalls<T>(this Building building, int index, Func<Wall, int, T> predicate) => building.GetAllConnectedWalls(index).Select(i => predicate(building.GetWall(i)!, i)).ToArray();
@@ -39,12 +38,49 @@ internal static class BuildingWallExtensions
 
     static internal int AddWall(this Building building, Vector2 start, Vector2 startHandle, Vector2 end, Vector2 endHandle)
     {
+        int index = building.Walls.Count;
         building.Walls.Add(new Wall(start, startHandle, end, endHandle));
         building.EmitChanged();
-        return building.Walls.Count - 1;
+        building.EmitSignal(nameof(building.WallAdded), [index]);
+        return index;
     }
 
+    static internal int AddWall(this Building building, Godot.Collections.Array data) => Wall.Deserialize(data).Match(
+        ok: wall =>
+        {
+            int index = building.Walls.Count;
+            building.Walls.Add(wall);
+            building.EmitChanged();
+            building.EmitSignal(nameof(building.WallAdded), [index]);
+            return index;
+        },
+        error: _ =>
+        {
+            GD.PushError($"Unable to deserialize array data into Wall: {data}. Returning invalid index.");
+            return -1;
+        }
+    );
+
     static internal int AddWall(this Building building, Vector2 start, Vector2 end) => building.AddWall(start, Vector2.Zero, end, Vector2.Zero);
+
+    static internal void AddWalls(this Building building, Vector2[] points)
+    {
+        for (int i = 0; i < points.Length - 1; i++)
+        {
+            Vector2 start = points[i], end = points[i + 1];
+            building.AddWall(start, end);
+        }
+    }
+
+    static internal void AddWalls(this Building building, Curve2D curve)
+    {
+        for (int i = 0; i < curve.PointCount - 1; i++)
+        {
+            Vector2 start = curve.GetPointPosition(i), end = curve.GetPointPosition(i + 1);
+            Vector2 startHandle = curve.GetPointOut(i), endHandle = curve.GetPointIn(i + 1);
+            building.AddWall(start, startHandle, end, endHandle);
+        }
+    }
 
     /// <summary>
     /// Removes all invalid walls from this building. See <see cref="Wall.IsValid"/> 
@@ -134,13 +170,21 @@ internal static class BuildingWallExtensions
     static internal void RemoveWall(this Building building, int index)
     {
         if (!building.HasWall(index)) return;
+        var data = building.Walls[index].Serialize();
         building.Walls.RemoveAt(index);
         building.EmitChanged();
+        building.EmitSignal(nameof(building.WallRemoved), [index, data]);
     }
 
     static internal void RemoveConnectedWalls(this Building building, int index)
     {
         building.GetAllConnectedWalls(index).Distinct().OrderByDescending(i => i).ForEach(building.Walls.RemoveAt);
+        building.EmitChanged();
+    }
+
+    static internal void MoveConnectedWallsBy(this Building building, int index, Vector2 delta)
+    {
+        building.SelectConnectedWalls(index, wall => wall.MoveBy(delta));
         building.EmitChanged();
     }
 
@@ -158,7 +202,7 @@ internal static class BuildingWallExtensions
     }
     static internal void SetWallMaterialID(this Building building, int index, StringName materialName, StringName id)
     {
-        if (building.HasWall(index)) building.Walls[index].Materials[materialName] = id;
+        if (building.HasWall(index)) building.Walls[index].Materials.Add(materialName, id);
         building.EmitChanged();
     }
 
@@ -167,6 +211,8 @@ internal static class BuildingWallExtensions
 
     static internal StringName? GetWallExteriorID(this Building building, int index) => building.GetWallMaterialID(index, "exterior");
     static internal void SetWallExteriorID(this Building building, int index, StringName id) => building.SetWallMaterialID(index, "exterior", id);
+
+    static internal Vector2 GetWallMidpoint(this Building building, int index) => building.GetWall(index)?.GetMidpoint() ?? Vector2.Inf;
 
     static internal Vector2[] TessellateWall(this Building building, int index) => building.GetWall(index)?.Tessellate() ?? [];
 
@@ -239,6 +285,22 @@ internal static class BuildingFloorExtensions
         return building.Floors.Count - 1;
     }
 
+    static internal int AddFloor(this Building building, Godot.Collections.Array data) => Floor.Deserialize(data).Match(
+        ok: floor =>
+        {
+            int index = building.Floors.Count;
+            building.Floors.Add(floor);
+            building.EmitChanged();
+            building.EmitSignal(nameof(building.FloorAdded), [index]);
+            return index;
+        },
+        error: _ =>
+        {
+            GD.PrintS($"Unable to deserialize array data into Floor: {data}. Returning invalid index.");
+            return -1;
+        }
+    );
+
     static internal void SetFloorPolygon(this Building building, int index, Curve2D polygon)
     {
         if (building.HasFloor(index))
@@ -273,7 +335,7 @@ internal static class BuildingFloorExtensions
 
     static internal void SetFloorMaterialID(this Building building, int index, StringName materialName, StringName id)
     {
-        if (building.HasFloor(index)) building.Floors[index].Materials[materialName] = id;
+        if (building.HasFloor(index)) building.Floors[index].Materials.Add(materialName, id);
         building.EmitChanged();
     }
 
@@ -291,6 +353,9 @@ internal static class BuildingFloorExtensions
         if (currentFloor == null) return [];
         return building.Floors.Select((floor, index) => currentFloor.IsTouching(floor, threshold) ? index : -1).Where(index => index != -1).ToArray();
     }
+
+    static internal Rect2 GetFloorBoundingBox(this Building building, int index) => building.GetFloor(index)?.GetBoundingBox() ?? new();
+    static internal Vector2 GetFloorCentroid(this Building building, int index) => building.GetFloor(index)?.GetCentroid() ?? new();
 
     static internal Vector2[] GetFloorPointPositions(this Building building, int index) => building.GetFloor(index)?.GetPointPositions() ?? [];
 
@@ -326,6 +391,14 @@ internal static class BuildingFloorExtensions
 
 public static class BuildingExtensions
 {
+    static internal Vector2 GetCentroid(this Building building)
+    {
+        Vector2[] avgs = [
+            building.Walls.Select(wall => wall.GetMidpoint()).Average(),
+            building.Floors.Select(floor => floor.GetCentroid()).Average()
+        ];
+        return avgs.Average();
+    }
 
     static internal Vector2 Snap(this Building building, Vector2 position, float threshold = -1) => position.Snap(
         position.Closest(
@@ -349,7 +422,7 @@ public static class BuildingExtensions
         {
             meshes = [
                 ..building.Walls.Where(wall => wall.IsValid()).SelectMany(wall => wall.GenerateMeshes(building)),
-                ..building.Floors.Where(floor => floor.IsValid()).Select(floor => floor.GenerateMesh())
+                ..building.Floors.Where(floor => floor.IsValid()).SelectMany(floor => floor.GenerateMeshes(building))
             ]
         };
         // Connect("changed", new Callable(mesh, "generate"));

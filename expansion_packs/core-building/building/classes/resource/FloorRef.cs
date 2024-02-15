@@ -1,9 +1,7 @@
 using Godot;
 
-using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
-
 /// <summary>
-/// Contains a reference to a particular wall on a building. Stores no data of it's own.
+/// Contains a reference to a particular wall on a building. Stores no data of its own.
 /// The sole purpose of this class is to make the API more streamlined without separating
 /// data into multiple resources.
 /// </summary>
@@ -34,6 +32,9 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
     private int point_count => polygon.PointCount;
 
     public override string ToString() => $"Floor({polygon})";
+
+    private Rect2 get_bounding_box() => building.GetFloorBoundingBox(index);
+    private Vector2 get_centroid() => building.GetFloorCentroid(index);
 
     private Vector2[] tessellate() => building.TessellateFloor(index);
 

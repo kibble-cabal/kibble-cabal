@@ -3,7 +3,6 @@ using Godot;
 
 using Godot.Collections;
 using Collections = System.Collections.Generic;
-using MaterialMap = Godot.Collections.Dictionary<Godot.StringName, Godot.StringName>;
 
 #nullable enable
 
@@ -17,6 +16,7 @@ public partial class Building : Resource
 
     public Collections.List<Wall> Walls = [];
     public Collections.List<Floor> Floors = [];
+    public Collections.List<Roof> Roofs = [];
     public Callable ChangedCallable;
 
     Building() => this.ChangedCallable = Callable.From(EmitChanged);
@@ -30,7 +30,7 @@ public partial class Building : Resource
         set
         {
             Walls.Clear();
-            foreach (var val in value) Walls.Add(Wall.Deserialize(val.As<Array>()));
+            Walls.AddRange(value.Select(val => Wall.Deserialize(val.As<Array>())).WhereOK());
         }
     }
 
@@ -43,12 +43,64 @@ public partial class Building : Resource
         set
         {
             Floors.Clear();
-            foreach (var val in value) Floors.Add(Floor.Deserialize(val.As<Array>()));
-            foreach (var floor in Floors) floor.Polygon.TryConnectChanged(ChangedCallable);
+            Floors.AddRange(value.Select(val => Floor.Deserialize(val.As<Array>())).WhereOK());
+            Floors.ForEach(floor => floor.Polygon.TryConnectChanged(ChangedCallable));
         }
     }
 
     public int floor_count => Floors.Count;
+
+    [Export]
+    public Array roof_data
+    {
+        get => Roofs.Select(roof => (Variant)roof.Serialize()).ToGodotArray();
+        set
+        {
+            Roofs.Clear();
+            Roofs.AddRange(value.Select(val => Roof.Deserialize(val.As<Array>())).WhereOK());
+            Roofs.ForEach(roof => roof.Polygon.TryConnectChanged(ChangedCallable));
+        }
+    }
+
+    public int roof_count => Roofs.Count;
+
+    /* Public signals */
+
+    [Signal]
+    public delegate void WallAddedEventHandler(int index);
+
+    [Signal]
+    public delegate void WallRemovedEventHandler(int index, Array data);
+
+    [Signal]
+    public delegate void FloorAddedEventHandler(int index);
+
+    [Signal]
+    public delegate void FloorRemovedEventHandler(int index, Array data);
+
+    [Signal]
+    public delegate void RoofAddedEventHandler(int index);
+
+    [Signal]
+    public delegate void RoofRemovedEventHandler(int index, Array data);
+
+    [Signal]
+    public delegate void DestroyRequestedEventHandler();
+
+    [Signal]
+    public delegate void EditRequestedEventHandler();
+
+    [Signal]
+    public delegate void DestroyWallRequestedEventHandler(int index);
+
+    [Signal]
+    public delegate void DestroyFloorRequestedEventHandler(int index);
+
+    [Signal]
+    public delegate void MoveWallRequestedEventHandler(int index);
+
+    [Signal]
+    public delegate void MoveFloorRequestedEventHandler(int index);
 
     /* Public wall methods */
 
@@ -59,12 +111,16 @@ public partial class Building : Resource
     private int add_wall() => this.AddWall(Vector2.Inf, Vector2.Inf);
     private int add_wall(Vector2 start, Vector2 end) => this.AddWall(start, end);
     private int add_wall(Vector2 start, Vector2 start_handle, Vector2 end, Vector2 end_handle) => this.AddWall(start, start_handle, end, end_handle);
+    private int add_wall(Array data) => this.AddWall(data);
+    private void add_walls(Vector2[] points) => this.AddWalls(points);
+    private void add_walls(Curve2D curve) => this.AddWalls(curve);
     private Vector2 get_wall_start(int index) => this.GetWallStart(index);
     private Vector2 get_wall_end(int index) => this.GetWallEnd(index);
     private Vector2 get_wall_start_handle(int index) => this.GetWallStartHandle(index);
     private Vector2 get_wall_end_handle(int index) => this.GetWallEndHandle(index);
     private float get_wall_height(int index) => this.GetWallHeight(index);
     private float get_wall_thickness(int index) => this.GetWallThickness(index);
+    private Vector2 get_wall_midpoint(int index) => this.GetWallMidpoint(index);
     private void fill_wall_height(int index, float value) => this.FillWallHeight(index, value);
     private void fill_wall_thickness(int index, float value) => this.FillWallThickness(index, value);
     private void set_wall_positions(int index, Vector2 start, Vector2 end) => this.SetWallPositions(index, start, end);
@@ -78,11 +134,12 @@ public partial class Building : Resource
     private void set_wall_thickness(int index, float value) => this.SetWallThickness(index, value);
     private void remove_wall(int index) => this.RemoveWall(index);
     private void remove_connected_walls(int index) => this.RemoveConnectedWalls(index);
-    private MaterialMap get_wall_materials(int index) => this.GetWallMaterials(index);
+    private void move_connected_walls_by(int index, Vector2 delta) => this.MoveConnectedWallsBy(index, delta);
+    private Dictionary<StringName, StringName> get_wall_materials(int index) => this.GetWallMaterials(index);
     private StringName get_wall_material_id(int index, StringName material_name) => this.GetWallMaterialID(index, material_name) ?? new();
     private StringName get_wall_interior_id(int index) => this.GetWallInteriorID(index) ?? new();
     private StringName get_wall_exterior_id(int index) => this.GetWallExteriorID(index) ?? new();
-    private void set_wall_materials(int index, MaterialMap value) => this.SetWallMaterials(index, value);
+    private void set_wall_materials(int index, Dictionary<StringName, StringName> value) => this.SetWallMaterials(index, value);
     private void set_wall_material_id(int index, StringName material_name, StringName id) => this.SetWallMaterialID(index, material_name, id);
     private void set_wall_interior_id(int index, StringName id) => this.SetWallInteriorID(index, id);
     private void set_wall_exterior_id(int index, StringName id) => this.SetWallExteriorID(index, id);
@@ -108,10 +165,10 @@ public partial class Building : Resource
     private int add_floor(Curve2D polygon) => this.AddFloor(polygon);
     private void set_floor_polygon(int index, Curve2D polygon) => this.SetFloorPolygon(index, polygon);
     private void remove_floor(int index) => this.RemoveFloor(index);
-    private MaterialMap get_floor_materials(int index) => this.GetFloorMaterials(index);
+    private Dictionary<StringName, StringName> get_floor_materials(int index) => this.GetFloorMaterials(index);
     private StringName get_floor_material_id(int index, StringName material_name) => this.GetFloorMaterialID(index, material_name);
     private StringName get_floor_id(int index) => this.GetFloorID(index);
-    private void set_floor_materials(int index, MaterialMap value) => this.SetFloorMaterials(index, value);
+    private void set_floor_materials(int index, Dictionary<StringName, StringName> value) => this.SetFloorMaterials(index, value);
     private void set_floor_material_id(int index, StringName material_name, StringName id) => this.SetFloorMaterialID(index, material_name, id);
     private void set_floor_id(int index, StringName id) => this.SetFloorID(index, id);
     private Curve2D? get_floor_polygon(int index) => this.GetFloorPolygon(index);
@@ -127,9 +184,12 @@ public partial class Building : Resource
     private bool are_floors_touching(int a, int b, float threshold) => this.AreFloorsTouching(a, b, threshold);
     private Vector2[] get_floor_point_positions(int index) => this.GetFloorPointPositions(index);
     private int[] get_floors_touching(int floor_index, float threshold) => this.GetFloorsTouching(floor_index, threshold);
+    private Rect2 get_floor_bounding_box(int index) => this.GetFloorBoundingBox(index);
+    private Vector2 get_floor_centroid(int index) => this.GetFloorCentroid(index);
 
     /* Other public methods */
 
+    private Vector2 get_centroid() => this.GetCentroid();
     private Vector2 snap(Vector2 position, float threshold) => this.Snap(position, threshold);
     private Vector2 snap(Vector2 position) => this.Snap(position);
     private Vector2 snap_to_surface(Vector2 position, float threshold) => this.SnapToSurface(position, threshold);
