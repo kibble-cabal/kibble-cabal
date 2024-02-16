@@ -6,10 +6,12 @@ using Godot.Collections;
 
 public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
 {
+    public const float DefaultThickness = 0.2f;
+
     public MaterialMap Materials { get; set; }
 
     public Curve2D Polygon;
-    public float Thickness = 1f;
+    public float Thickness = DefaultThickness;
 
     public StringName FloorID
     {
@@ -19,6 +21,11 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
 
     public Floor() { }
     public Floor(Curve2D polygon) => this.Polygon = polygon ?? new();
+    public Floor(Vector2[] points)
+    {
+        this.Polygon = new();
+        points.ForEach(point => this.Polygon.AddPoint(point));
+    }
 
     public int GetIndex(Building building) => building.Floors.IndexOf(this);
     public Vector2[] GetPointPositions() => this.Polygon?.GetPointPositions() ?? [];
@@ -49,6 +56,12 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
             }
 
         return false;
+    }
+
+    public void MoveBy(Vector2 delta)
+    {
+        for (int i = 0; i < Polygon.PointCount; i++)
+            Polygon.SetPointPosition(i, Polygon.GetPointPosition(i) + delta);
     }
 
     public Rect2 GetBoundingBox() => Polygon?.GetBakedPoints().GetBoundingBox() ?? new();

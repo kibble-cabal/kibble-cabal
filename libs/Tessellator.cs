@@ -50,7 +50,7 @@ public partial class Tessellator : RefCounted
         }
     }
 
-    private static Vector2 ClosestPointToBezierCurve(
+    public static Vector2 ClosestPointToBezierCurve(
         Vector2 toPoint,
         Vector2 start,
         Vector2 end,

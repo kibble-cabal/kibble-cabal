@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 /// <summary>
 /// Contains a reference to a particular wall on a building. Stores no data of its own.
@@ -17,10 +18,10 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
         set => building.SetFloorPolygon(index, value);
     }
 
-    private MaterialMap materials
+    private Dictionary<StringName, StringName> materials
     {
-        get => building.GetFloorMaterials(index);
-        set => building.SetFloorMaterials(index, value);
+        get => building.GetMaterials<Floor>(index);
+        set => building.SetMaterials<Floor>(index, value);
     }
 
     private StringName floor_id
@@ -29,17 +30,23 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
         set => building.SetFloorID(index, value);
     }
 
+    private float thickness
+    {
+        get => building.GetFloorThickness(index);
+        set => building.SetFloorThickness(index, value);
+    }
+
     private int point_count => polygon.PointCount;
 
     public override string ToString() => $"Floor({polygon})";
 
-    private Rect2 get_bounding_box() => building.GetFloorBoundingBox(index);
-    private Vector2 get_centroid() => building.GetFloorCentroid(index);
+    private Rect2 get_bounding_box() => building.GetBoundingBox<Floor>(index) ?? new();
+    private Vector2 get_centroid() => building.GetCentroid<Floor>(index) ?? new();
 
-    private Vector2[] tessellate() => building.TessellateFloor(index);
+    private Vector2[] tessellate() => building.Tessellate<Floor>(index);
 
-    private bool is_valid() => building.IsFloorValid(index);
-    private bool is_touching(int other, float threshold) => building.AreFloorsTouching(index, other, threshold);
+    private bool is_valid() => building.IsValid<Floor>(index);
+    private bool is_touching(int other, float threshold) => building.IsTouching<Floor>(index, other, threshold);
 
     private void add_point(Vector2 position, Vector2 in_handle, Vector2 out_handle) => polygon.AddPoint(position, in_handle, out_handle);
     private void add_point(Vector2 position) => polygon.AddPoint(position);
@@ -56,9 +63,9 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
 
     private Vector2[] get_point_positions() => building.GetFloorPointPositions(index);
 
-    private Vector2 snap(Vector2 position, float threshold) => building.SnapToFloor(index, position, threshold);
+    private Vector2 snap(Vector2 position, float threshold) => building.Snap<Floor>(index, position, threshold);
     private Vector2 snap(Vector2 position) => snap(position, -1);
 
-    private Vector2 snap_to_surface(Vector2 position, float threshold) => building.SnapToFloorSurface(index, position, threshold);
+    private Vector2 snap_to_surface(Vector2 position, float threshold) => building.SnapToSurface<Floor>(index, position, threshold);
     private Vector2 snap_to_surface(Vector2 position) => snap_to_surface(position, -1);
 }

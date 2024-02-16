@@ -49,6 +49,12 @@ public record Roof : IGodotSerializable<Roof>, IBuildingComponent<Roof>
         return false;
     }
 
+    public void MoveBy(Vector2 delta)
+    {
+        for (int i = 0; i < Polygon.PointCount; i++)
+            Polygon.SetPointPosition(i, Polygon.GetPointPosition(i) + delta);
+    }
+
     public Rect2 GetBoundingBox() => Polygon?.GetBakedPoints().GetBoundingBox() ?? new();
     public Vector2 ClosestPoint(Vector2 position) => this.Polygon?.ClosestPoint(position) ?? position;
     public Vector2 ClosestPointOnSurface(Vector2 position) => this.Polygon?.ClosestPointOnSurface(position) ?? position;

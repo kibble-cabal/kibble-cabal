@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 
@@ -11,12 +12,12 @@ public interface IBuildingComponent<T> : IGodotSerializable<T>
     int GetIndex(Building building);
     bool IsValid();
     Vector2[] Tessellate();
-    bool IsTouching(T other, float threshold);
+    bool IsTouching(T other, float threshold = F.AlmostZero);
     Rect2 GetBoundingBox();
     Vector2 ClosestPoint(Vector2 position);
     Vector2 ClosestPointOnSurface(Vector2 position);
     Mesh[] GenerateMeshes(Building building);
-
+    void MoveBy(Vector2 delta);
 }
 
 public static class BuildingComponentExtensions

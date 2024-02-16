@@ -20,12 +20,12 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
 
     public Wall(Vector2[] points) => this.AddPoints(points);
 
-    public Wall(Vector2 start, Vector2 startHandle, Vector2 end, Vector2 endHandle)
+    public Wall(Vector2 start, Vector2 end, Vector2? startHandle = null, Vector2? endHandle = null)
     {
         this.Start = start;
-        this.StartHandle = startHandle;
+        this.StartHandle = startHandle ?? Vector2.Zero;
         this.End = end;
-        this.EndHandle = endHandle;
+        this.EndHandle = endHandle ?? Vector2.Zero;
     }
 
     public Wall(Vector2 start, Vector2 end)
@@ -95,7 +95,7 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
 
     public Vector2? GetJoin(Building building, Vector2 position)
     {
-        foreach (var other in GetTouching(building).Select(building.GetWall).WhereNotNull())
+        foreach (var other in GetTouching(building).Select(building.Get<Wall>).WhereNotNull())
         {
             var otherPoints = other.Tessellate();
             if (otherPoints.Length < 2) continue;
@@ -105,11 +105,11 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
         return null;
     }
 
-    public Vector2 Sample(float offset) => Start.BezierInterpolate(StartHandle, EndHandle, End, offset);
+    public Vector2 Sample(float offset) => Start.BezierInterpolate(Start + StartHandle, End + EndHandle, End, offset);
     public Vector2 ClosestPoint(Vector2 position) => position.Closest(Start, End);
-    public Vector2 ClosestPointOnSurface(Vector2 toPoint) => Tessellator.closest_point_to_bezier_curve(toPoint, Start, End, StartHandle, EndHandle, 0.05f);
+    public Vector2 ClosestPointOnSurface(Vector2 toPoint) => Tessellator.ClosestPointToBezierCurve(toPoint, Start, End, StartHandle, EndHandle, 0.05f);
 
-    private BaseMaterial3D MakeMaterial(float r, float g, float b) => new StandardMaterial3D { AlbedoColor = new Color(r, g, b) };
+    private StandardMaterial3D MakeMaterial(float r, float g, float b) => new StandardMaterial3D { AlbedoColor = new Color(r, g, b) };
 
     public Mesh[] GenerateMeshes(Building building)
     {
@@ -155,4 +155,6 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
         },
         onError: _ => GodotSerializationError.IncorrectData
     );
+
+    public bool Equals(Wall other) => GetHashCode() == other.GetHashCode();
 }
