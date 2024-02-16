@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://benm2noxy6tdu"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/add_wall_ui.gd" id="1_n21u2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0w5mx"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="AddWallUI" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_n21u2")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_0w5mx")
+text = "Adding wall..."
+
+[node name="CancelButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "✕ Cancel"
+
+[connection signal="pressed" from="CancelButton" to="." method="_on_cancel_button_pressed"]

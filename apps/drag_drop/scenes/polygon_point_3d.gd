@@ -1,15 +1,9 @@
 @tool
 extends MeshInstance3D
 
-@export var curve: Curve2D:
-	set(value):
-		curve = value
-		update()
+signal position_changed(pos: Vector2)
 
-@export var curve_index: int = -1:
-	set(value):
-		curve_index = value
-		update()
+@export var index: int
 
 @export_group("Behavior")
 
@@ -88,8 +82,8 @@ func _on_position_changed(new_position: Vector3, old_position: Vector3) -> void:
 
 
 func move_point(global_pos: Vector3) -> void:
-	if curve and curve_index >= 0 and curve.point_count > curve_index:
-		curve.set_point_position(curve_index, Vec2.from(global_pos))
+	global_position = global_pos
+	position_changed.emit(Vec2.from(global_pos))
 
 
 func update(override_modulate := false) -> void:
@@ -100,9 +94,6 @@ func update(override_modulate := false) -> void:
 		material.emission = modulate
 	if collider:
 		(collider.shape as SphereShape3D).radius = size + input_margin
-	if curve and curve_index >= 0 and curve.point_count > curve_index:
-		var position_2d := curve.get_point_position(curve_index)
-		position = Vector3(position_2d.x, 0, position_2d.y)
 	if draggable:
 		draggable.drop_mode = drop_mode
 		draggable.drop_areas = drop_areas

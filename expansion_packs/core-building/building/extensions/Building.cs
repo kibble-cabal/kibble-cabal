@@ -146,7 +146,7 @@ public static class BuildingExtensions
         building.EmitChanged();
         return index;
     }
-    static internal int Add<T>(this Building building, Godot.Collections.Array data) where T : IBuildingComponent<T>, IGodotSerializable<T> => IGodotSerializable<T>.Deserialize(data).Match(
+    static internal int Add<T>(this Building building, Godot.Collections.Array data) where T : IBuildingComponent<T>, IGodotSerializable<T> => T.Deserialize(data).Match(
         ok: building.Add<T>,
         error: _ =>
         {
@@ -164,7 +164,7 @@ public static class BuildingExtensions
         building.EmitSignal(Building.AddSignalName<T>());
         building.EmitChanged();
     }
-    static internal void Insert<T>(this Building building, int index, Godot.Collections.Array data) where T : IBuildingComponent<T>, IGodotSerializable<T> => IGodotSerializable<T>.Deserialize(data).Match(
+    static internal void Insert<T>(this Building building, int index, Godot.Collections.Array data) where T : IBuildingComponent<T>, IGodotSerializable<T> => T.Deserialize(data).Match(
         ok: component => building.Insert<T>(index, component),
         error: _ => GD.PushError($"Unable to deserialize array data into {typeof(T).Name}: {data}.")
     );
@@ -177,7 +177,12 @@ public static class BuildingExtensions
     static internal Vector2? ClosestPoint<T>(this Building building, int index, Vector2 position) where T : IBuildingComponent<T> => building.Get<T>(index)?.ClosestPoint(position);
     static internal Vector2? ClosestPointOnSurface<T>(this Building building, int index, Vector2 position) where T : IBuildingComponent<T> => building.Get<T>(index)?.ClosestPointOnSurface(position);
     static internal Mesh[] GenerateMeshes<T>(this Building building, int index) where T : IBuildingComponent<T> => building.Get<T>(index)?.GenerateMeshes(building) ?? [];
-    static internal void MoveBy<T>(this Building building, int index, Vector2 delta) where T : IBuildingComponent<T> => building.Get<T>(index)?.MoveBy(delta);
+    static internal void MoveBy<T>(this Building building, int index, Vector2 delta) where T : IBuildingComponent<T>
+    {
+        building.Get<T>(index)?.MoveBy(delta);
+        building.EmitChanged();
+    }
+    static internal void MoveBy<T>(this Building building, int[] indices, Vector2 delta) where T : IBuildingComponent<T> => indices.ForEach(i => building.MoveBy<T>(i, delta));
     static internal MaterialMap? GetMaterials<T>(this Building building, int index) where T : IBuildingComponent<T> => building.Get<T>(index)?.Materials;
     static internal void SetMaterials<T>(this Building building, int index, MaterialMap value) where T : IBuildingComponent<T>
     {

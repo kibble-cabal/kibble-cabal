@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://07ldrxywjkur"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/room_hud.gd" id="1_ilevf"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/wall_hud.gd" id="1_voell"]
 
-[node name="RoomHUD" type="PanelContainer"]
+[node name="WallHUD" type="PanelContainer"]
 z_index = -1
 anchors_preset = 8
 anchor_left = 0.5
@@ -13,15 +13,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_ilevf")
+script = ExtResource("1_voell")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 alignment = 1
-
-[node name="EditButton" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Edit"
 
 [node name="MoveButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -31,6 +27,5 @@ text = "Move"
 layout_mode = 2
 text = "Destroy"
 
-[connection signal="pressed" from="VBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MoveButton" to="." method="_on_move_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]

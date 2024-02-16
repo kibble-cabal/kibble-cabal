@@ -92,14 +92,18 @@ var stack: Array[Item] = []
 var undone_stack: Array[Item] = []
 
 
-func add(
+func add(caller: Object, name: String, do_method := Callable(), undo_method := Callable(), renderable := true) -> Item:
+	return add_multi(caller, name, [do_method], [undo_method], renderable)
+
+
+func add_multi(
 	caller: Object,
 	name: String,
-	do_method := Callable(),
-	undo_method := Callable(),
+	do_methods: Array[Callable] = [],
+	undo_methods: Array[Callable] = [],
 	renderable := true,
 ) -> Item:
-	var item := Item.new(caller, name, [do_method], [undo_method])
+	var item := Item.new(caller, name, do_methods, undo_methods)
 	item.renderable = renderable
 	return add_item(item)
 

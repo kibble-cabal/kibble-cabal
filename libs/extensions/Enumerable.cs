@@ -23,4 +23,13 @@ public static class EnumerableExtensions
 
     public static Godot.Collections.Array<T> ToGodotArray<[MustBeVariant] T>(this IEnumerable<T> array) => new Godot.Collections.Array<T>(array);
     public static Godot.Collections.Array ToGodotArray(this IEnumerable<Variant> array) => new Godot.Collections.Array(array);
+
+    public static V? Get<K, V>(this IDictionary<K, V> dict, K key) => dict.Get<K, V>(key, default!);
+
+    public static V? Get<K, V>(this IDictionary<K, V> dict, K key, V defaultValue)
+    {
+        if (dict.ContainsKey(key)) return dict[key];
+        return defaultValue;
+    }
+
 }

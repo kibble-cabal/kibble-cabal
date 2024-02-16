@@ -170,6 +170,7 @@ public partial class Building : Resource
     private void set_wall_height(int index, float value) => this.SetWallHeight(index, value);
     private void set_wall_thickness(int index, float value) => this.SetWallThickness(index, value);
     private void move_wall_by(int index, Vector2 delta) => this.MoveBy<Wall>(index, delta);
+    private void move_walls_by(int[] indices, Vector2 delta) => this.MoveBy<Wall>(indices, delta);
     private void remove_wall(int index) => this.Remove<Wall>(index);
     private void remove_connected_walls(int index) => this.RemoveConnected<Wall>(index);
     private void move_connected_walls_by(int index, Vector2 delta) => this.MoveConnectedBy<Wall>(index, delta);
@@ -205,6 +206,7 @@ public partial class Building : Resource
     private int add_floor(Vector2[] points) => this.Add<Floor>(points);
     private void set_floor_polygon(int index, Curve2D polygon) => this.SetFloorPolygon(index, polygon);
     private void move_floor_by(int index, Vector2 delta) => this.MoveBy<Floor>(index, delta);
+    private void move_floors_by(int[] indices, Vector2 delta) => this.MoveBy<Floor>(indices, delta);
     private void remove_floor(int index) => this.Remove<Floor>(index);
     private float get_floor_thickness(int index) => this.GetFloorThickness(index);
     private void set_floor_thickness(int index, float value) => this.SetFloorThickness(index, value);

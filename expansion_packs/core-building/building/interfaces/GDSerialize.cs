@@ -10,5 +10,5 @@ public enum GodotSerializationError
 public interface IGodotSerializable<T>
 {
     Godot.Collections.Array Serialize();
-    static Result<T, GodotSerializationError> Deserialize(Godot.Collections.Array data) => throw new System.NotImplementedException();
+    static abstract Result<T, GodotSerializationError> Deserialize(Godot.Collections.Array data);
 }

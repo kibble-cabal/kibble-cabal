@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://uiviik6ck4si"]
 
 [ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/editing_building_ui.gd" id="1_ah6xs"]
-[ext_resource type="PackedScene" uid="uid://7brv2g8hp2n0" path="res://expansion_packs/core-building/building/scenes/ui/design_building_ui.tscn" id="2_plvx7"]
+[ext_resource type="PackedScene" uid="uid://cpa36gsw2t6vo" path="res://expansion_packs/core-building/building/scenes/ui/design_ui.tscn" id="2_le6kv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3w1hc"]
 bg_color = Color(1, 1, 1, 1)
@@ -19,7 +19,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_3w1hc")
 text = "Editing building..."
 
-[node name="DesignBuildingUI" parent="." instance=ExtResource("2_plvx7")]
+[node name="DesignUI" parent="." instance=ExtResource("2_le6kv")]
 layout_mode = 2
 
 [node name="CreateSquareRoomButton" type="Button" parent="."]
@@ -28,6 +28,16 @@ size_flags_horizontal = 0
 tooltip_text = "tooltip tooltip
 "
 text = "+ Create square room"
+
+[node name="AddWallButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "+ Add wall"
+
+[node name="AddFloorButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "+ Add floor"
 
 [node name="DoneButton" type="Button" parent="."]
 layout_mode = 2
@@ -38,4 +48,6 @@ text = "✓ Done"
 [node name="Spawner" type="Node3D" parent="."]
 
 [connection signal="pressed" from="CreateSquareRoomButton" to="." method="_on_create_square_room_button_pressed"]
+[connection signal="pressed" from="AddWallButton" to="." method="_on_add_wall_button_pressed"]
+[connection signal="pressed" from="AddFloorButton" to="." method="_on_add_floor_button_pressed"]
 [connection signal="pressed" from="DoneButton" to="." method="_on_done_button_pressed"]

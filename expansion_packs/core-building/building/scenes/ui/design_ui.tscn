@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpa36gsw2t6vo"]
+
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/design_ui.gd" id="1_dvdp1"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/design_building_component_ui.gd" id="1_wcp2e"]
+
+[node name="DesignUI" type="PanelContainer"]
+mouse_filter = 2
+script = ExtResource("1_dvdp1")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+columns = 2
+
+[node name="RoofLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Roof"
+vertical_alignment = 1
+
+[node name="RoofItemList" type="ItemList" parent="GridContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+max_text_lines = 2
+auto_height = true
+item_count = 1
+icon_scale = 0.5
+item_0/text = "None"
+script = ExtResource("1_wcp2e")
+category = "roof"
+
+[node name="InteriorLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Wall"
+vertical_alignment = 1
+
+[node name="WallItemList" type="ItemList" parent="GridContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+max_text_lines = 2
+auto_height = true
+item_count = 1
+icon_scale = 0.5
+item_0/text = "None"
+script = ExtResource("1_wcp2e")
+category = "wall"
+
+[node name="FloorLabel" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Floor"
+vertical_alignment = 1
+
+[node name="FloorItemList" type="ItemList" parent="GridContainer"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+max_text_lines = 2
+auto_height = true
+item_count = 1
+icon_scale = 0.5
+item_0/text = "None"
+script = ExtResource("1_wcp2e")
+category = "floor"
