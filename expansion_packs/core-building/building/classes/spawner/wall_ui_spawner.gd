@@ -22,7 +22,7 @@ func _update(nodes: Array[Node]) -> void:
 		var building := resource as Building
 		var wall := get_wall()
 		if node and building and wall:
-			node.size = wall.thickness
+			node.size = wall.thickness * 2
 			node.input_margin = wall.thickness * 0.1
 
 

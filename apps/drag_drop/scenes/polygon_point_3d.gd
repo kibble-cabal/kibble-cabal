@@ -1,5 +1,5 @@
 @tool
-extends MeshInstance3D
+extends Sprite3D
 
 signal position_changed(pos: Vector2)
 
@@ -29,10 +29,10 @@ signal position_changed(pos: Vector2)
 		size = value
 		update()
 
-@export var modulate: Color = Color.WHITE:
+@export var inactive_modulate: Color = Color.WHITE:
 	set(value):
-		modulate = value
-		update(true)
+		inactive_modulate = value
+		update()
 
 @export var dragging_modulate: Color = Color.WHITE:
 	set(value):
@@ -40,12 +40,6 @@ signal position_changed(pos: Vector2)
 		update()
 
 var history: History
-
-var sphere_mesh: SphereMesh:
-	get: return mesh as SphereMesh
-
-var material: StandardMaterial3D:
-	get: return sphere_mesh.material as StandardMaterial3D
 
 @onready var draggable := $Draggable as DraggableComponent3D
 @onready var collider := $Draggable/CollisionShape as CollisionShape3D
@@ -55,19 +49,16 @@ func _ready() -> void:
 	draggable.drag_started.connect(_on_drag_started)
 	draggable.drag_finished.connect(_on_drag_finished)
 	draggable.position_changed.connect(_on_position_changed)
-	update(true)
+	modulate = inactive_modulate
+	update()
 
 
 func _on_drag_started() -> void:
-	if material:
-		create_tween().tween_property(material, "albedo_color", dragging_modulate, 0.125)
-		create_tween().tween_property(material, "emission", dragging_modulate, 0.125)
+	create_tween().tween_property(self, "modulate", dragging_modulate, 0.125)
 
 
 func _on_drag_finished() -> void:
-	if material:
-		create_tween().tween_property(material, "albedo_color", modulate, 0.125)
-		create_tween().tween_property(material, "emission", modulate, 0.125)
+	create_tween().tween_property(self, "modulate", inactive_modulate, 0.125)
 
 
 func _on_position_changed(new_position: Vector3, old_position: Vector3) -> void:
@@ -86,15 +77,21 @@ func move_point(global_pos: Vector3) -> void:
 	position_changed.emit(Vec2.from(global_pos))
 
 
-func update(override_modulate := false) -> void:
-	sphere_mesh.radius = size
-	sphere_mesh.height = size
-	if material and override_modulate:
-		material.albedo_color = modulate
-		material.emission = modulate
+func calc_pixel_size() -> float:
+	if texture:
+		var texture_size := texture.get_size()
+		var avg := (texture_size.x + texture_size.y) / 2
+		return size / avg
+	return 0.01
+
+
+func update() -> void:
+	pixel_size = calc_pixel_size()
 	if collider:
 		(collider.shape as SphereShape3D).radius = size + input_margin
 	if draggable:
 		draggable.drop_mode = drop_mode
 		draggable.drop_areas = drop_areas
 		draggable.start_position = position
+	if Engine.is_editor_hint():
+		modulate = inactive_modulate

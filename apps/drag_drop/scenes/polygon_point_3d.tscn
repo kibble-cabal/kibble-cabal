@@ -1,26 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn6q808lm3ecy"]
+[gd_scene load_steps=5 format=3 uid="uid://dn6q808lm3ecy"]
 
+[ext_resource type="Texture2D" uid="uid://2jwmed0kim78" path="res://content/icons/circle_filled_64x64.svg" id="1_6s203"]
 [ext_resource type="Script" path="res://apps/drag_drop/scenes/polygon_point_3d.gd" id="1_y3tdw"]
 [ext_resource type="Script" path="res://apps/drag_drop/classes/draggable_component_3d.gd" id="2_mwhub"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68g6g"]
-resource_local_to_scene = true
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_arvd4"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_68g6g")
-height = 0.5
-radial_segments = 24
-rings = 24
-is_hemisphere = true
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lh74k"]
 radius = 0.55
 
-[node name="PolygonPoint3D" type="MeshInstance3D"]
-mesh = SubResource("SphereMesh_arvd4")
+[node name="PolygonPoint3D" type="Sprite3D"]
+pixel_size = 0.0078125
+billboard = 1
+alpha_cut = 1
+texture = ExtResource("1_6s203")
 script = ExtResource("1_y3tdw")
 
 [node name="Draggable" type="Area3D" parent="."]
