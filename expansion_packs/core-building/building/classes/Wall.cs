@@ -28,12 +28,6 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
         this.EndHandle = endHandle ?? Vector2.Zero;
     }
 
-    public Wall(Vector2 start, Vector2 end)
-    {
-        this.Start = start;
-        this.End = end;
-    }
-
     public Wall() { }
 
     public StringName InteriorID
