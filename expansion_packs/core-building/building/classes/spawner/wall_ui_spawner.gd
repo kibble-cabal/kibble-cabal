@@ -34,6 +34,9 @@ func make_polygon_editor(world: Node3D) -> PolygonEditor3D:
 	node.polygon = PackedVector2Array([wall.start, wall.end])
 	node.modulate = Color("#818cf8")
 	node.dragging_modulate = Color("#6366f1")
+	node.custom_snap_method = func(position: Vector3) -> Vector3:
+		if resource is Building: return Vec3.from(resource.snap(Vec2.from(position), BuildingConfig.SnapThreshold))
+		return position
 	world.add_child(node)
 	return node
 
@@ -57,5 +60,5 @@ func _on_point_changed(i: int, pos: Vector2) -> void:
 	var wall := get_wall()
 	var building := resource as Building
 	if wall and building: match i:
-		0: wall.start = building.snap(pos, BuildingConfig.SnapThreshold)
-		1: wall.end = building.snap(pos, BuildingConfig.SnapThreshold)
+		0: wall.start = pos
+		1: wall.end = pos

@@ -38,6 +38,8 @@ signal position_changed(new_position: Vector3, old_position: Vector3)
 
 var start_position: Vector3
 var dragging := Toggle.new(false)
+## If provided, should have signature: func (position: Vector3) -> Vector3
+var custom_snap_method = null
 
 var query := PhysicsRayQueryParameters3D.new()
 var query_result := {}
@@ -134,6 +136,8 @@ func snap() -> void:
 	areas.reverse()
 	for area in areas:
 		node.global_position = locked(area.snap(node.global_position))
+	if custom_snap_method != null:
+		node.global_position = (custom_snap_method as Callable).call(node.global_position)
 
 
 func locked(global_pos: Vector3) -> Vector3:

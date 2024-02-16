@@ -51,6 +51,8 @@ const RemovePointScene := preload("../scenes/remove_point_button.tscn")
 
 
 var history: History
+## If provided, should have signature: func (position: Vector3) -> Vector3
+var custom_snap_method = null
 var _points: Array[Node3D] = []
 var _add_buttons: Array[Button] = []
 var _remove_buttons: Array[Button] = []
@@ -139,11 +141,12 @@ func update_point(point: Node) -> void:
 	point.position = Vec3.from(_get_point_position(point.index))
 	point.history = history
 	point.size = size
-	point.modulate = modulate
+	point.inactive_modulate = modulate
 	point.dragging_modulate = dragging_modulate
 	point.drop_areas = drop_areas
 	point.drop_mode = drop_mode
 	point.input_margin = input_margin
+	point.custom_snap_method = custom_snap_method
 	point.position_changed.connect(
 		func(pos: Vector2) -> void: set_point_position(point.index, pos)
 	)

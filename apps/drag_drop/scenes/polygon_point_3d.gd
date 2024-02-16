@@ -40,6 +40,8 @@ signal position_changed(pos: Vector2)
 		update()
 
 var history: History
+## If provided, should have signature: func (position: Vector3) -> Vector3
+var custom_snap_method = null
 
 @onready var draggable := $Draggable as DraggableComponent3D
 @onready var collider := $Draggable/CollisionShape as CollisionShape3D
@@ -93,5 +95,6 @@ func update() -> void:
 		draggable.drop_mode = drop_mode
 		draggable.drop_areas = drop_areas
 		draggable.start_position = position
+		draggable.custom_snap_method = custom_snap_method
 	if Engine.is_editor_hint():
 		modulate = inactive_modulate
