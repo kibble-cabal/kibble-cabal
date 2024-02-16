@@ -19,7 +19,7 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
         set => Materials.Add("floor", value);
     }
 
-    public Floor() { }
+    public Floor() => this.Polygon = new();
     public Floor(Curve2D polygon) => this.Polygon = polygon ?? new();
     public Floor(Vector2[] points)
     {

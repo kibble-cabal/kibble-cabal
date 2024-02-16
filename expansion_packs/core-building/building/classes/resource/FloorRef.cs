@@ -14,13 +14,13 @@ public partial class FloorRef(Building Building, int Index) : RefCounted
 
     private Curve2D polygon
     {
-        get => building.GetFloorPolygon(index);
+        get => building.GetFloorPolygon(index) ?? new();
         set => building.SetFloorPolygon(index, value);
     }
 
     private Dictionary<StringName, StringName> materials
     {
-        get => building.GetMaterials<Floor>(index);
+        get => building.GetMaterials<Floor>(index) ?? [];
         set => building.SetMaterials<Floor>(index, value);
     }
 

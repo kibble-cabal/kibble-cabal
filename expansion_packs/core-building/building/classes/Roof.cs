@@ -15,7 +15,7 @@ public record Roof : IGodotSerializable<Roof>, IBuildingComponent<Roof>
         set => Materials.Add("roof", value);
     }
 
-    public Roof() { }
+    public Roof() => this.Polygon = new();
     public Roof(Curve2D polygon) => this.Polygon = polygon ?? new();
 
     public int GetIndex(Building building) => building.Roofs.IndexOf(this);

@@ -4,8 +4,6 @@ using Godot;
 using Godot.Collections;
 using Collections = System.Collections.Generic;
 
-#nullable enable
-
 using Ty = System.Type;
 
 [GlobalClass]
@@ -88,6 +86,9 @@ public partial class Building : Resource
 
     [Signal]
     public delegate void DestroyRequestedEventHandler();
+
+    [Signal]
+    public delegate void MoveRequestedEventHandler();
 
     [Signal]
     public delegate void EditRequestedEventHandler();

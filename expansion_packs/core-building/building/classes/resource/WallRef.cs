@@ -38,19 +38,19 @@ public partial class WallRef(Building Building, int Index) : RefCounted
 
     private Dictionary<StringName, StringName> materials
     {
-        get => building.GetMaterials<Wall>(index);
+        get => building.GetMaterials<Wall>(index) ?? [];
         set => building.SetMaterials<Wall>(index, value);
     }
 
     private StringName interior_id
     {
-        get => building.GetWallInteriorID(index);
+        get => building.GetWallInteriorID(index) ?? new();
         set => building.SetWallInteriorID(index, value);
     }
 
     private StringName exterior_id
     {
-        get => building.GetWallExteriorID(index);
+        get => building.GetWallExteriorID(index) ?? new();
         set => building.SetWallExteriorID(index, value);
     }
 
