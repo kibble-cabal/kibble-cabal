@@ -1,0 +1,1 @@
+public partial class ItemDB : Singleton<DB<RItem>> { }
