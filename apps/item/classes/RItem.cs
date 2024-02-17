@@ -52,4 +52,5 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
         set => SetSubresource((int)Keys.Retail, value);
     }
 
+    public RItemInstance Instantiate() => new RItemInstance { ItemID = ID };
 }

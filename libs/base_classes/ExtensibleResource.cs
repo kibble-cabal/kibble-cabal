@@ -48,10 +48,10 @@ public abstract partial class ExtensibleResource : Resource
         _subresources.Remove(key);
     }
 
-    protected virtual IEnumerable<Resource> GetAllSubresources() => _subresources.Values;
-    protected virtual bool ShouldEmitChanged(Resource resource) => true;
-    protected void DisconnectAllSubresources() => GetAllSubresources().ForEach(DisconnectSubresource);
-    protected void ConnectAllSubresources() => GetAllSubresources().ForEach(ConnectSubresource);
+    protected virtual IEnumerable<Resource> _GetAllSubresources() => _subresources.Values;
+    protected virtual bool _ShouldEmitChanged(Resource resource) => true;
+    protected void DisconnectAllSubresources() => _GetAllSubresources().ForEach(DisconnectSubresource);
+    protected void ConnectAllSubresources() => _GetAllSubresources().ForEach(ConnectSubresource);
 
     private void DisconnectSubresource(Resource resource) => resource.DisconnectAllFromTarget(signal: Resource.SignalName.Changed, target: this);
     private void ConnectSubresource(Resource resource) => resource.TryConnect(Resource.SignalName.Changed, Callable.From(() => OnResourceChanged(resource)));
@@ -59,7 +59,7 @@ public abstract partial class ExtensibleResource : Resource
     private void OnResourceChanged(Resource resource)
     {
         EmitSignal(SignalName.SubresourceChanged, [Variant.From(resource)]);
-        if (ShouldEmitChanged(resource))
+        if (_ShouldEmitChanged(resource))
         {
             EmitSignal(SignalName.SubresourcesChanged);
             EmitChanged();

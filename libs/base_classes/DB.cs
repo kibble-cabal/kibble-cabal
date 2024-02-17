@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Godot;
 using Godot.Collections;
 
-public partial class DB<[MustBeVariant] T> : GodotObject, IEnumerable<T>
+public partial class DB<[MustBeVariant] T> : GodotObject
 {
     private Array<T> _resources = [];
 
@@ -32,9 +30,13 @@ public partial class DB<[MustBeVariant] T> : GodotObject, IEnumerable<T>
             EmitSignal(SignalName.Unregistered, [Variant.From(resource)]);
         }
     }
+}
 
-    public IEnumerator<T> GetEnumerator() => Resources.GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => Resources.GetEnumerator();
+public partial class SingletonDB<[MustBeVariant] T> : Singleton<DB<T>>
+{
+    public static Array<T> Resources { get => Instance.Resources; }
+    public static void Register(T resource) => Instance.Register(resource);
+    public static void Unregister(T resource) => Instance.Unregister(resource);
 }
 
 public static class DBExtensions

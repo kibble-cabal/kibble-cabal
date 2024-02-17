@@ -5,5 +5,6 @@
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <Nullable>enable</Nullable>
+    <NoWarn>IDE1006;CA1050</NoWarn>
   </PropertyGroup>
 </Project>

@@ -1,7 +1,7 @@
 using Godot;
 
 [GlobalClass]
-public sealed partial class RItemInstance : ExtensibleResource
+public sealed partial class RItemInstance : ExtensibleResource, ISpawnable
 {
     public static readonly PackedScene Scene = (PackedScene)GD.Load("res://apps/item/scenes/item_instance_scene.tscn");
 
@@ -30,4 +30,6 @@ public sealed partial class RItemInstance : ExtensibleResource
         scene.Set("item", this);
         return scene;
     }
+
+    public Spawner GetSpawner() => new RItemInstanceSpawner(this);
 }
