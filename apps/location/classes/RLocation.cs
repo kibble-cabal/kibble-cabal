@@ -40,9 +40,6 @@ public partial class RLocation : ExtensibleResource, IIdentifiable<StringName>
 
     // TODO: GetMusic()
 
-    public RLocationState GetOrCreateState()
-    {
-        // TODO
-        return new RLocationState { LocationName = Name };
-    }
+    public RLocationState GetOrCreateState() => SaveSubSystem.Current?.GetOrCreateLocationState(ID)
+        ?? new RLocationState { LocationName = Name };
 }

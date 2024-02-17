@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RAnimal" load_steps=3 format=3 uid="uid://dkb7ie70eoqvf"]
+
+[ext_resource type="PackedScene" uid="uid://c6ubdy6hplxfp" path="res://expansion_packs/core-pet/animal/scenes/dog.tscn" id="1_icfhr"]
+[ext_resource type="Script" path="res://apps/animal/classes/RAnimal.cs" id="1_o3mws"]
+
+[resource]
+script = ExtResource("1_o3mws")
+Name = &"Dog"
+SpriteScene = ExtResource("1_icfhr")
+Speed = 0.5
+CollisionRadius = 0.15
+DetectionsRadius = 1000.0
+Subresources = {}

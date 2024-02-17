@@ -53,8 +53,8 @@ public abstract partial class ExtensibleResource : Resource
     protected void DisconnectAllSubresources() => _GetAllSubresources().ForEach(DisconnectSubresource);
     protected void ConnectAllSubresources() => _GetAllSubresources().ForEach(ConnectSubresource);
 
-    private void DisconnectSubresource(Resource resource) => resource.DisconnectAllFromTarget(signal: Resource.SignalName.Changed, target: this);
-    private void ConnectSubresource(Resource resource) => resource.TryConnect(Resource.SignalName.Changed, Callable.From(() => OnResourceChanged(resource)));
+    protected void DisconnectSubresource(Resource resource) => resource.DisconnectAllFromTarget(signal: Resource.SignalName.Changed, target: this);
+    protected void ConnectSubresource(Resource resource) => resource.TryConnect(Resource.SignalName.Changed, Callable.From(() => OnResourceChanged(resource)));
 
     private void OnResourceChanged(Resource resource)
     {

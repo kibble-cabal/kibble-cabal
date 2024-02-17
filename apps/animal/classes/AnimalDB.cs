@@ -1,0 +1,1 @@
+public sealed class AnimalDB : SingletonDB<RAnimal> { }

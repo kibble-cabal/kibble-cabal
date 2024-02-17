@@ -39,6 +39,11 @@ public partial class SingletonDB<[MustBeVariant] T> : Singleton<DB<T>>
     public static void Unregister(T resource) => Instance.Unregister(resource);
 }
 
+public partial class SingletonDB<T> : Singleton<DB<T>> where T : IIdentifiable<StringName>
+{
+    public static T? Find(StringName id) => Instance.Find<T>(id);
+}
+
 public static class DBExtensions
 {
     public static T? Find<[MustBeVariant] T>(this DB<T> db, StringName id) where T : IIdentifiable<StringName> => db.Resources.WhereNotNull().Find(resource => resource.ID.Equals(id));

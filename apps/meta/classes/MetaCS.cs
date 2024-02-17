@@ -5,6 +5,7 @@ public partial class MetaCS : Node
 {
     public override void _EnterTree()
     {
+        AddChild(SaveSubSystem.Instance);
         AddChild(LocationSubSystem.Instance);
     }
 

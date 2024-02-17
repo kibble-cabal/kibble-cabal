@@ -39,6 +39,7 @@ public partial class RLocationState : ExtensibleResource
         EmitChanged();
     }
 
+    public IEnumerable<S> Get<S>() where S : Spawner => Spawners.Where(spawner => spawner.GetType() == typeof(S)).Select(spawner => (S)spawner);
     public IEnumerable<Spawner> GetSpawned() => Spawners.Where(spawner => spawner.HasSpawned());
     public IEnumerable<Spawner> GetUnspawned() => Spawners.Where(spawner => !spawner.HasSpawned());
     public bool HasSpawnerFor<R>(R resource) where R : Resource => Spawners.Any(spawner => spawner.GetResource() == resource);
