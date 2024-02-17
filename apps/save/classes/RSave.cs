@@ -5,12 +5,18 @@ using Godot.Collections;
 [GlobalClass]
 public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
 {
+    private static class Keys
+    {
+        public const string Settings = "Settings";
+        public const string Fate = "Fate";
+    }
+
     public const string BaseDir = "user://save-files";
 
     private int _id = -1;
     private Array<RLocationState> _locationStates = [];
 
-    private float SessionStartTime = (float)Time.GetUnixTimeFromSystem();
+    private double SessionStartTime = Time.GetUnixTimeFromSystem();
 
     [Export]
     public int ID
@@ -35,6 +41,18 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
 
     [Export]
     public float TimePlayed = 0.0f;
+
+    public RSettings Settings
+    {
+        get => ExpectSubresource<RSettings>(Keys.Settings);
+        set => SetSubresource(Keys.Settings, value);
+    }
+
+    public RFate Fate
+    {
+        get => ExpectSubresource<RFate>(Keys.Fate);
+        set => SetSubresource(Keys.Fate, value);
+    }
 
     [Signal]
     public delegate void BeforeSavedEventHandler();
@@ -67,7 +85,7 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
     {
         var now = (float)Time.GetUnixTimeFromSystem();
         var sessionLength = now - SessionStartTime;
-        TimePlayed += sessionLength;
+        TimePlayed += (float)sessionLength;
         SessionStartTime = now;
     }
 

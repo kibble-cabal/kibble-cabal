@@ -31,7 +31,7 @@ public sealed partial class SaveSubSystemBase : Node
 
     public void CommitChanges()
     {
-        GD.PrintS($"[SaveSubSystem] Saving...");
+        GD.PrintS($"[SaveSubSystem] Saving.");
         if (Current is RSave save)
             save.CommitChanges();
     }

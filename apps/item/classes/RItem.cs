@@ -3,7 +3,11 @@ using Godot;
 [GlobalClass]
 public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
 {
-    private enum Keys { Physics = 1, Retail = 2 }
+    private static class Keys
+    {
+        public const string Physics = "Physics";
+        public const string Retail = "Retail";
+    }
 
     private StringName _id = "";
     private string _displayName = "";
@@ -41,15 +45,15 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
     [Export]
     public RItemPhysics? Physics
     {
-        get => GetSubresource((int)Keys.Physics) as RItemPhysics;
-        set => SetSubresource((int)Keys.Physics, value);
+        get => GetSubresource<RItemPhysics>(Keys.Physics);
+        set => SetSubresource(Keys.Physics, value);
     }
 
     [Export]
     public RItemRetail? Retail
     {
-        get => GetSubresource((int)Keys.Retail) as RItemRetail;
-        set => SetSubresource((int)Keys.Retail, value);
+        get => GetSubresource<RItemRetail>(Keys.Retail);
+        set => SetSubresource(Keys.Retail, value);
     }
 
     public RItemInstance Instantiate() => new RItemInstance { ItemID = ID };

@@ -21,7 +21,16 @@ public abstract partial class ExtensibleResource : Resource
     [Signal]
     public delegate void SubresourcesChangedEventHandler();
 
-    public Resource? GetSubresource(Variant key) => _subresources.GetValueOrDefault(key);
+    public R? GetSubresource<R, [MustBeVariant] K>(K key) where R : Resource => GetSubresource<R>(Variant.From(key));
+    public R? GetSubresource<R>(Variant key) where R : Resource => _subresources.GetValueOrDefault(key) as R;
+
+    public R ExpectSubresource<R, [MustBeVariant] K>(K key) where R : Resource, new() => ExpectSubresource<R>(Variant.From(key));
+    public R ExpectSubresource<R>(Variant key) where R : Resource, new()
+    {
+        if (GetSubresource<R>(key) is R resource) return resource;
+        SetSubresource(key, new R());
+        return (R)_subresources[key];
+    }
 
     public void SetSubresources(Subresources value)
     {
@@ -31,7 +40,8 @@ public abstract partial class ExtensibleResource : Resource
         EmitSignal(SignalName.SubresourcesChanged);
     }
 
-    public void SetSubresource(Variant key, Resource? resource)
+    public void SetSubresource<R, [MustBeVariant] K>(K key, R? resource) where R : Resource => SetSubresource<R>(Variant.From(key), resource);
+    public void SetSubresource<R>(Variant key, R? resource) where R : Resource
     {
         RemoveSubresource(key);
         if (resource is Resource value)
