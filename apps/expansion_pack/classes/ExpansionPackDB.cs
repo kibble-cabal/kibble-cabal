@@ -1,0 +1,1 @@
+public sealed partial class ExpansionPackDB : SingletonDB<RExpansionPack> { }
