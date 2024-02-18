@@ -8,10 +8,10 @@ public partial class DB<[MustBeVariant] T> : GodotObject
     public Array<T> Resources { get => _resources; }
 
     [Signal]
-    public delegate void RegisteredEventHandler(Variant resource);
+    public delegate void RegisteredEventHandler(Resource resource);
 
     [Signal]
-    public delegate void UnregisteredEventHandler(Variant resource);
+    public delegate void UnregisteredEventHandler(Resource resource);
 
     public void Register(T resource)
     {

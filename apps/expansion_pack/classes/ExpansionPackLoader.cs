@@ -35,7 +35,7 @@ public class ExpansionPackLoaderBase
         var resourceFiles = DirsToSearch.SelectMany(dir => loader.GetFilesByExtension(dir, "expansion.tres", "expansion.res"));
         if (verbose) this.Print($"Discovered resource files: {resourceFiles.ToGodotArray()}");
 
-        return [.. resourceFiles.Select(IContentLoader.TryLoad<RExpansionPack>)];
+        return [.. resourceFiles.Select(IContentLoader.TryLoad<RExpansionPack>).WhereNotNull()];
     }
 
     public override string ToString() => "ExpansionPackLoader";

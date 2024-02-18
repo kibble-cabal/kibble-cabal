@@ -10,6 +10,7 @@ public partial class MetaCS : Node
         AddChild(DateTimeSubSystem.Instance);
         AddChild(ExpansionPackSubSystem.Instance);
         AddChild(GameModeSubSystem.Instance);
+        AddChild(ModSubSystem.Instance);
     }
 
     public override void _Ready()

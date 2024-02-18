@@ -15,9 +15,11 @@ public sealed partial class ExpansionPackSubSystemBase : Node
     {
         ExpansionPackLoader.LoadPacks().ForEach(ExpansionPackDB.Register);
         ExpansionPackDB.Resources.ForEach(Initialize);
+        ExpansionPackDB.Instance.Registered += Initialize;
         EmitSignal(SignalName.AllPacksInitialized);
     }
 
+    public void Initialize(Resource pack) => Initialize((RExpansionPack)pack);
     public void Initialize(RExpansionPack pack)
     {
         if (!InitializedExpansionPacks.ContainsKey(pack.ID))
