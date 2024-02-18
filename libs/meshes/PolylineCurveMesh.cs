@@ -6,10 +6,10 @@ public partial class PolylineCurveMesh : PolylineMeshBase
 {
     private int TessellationStages = 3;
     private float TessellationToleranceDegrees = 4;
-    private Curve2D Curve;
+    private Curve2D? Curve;
 
     [Export]
-    public Curve2D curve
+    public Curve2D? curve
     {
         get => Curve;
         set

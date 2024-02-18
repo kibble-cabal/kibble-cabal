@@ -12,6 +12,16 @@ public static class EnumerableExtensions
         foreach (var element in value) action(element);
     }
 
+    public static void ForEach<T>(this IEnumerable<T> value, Action<T, int> action)
+    {
+        int i = 0;
+        foreach (var element in value)
+        {
+            action(element, i);
+            i += 1;
+        }
+    }
+
     public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> value) => value.Where(value => value != null).Select<T?, T>(value => value!);
 
     public static T? Find<T>(this IEnumerable<T> value, Func<T, bool> predicate)

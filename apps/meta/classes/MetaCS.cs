@@ -7,6 +7,7 @@ public partial class MetaCS : Node
     {
         AddChild(SaveSubSystem.Instance);
         AddChild(LocationSubSystem.Instance);
+        AddChild(DateTimeSubSystem.Instance);
     }
 
     public override void _Ready()

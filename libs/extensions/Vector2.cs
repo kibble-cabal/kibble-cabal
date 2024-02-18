@@ -83,4 +83,15 @@ public static class Vector2Extensions
         return rect;
     }
 
+    public static Vector2 ClosestPointOnCircle(this Vector2 point, float radius) => point.ClosestPointOnCircle(Vector2.Zero, radius);
+    public static Vector2 ClosestPointOnCircle(this Vector2 point, Vector2 center, float radius)
+    {
+        float vX = point.X - center.X;
+        float vY = point.Y - center.Y;
+        float magV = Mathf.Sqrt(vX * vX + vY * vY);
+        float aX = center.X + vX / magV * radius;
+        float aY = center.Y + vY / magV * radius;
+        return new Vector2(aX, aY);
+    }
+
 }

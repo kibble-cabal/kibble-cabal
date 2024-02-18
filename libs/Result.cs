@@ -20,11 +20,11 @@ public readonly struct Result<T, E>
 
     public bool IsOk => _ok;
 
-    public static Result<T, E> Ok(T v) => new(v, default(E), true);
-    public static Result<T, E> Err(E e) => new(default(T), e, false);
+    public static Result<T, E> Ok(T v) => new(v, default!, true);
+    public static Result<T, E> Err(E e) => new(default!, e, false);
 
-    public static implicit operator Result<T, E>(T v) => new(v, default(E), true);
-    public static implicit operator Result<T, E>(E e) => new(default(T), e, false);
+    public static implicit operator Result<T, E>(T v) => new(v, default!, true);
+    public static implicit operator Result<T, E>(E e) => new(default!, e, false);
 
     public R Match<R>(Func<T, R> ok, Func<E, R> error) => _ok ? ok(Value) : error(Error);
 

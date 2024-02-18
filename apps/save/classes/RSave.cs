@@ -9,6 +9,7 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
     {
         public const string Settings = "Settings";
         public const string Fate = "Fate";
+        public const string DateTime = "DateTime";
     }
 
     public const string BaseDir = "user://save-files";
@@ -52,6 +53,12 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
     {
         get => ExpectSubresource<RFate>(Keys.Fate);
         set => SetSubresource(Keys.Fate, value);
+    }
+
+    public RDateTime DateTime
+    {
+        get => ExpectSubresource<RDateTime>(Keys.DateTime);
+        set => SetSubresource(Keys.DateTime, value);
     }
 
     [Signal]
