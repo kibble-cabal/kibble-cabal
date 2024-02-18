@@ -9,6 +9,7 @@ public partial class MetaCS : Node
         AddChild(LocationSubSystem.Instance);
         AddChild(DateTimeSubSystem.Instance);
         AddChild(ExpansionPackSubSystem.Instance);
+        AddChild(GameModeSubSystem.Instance);
     }
 
     public override void _Ready()

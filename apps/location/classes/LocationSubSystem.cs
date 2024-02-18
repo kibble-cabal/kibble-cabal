@@ -19,7 +19,7 @@ public sealed partial class LocationSubSystemBase : Node, ISaveFileSubSystem
 
     public RLocation? GetLocation() => LocationDB.Instance.Find(CurrentLocation);
 
-    public Node3D? GetRoot() => GetTree().GetFirstNodeInGroup("LocationRoot") as Node3D;
+    public Node3D? GetRoot() => this.GetLocationRoot();
 
     public void To(StringName name) => To(LocationDB.Instance.Find(name));
 
