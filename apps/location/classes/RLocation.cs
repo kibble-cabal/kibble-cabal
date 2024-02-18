@@ -38,7 +38,7 @@ public partial class RLocation : ExtensibleResource, IIdentifiable<StringName>
         set => this.Set(ref _musicID, value);
     }
 
-    public RMusic? GetMusic() => MusicDB.Find(MusicID);
+    public RMusic? GetMusic() => MusicDB.Instance.Find(MusicID);
 
     public RLocationState GetOrCreateState() => SaveSubSystem.Current?.GetOrCreateLocationState(ID)
         ?? new RLocationState { LocationName = Name };

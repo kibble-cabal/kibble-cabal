@@ -1,0 +1,1 @@
+public sealed partial class QuestDB : SingletonDB<RQuest> { }
