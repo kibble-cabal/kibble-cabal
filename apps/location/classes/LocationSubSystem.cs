@@ -1,7 +1,7 @@
 using System.Linq;
 using Godot;
 
-public sealed partial class LocationSubSystemBase : Node, ISaveFileSubSystem
+public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileSubSystem
 {
     public StringName CurrentLocation { get; private set; } = "";
     public Node3D? CurrentMap { get; private set; } = null;

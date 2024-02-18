@@ -11,6 +11,7 @@ public partial class MetaCS : Node
         AddChild(ExpansionPackSubSystem.Instance);
         AddChild(GameModeSubSystem.Instance);
         AddChild(ModSubSystem.Instance);
+        AddChild(MusicSubSystem.Instance);
     }
 
     public override void _Ready()
