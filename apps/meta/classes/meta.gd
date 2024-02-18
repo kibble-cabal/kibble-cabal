@@ -40,7 +40,6 @@ func get_databases() -> Array[Node]:
 		ActionDB,
 		SubtreeDB,
 		AnimalDB,
-		ExpansionPackDB,
 		GameModeDB,
 		ItemDB,
 		LocationDB,
@@ -55,7 +54,6 @@ func get_databases() -> Array[Node]:
 func get_systems() -> Array[Node]:
 	return [
 		DatetimeSystem,
-		ExpansionPackSystem,
 		GameModeSystem,
 		LocationSystem,
 		ModSystem,
