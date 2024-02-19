@@ -27,7 +27,6 @@ var expose_lua_objects: Array[ExposeLuaAPI] = [
 	MetaLuaAPI.new(),
 	SaveLuaAPI.new(),
 	GameModeLuaAPI.new(),
-	SettingsLuaAPI.new(),
 	LocationLuaAPI.new(),
 	AnimalLuaAPI.new(),
 	ItemLuaAPI.new(),

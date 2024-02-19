@@ -121,22 +121,7 @@ static func from_dict(time: Dictionary) -> int:
 ## becomes [code]"01:45 on Mon, Spring 1, Year 2"[/code]
 static func format(time: int, string: String = "") -> String:
 	var dict := get_dict(time)
-	return string.format({
-		year = dict.year,
-		season = Season.find_key(dict.season).to_pascal_case(),
-		season_short = SeasonShort[dict.season],
-		season_number = dict.season,
-		week = dict.week,
-		week_of_year = get_week_of_year(time),
-		date = dict.date,
-		day = Day.find_key(dict.day).to_pascal_case(),
-		day_short = DayShort[dict.day],
-		day_number = dict.day,
-		hour = dict.hour,
-		hour_pad = str(dict.hour).pad_zeros(2),
-		minute = dict.minute,
-		minute_pad = str(dict.minute).pad_zeros(2)
-	})
+	return ""
 
 
 static func _ceil(a: int, b: int) -> int:

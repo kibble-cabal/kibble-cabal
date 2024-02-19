@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://blxf0eohimubp"]
+[gd_scene load_steps=14 format=3 uid="uid://blxf0eohimubp"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
 [ext_resource type="Script" path="res://apps/ui/classes/nodes/ui_stack.gd" id="9_05fjn"]
+[ext_resource type="PackedScene" uid="uid://cxqa8icddedmc" path="res://apps/settings/scenes/settings_scene.tscn" id="12_rxxm3"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
 geometry_source_geometry_mode = 2
@@ -52,6 +53,18 @@ script = ExtResource("2_rwq8w")
 visible = false
 
 [node name="UI" type="CanvasLayer" parent="." groups=["ui_root"]]
+
+[node name="PanelContainer" type="PanelContainer" parent="UI"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -147.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Settings" parent="UI/PanelContainer" instance=ExtResource("12_rxxm3")]
+layout_mode = 2
 
 [node name="GameModeButtonContainer" parent="UI" instance=ExtResource("4_h1txm")]
 anchors_preset = 2

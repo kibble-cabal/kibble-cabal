@@ -56,6 +56,14 @@ public sealed partial class SaveSubSystemBase : Node
         }
     }
 
+    public T GetSetting<[MustBeVariant] T>(StringName id)
+    {
+        if (Current is not null) return Current.Settings.Get<T>(id);
+        return default!;
+    }
+
+    public void ChangeSetting<[MustBeVariant] T>(StringName id, T value) => Current?.Settings.Change(id, value);
+
     private void EmitBeforeSaved() => EmitSignal(SignalName.BeforeSaved);
     private void EmitAfterSaved() => EmitSignal(SignalName.AfterSaved);
 
@@ -71,4 +79,6 @@ public sealed partial class SaveSubSystem : Singleton<SaveSubSystemBase>
     public static RSave? Current => Instance.Current;
     public static void Open(RSave save) => Instance.Open(save);
     public static void Close() => Instance.Close();
+    public static T GetSetting<[MustBeVariant] T>(StringName id) => Instance.GetSetting<T>(id);
+    public static void ChangeSetting<[MustBeVariant] T>(StringName id, T value) => Instance.ChangeSetting<T>(id, value);
 }

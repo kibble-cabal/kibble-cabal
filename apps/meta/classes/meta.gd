@@ -46,7 +46,6 @@ func get_databases() -> Array[Node]:
 		ModDB,
 		MusicDB,
 		QuestDB,
-		SettingDefinitionDB,
 		SoundEffectDB,
 	]
 

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="RGameMode" load_steps=4 format=3 uid="uid://par8mm66d6sd"]
+
+[ext_resource type="Script" path="res://apps/game_mode/classes/RGameMode.cs" id="1_rijfd"]
+[ext_resource type="Texture2D" uid="uid://cmvofrceycbys" path="res://expansion_packs/core/game_mode/icons/live_mode_icon.svg" id="1_teast"]
+[ext_resource type="PackedScene" uid="uid://bpgug5rexvxva" path="res://expansion_packs/core/live/scenes/live_mode_ui.tscn" id="2_i2j3u"]
+
+[resource]
+script = ExtResource("1_rijfd")
+Name = "Live"
+WorldPaused = true
+UIColor = Color(0.466667, 0.807843, 0.631373, 1)
+UIScene = ExtResource("2_i2j3u")
+UIMenuIndex = 0
+UIIcon = ExtResource("1_teast")
+Subresources = {}

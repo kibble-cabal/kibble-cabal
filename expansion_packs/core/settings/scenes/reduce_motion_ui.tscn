@@ -1,22 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://bg7ia0bxksjwd"]
 
-[sub_resource type="GDScript" id="GDScript_i2v86"]
-script/source = "extends CheckBox
-
-const KEY = \"reduce_motion\"
-
-
-func _ready() -> void:
-	self.button_pressed = SaveSystem.get_setting(KEY, false)
-
-
-func _on_toggled(toggled_on: bool) -> void:
-	SaveSystem.set_setting(KEY, toggled_on)
-"
+[ext_resource type="Script" path="res://expansion_packs/core/settings/scenes/ReduceMotionUI.cs" id="1_ilpoh"]
 
 [node name="CheckBox" type="CheckBox"]
 offset_right = 24.0
 offset_bottom = 24.0
-script = SubResource("GDScript_i2v86")
+script = ExtResource("1_ilpoh")
 
 [connection signal="toggled" from="." to="." method="_on_toggled"]

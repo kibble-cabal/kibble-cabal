@@ -11,11 +11,6 @@ const Locations = [
 	preload("res://expansion_packs/core/location/resources/island_resource.tres")
 ]
 
-const Settings = [
-	preload("res://expansion_packs/core/settings/resources/reduce_motion.tres"),
-	preload("res://expansion_packs/core/settings/resources/tap_to_move.tres"),
-]
-
 const Items = [
 	preload("res://expansion_packs/core/item/resources/flower.tres"),
 	preload("res://expansion_packs/core/item/resources/food_bowl.tres"),
@@ -34,7 +29,6 @@ const Subtrees = [
 func _init() -> void:
 	GameModes.map(GameModeDB.register)
 	Locations.map(LocationDB.register)
-	Settings.map(SettingDefinitionDB.register)
 	Items.map(ItemDB.register)
 	Quests.map(QuestDB.register)
 	Subtrees.map(SubtreeDB.register)

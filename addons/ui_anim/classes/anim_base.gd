@@ -22,8 +22,9 @@ func tween_property(path: NodePath, value: Variant, duration_time := duration())
 
 
 func duration() -> float:
-	if SaveSystem.get_setting("reduce_motion", false): return 0.0
 	return _get_default_duration()
+	#if SaveSystem.get_setting("reduce_motion", false): return 0.0
+	#return _get_default_duration()
 
 
 func is_hovering() -> bool:

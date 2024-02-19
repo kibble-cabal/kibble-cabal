@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="RExpansionPack" load_steps=3 format=3 uid="uid://cmrrginnpjsst"]
 
-[ext_resource type="Script" path="res://expansion_packs/core/main.gd" id="1_bb2jr"]
 [ext_resource type="Script" path="res://apps/expansion_pack/classes/RExpansionPack.cs" id="1_ekim8"]
+[ext_resource type="Script" path="res://expansion_packs/core/Main.cs" id="1_vhene"]
 
 [resource]
 script = ExtResource("1_ekim8")
@@ -9,4 +9,4 @@ ID = &"core"
 DisplayName = "Core"
 DisplayDescription = "This is the core of the game."
 Version = "0.1.0a"
-EntryScript = ExtResource("1_bb2jr")
+EntryScript = ExtResource("1_vhene")

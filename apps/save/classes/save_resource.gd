@@ -4,10 +4,6 @@ signal before_saved
 signal saved
 
 @export var id: String = ""
-@export var settings := SettingsResource.new():
-	set(value):
-		settings = value
-		_connect_subresource(settings)
 
 @export var inventory := InventoryResource.new():
 	set(value):
@@ -79,5 +75,5 @@ func _generate_id() -> void:
 
 ## Performs [method _connect_subresource] for all child resources
 func _connect_all_subresources() -> void:
-	for subresource in [settings, inventory, fate, datetime] + location_states + subresources.values():
+	for subresource in [inventory, fate, datetime] + location_states + subresources.values():
 		_connect_subresource(subresource)

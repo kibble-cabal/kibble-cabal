@@ -13,10 +13,10 @@ public sealed partial class RSettings : ExtensibleResource
         private set => this.Set(ref _settings, value);
     }
 
-    public void Change(StringName key, Variant value)
+    public void Change<[MustBeVariant] T>(StringName key, T value)
     {
-        if (_settings.ContainsKey(key)) _settings[key] = value;
-        else _settings.Add(key, value);
+        if (_settings.ContainsKey(key)) _settings[key] = Variant.From(value);
+        else _settings.Add(key, Variant.From(value));
         EmitChanged();
     }
 

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RSettingDefinition" load_steps=3 format=3 uid="uid://bim31fuclae4b"]
+
+[ext_resource type="PackedScene" uid="uid://bg7ia0bxksjwd" path="res://expansion_packs/core/settings/scenes/reduce_motion_ui.tscn" id="1_2lu88"]
+[ext_resource type="Script" path="res://apps/settings/classes/RSettingDefinition.cs" id="1_umw3l"]
+
+[resource]
+script = ExtResource("1_umw3l")
+ID = &"Accessibility/ReduceMotion"
+DisplayName = "Reduce Motion"
+DisplayDescription = ""
+UI = ExtResource("1_2lu88")
+Subresources = {}
