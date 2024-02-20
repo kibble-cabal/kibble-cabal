@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RExpansionPack" load_steps=3 format=3 uid="uid://dqy0bghrn4qyh"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-pet/main.gd" id="1_k1kiw"]
+[ext_resource type="Script" path="res://expansion_packs/core-pet/Main.cs" id="1_tyce1"]
 [ext_resource type="Script" path="res://apps/expansion_pack/classes/RExpansionPack.cs" id="1_v130e"]
 
 [resource]
@@ -9,4 +9,4 @@ ID = &"core/pet"
 DisplayName = "Core/Pet"
 DisplayDescription = ""
 Version = "0.1.0a"
-EntryScript = ExtResource("1_k1kiw")
+EntryScript = ExtResource("1_tyce1")

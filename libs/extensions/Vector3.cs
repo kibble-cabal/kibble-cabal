@@ -2,6 +2,7 @@ using Godot;
 
 public static class Vector3Extensions
 {
+    public static Vector3 ToVector3(this float f) => new(f, f, f);
     public static Vector2 ToVector2(this Vector3 vector, Vector3.Axis zeroAxis = Vector3.Axis.Y)
     {
         switch (zeroAxis)

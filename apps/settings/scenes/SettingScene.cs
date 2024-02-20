@@ -1,6 +1,6 @@
 using Godot;
 
-namespace KibbleCabal.Apps.Settings
+namespace KibbleCabal.Apps.Settings.UI
 {
     public partial class SettingScene : HBoxContainer
     {

@@ -27,7 +27,7 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
         points.ForEach(point => this.Polygon.AddPoint(point));
     }
 
-    public int GetIndex(Building building) => building.Floors.IndexOf(this);
+    public int GetIndex(RBuilding building) => building.Floors.IndexOf(this);
     public Vector2[] GetPointPositions() => this.Polygon?.GetPointPositions() ?? [];
     public void AddPoint(Vector2 point, Vector2? inHandle = null, Vector2? outHandle = null) => Polygon.AddPoint(point, inHandle, outHandle);
     public void InsertPoint(int index, Vector2 point, Vector2? inHandle = null, Vector2? outHandle = null) => Polygon.AddPoint(point, inHandle, outHandle, index);
@@ -36,7 +36,7 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
     public Vector2[] Tessellate()
     {
         if (Polygon == null || Polygon.PointCount < 3) return [];
-        return Polygon.Tessellate(Building.TessellationStages, Building.TessellationToleranceDegrees);
+        return Polygon.Tessellate(RBuilding.TessellationStages, RBuilding.TessellationToleranceDegrees);
     }
 
     public bool IsValid() => Polygon != null && Polygon.PointCount < 3 && !Geometry2D.TriangulatePolygon(Tessellate()).IsEmpty();
@@ -68,15 +68,15 @@ public record Floor : IGodotSerializable<Floor>, IBuildingComponent<Floor>
     public Vector2 ClosestPoint(Vector2 position) => this.Polygon?.ClosestPoint(position) ?? position;
     public Vector2 ClosestPointOnSurface(Vector2 position) => this.Polygon?.ClosestPointOnSurface(position) ?? position;
 
-    public Mesh[] GenerateMeshes(Building building)
+    public Mesh[] GenerateMeshes(RBuilding building)
     {
         // TODO: Material
         var mat = new StandardMaterial3D { AlbedoColor = new Color(1, 0, 1) };
         return [new PolygonCurveMesh()
         {
             curve = Polygon,
-            tessellation_stages = Building.TessellationStages,
-            tessellation_tolerance_degrees = Building.TessellationToleranceDegrees,
+            tessellation_stages = RBuilding.TessellationStages,
+            tessellation_tolerance_degrees = RBuilding.TessellationToleranceDegrees,
             materials = [mat, mat, mat],
             extrude_height = Thickness,
             render_sides = true,

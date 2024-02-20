@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Godot;
+using Godot.Collections;
 
 #nullable enable
 
@@ -42,4 +43,14 @@ public static class EnumerableExtensions
         return defaultValue;
     }
 
+    public static T? Pop<[MustBeVariant] T>(this Array<T> array)
+    {
+        if (array.Count > 0)
+        {
+            var item = array[^1];
+            array.RemoveAt(array.Count - 1);
+            return item;
+        }
+        return default;
+    }
 }

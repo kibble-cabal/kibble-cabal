@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="RGameMode" load_steps=5 format=3 uid="uid://c0m2o6ke55og1"]
+
+[ext_resource type="Script" path="res://apps/game_mode/classes/RGameMode.cs" id="1_plbci"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/classes/BuildModeState.cs" id="1_pykfs"]
+[ext_resource type="Texture2D" uid="uid://clmltol0sck7i" path="res://expansion_packs/core-building/game_mode/icons/build_mode_icon.svg" id="2_luexh"]
+[ext_resource type="PackedScene" uid="uid://d3wpvhh7qfr43" path="res://expansion_packs/core-building/building/scenes/ui/build_mode_ui.tscn" id="3_st5md"]
+
+[resource]
+script = ExtResource("1_plbci")
+Name = "Build"
+WorldPaused = true
+StateScript = ExtResource("1_pykfs")
+UIColor = Color(0.901961, 0.65098, 0.447059, 1)
+UIScene = ExtResource("3_st5md")
+UIMenuIndex = 0
+UIIcon = ExtResource("2_luexh")
+Subresources = {}

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b5x18wkjwfcdy"]
 
 [ext_resource type="Material" uid="uid://ddsj5vgsrbvh8" path="res://apps/game_mode/resources/game_mode_button_focus_material.tres" id="1_714s5"]
-[ext_resource type="Script" path="res://apps/game_mode/scenes/game_mode_button.gd" id="1_psi5a"]
+[ext_resource type="Script" path="res://apps/game_mode/scenes/GameModeButton.cs" id="2_3il4h"]
 [ext_resource type="Texture2D" uid="uid://clmltol0sck7i" path="res://expansion_packs/core-building/game_mode/icons/build_mode_icon.svg" id="3_copb3"]
 
 [node name="KButton" type="Button"]
@@ -11,7 +11,7 @@ offset_bottom = 12.0
 pivot_offset = Vector2(186.5, 51.5)
 theme_type_variation = &"GameModeButton"
 text = "build"
-script = ExtResource("1_psi5a")
+script = ExtResource("2_3il4h")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 use_parent_material = true
@@ -34,3 +34,7 @@ offset_right = 100.0
 offset_bottom = 100.0
 mouse_filter = 2
 color = Color(0.15, 0.15, 0.15, 1)
+
+[connection signal="focus_entered" from="." to="." method="OnFocusEntered"]
+[connection signal="focus_exited" from="." to="." method="OnFocusExited"]
+[connection signal="pressed" from="." to="." method="OnPressed"]

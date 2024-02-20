@@ -132,7 +132,7 @@ public partial class CircleContainerV2 : Container
         _ => throw new UnreachableException()
     };
 
-    public void Sort()
+    public virtual void Sort()
     {
         // Sort controlled children
         var children = GetControlledChildren();

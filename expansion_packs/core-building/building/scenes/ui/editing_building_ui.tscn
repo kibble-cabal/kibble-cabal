@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://uiviik6ck4si"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/editing_building_ui.gd" id="1_ah6xs"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/EditingBuildingUI.cs" id="1_f5sgy"]
 [ext_resource type="PackedScene" uid="uid://cpa36gsw2t6vo" path="res://expansion_packs/core-building/building/scenes/ui/design_ui.tscn" id="2_le6kv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3w1hc"]
@@ -10,7 +10,7 @@ bg_color = Color(1, 1, 1, 1)
 offset_right = 282.0
 offset_bottom = 204.0
 mouse_filter = 2
-script = ExtResource("1_ah6xs")
+script = ExtResource("1_f5sgy")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
@@ -47,7 +47,7 @@ text = "✓ Done"
 
 [node name="Spawner" type="Node3D" parent="."]
 
-[connection signal="pressed" from="CreateSquareRoomButton" to="." method="_on_create_square_room_button_pressed"]
-[connection signal="pressed" from="AddWallButton" to="." method="_on_add_wall_button_pressed"]
-[connection signal="pressed" from="AddFloorButton" to="." method="_on_add_floor_button_pressed"]
-[connection signal="pressed" from="DoneButton" to="." method="_on_done_button_pressed"]
+[connection signal="pressed" from="CreateSquareRoomButton" to="." method="OnCreateSquareRoomButtonPressed"]
+[connection signal="pressed" from="AddWallButton" to="." method="OnAddWallButtonPressed"]
+[connection signal="pressed" from="AddFloorButton" to="." method="OnAddFloorButtonPressed"]
+[connection signal="pressed" from="DoneButton" to="." method="OnDoneButtonPressed"]

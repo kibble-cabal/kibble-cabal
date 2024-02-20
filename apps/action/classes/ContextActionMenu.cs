@@ -18,8 +18,13 @@ public partial class ContextActionMenu : CircleContainerV2
     [Signal]
     public delegate void ClosedEventHandler();
 
+    [Export]
     public StringName MenuIdentifier = "";
+
+    [Export]
     public Array<RContextAction> AdditionalActions = [];
+
+    [Export]
     public bool CloseOnSelect = true;
 
     private Godot.Collections.Dictionary<RContextAction, Button> Nodes = [];

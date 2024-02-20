@@ -7,10 +7,10 @@ using Godot.Collections;
 /// data into multiple resources.
 /// </summary>
 [GlobalClass]
-public partial class FloorRef(Building Building, int Index) : RefCounted
+public partial class FloorRef(RBuilding RBuilding, int Index) : RefCounted
 {
     internal int index => Index;
-    internal Building building => Building;
+    internal RBuilding building => RBuilding;
 
     private Curve2D polygon
     {

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3wpvhh7qfr43"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/build_mode_ui.gd" id="1_dalms"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/BuildModeUI.cs" id="1_wkknu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ge2k"]
 bg_color = Color(1, 1, 1, 1)
@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_dalms")
+script = ExtResource("1_wkknu")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -36,4 +36,4 @@ text = "+ Create building"
 
 [node name="World" type="Node3D" parent="."]
 
-[connection signal="pressed" from="VBoxContainer/CreateBuildingButton" to="." method="_on_create_building_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CreateBuildingButton" to="." method="OnCreateBuildingButtonPressed"]

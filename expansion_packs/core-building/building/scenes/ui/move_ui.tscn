@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://kh0ttthnpfeg"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/move_ui.gd" id="1_sj7hp"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/MoveUI.cs" id="1_qdepo"]
 [ext_resource type="PackedScene" uid="uid://dn0j1kalkb2rk" path="res://apps/ui/scenes/cursor_3d.tscn" id="2_j647w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p12t1"]
@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_sj7hp")
+script = ExtResource("1_qdepo")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
@@ -30,5 +30,5 @@ text = "✕ Cancel"
 [node name="Cursor" parent="." instance=ExtResource("2_j647w")]
 modulate = Color(0.431373, 0.905882, 0.717647, 1)
 
-[connection signal="pressed" from="CancelButton" to="." method="_on_cancel_button_pressed"]
-[connection signal="clicked" from="Cursor" to="." method="_on_cursor_clicked"]
+[connection signal="pressed" from="CancelButton" to="." method="OnCancelButtonPressed"]
+[connection signal="clicked" from="Cursor" to="." method="OnCursorClicked"]

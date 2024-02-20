@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RInstructionContextAction" load_steps=2 format=3 uid="uid://ktilf6516si1"]
+
+[ext_resource type="Script" path="res://apps/action/classes/RInstructionContextAction.cs" id="2_hak6j"]
+
+[resource]
+script = ExtResource("2_hak6j")
+ID = &""
+DisplayText = "Go eat"
+ID = &""

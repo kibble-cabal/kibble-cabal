@@ -1,4 +1,4 @@
-class_name SubtreeResource extends ModdableResource
+class_name SubtreeResource extends Resource
 
 @export var key: StringName
 @export var subtree: BehaviorTree

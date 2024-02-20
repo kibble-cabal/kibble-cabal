@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://cah0iqv2gr1h6"]
 
-[ext_resource type="Script" path="res://apps/item/scenes/item_instance_scene.gd" id="1_xbhaw"]
+[ext_resource type="Script" path="res://apps/item/scenes/ItemInstanceScene.cs" id="1_bxtoj"]
 
 [node name="ItemScene" type="Node3D"]
-script = ExtResource("1_xbhaw")
+script = ExtResource("1_bxtoj")
 
 [node name="AbilitySystem" type="AbilitySystem" parent="."]

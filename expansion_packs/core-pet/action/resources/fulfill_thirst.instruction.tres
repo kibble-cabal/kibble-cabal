@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="InstructionActionMenuItem" load_steps=3 format=3 uid="uid://bikxew7t7glay"]
-
-[ext_resource type="BehaviorTree" uid="uid://cxu11l7d6xtww" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_thirst.tres" id="1_ps52j"]
-[ext_resource type="Script" path="res://apps/action/classes/instruction_action_menu_item.gd" id="2_r6ma2"]
-
-[resource]
-script = ExtResource("2_r6ma2")
-instruction_tree = ExtResource("1_ps52j")
-display_text = "Go drink"

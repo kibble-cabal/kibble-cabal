@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RExpansionPack" load_steps=3 format=3 uid="uid://dvghn6phwc813"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/main.gd" id="1_4dwkx"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/Main.cs" id="1_8t2iq"]
 [ext_resource type="Script" path="res://apps/expansion_pack/classes/RExpansionPack.cs" id="1_eabpd"]
 
 [resource]
@@ -9,4 +9,4 @@ ID = &"core/building"
 DisplayName = "Core/Building"
 DisplayDescription = ""
 Version = "0.1.0a"
-EntryScript = ExtResource("1_4dwkx")
+EntryScript = ExtResource("1_8t2iq")

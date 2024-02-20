@@ -10,15 +10,6 @@ public partial class RPetContextAction : RContextAction<RPetContextAction.Contex
         public required RPet Pet;
     }
 
-    private StringName _id = "";
-
-    [Export]
-    public override StringName ID
-    {
-        get => _id;
-        set => this.Set(ref _id, value);
-    }
-
     protected override string _GetDisplayText(Context? ctx) => "";
 
     protected override StringName[] _GetMenuIdentifiers() => ["pet/interact"];

@@ -63,11 +63,11 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
 
     public Vector2 GetMidpoint() => Sample(0.5f);
 
-    public int GetIndex(Building building) => building.Walls.IndexOf(this);
+    public int GetIndex(RBuilding building) => building.Walls.IndexOf(this);
 
     public bool IsValid() => Start.IsFinite() && End.IsFinite() && StartHandle.IsFinite() && EndHandle.IsFinite();
 
-    public Vector2[] Tessellate() => Tessellator.tessellate(Start, End, StartHandle, EndHandle, Building.TessellationStages, Building.TessellationToleranceDegrees);
+    public Vector2[] Tessellate() => Tessellator.tessellate(Start, End, StartHandle, EndHandle, RBuilding.TessellationStages, RBuilding.TessellationToleranceDegrees);
 
     public bool IsTouching(Wall other, float threshold = F.AlmostZero)
     {
@@ -81,13 +81,13 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
         return pairs.Any(pair => pair.a.DistanceTo(pair.b).Abs() < threshold);
     }
 
-    public IEnumerable<int> GetTouching(Building building) => building.Walls
+    public IEnumerable<int> GetTouching(RBuilding building) => building.Walls
         .Where(wall => wall != this && wall.IsValid())
         .Select(wall => IsTouching(wall) ? wall : null)
         .WhereNotNull()
         .Select(wall => wall.GetIndex(building));
 
-    public Vector2? GetJoin(Building building, Vector2 position)
+    public Vector2? GetJoin(RBuilding building, Vector2 position)
     {
         foreach (var other in GetTouching(building).Select(building.Get<Wall>).WhereNotNull())
         {
@@ -105,7 +105,7 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
 
     private StandardMaterial3D MakeMaterial(float r, float g, float b) => new StandardMaterial3D { AlbedoColor = new Color(r, g, b) };
 
-    public Mesh[] GenerateMeshes(Building building)
+    public Mesh[] GenerateMeshes(RBuilding building)
     {
         // TODO: Materials
         return [new PolylinePointsMesh()

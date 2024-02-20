@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="InstructionActionMenuItem" load_steps=3 format=3 uid="uid://dgd2ojwtyfw48"]
-
-[ext_resource type="Script" path="res://apps/action/classes/instruction_action_menu_item.gd" id="1_cma7u"]
-[ext_resource type="BehaviorTree" uid="uid://biprb1gcsccmg" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_hunger.tres" id="1_we21r"]
-
-[resource]
-script = ExtResource("1_cma7u")
-instruction_tree = ExtResource("1_we21r")
-display_text = "Go eat"

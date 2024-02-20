@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://blxf0eohimubp"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_gay8e"]
+[ext_resource type="Script" path="res://Main.cs" id="1_yilhj"]
 [ext_resource type="PackedScene" uid="uid://vn3js04d5age" path="res://apps/save/scenes/save_button.tscn" id="2_e761m"]
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="2_rwq8w"]
 [ext_resource type="Environment" uid="uid://b8m1cm2ovxejb" path="res://content/environments/default_environment.tres" id="2_sq8pg"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bbidjdr5fxjcu" path="res://apps/game_mode/scenes/game_mode_button_container.tscn" id="4_h1txm"]
 [ext_resource type="PackedScene" uid="uid://hx0gdvtypp0t" path="res://apps/datetime/scenes/datetime_label.tscn" id="5_nbl4x"]
 [ext_resource type="PackedScene" uid="uid://cggqb75a8w8r" path="res://addons/debug_menu/debug_menu.tscn" id="8_54e10"]
-[ext_resource type="Script" path="res://apps/ui/classes/nodes/ui_stack.gd" id="9_05fjn"]
+[ext_resource type="Script" path="res://apps/ui/classes/nodes/UIStack.cs" id="11_feo1r"]
 [ext_resource type="PackedScene" uid="uid://cxqa8icddedmc" path="res://apps/settings/scenes/settings_scene.tscn" id="12_rxxm3"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_rms5k"]
@@ -18,7 +18,7 @@ geometry_source_geometry_mode = 2
 geometry_source_group_name = &"navigation_mesh"
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_gay8e")
+script = ExtResource("1_yilhj")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("2_sq8pg")
@@ -39,7 +39,7 @@ directional_shadow_pancake_size = 10.0
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_rms5k")
 
-[node name="World" type="Node3D" parent="." groups=["world_root"]]
+[node name="World" type="Node3D" parent="." groups=["LocationRoot", "world_root"]]
 process_mode = 1
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -52,19 +52,7 @@ script = ExtResource("2_rwq8w")
 [node name="DebugMenu" parent="." instance=ExtResource("8_54e10")]
 visible = false
 
-[node name="UI" type="CanvasLayer" parent="." groups=["ui_root"]]
-
-[node name="PanelContainer" type="PanelContainer" parent="UI"]
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -147.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="Settings" parent="UI/PanelContainer" instance=ExtResource("12_rxxm3")]
-layout_mode = 2
+[node name="UI" type="CanvasLayer" parent="." groups=["UIRoot", "ui_root"]]
 
 [node name="GameModeButtonContainer" parent="UI" instance=ExtResource("4_h1txm")]
 anchors_preset = 2
@@ -80,6 +68,18 @@ grow_horizontal = 1
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="UI"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -147.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Settings" parent="UI/PanelContainer" instance=ExtResource("12_rxxm3")]
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI"]
 anchors_preset = 15
@@ -115,8 +115,8 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="GameModeUIRoot" type="Control" parent="UI/VBoxContainer" groups=["game_mode_ui_root"]]
+[node name="GameModeUIRoot" type="Control" parent="UI/VBoxContainer" groups=["GameModeUIRoot", "game_mode_ui_root"]]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
-script = ExtResource("9_05fjn")
+script = ExtResource("11_feo1r")

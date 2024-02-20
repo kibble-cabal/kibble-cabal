@@ -9,14 +9,14 @@ public interface IBuildingComponent<T> : IGodotSerializable<T>
 
     /* Unimplemented methods */
 
-    int GetIndex(Building building);
+    int GetIndex(RBuilding building);
     bool IsValid();
     Vector2[] Tessellate();
     bool IsTouching(T other, float threshold = F.AlmostZero);
     Rect2 GetBoundingBox();
     Vector2 ClosestPoint(Vector2 position);
     Vector2 ClosestPointOnSurface(Vector2 position);
-    Mesh[] GenerateMeshes(Building building);
+    Mesh[] GenerateMeshes(RBuilding building);
     void MoveBy(Vector2 delta);
 }
 

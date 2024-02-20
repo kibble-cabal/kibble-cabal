@@ -3,7 +3,10 @@ using Godot;
 
 public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileSubSystem
 {
+    [Export]
     public StringName CurrentLocation { get; private set; } = "";
+
+    [Export]
     public Node3D? CurrentMap { get; private set; } = null;
 
     [Signal]
@@ -14,6 +17,8 @@ public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileS
 
     [Signal]
     public delegate void LocationChangedEventHandler();
+
+    public LocationSubSystemBase() => this.Name = "LocationSubSystem";
 
     public RLocationState? GetState() => GetLocation()?.GetOrCreateState();
 

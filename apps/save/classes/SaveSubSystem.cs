@@ -11,6 +11,9 @@ public sealed partial class SaveSubSystemBase : Node
     public delegate void SaveClosedEventHandler(RSave save);
 
     [Signal]
+    public delegate void SaveChangedEventHandler();
+
+    [Signal]
     public delegate void BeforeSavedEventHandler();
 
     [Signal]
@@ -43,6 +46,7 @@ public sealed partial class SaveSubSystemBase : Node
         save.BeforeSaved += EmitBeforeSaved;
         save.AfterSaved += EmitAfterSaved;
         EmitSignal(SignalName.SaveOpened, [save]);
+        EmitSignal(SignalName.SaveChanged);
     }
 
     public void Close()
@@ -53,6 +57,7 @@ public sealed partial class SaveSubSystemBase : Node
             save.AfterSaved -= EmitAfterSaved;
             Current = null;
             EmitSignal(SignalName.SaveClosed, [save]);
+            EmitSignal(SignalName.SaveChanged);
         }
     }
 
@@ -67,7 +72,7 @@ public sealed partial class SaveSubSystemBase : Node
     private void EmitBeforeSaved() => EmitSignal(SignalName.BeforeSaved);
     private void EmitAfterSaved() => EmitSignal(SignalName.AfterSaved);
 
-    private static IEnumerable<RSave> DiscoverSaves() => DirAccess.DirExistsAbsolute(RSave.BaseDir)
+    public static IEnumerable<RSave> DiscoverSaves() => DirAccess.DirExistsAbsolute(RSave.BaseDir)
         ? DirAccess.GetFilesAt(RSave.BaseDir)
             .Select(path => GD.Load<RSave>(RSave.BaseDir.PathJoin(path)))
             .WhereNotNull()
@@ -79,6 +84,8 @@ public sealed partial class SaveSubSystem : Singleton<SaveSubSystemBase>
     public static RSave? Current => Instance.Current;
     public static void Open(RSave save) => Instance.Open(save);
     public static void Close() => Instance.Close();
+    public static void CommitChanges() => Instance.CommitChanges();
     public static T GetSetting<[MustBeVariant] T>(StringName id) => Instance.GetSetting<T>(id);
     public static void ChangeSetting<[MustBeVariant] T>(StringName id, T value) => Instance.ChangeSetting<T>(id, value);
+    public static IEnumerable<RSave> DiscoverSaves() => SaveSubSystemBase.DiscoverSaves();
 }

@@ -1,37 +1,17 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtuiypf0ik6go"]
 
-[sub_resource type="GDScript" id="GDScript_ohic2"]
-script/source = "extends HBoxContainer
+[ext_resource type="Script" path="res://apps/quest/scenes/QuestUI.cs" id="1_jwqcs"]
 
-var ui: Node
-
-var save: SaveResource:
-	get: return SaveSystem.current_save
-
-
-func render(quest: QuestResource) -> void:
-	if not quest: return
-	var is_complete := quest.is_complete(save)
-	%NameLabel.text = quest.display_name + (\" (complete)\" if is_complete else \" (incomplete)\")
-	%DescriptionLabel.text = quest.display_description
-	if is_complete:
-		modulate.a = 0.5
-	if ui: ui.queue_free()
-	if quest.ui:
-		ui = quest.ui.instantiate()
-		add_child(ui)
-		if ui.has_method(\"render\"): ui.render(quest)
-	
-"
-
-[node name="QuestUI" type="HBoxContainer"]
+[node name="QuestUI" type="HBoxContainer" node_paths=PackedStringArray("NameLabel", "DescriptionLabel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
-script = SubResource("GDScript_ohic2")
+script = ExtResource("1_jwqcs")
+NameLabel = NodePath("VBoxContainer/NameLabel")
+DescriptionLabel = NodePath("VBoxContainer/DescriptionLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2

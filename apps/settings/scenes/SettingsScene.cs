@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace KibbleCabal.Apps.Settings
+namespace KibbleCabal.Apps.Settings.UI
 {
     public partial class SettingsScene : VBoxContainer
     {

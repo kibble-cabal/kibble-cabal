@@ -3,16 +3,8 @@ using Godot;
 [GlobalClass]
 public partial class RInstructionContextAction : RPetContextAction
 {
-    private StringName _id = "";
     private string _displayText = "";
     private Resource? _instructionTree;
-
-    [Export]
-    public override StringName ID
-    {
-        get => _id;
-        set => this.Set(ref _id, value);
-    }
 
     [Export]
     public string DisplayText

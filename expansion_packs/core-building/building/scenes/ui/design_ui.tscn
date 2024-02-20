@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cpa36gsw2t6vo"]
+[gd_scene load_steps=2 format=3 uid="uid://cpa36gsw2t6vo"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/design_ui.gd" id="1_dvdp1"]
 [ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/design_building_component_ui.gd" id="1_wcp2e"]
 
 [node name="DesignUI" type="PanelContainer"]
 mouse_filter = 2
-script = ExtResource("1_dvdp1")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2

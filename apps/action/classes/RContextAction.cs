@@ -2,10 +2,8 @@ using System;
 using Godot;
 
 
-public abstract partial class RContextAction : Resource, IIdentifiable<StringName>
+public abstract partial class RContextAction : Resource
 {
-    public abstract StringName ID { get; set; }
-
     protected abstract string _GetDisplayText<Ctx>(Ctx? ctx) where Ctx : class;
     protected abstract StringName[] _GetMenuIdentifiers();
     protected virtual bool _IsVisible<Ctx>(Ctx? ctx) where Ctx : class => true;

@@ -18,7 +18,7 @@ public record Roof : IGodotSerializable<Roof>, IBuildingComponent<Roof>
     public Roof() => this.Polygon = new();
     public Roof(Curve2D polygon) => this.Polygon = polygon ?? new();
 
-    public int GetIndex(Building building) => building.Roofs.IndexOf(this);
+    public int GetIndex(RBuilding building) => building.Roofs.IndexOf(this);
     public Vector2[] GetPointPositions() => this.Polygon?.GetPointPositions() ?? [];
     public void AddPoint(Vector2 point, Vector2? inHandle = null, Vector2? outHandle = null) => Polygon.AddPoint(point, inHandle, outHandle);
     public void InsertPoint(int index, Vector2 point, Vector2? inHandle = null, Vector2? outHandle = null) => Polygon.AddPoint(point, inHandle, outHandle, index);
@@ -27,7 +27,7 @@ public record Roof : IGodotSerializable<Roof>, IBuildingComponent<Roof>
     public Vector2[] Tessellate()
     {
         if (Polygon == null || Polygon.PointCount < 3) return [];
-        return Polygon.Tessellate(Building.TessellationStages, Building.TessellationToleranceDegrees);
+        return Polygon.Tessellate(RBuilding.TessellationStages, RBuilding.TessellationToleranceDegrees);
     }
 
     public bool IsValid() => Polygon != null && Polygon.PointCount < 3 && !Geometry2D.TriangulatePolygon(Tessellate()).IsEmpty();
@@ -59,7 +59,7 @@ public record Roof : IGodotSerializable<Roof>, IBuildingComponent<Roof>
     public Vector2 ClosestPoint(Vector2 position) => this.Polygon?.ClosestPoint(position) ?? position;
     public Vector2 ClosestPointOnSurface(Vector2 position) => this.Polygon?.ClosestPointOnSurface(position) ?? position;
 
-    public Mesh[] GenerateMeshes(Building building)
+    public Mesh[] GenerateMeshes(RBuilding building)
     {
         throw new System.NotImplementedException();
     }

@@ -71,4 +71,9 @@ public sealed partial class GameModeSubSystemBase : Node
     }
 }
 
-public sealed partial class GameModeSubSystem : Singleton<GameModeSubSystemBase> { }
+public sealed partial class GameModeSubSystem : Singleton<GameModeSubSystemBase>
+{
+    public static RGameMode? Current => Instance.Current;
+    public static Node? State => Instance.State;
+    public static void To(RGameMode? gameMode) => Instance.To(gameMode);
+}

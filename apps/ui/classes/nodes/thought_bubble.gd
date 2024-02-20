@@ -118,3 +118,38 @@ func queue_redraw_all() -> void:
 	update()
 	background.queue_redraw()
 	foreground.queue_redraw()
+
+func destroy() -> void:
+	if not self.is_inside_tree() or self.is_queued_for_deletion(): return
+	await (create_tween()
+		.set_ease(Tween.EASE_IN)
+		.set_trans(Tween.TRANS_BACK)
+		.tween_property(self, "scale", Vector2.ZERO, 0.25)).finished
+	queue_free()
+
+func initialize(text: String, duration: float = 3, max_width: float = -1) -> void:
+	add_to_group(&"ui")
+	add_to_group(&"thought_bubble")
+	self.text = text
+	scale *= 0
+	self.max_width = max_width
+	reset_size()
+	position = Vector2(0, -size.y / 2)
+	if duration > 0: ready.connect(
+		func() -> void:
+			await (create_tween()
+				.set_ease(Tween.EASE_OUT)
+				.set_trans(Tween.TRANS_BACK)
+				.tween_property(self, "scale", Vector2.ONE, 0.25)).finished
+			
+			# Destroy thought bubble after duration passed
+			if Nodes.can_queue_free(self):
+				await get_tree().create_timer(duration).timeout
+				await destroy()
+	)
+
+
+static func spawn(text: String, duration: float = 3, max_width: float = -1) -> ThoughtBubble:	
+	var bubble := ThoughtBubble.new()
+	bubble.initialize(text, duration, max_width)
+	return bubble

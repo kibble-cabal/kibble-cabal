@@ -3,6 +3,13 @@ using Godot;
 
 public static class DT
 {
+    // TODO: Implementation is unfinished
+    public enum Flags
+    {
+        HourPadZeros,
+        TwentyFourClock,
+    }
+
     /// <summary>
     /// The amount of real-world seconds equal to one in-game minute.
     /// </summary>
@@ -70,15 +77,24 @@ public static class DT
     public static int GetHour(int time) => Ceil(time % MinutesInDay, MinutesInHour);
     public static int GetMinute(int time) => time % MinutesInHour;
 
-    public struct DateTime
+    public readonly struct DateTime(int time)
     {
-        public int Time;
-        public readonly int Year => DT.GetYear(Time);
-        public readonly int Season => DT.GetSeason(Time);
-        public readonly int Week => DT.GetWeek(Time);
-        public readonly int Date => DT.GetDate(Time);
-        public readonly int Day => DT.GetDay(Time);
-        public readonly int Hour => DT.GetHour(Time);
-        public readonly int Minute => DT.GetMinute(Time);
+        public readonly int Time = time;
+        public readonly int Year => GetYear(Time);
+        public readonly int Season => GetSeason(Time);
+        public readonly int Week => GetWeek(Time);
+        public readonly int Date => GetDate(Time);
+        public readonly int Day => GetDay(Time);
+        public readonly int Hour => GetHour(Time);
+        public readonly int Minute => GetMinute(Time);
+        public readonly string YearString => $"{Year + 1}";
+        public readonly string SeasonString => GetSeasonName((Season)(Season + 1));
+        public readonly string WeekString => $"{Week + 1}";
+        public readonly string DateString => $"{Date + 1}";
+        public readonly string DayString => GetDayName((Day)(Day + 1));
+        public readonly string DayShortString => GetShortDayName((Day)(Day + 1));
+        public readonly string HourString => $"{Hour}";
+        public readonly string MinuteString => $"{Minute}".PadLeft(2, '0');
+        public readonly string PeriodString => Hour < 12 ? "am" : "pm";
     }
 }

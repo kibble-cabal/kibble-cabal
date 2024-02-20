@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://bbidjdr5fxjcu"]
 
-[ext_resource type="Script" path="res://apps/game_mode/scenes/game_mode_button_container.gd" id="1_k513s"]
+[ext_resource type="Script" path="res://apps/game_mode/scenes/GameModeButtonContainer.cs" id="1_sctnt"]
 
-[node name="GameModeButtonContainer" type="Container" node_paths=PackedStringArray("unsorted")]
+[node name="GameModeButtonContainer" type="Container" node_paths=PackedStringArray("UnsortedNodes")]
 process_mode = 3
 show_behind_parent = true
 custom_minimum_size = Vector2(300, 300)
@@ -20,10 +20,9 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
-script = ExtResource("1_k513s")
-unsorted = [NodePath("ColorRect")]
-degree_range = 90.0
-degree_offset = -90.0
+script = ExtResource("1_sctnt")
+UnsortedNodes = [NodePath("ColorRect")]
+DegreeMax = 90.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1

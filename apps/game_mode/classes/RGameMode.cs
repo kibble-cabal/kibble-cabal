@@ -78,12 +78,11 @@ public partial class RGameMode : ExtensibleResource, IIdentifiable<StringName>
                 if (StateInstance != null)
                     system.AddChild(StateInstance);
             }
-            var uiRoot = system.GetUIRoot();
-            if (uiRoot is Node node && UIScene != null)
+            if (system.GetGameModeUIRoot() is UIStack node && UIScene != null)
             {
-                var instance = UIScene.Instantiate();
+                var instance = UIScene.Instantiate<Control>();
                 instance.AddToGroup(UISceneGroupName);
-                node.AddChild(instance);
+                node.Push(instance);
             }
         }
     }
@@ -94,9 +93,8 @@ public partial class RGameMode : ExtensibleResource, IIdentifiable<StringName>
         {
             if (StateInstance is not null && StateInstance.CanQueueFree())
                 StateInstance.QueueFree();
-            var uiRoot = system.GetUIRoot();
-            if (uiRoot is not null && UIScene != null)
-                uiRoot.GetChildren().Where(child => child.CanQueueFree()).ForEach(child => child.QueueFree());
+            if (system.GetGameModeUIRoot() is UIStack node)
+                node.Clear();
         }
     }
 

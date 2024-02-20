@@ -7,9 +7,9 @@ using Godot.Collections;
 /// data into multiple resources.
 /// </summary>
 [GlobalClass]
-public partial class WallRef(Building Building, int Index) : RefCounted
+public partial class WallRef(RBuilding RBuilding, int Index) : RefCounted
 {
-    internal Building building => Building;
+    internal RBuilding building => RBuilding;
     internal int index => Index;
 
     private Vector2 start

@@ -1,9 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://07ldrxywjkur"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/wall_hud.gd" id="1_voell"]
+[ext_resource type="Script" path="res://expansion_packs/core-building/building/scenes/ui/WallHUD.cs" id="1_d0uvw"]
 
-[node name="WallHUD" type="PanelContainer"]
+[node name="WallHUD" type="Control"]
 z_index = -1
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -13,19 +14,24 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_voell")
+script = ExtResource("1_d0uvw")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+offset_right = 177.0
+offset_bottom = 112.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="MoveButton" type="Button" parent="VBoxContainer"]
+[node name="MoveButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Move"
 
-[node name="DestroyButton" type="Button" parent="VBoxContainer"]
+[node name="DestroyButton" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 text = "Destroy"
 
-[connection signal="pressed" from="VBoxContainer/MoveButton" to="." method="_on_move_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/DestroyButton" to="." method="_on_destroy_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MoveButton" to="." method="OnMoveButtonPressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/DestroyButton" to="." method="OnDestroyButtonPressed"]

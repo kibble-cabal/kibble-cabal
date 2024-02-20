@@ -36,7 +36,7 @@ public abstract partial class Spawner<R, N> : Spawner where R : Resource where N
     public Spawner() { }
     public Spawner(R resource) => SetResource(resource);
 
-    protected virtual N? _Spawn(R resource, Node3D world) => null;
+    protected abstract N? _Spawn(R resource, Node3D world);
     protected virtual void _Update(R resource, N node) { }
     protected virtual void _Despawn(N node)
     {
