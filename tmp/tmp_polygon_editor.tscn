@@ -2,13 +2,7 @@
 
 [ext_resource type="Script" path="res://tmp/tmp_polygon_editor.gd" id="1_ij2bv"]
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="2_v5ng3"]
-[ext_resource type="Script" path="res://apps/drag_drop/classes/polygon_editor_3d_base.gd" id="4_0bjds"]
-
-[sub_resource type="Curve2D" id="Curve2D_bipy8"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2.08165e-12, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 2.08165e-12, 1)
-}
-point_count = 4
+[ext_resource type="Script" path="res://apps/drag_drop/classes/CurveEditor3D.cs" id="3_65vg0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_b2vr5"]
 sky_top_color = Color(1, 1, 1, 1)
@@ -28,9 +22,14 @@ albedo_color = Color(0.137255, 0.137255, 0.137255, 1)
 material = SubResource("StandardMaterial3D_xwj6u")
 size = Vector2(3, 3)
 
+[sub_resource type="Curve2D" id="Curve2D_bipy8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2.08165e-12, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 2.08165e-12, 1)
+}
+point_count = 4
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_ij2bv")
-curve = SubResource("Curve2D_bipy8")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_g5jb1")
@@ -44,12 +43,14 @@ size = 10.0
 script = ExtResource("2_v5ng3")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1, 2.08165e-12)
 mesh = SubResource("PlaneMesh_cpx31")
 
 [node name="PolygonEditor3D" type="Node3D" parent="."]
-script = ExtResource("4_0bjds")
-size = 0.1
-dragging_modulate = Color(0.501961, 1, 0.858824, 1)
+script = ExtResource("3_65vg0")
+Curve = SubResource("Curve2D_bipy8")
+EnableAddPoints = true
+EnableRemovePoints = true
 
 [node name="Line2D" type="Line2D" parent="."]
 position = Vector2(100, 100)

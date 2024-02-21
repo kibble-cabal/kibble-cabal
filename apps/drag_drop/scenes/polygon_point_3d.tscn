@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dn6q808lm3ecy"]
 
 [ext_resource type="Texture2D" uid="uid://2jwmed0kim78" path="res://content/icons/circle_filled_64x64.svg" id="1_6s203"]
-[ext_resource type="Script" path="res://apps/drag_drop/scenes/polygon_point_3d.gd" id="1_y3tdw"]
-[ext_resource type="Script" path="res://apps/drag_drop/classes/draggable_component_3d.gd" id="2_mwhub"]
+[ext_resource type="Script" path="res://apps/drag_drop/scenes/PolygonPoint3D.cs" id="2_rycw1"]
+[ext_resource type="Script" path="res://apps/drag_drop/classes/Draggable3D.cs" id="4_vq6ha"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lh74k"]
 radius = 0.55
@@ -12,13 +12,17 @@ pixel_size = 0.0078125
 billboard = 1
 alpha_cut = 1
 texture = ExtResource("1_6s203")
-script = ExtResource("1_y3tdw")
+script = ExtResource("2_rycw1")
 
-[node name="Draggable" type="Area3D" parent="."]
+[node name="Draggable" type="Area3D" parent="." node_paths=PackedStringArray("ParentNode")]
 collision_layer = 512
 collision_mask = 1024
-script = ExtResource("2_mwhub")
-drop_mode = 0
+script = ExtResource("4_vq6ha")
+DropAreas = []
+RayLength = 100.0
+ParentNode = NodePath("..")
+DropMode = 0
+AxisLockY = true
 
 [node name="CollisionShape" type="CollisionShape3D" parent="Draggable"]
 shape = SubResource("SphereShape3D_lh74k")

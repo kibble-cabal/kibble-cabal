@@ -1,19 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://deqwob5avrl7g"]
+[gd_scene load_steps=2 format=3 uid="uid://bhxlx2kypv831"]
 
-[ext_resource type="Script" path="res://apps/ui/classes/nodes/control_3d.gd" id="1_3wgnn"]
+[ext_resource type="Script" path="res://apps/ui/classes/nodes/Button3D.cs" id="1_41kuf"]
 
-[node name="AddPointButton" type="Button"]
-z_index = -1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -6.0
-offset_right = 16.0
-offset_bottom = 6.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Button" type="Button"]
+offset_right = 32.0
+offset_bottom = 12.0
 text = "+"
-script = ExtResource("1_3wgnn")
+script = ExtResource("1_41kuf")

@@ -1,13 +1,15 @@
 extends Node3D
 
-@export var curve: Curve2D
+var curve: Curve2D
 
 @onready var line := $Line2D as Line2D
+@onready var editor := $PolygonEditor3D as CurveEditor3D
 
 
 func _ready() -> void:
-	$PolygonEditor3D.curve = curve
+	curve = editor.Curve
 	curve.changed.connect(_on_curve_changed)
+	_on_curve_changed()
 
 
 func _on_curve_changed() -> void:

@@ -9,6 +9,7 @@ using MergeSignature = System.Func<HistoryItem, HistoryItem, HistoryItem>;
 
 public partial class HistoryItem(string name, IEnumerable<Action> doMethods, IEnumerable<Action> undoMethods) : RefCounted
 {
+    public object? Caller;
     public string Name = name;
     public IEnumerable<Action> DoMethods { get; protected set; } = doMethods;
     public IEnumerable<Action> UndoMethods { get; protected set; } = undoMethods;
@@ -90,8 +91,8 @@ public partial class History : RefCounted
 
     public HistoryItem Add(string name, IEnumerable<Action> doMethods, IEnumerable<Action> undoMethods) => Add(new HistoryItem(name, doMethods, undoMethods));
     public HistoryItem Add(string name, Action? doMethod, Action? undoMethod) => Add(name, doMethod is not null ? [doMethod] : [], undoMethod is not null ? [undoMethod] : []);
-    public MergableHistoryItem MergeAdd(string name, IEnumerable<Action> doMethods, IEnumerable<Action> undoMethods, CanMergeSignature? canMergeMethod, MergeSignature? mergeMethod) => Add(new MergableHistoryItem(name, doMethods, undoMethods, canMergeMethod, mergeMethod));
-    public MergableHistoryItem MergeAdd(string name, Action? doMethod, Action? undoMethod, CanMergeSignature? canMergeMethod, MergeSignature? mergeMethod) => MergeAdd(name, doMethod is not null ? [doMethod] : [], undoMethod is not null ? [undoMethod] : [], canMergeMethod, mergeMethod);
+    public MergableHistoryItem MergeAdd(string name, IEnumerable<Action> doMethods, IEnumerable<Action> undoMethods, CanMergeSignature? canMergeMethod = null, MergeSignature? mergeMethod = null) => Add(new MergableHistoryItem(name, doMethods, undoMethods, canMergeMethod, mergeMethod));
+    public MergableHistoryItem MergeAdd(string name, Action? doMethod, Action? undoMethod, CanMergeSignature? canMergeMethod = null, MergeSignature? mergeMethod = null) => MergeAdd(name, doMethod is not null ? [doMethod] : [], undoMethod is not null ? [undoMethod] : [], canMergeMethod, mergeMethod);
 
     public I Add<I>(I item) where I : HistoryItem
     {

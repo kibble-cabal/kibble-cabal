@@ -1,13 +1,13 @@
 using Godot;
 
 [GlobalClass]
-public partial class Control3DV2 : Control
+public partial class Button3D : Button, IControl3D
 {
     [Export]
-    public Vector3 LocalPosition;
+    public Vector3 LocalPosition { get; set; }
 
     [Export]
-    public bool Center = true;
+    public bool Center { get; set; } = true;
 
     private Node? Parent;
     private Viewport? Viewport;

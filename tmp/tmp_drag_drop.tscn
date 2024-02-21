@@ -1,8 +1,8 @@
-[gd_scene load_steps=35 format=3 uid="uid://dcnw00qqwq063"]
+[gd_scene load_steps=34 format=3 uid="uid://dcnw00qqwq063"]
 
 [ext_resource type="Script" path="res://apps/camera/classes/default_camera_3d.gd" id="1_t41oy"]
-[ext_resource type="Script" path="res://apps/drag_drop/classes/droppable_area_3d.gd" id="2_wwdbq"]
-[ext_resource type="Script" path="res://apps/drag_drop/classes/draggable_component_3d.gd" id="4_3rfcr"]
+[ext_resource type="Script" path="res://apps/drag_drop/classes/Droppable3D.cs" id="2_sl4hv"]
+[ext_resource type="Script" path="res://apps/drag_drop/classes/Draggable3D.cs" id="3_mrpdt"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7xitx"]
 size = Vector2(1.5, 1.5)
@@ -21,9 +21,6 @@ albedo_color = Color(0.913725, 0.419608, 1, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_7c8jd"]
 material = SubResource("StandardMaterial3D_3ck1i")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_tuycf"]
-size = Vector3(2, 0.25, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2mya"]
 albedo_color = Color(0.470588, 0.470588, 0.470588, 1)
@@ -143,16 +140,15 @@ collision_layer = 1024
 collision_mask = 512
 input_ray_pickable = false
 monitoring = false
-script = ExtResource("2_wwdbq")
-snap_mode = 1
-snap_threshold = 0.5
-snap_debug_enabled = true
-snap_debug_color = Color(0, 0.694118, 1, 1)
-snap_mesh = SubResource("PlaneMesh_7xitx")
-snap_points = PackedVector3Array(2.08165e-12, 0.5, 2.08165e-12)
+script = ExtResource("2_sl4hv")
+SnapThreshold = 0.5
+SnapDebugEnabled = true
+SnapDebugColor = Color(0, 0.694118, 1, 1)
+SnapMesh = SubResource("PlaneMesh_7xitx")
+SnapMode = 1
 
 [node name="Label" type="Label3D" parent="Drop Area 1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.12, 2.08165e-12)
 billboard = 1
 text = "Drop area 1"
 
@@ -169,24 +165,25 @@ collision_layer = 1024
 collision_mask = 512
 input_ray_pickable = false
 monitoring = false
-script = ExtResource("2_wwdbq")
-snap_mode = 2
-snap_threshold = 0.5
-snap_debug_enabled = true
-snap_mesh = null
-snap_points = PackedVector3Array(-1, 0.25, -1, 1, 0.25, 1, 2.08165e-12, 0.25, 2.08165e-12, -1, 0.25, 1, 1, 0.25, -1)
+script = ExtResource("2_sl4hv")
+SnapThreshold = 0.5
+SnapDebugEnabled = true
+SnapDebugColor = Color(1, 0, 0, 1)
+SnapPoints = PackedVector3Array(-1, 0.25, -1, 1, 0.25, -1, 2.08165e-12, 0.25, 2.08165e-12, -1, 0.25, 1, 1, 0.25, 1)
+SnapMode = 2
 
 [node name="Label" type="Label3D" parent="Drop Area 2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.12, 2.08165e-12)
 billboard = 1
 text = "Drop area 2"
 
 [node name="Mesh" type="MeshInstance3D" parent="Drop Area 2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.60209e-18, 2.60209e-18)
 mesh = SubResource("PlaneMesh_7c8jd")
 skeleton = NodePath("../..")
 
 [node name="Collider" type="CollisionShape3D" parent="Drop Area 2"]
-shape = SubResource("BoxShape3D_tuycf")
+shape = SubResource("BoxShape3D_y4n1y")
 
 [node name="Drop Area 3" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, -2.5)
@@ -194,36 +191,38 @@ collision_layer = 1024
 collision_mask = 512
 input_ray_pickable = false
 monitoring = false
-script = ExtResource("2_wwdbq")
-reparent_on_drop = true
-disable_on_drop = true
-snap_mesh = null
-snap_points = PackedVector3Array()
+script = ExtResource("2_sl4hv")
+ReparentOnDrop = true
+DisableOnDrop = true
 
 [node name="Label" type="Label3D" parent="Drop Area 3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.119227, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.12, 2.08165e-12)
 billboard = 1
-text = "Disabling area"
+text = "Disabling drop area"
 
 [node name="Mesh" type="MeshInstance3D" parent="Drop Area 3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.60209e-18, 2.60209e-18, 0)
 mesh = SubResource("PlaneMesh_lp5u6")
 skeleton = NodePath("../..")
 
 [node name="Collider" type="CollisionShape3D" parent="Drop Area 3"]
-shape = SubResource("BoxShape3D_tuycf")
+shape = SubResource("BoxShape3D_y4n1y")
 
 [node name="Node 1" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2.08165e-12, 2)
 mesh = SubResource("SphereMesh_ee2mf")
 
-[node name="DraggableComponent3D" type="Area3D" parent="Node 1"]
+[node name="Draggable3D" type="Area3D" parent="Node 1" node_paths=PackedStringArray("ParentNode")]
 collision_layer = 512
 collision_mask = 1024
-script = ExtResource("4_3rfcr")
-drop_mode = 0
-debug_show_ray = true
+script = ExtResource("3_mrpdt")
+DropAreas = []
+RayLength = 100.0
+ParentNode = NodePath("..")
+DropMode = 0
+RayShowDebug = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 1/DraggableComponent3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 1/Draggable3D"]
 shape = SubResource("SphereShape3D_5838c")
 
 [node name="Label3D" type="Label3D" parent="Node 1"]
@@ -237,13 +236,16 @@ Anywhere"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2)
 mesh = SubResource("SphereMesh_pcq6n")
 
-[node name="DraggableComponent3D" type="Area3D" parent="Node 2"]
+[node name="Draggable3D" type="Area3D" parent="Node 2" node_paths=PackedStringArray("ParentNode")]
 collision_layer = 512
 collision_mask = 1024
-script = ExtResource("4_3rfcr")
-debug_show_ray = true
+script = ExtResource("3_mrpdt")
+DropAreas = []
+RayLength = 100.0
+ParentNode = NodePath("..")
+RayShowDebug = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 2/DraggableComponent3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 2/Draggable3D"]
 shape = SubResource("SphereShape3D_i670u")
 
 [node name="Label3D" type="Label3D" parent="Node 2"]
@@ -257,15 +259,17 @@ Any Area"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.08165e-12, 2)
 mesh = SubResource("SphereMesh_4uw8g")
 
-[node name="DraggableComponent3D" type="Area3D" parent="Node 3" node_paths=PackedStringArray("drop_areas")]
+[node name="Draggable3D" type="Area3D" parent="Node 3" node_paths=PackedStringArray("ParentNode")]
 collision_layer = 512
 collision_mask = 1024
-script = ExtResource("4_3rfcr")
-drop_mode = 2
-drop_areas = [NodePath("../../Drop Area 2")]
-debug_show_ray = true
+script = ExtResource("3_mrpdt")
+DropAreas = [NodePath("../../Drop Area 2")]
+RayLength = 100.0
+ParentNode = NodePath("..")
+DropMode = 2
+RayShowDebug = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 3/DraggableComponent3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 3/Draggable3D"]
 shape = SubResource("SphereShape3D_8akgs")
 
 [node name="Label3D" type="Label3D" parent="Node 3"]
@@ -279,15 +283,19 @@ Area 2"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 3)
 mesh = SubResource("SphereMesh_d2ncj")
 
-[node name="DraggableComponent3D" type="Area3D" parent="Node 4"]
+[node name="Draggable3D" type="Area3D" parent="Node 4" node_paths=PackedStringArray("ParentNode")]
 collision_layer = 512
 collision_mask = 1024
-script = ExtResource("4_3rfcr")
-drop_mode = 0
-simple_raycast = false
-debug_show_ray = true
+script = ExtResource("3_mrpdt")
+DropAreas = []
+RayLength = 100.0
+ParentNode = NodePath("..")
+DropMode = 0
+SnapEnabled = false
+RayCastSimple = false
+RayShowDebug = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 4/DraggableComponent3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node 4/Draggable3D"]
 shape = SubResource("SphereShape3D_8akgs")
 
 [node name="Label3D" type="Label3D" parent="Node 4"]
