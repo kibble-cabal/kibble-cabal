@@ -1,24 +1,22 @@
 using Godot;
-using Godot.Collections;
+using System;
+using System.Collections.Generic;
 
-public partial class DB<[MustBeVariant] T> : GodotObject
+public partial class DB<T>
 {
-    private Array<T> _resources = [];
+    private readonly List<T> _resources = [];
 
-    public Array<T> Resources { get => _resources; }
+    public List<T> Resources { get => _resources; }
 
-    [Signal]
-    public delegate void RegisteredEventHandler(Resource resource);
-
-    [Signal]
-    public delegate void UnregisteredEventHandler(Resource resource);
+    public event EventHandler<T>? Registered;
+    public event EventHandler<T>? Unregistered;
 
     public void Register(T resource)
     {
         if (!Resources.Contains(resource))
         {
             Resources.Add(resource);
-            EmitSignal(SignalName.Registered, [Variant.From(resource)]);
+            Registered?.Invoke(this, resource);
         }
     }
 
@@ -27,19 +25,19 @@ public partial class DB<[MustBeVariant] T> : GodotObject
         if (Resources.Contains(resource))
         {
             Resources.Remove(resource);
-            EmitSignal(SignalName.Unregistered, [Variant.From(resource)]);
+            Unregistered?.Invoke(this, resource);
         }
     }
 }
 
-public partial class SingletonDB<[MustBeVariant] T> : Singleton<DB<T>>
+public partial class SingletonDB<T> : Singleton<DB<T>>
 {
-    public static Array<T> Resources { get => Instance.Resources; }
+    public static List<T> Resources { get => Instance.Resources; }
     public static void Register(T resource) => Instance.Register(resource);
     public static void Unregister(T resource) => Instance.Unregister(resource);
 }
 
 public static class DBExtensions
 {
-    public static T? Find<[MustBeVariant] T>(this DB<T> db, StringName id) where T : IIdentifiable<StringName> => db.Resources.WhereNotNull().Find(resource => resource.ID.Equals(id));
+    public static T? Find<T>(this DB<T> db, StringName id) where T : IIdentifiable<StringName> => db.Resources.WhereNotNull().Find(resource => resource.ID.Equals(id));
 }

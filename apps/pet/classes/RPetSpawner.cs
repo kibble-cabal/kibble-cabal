@@ -2,11 +2,14 @@ using Godot;
 using KibbleCabal.Apps.Pet;
 
 [GlobalClass]
-public sealed partial class RPetSpawner : Spawner<RPet, Node3D>
+public sealed partial class RPetSpawner : Spawner<RPet, PetScene>
 {
     public static readonly PackedScene Scene = GD.Load<PackedScene>("res://apps/pet/scenes/pet_scene.tscn");
 
-    protected override Node3D? _Spawn(RPet resource, Node3D world)
+    public RPetSpawner() { }
+    public RPetSpawner(RPet resource) => SetResource(resource);
+
+    protected override PetScene? _Spawn(RPet resource, Node3D world)
     {
         var node = Scene.Instantiate<PetScene>();
         node.Resource = resource;

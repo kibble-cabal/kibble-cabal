@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Godot.Collections;
 
 [GlobalClass]
 public partial class ContextActionMenu : CircleContainer
@@ -21,19 +21,18 @@ public partial class ContextActionMenu : CircleContainer
     [Export]
     public StringName MenuIdentifier = "";
 
-    [Export]
-    public Array<RContextAction> AdditionalActions = [];
+    public List<IContextAction> AdditionalActions = [];
 
     [Export]
     public bool CloseOnSelect = true;
 
-    private Godot.Collections.Dictionary<RContextAction, Button> Nodes = [];
+    private System.Collections.Generic.Dictionary<IContextAction, Button> Nodes = [];
 
     public override void _EnterTree() => Visible = false;
 
-    public IEnumerable<RContextAction> GetAllActions() => [.. AdditionalActions, .. ContextActionDB.FindByMenu(MenuIdentifier)];
+    public IEnumerable<IContextAction> GetAllActions() => [.. AdditionalActions, .. ContextActionDB.FindByMenu(MenuIdentifier)];
 
-    public void Open<Ctx>(Ctx? ctx) where Ctx : class
+    public void Open<Ctx>(Ctx ctx)
     {
         EmitSignal(SignalName.Opening);
         UpdateItems(ctx);
@@ -48,26 +47,21 @@ public partial class ContextActionMenu : CircleContainer
         EmitSignal(SignalName.Closed);
     }
 
-    private void UpdateItems<Ctx>(Ctx? ctx) where Ctx : class
+    private void UpdateItems<Ctx>(Ctx ctx)
     {
         var actions = GetAllActions();
 
         // Remove outdated actions
-        Nodes.Keys
-            .Except(actions)
-            .Where(action => Nodes[action].CanQueueFree())
-            .ForEach(action => Nodes[action].QueueFree());
+        Nodes.Values.QueueFreeAll();
+        Nodes.Clear();
 
         // Add missing actions
         foreach (var action in actions)
         {
-            Nodes[action] = action.Render(ctx);
-            Nodes[action].TryConnect(BaseButton.SignalName.Pressed, Callable.From(OnItemPressed));
+            Nodes[action] = (action as IContextAction<Ctx>)!.Render(ctx);
+            Nodes[action].Pressed += OnItemPressed;
             AddChild(Nodes[action]);
         }
-
-        // Update all actions
-        Nodes.Keys.ForEach(action => action.Update(Nodes[action], ctx));
     }
 
     private void OnItemPressed()

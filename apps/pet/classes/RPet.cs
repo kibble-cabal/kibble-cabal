@@ -4,6 +4,11 @@ using Godot.Collections;
 [GlobalClass]
 public sealed partial class RPet : ExtensibleResource
 {
+    private static class Keys
+    {
+        public const string AbilitySystemState = "AbilitySystemState";
+    }
+
     private string _name = "";
     private int _birthDate;
     private StringName _animalID = "";
@@ -35,6 +40,13 @@ public sealed partial class RPet : ExtensibleResource
     {
         get => _instructions;
         set => this.Set(ref _instructions, value);
+    }
+
+    [Export]
+    public AbilitySystemState AbilitySystemState
+    {
+        get => ExpectSubresource<AbilitySystemState>(Keys.AbilitySystemState);
+        set => SetSubresource(Keys.AbilitySystemState, value);
     }
 
     [Export]

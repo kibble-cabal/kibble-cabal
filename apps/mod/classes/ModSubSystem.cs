@@ -15,7 +15,7 @@ public sealed partial class ModSubSystemBase : Node
     {
         ModLoader.LoadMods().ForEach(ModDB.Register);
         ModDB.Resources.ForEach(Initialize);
-        ModDB.Instance.Registered += Initialize;
+        ModDB.Instance.Registered += (_, mod) => Initialize(mod);
     }
 
     public void Initialize(Resource resource) => Initialize((RMod)resource);

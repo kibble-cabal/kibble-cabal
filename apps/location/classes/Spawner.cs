@@ -31,7 +31,7 @@ public abstract partial class Spawner<R, N> : Spawner where R : Resource where N
         set => SetResource(value as R);
     }
 
-    protected N? Node;
+    public N? Node { get; protected set; }
 
     public Spawner() { }
     public Spawner(R resource) => SetResource(resource);

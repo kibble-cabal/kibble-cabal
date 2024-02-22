@@ -10,7 +10,7 @@ namespace KibbleCabal.Apps.Settings.UI
         public override void _Ready()
         {
             SettingDefinitionDB.Resources.ForEach(Render);
-            SettingDefinitionDB.Instance.Registered += Render;
+            SettingDefinitionDB.Instance.Registered += (_, setting) => Render(setting);
         }
 
         public void Render(Resource setting) => Render((RSettingDefinition)setting);

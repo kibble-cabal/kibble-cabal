@@ -3,7 +3,7 @@ using Godot;
 namespace KibbleCabal.Core.Pet
 {
     [GlobalClass]
-    public partial class RenameContextAction : RPetContextAction
+    public partial class RenameContextAction : Resource, IPetContextAction
     {
         public static readonly StringName MenuIdentifier = "pet/interact";
         public static readonly string[] RandomNames = [
@@ -13,18 +13,16 @@ namespace KibbleCabal.Core.Pet
             "Princess"
         ];
 
-        protected override string _GetDisplayText(Context? ctx)
+        string IContextAction<IPetContextAction.Context>._GetDisplayText(IPetContextAction.Context ctx)
         {
-            if (ctx is not null && ctx.Pet.Name.Length > 0)
-                return $"Rename {ctx.Pet.Name}...";
+            if (ctx.Pet.Name.Length > 0) return $"Rename {ctx.Pet.Name}...";
             return "Rename...";
         }
 
-        protected override StringName[] _GetMenuIdentifiers() => [MenuIdentifier];
+        StringName[] IContextAction._GetMenuIdentifiers() => [MenuIdentifier];
 
-        protected override void _OnPress(Context? ctx)
+        void IContextAction<IPetContextAction.Context>._OnPress(IPetContextAction.Context ctx)
         {
-            if (ctx is null) return;
             ctx.Pet.Name = RandomNames[GD.RandRange(0, RandomNames.Length - 1)];
             GD.Print($"Renamed to {ctx.Pet.Name}");
         }

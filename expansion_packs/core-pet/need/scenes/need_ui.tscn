@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://sxerfvlajacd"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-pet/need/scenes/need_ui.gd" id="1_jcndq"]
+[ext_resource type="Script" path="res://expansion_packs/core-pet/need/scenes/NeedUI.cs" id="1_mq5o2"]
 
 [node name="NeedUI" type="HBoxContainer"]
 anchors_preset = 8
@@ -14,7 +14,9 @@ offset_right = 146.0
 offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_jcndq")
+script = ExtResource("1_mq5o2")
+LabelPath = NodePath("Label")
+ProgressBarPath = NodePath("ProgressBar")
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true

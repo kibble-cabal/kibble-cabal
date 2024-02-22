@@ -2,6 +2,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Godot;
+
+using GDC = Godot.Collections;
 using Godot.Collections;
 
 #nullable enable
@@ -32,8 +34,15 @@ public static class EnumerableExtensions
         return default;
     }
 
-    public static Godot.Collections.Array<T> ToGodotArray<[MustBeVariant] T>(this IEnumerable<T> array) => new Godot.Collections.Array<T>(array);
-    public static Godot.Collections.Array ToGodotArray(this IEnumerable<Variant> array) => new Godot.Collections.Array(array);
+    public static GDC.Array<T> ToGodotArray<[MustBeVariant] T>(this IEnumerable<T> array) => new(array);
+    public static GDC.Array ToGodotArray(this IEnumerable<Variant> array) => new(array);
+
+    public static GDC.Dictionary<K, V> ToGodotDictionary<[MustBeVariant] K, [MustBeVariant] V>(this IEnumerable<(K Key, V Value)> pairs)
+    {
+        var dict = new GDC.Dictionary<K, V>();
+        foreach (var (key, value) in pairs) dict[key] = value;
+        return dict;
+    }
 
     public static V? Get<K, V>(this IDictionary<K, V> dict, K key) => dict.Get<K, V>(key, default!);
 
@@ -43,7 +52,7 @@ public static class EnumerableExtensions
         return defaultValue;
     }
 
-    public static T? Pop<[MustBeVariant] T>(this Array<T> array)
+    public static T? Pop<[MustBeVariant] T>(this GDC.Array<T> array)
     {
         if (array.Count > 0)
         {
@@ -55,4 +64,7 @@ public static class EnumerableExtensions
     }
 
     public static bool Has<T>(this IEnumerable<T> values, int index) => index >= 0 && index < values.Count();
+
+    public static void AddDistinct<T>(this List<T> values, IEnumerable<T> other) => values.AddRange(other.Except(values));
+    public static void AddDistinct<[MustBeVariant] T>(this Array<T> values, IEnumerable<T> other) => values.AddRange(other.Except(values));
 }

@@ -6,22 +6,71 @@ namespace KibbleCabal.Core.Pet
 {
     public partial class Main : GodotObject
     {
-        public static readonly IEnumerable<RContextAction> Actions = [
-            GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillActivity.instruction.tres"),
-            GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillEnergy.instruction.tres"),
-            GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillHunger.instruction.tres"),
-            GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillThirst.instruction.tres"),
+        public static readonly string BasePath = "res://expansion_packs/core-pet";
+
+        public static readonly IEnumerable<IContextAction> Actions = [
+            GD.Load<IContextAction>($"{BasePath}/action/resources/FulfillActivity.instruction.tres"),
+            GD.Load<IContextAction>($"{BasePath}/action/resources/FulfillEnergy.instruction.tres"),
+            GD.Load<IContextAction>($"{BasePath}/action/resources/FulfillHunger.instruction.tres"),
+            GD.Load<IContextAction>($"{BasePath}/action/resources/FulfillThirst.instruction.tres"),
             new RenameContextAction()
         ];
 
         public static readonly IEnumerable<RAnimal> Animals = [
-            GD.Load<RAnimal>("res://expansion_packs/core-pet/animal/resources/Dog.tres"),
+            GD.Load<RAnimal>($"{BasePath}/animal/resources/Dog.tres"),
+        ];
+
+        public static readonly IEnumerable<Variant> Attributes = [
+            GD.Load($"{BasePath}/need/resources/attributes/activity.attribute.tres"),
+            GD.Load($"{BasePath}/need/resources/attributes/energy.attribute.tres"),
+            GD.Load($"{BasePath}/need/resources/attributes/hunger.attribute.tres"),
+            GD.Load($"{BasePath}/need/resources/attributes/thirst.attribute.tres"),
+            GD.Load($"{BasePath}/personality/resources/attributes/agreeableness.tres"),
+            GD.Load($"{BasePath}/personality/resources/attributes/conscientiousness.tres"),
+            GD.Load($"{BasePath}/personality/resources/attributes/extraversion.tres"),
+            GD.Load($"{BasePath}/personality/resources/attributes/neuroticism.tres"),
+            GD.Load($"{BasePath}/personality/resources/attributes/openness.tres"),
+        ];
+
+        public static readonly IEnumerable<Variant> Abilities = [
+            GD.Load($"{BasePath}/need/resources/abilities/drink.ability.tres"),
+            GD.Load($"{BasePath}/need/resources/abilities/drink_cooldown.ability.tres"),
+            GD.Load($"{BasePath}/need/resources/abilities/eat.ability.tres"),
+            GD.Load($"{BasePath}/need/resources/abilities/eat_cooldown.ability.tres"),
+            GD.Load($"{BasePath}/need/resources/abilities/play.ability.tres"),
+            GD.Load($"{BasePath}/need/resources/abilities/sleep.ability.tres"),
+            GD.Load($"{BasePath}/need/resources/abilities/sleep_cooldown.ability.tres"),
+        ];
+
+        public static readonly IEnumerable<Variant> Tags = [
+            GD.Load($"{BasePath}/need/resources/tags/activity_provider.tag.tres"),
+            GD.Load($"{BasePath}/need/resources/tags/energy_provider.tag.tres"),
+            GD.Load($"{BasePath}/need/resources/tags/hunger_provider.tag.tres"),
+            GD.Load($"{BasePath}/need/resources/tags/thirst_provider.tag.tres"),
+            GD.Load($"{BasePath}/need/resources/tags/just_ate.tag.tres"),
+            GD.Load($"{BasePath}/need/resources/tags/just_drank.tag.tres"),
+            GD.Load($"{BasePath}/need/resources/tags/just_slept.tag.tres"),
         ];
 
         public Main()
         {
             Actions.ForEach(ContextActionDB.Register);
             Animals.ForEach(AnimalDB.Register);
+            Attributes.ConvertTo<Resource, Attribute>().ForEach(AttributeDB.Register);
+            Abilities.ConvertTo<Resource, Ability>().ForEach(AbilityDB.Register);
+            Tags.ConvertTo<Resource, Tag>().ForEach(TagDB.Register);
+
+            DateTimeSubSystem.Instance.Ticked += DepleteNeeds;
+        }
+
+        public static void DepleteNeeds()
+        {
+            foreach (var pet in LocationSubSystem.GetPetSpawners())
+                NeedsConfig.Instance.NeedAttributes.ForEach(attr =>
+                {
+                    float modifier = (float)GD.RandRange(0.01f, 0.02f) * attr.Instance.Get("depletion_rate").As<float>();
+                    pet.Node?.AbilitySystem?.ModifyAttributeValue(attr, -modifier);
+                });
         }
     }
 }

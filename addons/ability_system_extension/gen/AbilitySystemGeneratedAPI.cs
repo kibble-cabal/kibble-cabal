@@ -7,6 +7,7 @@
 
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 #nullable disable
 
@@ -758,4 +759,14 @@ internal static class _AbilitySystemUtils_
         }
         throw new NotImplementedException();
     }
+
+    public static IEnumerable<OutType> ConvertTo<[MustBeVariant] InType, OutType>(this IEnumerable<Variant> resources) where OutType : _AbilitySystemInstanceWrapper_<InType> where InType : GodotObject => resources
+        .Select(variant =>
+        {
+            try { return variant.As<InType>(); }
+            catch { return null; }
+        })
+        .Where(variant => variant != null)
+        .Select(variant => CreateWrapperFromObject(variant) as OutType)
+        .Where(variant => variant != null);
 }

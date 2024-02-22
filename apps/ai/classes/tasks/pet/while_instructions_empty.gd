@@ -22,16 +22,16 @@ func _tick(delta: float) -> Status:
 	if not pet: return FAILURE
 	
 	# Execute child if there are no instructions, or if this node is playing within an instruction.
-	if pet.instructions.is_empty() or is_instruction():
+	if pet.Instructions.is_empty() or is_instruction():
 		return get_child(0).execute(delta)
 	else:
 		get_child(0).abort()
 		return on_instruction_found
 
 
-func get_pet_resource() -> PetResource:
+func get_pet_resource() -> RPet:
 	if agent and "resource" in agent:
-		return agent.resource as PetResource
+		return agent.resource as RPet
 	return null
 
 

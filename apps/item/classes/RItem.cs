@@ -7,6 +7,7 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
     {
         public const string Physics = "Physics";
         public const string Retail = "Retail";
+        public const string AbilitySystemState = "AbilitySystemState";
     }
 
     private StringName _id = "";
@@ -40,6 +41,13 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
     {
         get => _icon;
         set => this.Set(ref _icon, value);
+    }
+
+    [Export]
+    public AbilitySystemState AbilitySystemState
+    {
+        get => ExpectSubresource<AbilitySystemState>(Keys.AbilitySystemState);
+        set => SetSubresource(Keys.AbilitySystemState, value);
     }
 
     [Export]

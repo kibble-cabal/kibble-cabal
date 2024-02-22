@@ -14,7 +14,7 @@ namespace KibbleCabal.Apps.Pet
         private Vector3 StartPosition;
 
         [Export]
-        private Node? AbilitySystem;
+        private NodePath? AbilitySystemPath;
 
         [Export]
         private ContextActionMenu? ActionMenu;
@@ -34,11 +34,16 @@ namespace KibbleCabal.Apps.Pet
         private Node? SpriteController;
         private Viewport? Viewport;
         private Camera3D? Camera;
+        public AbilitySystem? AbilitySystem;
 
         public override void _Ready()
         {
             MoveStarted += OnMoveStarted;
             MoveFinished += OnMoveFinished;
+
+            var node = GetNodeOrNull(AbilitySystemPath);
+            if (node is not null)
+                AbilitySystem = new(node);
 
             Viewport = GetViewport();
             Camera = Viewport?.GetCamera3D();
@@ -49,7 +54,13 @@ namespace KibbleCabal.Apps.Pet
             InstantiateSpriteController();
             UpdateCollision();
             UpdateSpeed();
-            // TODO: Ability state
+
+            if (Resource is not null && AbilitySystem is not null)
+            {
+                Resource.AbilitySystemState.Abilities.AddDistinct(NeedsConfig.Instance.FulfillNeeds);
+                Resource.AbilitySystemState.AddAttributes(NeedsConfig.Instance.Needs.Select(AttributeDB.Find).WhereNotNull());
+                Resource.AbilitySystemState.MergeInto(AbilitySystem);
+            }
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -134,7 +145,7 @@ namespace KibbleCabal.Apps.Pet
         public void OnAreaInputEvent(Camera3D camera, InputEvent @event, Vector3 position, Vector3 normal, int shapeIndex)
         {
             if (Resource is not null && @event is InputEventScreenTouch && @event.IsPressed())
-                ActionMenu?.Open(new RPetContextAction.Context { Pet = Resource, Node = this });
+                ActionMenu?.Open(new IPetContextAction.Context { Pet = Resource, Node = this });
         }
     }
 }

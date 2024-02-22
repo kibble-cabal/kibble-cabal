@@ -1,8 +1,9 @@
 using Godot;
 
 [GlobalClass]
-public partial class RInstructionContextAction : RPetContextAction
+public partial class RInstructionContextAction : Resource, IPetContextAction
 {
+
     private string _displayText = "";
     private Resource? _instructionTree;
 
@@ -20,13 +21,13 @@ public partial class RInstructionContextAction : RPetContextAction
         set => this.Set(ref _instructionTree, value);
     }
 
-    protected override string _GetDisplayText(Context? ctx) => DisplayText;
+    string IContextAction<IPetContextAction.Context>._GetDisplayText(IPetContextAction.Context ctx) => DisplayText;
 
-    protected override StringName[] _GetMenuIdentifiers() => ["pet/interact"];
+    StringName[] IContextAction._GetMenuIdentifiers() => ["pet/interact"];
 
-    protected override void _OnPress(Context? ctx)
+    void IContextAction<IPetContextAction.Context>._OnPress(IPetContextAction.Context ctx)
     {
-        if (ctx is Context context && InstructionTree is Resource tree)
-            context.Pet.Instructions.Add(tree);
+        if (InstructionTree is Resource tree)
+            ctx.Pet.Instructions.Add(tree);
     }
 }

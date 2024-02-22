@@ -102,11 +102,16 @@ public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileS
         if (GetState() is RLocationState state)
             state.GetSpawned().ForEach(spawner => spawner.Despawn());
     }
+
+    public RPet[] GetPets() => [.. GetPetSpawners().Select(pet => pet.GetResource())];
+    public RPetSpawner[] GetPetSpawners() => [.. GetState()?.Get<RPetSpawner>() ?? []];
 }
 
 public sealed class LocationSubSystem : Singleton<LocationSubSystemBase>
 {
     public static RLocationState? GetState() => Instance.GetState();
+    public static RPet[] GetPets() => Instance.GetPets();
+    public static RPetSpawner[] GetPetSpawners() => Instance.GetPetSpawners();
     public static RLocation? GetLocation() => Instance.GetLocation();
     public static Node3D? GetRoot() => Instance.GetRoot();
     public static void To(StringName name) => Instance.To(name);
