@@ -18,6 +18,8 @@ public static class Vector3Extensions
         }
     }
 
+    public static string ToPrecisionString(this Vector3 point, int precision = 2) => $"({point.X.ToPrecisionString(precision)}, {point.Y.ToPrecisionString(precision)}, {point.Z.ToPrecisionString(precision)})";
+
     /// <summary>
     /// Clamps the return value of Geometry3D.GetTriangleBarycentricCoords to only return points within the triangle.
     /// Taken from <a href="https://stackoverflow.com/questions/14467296/barycentric-coordinate-clamping-on-3d-triangle">this StackOverflow answer</a>.

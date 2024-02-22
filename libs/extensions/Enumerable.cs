@@ -53,4 +53,6 @@ public static class EnumerableExtensions
         }
         return default;
     }
+
+    public static bool Has<T>(this IEnumerable<T> values, int index) => index >= 0 && index < values.Count();
 }

@@ -2,7 +2,7 @@ using Godot;
 
 namespace KibbleCabal.Core.Building.UI
 {
-    public partial class BuildingHUD : Control3DV2
+    public partial class BuildingHUD : Control3D
     {
         public static readonly PackedScene Scene = GD.Load<PackedScene>("res://expansion_packs/core-building/building/scenes/ui/building_hud.tscn");
 

@@ -8,6 +8,11 @@ using Godot.Collections;
 [GlobalClass]
 public partial class Draggable3D : Area3D
 {
+    public static class PropertyPath
+    {
+        public static readonly NodePath GlobalPosition = "global_position";
+    }
+
     public static readonly StringName ClickAction = "click";
     public enum Mode
     {
@@ -38,8 +43,8 @@ public partial class Draggable3D : Area3D
     [Export]
     public Node3D? ParentNode;
 
-    [Export]
-    public Node3D? GhostNode;
+    // [Export]
+    // public Node3D? GhostNode;
 
     [ExportGroup("Drop", "Drop")]
 
@@ -51,6 +56,13 @@ public partial class Draggable3D : Area3D
     }
 
     public Array<NodePath> DropAreas = [];
+
+    /// <summary>
+    /// If greater than zero, every n frames will skip raycasting and just interpolate the current position.
+    /// This can improve performance :)
+    /// </summary>
+    [Export]
+    public int SkipFrames = 4;
 
     [ExportGroup("Snapping", "Snap")]
     [Export]
@@ -91,6 +103,8 @@ public partial class Draggable3D : Area3D
         }
     }
 
+    private int Frame = 0;
+
     public Vector3 StartPosition;
     public Func<Vector3, Vector3>? CustomSnapMethod;
     public PhysicsRayQueryParameters3D Query = new();
@@ -105,6 +119,7 @@ public partial class Draggable3D : Area3D
             InputEvent += (_, @event, _, _, _) => OnInputEvent(@event);
             DragStarted += OnDragStarted;
             DragFinished += OnDragFinished;
+            AttemptedDrop += _ => OnDropAttempted();
         }
     }
 
@@ -112,11 +127,12 @@ public partial class Draggable3D : Area3D
     {
         Viewport = GetViewport();
         Camera = Viewport?.GetCamera3D();
+        Dragging = false;
     }
 
     public override void _Ready()
     {
-        StartPosition = ParentNode?.Position ?? Vector3.Zero;
+        StartPosition = ParentNode?.GlobalPosition ?? Vector3.Zero;
         if (!Engine.IsEditorHint())
         {
             Query.CollideWithAreas = true;
@@ -153,10 +169,10 @@ public partial class Draggable3D : Area3D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (!Dragging || Engine.IsEditorHint()) return;
+        if (!Dragging || Engine.IsEditorHint() || ParentNode is null) return;
         Viewport?.SetInputAsHandled();
         if (@event is InputEventMouseMotion && QueryResult.ContainsKey("position"))
-            SetGlobalPosition(QueryResult["position"].As<Vector3>());
+            SetGlobalPosition(ParentNode.GlobalPosition.Lerp(QueryResult["position"].As<Vector3>(), 1f / SkipFrames));
         if (@event.IsActionReleased(ClickAction))
             Dragging = false;
     }
@@ -169,24 +185,23 @@ public partial class Draggable3D : Area3D
 
     public override void _PhysicsProcess(double delta)
     {
-        // Lerp back to start position when drag failed
-        if (!Dragging && IsNodeReady() && !Engine.IsEditorHint() && ParentNode is not null)
-            ParentNode.Position = ParentNode.Position.Lerp(StartPosition, 0.1f);
-
         if (!Dragging || Engine.IsEditorHint() || Camera is null) return;
 
-        // Do raycasting
-        var mousePosition = Viewport?.GetMousePosition() ?? Vector2.Zero;
-        Query.From = Camera.GlobalPosition;
-        if (RayCastSimple)
+        if (Frame % SkipFrames == 0)
         {
-            Query.To = Camera.ProjectToFloor(mousePosition);
-            QueryResult["position"] = Query.To;
-        }
-        else
-        {
-            Query.To = Camera.ProjectPosition(mousePosition, RayLength);
-            QueryResult = GetWorld3D().DirectSpaceState.IntersectRay(Query);
+            // Do raycasting
+            var mousePosition = Viewport?.GetMousePosition() ?? Vector2.Zero;
+            Query.From = Camera.GlobalPosition;
+            if (RayCastSimple)
+            {
+                Query.To = Camera.ProjectToFloor(mousePosition);
+                QueryResult["position"] = Query.To;
+            }
+            else
+            {
+                Query.To = Camera.ProjectPosition(mousePosition, RayLength);
+                QueryResult = GetWorld3D().DirectSpaceState.IntersectRay(Query);
+            }
         }
     }
 
@@ -208,6 +223,7 @@ public partial class Draggable3D : Area3D
     private void OnDragStarted()
     {
         StartPosition = ParentNode?.GlobalPosition ?? Vector3.Zero;
+        SetProcess(RayShowDebug);
     }
 
     private void OnDragFinished()
@@ -223,6 +239,24 @@ public partial class Draggable3D : Area3D
             EmitSignal(SignalName.PositionChanged, [ParentNode.GlobalPosition, oldPosition]);
         }
         else EmitSignal(SignalName.AttemptedDrop, [ParentNode.GlobalPosition]);
+        SetProcess(false);
+    }
+
+    private void OnDropAttempted()
+    {
+        // Lerp back to start position when drag failed
+        if (ParentNode is null) return;
+        var tween = CreateTween()
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Sine)
+            .TweenProperty(ParentNode, PropertyPath.GlobalPosition, StartPosition, 0.25);
+        tween.Finished += () => StartPosition = ParentNode.GlobalPosition;
+    }
+
+    public void ForceSetGlobalPosition(Vector3 position)
+    {
+        SetGlobalPosition(position);
+        StartPosition = ParentNode?.GlobalPosition ?? default;
     }
 
     private void SetGlobalPosition(Vector3 position)

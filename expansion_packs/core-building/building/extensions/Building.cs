@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-#nullable enable
-
 /// <summary>
 /// This class contains functions related to building walls that should not be exposed directly to GDScript.
 /// </summary>
@@ -170,6 +168,7 @@ public static class BuildingExtensions
     );
 
     static internal bool IsValid<T>(this RBuilding building, int index) where T : IBuildingComponent<T> => building.Get<T>(index)?.IsValid() ?? false;
+    static internal IEnumerable<T> GetValid<T>(this RBuilding building) where T : IBuildingComponent<T> => building.GetList<T>().Where(component => component.IsValid());
     static internal int GetIndex<T>(this RBuilding building, T component) where T : IBuildingComponent<T> => component.GetIndex(building);
     static internal Vector2[] Tessellate<T>(this RBuilding building, int index) where T : IBuildingComponent<T> => building.Get<T>(index)?.Tessellate() ?? [];
     static internal bool IsTouching<T>(this RBuilding building, int a, int b, float threshold = -1) where T : IBuildingComponent<T> => building.Has<T>(a) && building.Has<T>(b) && building.Get<T>(a)!.IsTouching(building.Get<T>(b)!, threshold);
@@ -295,6 +294,8 @@ public static class BuildingExtensions
         position.Closest(building.SnapToSurface<Wall>(position), building.SnapToSurface<Floor>(position)),
         threshold
     );
+
+    static internal BuildingMesh GetMesh(this RBuilding building) => new BuildingMesh(building);
 
     static internal CompoundMesh GenerateMesh(this RBuilding building)
     {

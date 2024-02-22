@@ -21,9 +21,9 @@ public static class NodeExtensions
         && !node.IsQueuedForDeletion();
 
     public static Node? GetUIRoot(this Node node) => node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.UIRoot) : null;
-    public static UIStack? GetGameModeUIRoot(this Node node) => node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.GameModeUIRoot) as UIStack : null;
-    public static Node3D? GetLocationRoot(this Node node) => node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.LocationRoot) as Node3D : null;
-    public static void QueueFreeChildren(this Node node) => node.GetChildren().ToArray().Where(child => child.CanQueueFree()).ForEach(child => child.QueueFree());
+    public static UIStack? GetGameModeUIRoot(this Node? node) => node is not null && node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.GameModeUIRoot) as UIStack : null;
+    public static Node3D? GetLocationRoot(this Node? node) => node is not null && node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.LocationRoot) as Node3D : null;
+    public static void QueueFreeChildren(this Node? node) => node?.GetChildren().ToArray().Where(child => child.CanQueueFree()).ForEach(child => child.QueueFree());
 }
 
 public static class ThemeColor

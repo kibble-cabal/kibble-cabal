@@ -1,9 +1,9 @@
 using System.Linq;
 using Godot;
 
-public struct VolumePolyline : IMeshComponent
+public class VolumePolyline : IMeshComponent
 {
-    enum SurfaceIndex
+    enum SurfaceIndex : int
     {
         Outer = 0,
         Inner = 1,
@@ -13,14 +13,14 @@ public struct VolumePolyline : IMeshComponent
     }
 
     public bool Invert { get; set; }
-    public int Surface { get; set; }
-    public Vector2[] Points;
+    public int Surface { get; set; } = 0;
+    public Vector2[] Points = [];
     public float Thickness;
     public Vector3 ExtrudeDirection;
     public float ExtrudeAmount;
-    public bool RenderTop;
-    public bool RenderBottom;
-    public bool RenderEnds;
+    public bool RenderTop = true;
+    public bool RenderBottom = true;
+    public bool RenderEnds = true;
 
     /// <summary>
     /// Optional. If provided, simulated joining to the given point, as if it were the first point provided.
@@ -31,9 +31,9 @@ public struct VolumePolyline : IMeshComponent
     /// </summary>
     public Vector2? JoinEnd;
 
-    public readonly Vector2 ThicknessVector => Thickness.ToVector2() / 2;
+    public Vector2 ThicknessVector => Thickness.ToVector2() / 2;
 
-    public readonly bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]) && JoinStart == null && JoinEnd == null;
+    public bool IsClosed() => Points.Length >= 3 && Points[0].IsEqualApprox(Points[^1]) && JoinStart == null && JoinEnd == null;
 
     public IMeshComponent[] GetComponents()
     {
@@ -45,7 +45,7 @@ public struct VolumePolyline : IMeshComponent
             ExtrudeAmount = Thickness,
             Flat = true,
             Invert = Invert,
-            Surface = 2,
+            Surface = Surface + (int)SurfaceIndex.Top,
             CustomTransform = Transform3D.Identity.Translated(new Vector3(0, ExtrudeAmount, 0)),
             JoinStart = JoinStart,
             JoinEnd = JoinEnd
@@ -58,7 +58,7 @@ public struct VolumePolyline : IMeshComponent
             ExtrudeDirection = ExtrudeDirection,
             Flat = false,
             Invert = Invert,
-            Surface = 0,
+            Surface = Surface + (int)SurfaceIndex.Outer,
             CustomTransform = Transform3D.Identity,
             JoinStart = JoinStart,
             JoinEnd = JoinEnd
@@ -71,7 +71,7 @@ public struct VolumePolyline : IMeshComponent
             ExtrudeDirection = ExtrudeDirection,
             Flat = false,
             Invert = !Invert,
-            Surface = 1,
+            Surface = Surface + (int)SurfaceIndex.Inner,
             CustomTransform = Transform3D.Identity,
             JoinStart = JoinStart,
             JoinEnd = JoinEnd
@@ -86,7 +86,7 @@ public struct VolumePolyline : IMeshComponent
             ExtrudeAmount = Thickness,
             Flat = true,
             Invert = !Invert,
-            Surface = 3,
+            Surface = Surface + (int)SurfaceIndex.Bottom,
             CustomTransform = Transform3D.Identity,
             JoinStart = JoinStart,
             JoinEnd = JoinEnd
@@ -100,7 +100,7 @@ public struct VolumePolyline : IMeshComponent
         return components;
     }
 
-    private readonly Triangle[] GetSideTriangles(Vector2 a, Vector2 b, bool inverted)
+    private Triangle[] GetSideTriangles(Vector2 a, Vector2 b, bool inverted)
     {
         Triangle[] triangles = new Triangle[2];
         var lengthVector = new Vector3(0, ExtrudeAmount, 0);
@@ -108,8 +108,8 @@ public struct VolumePolyline : IMeshComponent
         var br = b.ToVector3();
         var tl = bl + lengthVector;
         var tr = br + lengthVector;
-        triangles[0] = new Triangle(tr, br, tl, inverted: inverted, surface: (int)SurfaceIndex.End);
-        triangles[1] = new Triangle(bl, tl, br, inverted: inverted, surface: (int)SurfaceIndex.End);
+        triangles[0] = new Triangle(tr, br, tl, inverted: inverted, surface: Surface + (int)SurfaceIndex.End);
+        triangles[1] = new Triangle(bl, tl, br, inverted: inverted, surface: Surface + (int)SurfaceIndex.End);
         return triangles;
     }
 

@@ -1,10 +1,14 @@
-using System.Linq;
 using Godot;
 
 namespace KibbleCabal.Core.Building.UI
 {
     public partial class EditingBuildingUI : VBoxContainer
     {
+        private static class NodePaths
+        {
+            public static NodePath Spawner = "Spawner";
+        }
+
         private static readonly PackedScene AddWallUI = GD.Load<PackedScene>("res://expansion_packs/core-building/building/scenes/ui/add_wall_ui.tscn");
         private static readonly Vector2[] SquareRoomPoints = [
             Vector2.Zero,
@@ -23,7 +27,7 @@ namespace KibbleCabal.Core.Building.UI
 
         public override void _Ready()
         {
-            World = GetNode<Node3D>("Spawner");
+            World = GetNode<Node3D>(NodePaths.Spawner);
             if (Building is not null)
             {
                 Building.DestroyWallRequested += OnDestroyWallRequested;
@@ -44,7 +48,10 @@ namespace KibbleCabal.Core.Building.UI
             World.QueueFreeChildren();
 
             for (int i = 0; i < Building.Walls.Count; i++)
+            {
                 new WallUISpawner(Building, i).Spawn(World);
+                new WallPolygonUISpawner(Building, i).Spawn(World);
+            }
 
             for (int i = 0; i < Building.Floors.Count; i++)
                 new FloorUISpawner(Building, i).Spawn(World);

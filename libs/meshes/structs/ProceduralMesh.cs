@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 
 #nullable enable
@@ -8,7 +9,7 @@ using Godot;
 public struct ProceduralMesh
 {
     /* Private variables */
-    private SurfaceTool Surface = new();
+    private readonly SurfaceTool Surface = new();
     private Material[] StoredMaterials = [];
     private Triangle[] BakedTriangles = [];
 
@@ -46,7 +47,7 @@ public struct ProceduralMesh
     private void Clear()
     {
         BakedTriangles = [];
-        Surface.Clear();
+        // Surface.Clear();
     }
 
     private readonly (Vector3[] Vertices, Vector3[] Normals, Vector2[] UVs) BakeTriangle(int triangleIndex)
@@ -99,17 +100,16 @@ public struct ProceduralMesh
         this.Generate(mesh);
     }
 
-    public bool Generate(ArrayMesh mesh)
+    public void Generate(ArrayMesh mesh)
     {
         mesh.ClearSurfaces();
         StoreMaterials(mesh);
         Clear();
         BakeTriangles();
-        if (!IsBakeValid()) return false;
-        int[] surfaces = BakedTriangles.Select(triangle => triangle.Surface).Distinct().Order().ToArray();
-        foreach (var surfaceIndex in surfaces)
+        if (!IsBakeValid()) return;
+        foreach (var surfaceIndex in BakedTriangles.Select(triangle => triangle.Surface).Distinct().Order())
             GenerateSurface(mesh, surfaceIndex);
         SetMaterials(mesh);
-        return true;
     }
+
 }

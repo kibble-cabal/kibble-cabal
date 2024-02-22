@@ -8,10 +8,10 @@ public partial class BuildingSpawner : Spawner<RBuilding, MeshInstance3D>
 
     protected override MeshInstance3D? _Spawn(RBuilding resource, Node3D world)
     {
-        var node = new MeshInstance3D() { Mesh = resource.GenerateMesh() };
+        var node = new MeshInstance3D() { Mesh = resource.GetMesh() };
         world.AddChild(node);
         return node;
     }
 
-    protected override void _Update(RBuilding resource, MeshInstance3D node) => node.Mesh = resource.GenerateMesh();
+    protected override void _Update(RBuilding resource, MeshInstance3D node) { }
 }

@@ -7,6 +7,10 @@ namespace KibbleCabal.Core.Building.UI
 {
     public partial class BuildModeUI : Control
     {
+        private static class NodePaths
+        {
+            public static readonly NodePath World = "World";
+        }
         private static readonly PackedScene EditingBuildingUI = GD.Load<PackedScene>("res://expansion_packs/core-building/building/scenes/ui/editing_building_ui.tscn");
 
         private Node3D? World;
@@ -16,7 +20,7 @@ namespace KibbleCabal.Core.Building.UI
 
         public override void _Ready()
         {
-            World = GetNode<Node3D>("World");
+            World = GetNode<Node3D>(NodePaths.World);
             Respawn();
         }
 
@@ -26,7 +30,6 @@ namespace KibbleCabal.Core.Building.UI
                 LocationState.SpawnersChanged += Respawn;
             GetBuildings().ForEach(building =>
             {
-                building.Changed += Respawn;
                 building.EditRequested += () => OnBuildingEditRequested(building);
                 building.DestroyRequested += () => OnBuildingDestroyRequested(building);
                 building.MoveRequested += () => OnBuildingMoveRequested(building);
@@ -40,7 +43,6 @@ namespace KibbleCabal.Core.Building.UI
                 LocationState.SpawnersChanged -= Respawn;
             GetBuildings().ForEach(building =>
             {
-                building.Changed -= Respawn;
                 building.DisconnectAllFromTarget(RBuilding.SignalName.EditRequested, this);
                 building.DisconnectAllFromTarget(RBuilding.SignalName.MoveRequested, this);
                 building.DisconnectAllFromTarget(RBuilding.SignalName.DestroyRequested, this);

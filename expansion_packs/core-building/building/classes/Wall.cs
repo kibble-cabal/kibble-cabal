@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -6,19 +7,79 @@ using Array = Godot.Collections.Array;
 
 public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
 {
-    public MaterialMap Materials { get; set; }
-
     public const float DefaultHeight = 2.0f;
     public const float DefaultThickness = 0.1f;
 
-    public Vector2 Start = Vector2.Inf;
-    public Vector2 StartHandle = Vector2.Zero;
-    public Vector2 End = Vector2.Inf;
-    public Vector2 EndHandle = Vector2.Zero;
-    public float Height = DefaultHeight;
-    public float Thickness = DefaultThickness;
+    private Vector2 _start = Vector2.Inf;
+    private Vector2 _end = Vector2.Inf;
+    private Vector2 _startHandle = Vector2.Zero;
+    private Vector2 _endHandle = Vector2.Zero;
+    private float _height = DefaultHeight;
+    private float _thickness = DefaultThickness;
 
-    public Wall(Vector2[] points) => this.AddPoints(points);
+    public MaterialMap Materials { get; set; }
+
+    public Vector2 Start
+    {
+        get => _start;
+        set
+        {
+            _start = value;
+            StartChanged?.Invoke(this, value);
+        }
+    }
+
+    public Vector2 StartHandle
+    {
+        get => _startHandle;
+        set
+        {
+            _startHandle = value;
+            StartHandleChanged?.Invoke(this, value);
+        }
+    }
+
+    public Vector2 End
+    {
+        get => _end;
+        set
+        {
+            _end = value;
+            EndChanged?.Invoke(this, value);
+        }
+    }
+
+    public Vector2 EndHandle
+    {
+        get => _endHandle;
+        set
+        {
+            _endHandle = value;
+            EndHandleChanged?.Invoke(this, value);
+        }
+    }
+
+    public float Height
+    {
+        get => _height;
+        set
+        {
+            _height = value;
+            HeightChanged?.Invoke(this, value);
+        }
+    }
+
+    public float Thickness
+    {
+        get => _thickness;
+        set
+        {
+            _thickness = value;
+            ThicknessChanged?.Invoke(this, value);
+        }
+    }
+
+    public Wall(Vector2[] points) => AddPoints(points);
 
     public Wall(Vector2 start, Vector2 end, Vector2? startHandle = null, Vector2? endHandle = null)
     {
@@ -42,14 +103,21 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
         set => Materials.Add("exterior", value);
     }
 
+    public event EventHandler<Vector2>? StartChanged;
+    public event EventHandler<Vector2>? EndChanged;
+    public event EventHandler<Vector2>? StartHandleChanged;
+    public event EventHandler<Vector2>? EndHandleChanged;
+    public event EventHandler<float>? ThicknessChanged;
+    public event EventHandler<float>? HeightChanged;
+
     private void AddPoints(Vector2[] points)
     {
         if (points.Length == 4)
         {
-            Start = points[0];
-            StartHandle = points[1];
-            End = points[2];
-            EndHandle = points[3];
+            _start = points[0];
+            _startHandle = points[1];
+            _end = points[2];
+            _endHandle = points[3];
         }
     }
 
@@ -103,12 +171,31 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
     public Vector2 ClosestPoint(Vector2 position) => position.Closest(Start, End);
     public Vector2 ClosestPointOnSurface(Vector2 toPoint) => Tessellator.ClosestPointToBezierCurve(toPoint, Start, End, StartHandle, EndHandle, 0.05f);
 
-    private StandardMaterial3D MakeMaterial(float r, float g, float b) => new StandardMaterial3D { AlbedoColor = new Color(r, g, b) };
+    private static StandardMaterial3D MakeMaterial(float r, float g, float b) => new() { AlbedoColor = new Color(r, g, b) };
 
-    public Mesh[] GenerateMeshes(RBuilding building)
+    public VolumePolyline GetMeshComponent(RBuilding building) => new()
     {
-        // TODO: Materials
-        return [new PolylinePointsMesh()
+        Points = Tessellate(),
+        Thickness = Thickness,
+        ExtrudeDirection = Vector3.Up,
+        ExtrudeAmount = Height,
+        RenderTop = true,
+        RenderBottom = false,
+        RenderEnds = true,
+        JoinStart = GetJoin(building, Start),
+        JoinEnd = GetJoin(building, End),
+    };
+
+    // TODO
+    public static Material[] GetMaterials() => [
+        MakeMaterial(1, 0, 0),
+        MakeMaterial(1, 1, 0),
+        MakeMaterial(0, 0, 1),
+        MakeMaterial(0, 1, 1)
+    ];
+
+    public Mesh[] GenerateMeshes(RBuilding building) => [
+        new PolylinePointsMesh()
         {
             points = Tessellate(),
             extrude_thickness = Thickness,
@@ -116,14 +203,9 @@ public class Wall : IGodotSerializable<Wall>, IBuildingComponent<Wall>
             render_bottom = false,
             join_start = GetJoin(building, Start),
             join_end = GetJoin(building, End),
-            materials = [
-                MakeMaterial(1, 0, 0),
-                MakeMaterial(1, 1, 0),
-                MakeMaterial(0, 0, 1),
-                MakeMaterial(0, 1, 1)
-            ],
-        }];
-    }
+            materials = GetMaterials(),
+        }
+    ];
 
     public Array Serialize()
     {
