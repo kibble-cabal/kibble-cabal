@@ -28,7 +28,7 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
         set => this.Set(ref _displayName, value);
     }
 
-    [Export]
+    [Export(PropertyHint.MultilineText)]
     public string Description
     {
         get => _description;
@@ -56,5 +56,9 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
         set => SetSubresource(Keys.Retail, value);
     }
 
-    public RItemInstance Instantiate() => new RItemInstance { ItemID = ID };
+    public RItemInstance Instantiate() => new()
+    {
+        ItemID = ID,
+        CreationTime = DateTimeSubSystem.Time
+    };
 }

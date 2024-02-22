@@ -1,5 +1,6 @@
 using Godot;
 
+[GlobalClass]
 public partial class RItemRetail : ExtensibleResource
 {
     private int _buyPrice;

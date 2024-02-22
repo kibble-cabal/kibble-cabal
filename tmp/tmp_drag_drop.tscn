@@ -141,7 +141,7 @@ collision_mask = 512
 input_ray_pickable = false
 monitoring = false
 script = ExtResource("2_sl4hv")
-SnapThreshold = 0.5
+SnapThreshold = 0.2
 SnapDebugEnabled = true
 SnapDebugColor = Color(0, 0.694118, 1, 1)
 SnapMesh = SubResource("PlaneMesh_7xitx")
@@ -243,6 +243,7 @@ script = ExtResource("3_mrpdt")
 DropAreas = []
 RayLength = 100.0
 ParentNode = NodePath("..")
+SkipFrames = 1
 RayShowDebug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node 2/Draggable3D"]
@@ -267,6 +268,7 @@ DropAreas = [NodePath("../../Drop Area 2")]
 RayLength = 100.0
 ParentNode = NodePath("..")
 DropMode = 2
+SkipFrames = 1
 RayShowDebug = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node 3/Draggable3D"]
@@ -291,6 +293,7 @@ DropAreas = []
 RayLength = 100.0
 ParentNode = NodePath("..")
 DropMode = 0
+SkipFrames = 1
 SnapEnabled = false
 RayCastSimple = false
 RayShowDebug = true

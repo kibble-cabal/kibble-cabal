@@ -1,38 +1,29 @@
-[gd_resource type="Resource" script_class="ItemResource" load_steps=10 format=3 uid="uid://cw5qtjhi3ytpg"]
+[gd_resource type="Resource" script_class="RItem" load_steps=8 format=3 uid="uid://bbu0lymtg6i6e"]
 
-[ext_resource type="Script" path="res://apps/ability/classes/ability_system_state.gd" id="1_5qg7t"]
-[ext_resource type="Script" path="res://apps/item/classes/item_resource.gd" id="1_e4csu"]
-[ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansion_packs/core/item/sprites/flower_icon_placeholder.png" id="1_nwixh"]
-[ext_resource type="PackedScene" uid="uid://d2gderbf81u4b" path="res://expansion_packs/core/item/scenes/flower.tscn" id="2_1ry02"]
-[ext_resource type="Script" path="res://apps/item/classes/item_physics_resource.gd" id="2_rd7uo"]
-[ext_resource type="Script" path="res://apps/item/classes/item_retail_resource.gd" id="3_jjfv8"]
+[ext_resource type="Script" path="res://apps/item/classes/RItem.cs" id="1_jhy0d"]
+[ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansion_packs/core/item/sprites/flower_icon_placeholder.png" id="1_sgfdg"]
+[ext_resource type="PackedScene" uid="uid://d2gderbf81u4b" path="res://expansion_packs/core/item/scenes/flower.tscn" id="2_nfisr"]
+[ext_resource type="Script" path="res://apps/item/classes/RItemPhysics.cs" id="3_2dix0"]
+[ext_resource type="Script" path="res://apps/item/classes/RItemRetail.cs" id="4_l4cit"]
 
-[sub_resource type="Resource" id="Resource_ne2xk"]
-script = ExtResource("1_5qg7t")
-attributes = {}
-tags = Array[StringName]([&"hunger_provider"])
-abilities = Array[StringName]([])
-events = Array[AbilityEvent]([])
+[sub_resource type="Resource" id="Resource_gpf76"]
+script = ExtResource("3_2dix0")
+Scene = ExtResource("2_nfisr")
+Subresources = {}
 
-[sub_resource type="Resource" id="Resource_hrt5a"]
-script = ExtResource("2_rd7uo")
-scene = ExtResource("2_1ry02")
-subresources = {}
-
-[sub_resource type="Resource" id="Resource_7go6c"]
-script = ExtResource("3_jjfv8")
-buy_price = 5
-base_sell_price = 2
-depreciation_rate = 0.5
-subresources = {}
+[sub_resource type="Resource" id="Resource_wrv82"]
+script = ExtResource("4_l4cit")
+BuyPrice = 10
+BaseSellPrice = 5
+DepreciationRate = 0.5
+Subresources = {}
 
 [resource]
-script = ExtResource("1_e4csu")
-id = "core/flower"
-display_name = "Flower"
-description = "A little flower"
-icon = ExtResource("1_nwixh")
-physics_resource = SubResource("Resource_hrt5a")
-retail_resource = SubResource("Resource_7go6c")
-ability_state = SubResource("Resource_ne2xk")
-subresources = {}
+script = ExtResource("1_jhy0d")
+ID = &"Core/Flower"
+DisplayName = &"Flower"
+Description = "A little flower"
+Icon = ExtResource("1_sgfdg")
+Physics = SubResource("Resource_gpf76")
+Retail = SubResource("Resource_wrv82")
+Subresources = {}

@@ -7,9 +7,6 @@ namespace KibbleCabal.Apps.Pet
 {
     public partial class PetScene : PetBody3D
     {
-        public static readonly GDScript ThoughtBubbleScript = GD.Load<GDScript>("res://apps/ui/classes/nodes/thought_bubble.gd");
-        public static readonly StringName ThoughtBubbleGroup = "thought_bubble";
-
         [Export]
         public RPet? Resource;
 
@@ -98,27 +95,28 @@ namespace KibbleCabal.Apps.Pet
             NavigationAgent.MaxSpeed = animal.Speed * 2;
         }
 
-        public Vector3 GetRandomTarget() => new(GD.RandRange(-2, 2), 0, GD.RandRange(-2, 2));
+        public static Vector3 GetRandomTarget() => new(GD.RandRange(-2, 2), 0, GD.RandRange(-2, 2));
 
-        public void DestroyThoughtBubble(Label bubble)
+        public static void DestroyThoughtBubble(ThoughtBubble bubble)
         {
             if (!bubble.CanQueueFree()) return;
-            bubble.Call("destroy");
+            _ = bubble.Destroy();
         }
 
         public async Task DestroyThoughtBubbles()
         {
             GetChildren()
-                .Where(child => child.IsInGroup(ThoughtBubbleGroup))
-                .ForEach(child => DestroyThoughtBubble((Label)child));
+                .Where(child => child.IsInGroup(ThoughtBubble.GroupName))
+                .ForEach(child => DestroyThoughtBubble((ThoughtBubble)child));
             await ToSignal(GetTree().CreateTimer(0.25), Timer.SignalName.Timeout);
         }
 
         public async Task SpawnThoughtBubble(string text, float duration = 3, float maxWidth = -1)
         {
             await DestroyThoughtBubbles();
-            var bubble = ThoughtBubbleScript.New<Label>();
-            bubble?.Call("initialize", [text, duration, maxWidth]);
+            var bubble = new ThoughtBubble(text, duration, maxWidth);
+            AddChild(bubble);
+            bubble.Position = new Vector2(0, -bubble.Size.Y / 2);
         }
 
         private void OnMoveStarted()

@@ -16,11 +16,17 @@ namespace KibbleCabal.Core
             GD.Load<RLocation>("res://expansion_packs/core/location/resources/Island.tres")
         ];
 
+        public static readonly RItem[] Items = [
+            GD.Load<RItem>("res://expansion_packs/core/item/resources/Flower.tres"),
+            GD.Load<RItem>("res://expansion_packs/core/item/resources/FoodBowl.tres"),
+        ];
+
         public Main()
         {
             Locations.ForEach(LocationDB.Register);
             GameModes.ForEach(GameModeDB.Register);
             Settings.ForEach(SettingDefinitionDB.Register);
+            Items.ForEach(ItemDB.Register);
         }
     }
 }

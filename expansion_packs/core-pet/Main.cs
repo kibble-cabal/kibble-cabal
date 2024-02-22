@@ -11,6 +11,7 @@ namespace KibbleCabal.Core.Pet
             GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillEnergy.instruction.tres"),
             GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillHunger.instruction.tres"),
             GD.Load<RContextAction>("res://expansion_packs/core-pet/action/resources/FulfillThirst.instruction.tres"),
+            new RenameContextAction()
         ];
 
         public static readonly IEnumerable<RAnimal> Animals = [

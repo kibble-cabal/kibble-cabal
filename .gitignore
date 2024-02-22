@@ -1,3 +1,4 @@
 .godot/
 .vscode/
+.idea/
 *.csproj.old.*

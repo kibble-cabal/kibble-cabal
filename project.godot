@@ -12,6 +12,7 @@ config_version=5
 
 tags_dock/custom_dir="res://"
 attribute_table_dock/custom_dir="res://"
+csharp/generation_directory="res://addons/ability_system_extension/gen"
 
 [application]
 

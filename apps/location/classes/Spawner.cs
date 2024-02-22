@@ -19,7 +19,7 @@ public abstract partial class Spawner : Resource
 
 public abstract partial class Spawner<R, N> : Spawner where R : Resource where N : Node
 {
-    private R? Resource { get; set; }
+    protected R? Resource { get; set; }
 
     /// <summary>
     /// Exposes the provided resource to Godot's save system.
@@ -31,7 +31,7 @@ public abstract partial class Spawner<R, N> : Spawner where R : Resource where N
         set => SetResource(value as R);
     }
 
-    private N? Node;
+    protected N? Node;
 
     public Spawner() { }
     public Spawner(R resource) => SetResource(resource);

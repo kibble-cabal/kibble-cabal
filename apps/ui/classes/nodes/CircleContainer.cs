@@ -7,8 +7,8 @@ using Godot.Collections;
 using static Godot.Mathf;
 
 [Tool]
-[GlobalClass]
-public partial class CircleContainerV2 : Container
+[GlobalClass, Icon("circle_container.svg")]
+public partial class CircleContainer : Container
 {
     public enum Align
     {

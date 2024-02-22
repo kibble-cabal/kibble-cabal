@@ -5,7 +5,7 @@ using Godot.Collections;
 namespace KibbleCabal.Apps.GameMode
 {
     [Tool]
-    public partial class GameModeButtonContainer : CircleContainerV2
+    public partial class GameModeButtonContainer : CircleContainer
     {
         private static readonly PackedScene ButtonScene = GD.Load<PackedScene>("res://apps/game_mode/scenes/game_mode_button.tscn");
 

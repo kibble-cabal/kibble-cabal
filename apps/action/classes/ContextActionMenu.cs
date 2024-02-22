@@ -4,7 +4,7 @@ using Godot;
 using Godot.Collections;
 
 [GlobalClass]
-public partial class ContextActionMenu : CircleContainerV2
+public partial class ContextActionMenu : CircleContainer
 {
     [Signal]
     public delegate void OpeningEventHandler();
