@@ -3,7 +3,7 @@ using Godot;
 
 [Tool]
 [GlobalClass]
-public partial class ThoughtBubble : Node2D
+public partial class ThoughtBubble : Node2D, IControl3D
 {
     public static readonly StringName UIGroupName = "UI";
     public static readonly StringName GroupName = "ThoughtBubble";
@@ -17,7 +17,7 @@ public partial class ThoughtBubble : Node2D
     private float _maxWidth;
     private Color _color = Colors.White;
     private Color _backgroundColor = Colors.White * 0.1f;
-    private bool _centered = true;
+    private bool _center = true;
 
     [Export(PropertyHint.MultilineText)]
     public string Text
@@ -86,17 +86,23 @@ public partial class ThoughtBubble : Node2D
     }
 
     [Export]
-    public bool Centered
+    public bool Center
     {
-        get => _centered;
+        get => _center;
         set
         {
-            _centered = value;
+            _center = value;
             QueueRedrawAll();
         }
     }
 
     public Vector2 Size => GetBackgroundSize();
+
+    public Vector3 LocalPosition { get; set; }
+    public Vector2 ScreenOffset { get; set; }
+
+    private Node? Parent;
+    private Camera3D? Camera;
 
     public ThoughtBubble()
     {
@@ -117,6 +123,8 @@ public partial class ThoughtBubble : Node2D
 
     public override void _EnterTree()
     {
+        Parent = GetParent();
+        Camera = GetViewport()?.GetCamera3D();
         Mat.Shader = BubbleShader;
         Mat.SetShaderParameter("seed", GD.RandRange(0, 1000));
         Mat.SetShaderParameter("num_bubbles", GD.RandRange(7.5, 9.5));
@@ -130,13 +138,15 @@ public partial class ThoughtBubble : Node2D
             QueueRedrawAll();
     }
 
+    public override void _Process(double delta) => IControl3D.ProcessPosition(this, Parent, Camera);
+
     private void Update()
     {
         //  Update background
         Background.Color = Colors.Black;
         Background.Material = Mat;
         Background.CustomMinimumSize = GetBackgroundSize();
-        Background.Position = Centered ? -Background.CustomMinimumSize / 2 : Vector2.Zero;
+        Background.Position = Center ? -Background.CustomMinimumSize / 2 : Vector2.Zero;
         Background.ResetSize();
         Mat.SetShaderParameter("color", BackgroundColor);
 
@@ -186,22 +196,19 @@ public partial class ThoughtBubble : Node2D
     {
         ResetSize();
         Scale *= 0;
-        if (duration > 0)
+        if (!IsNodeReady())
+            await ToSignal(this, Node.SignalName.Ready);
+
+        var tween = CreateTween()
+            .SetEase(Tween.EaseType.Out)
+            .SetTrans(Tween.TransitionType.Back);
+        tween.TweenProperty(this, new NodePath(Control.PropertyName.Scale), Vector2.One, 0.25);
+        await ToSignal(tween, Tween.SignalName.Finished);
+
+        if (duration > 0 && this.CanQueueFree())
         {
-            if (!IsNodeReady())
-                await ToSignal(this, Node.SignalName.Ready);
-
-            var tween = CreateTween()
-                .SetEase(Tween.EaseType.Out)
-                .SetTrans(Tween.TransitionType.Back);
-            tween.TweenProperty(this, "scale", Vector2.One, 0.25);
-            await ToSignal(tween, Tween.SignalName.Finished);
-
-            if (this.CanQueueFree())
-            {
-                await ToSignal(GetTree().CreateTimer(duration), Timer.SignalName.Timeout);
-                await Destroy();
-            }
+            await ToSignal(GetTree().CreateTimer(duration), Timer.SignalName.Timeout);
+            await Destroy();
         }
     }
 
@@ -211,7 +218,7 @@ public partial class ThoughtBubble : Node2D
         var tween = CreateTween()
             .SetEase(Tween.EaseType.In)
             .SetTrans(Tween.TransitionType.Back);
-        tween.TweenProperty(this, "scale", Vector2.Zero, 0.25);
+        tween.TweenProperty(this, new NodePath(Control.PropertyName.Scale), Vector2.Zero, 0.25);
         await ToSignal(tween, Tween.SignalName.Finished);
     }
 }

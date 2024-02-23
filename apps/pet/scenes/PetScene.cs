@@ -128,9 +128,12 @@ namespace KibbleCabal.Apps.Pet
         public async Task SpawnThoughtBubble(string text, float duration = 3, float maxWidth = -1)
         {
             await DestroyThoughtBubbles();
-            var bubble = new ThoughtBubble(text, duration, maxWidth);
+            var bubble = new ThoughtBubble(text, duration, maxWidth)
+            {
+                LocalPosition = Vector3.Zero,
+                ScreenOffset = new Vector2(maxWidth / 2, -20)
+            };
             AddChild(bubble);
-            bubble.Position = new Vector2(0, -bubble.Size.Y / 2);
         }
 
         private void OnMoveStarted()
