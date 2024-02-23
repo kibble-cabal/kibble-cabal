@@ -6,8 +6,12 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <Nullable>enable</Nullable>
     <NoWarn>IDE1006;CA1050</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <CSFile Remove="templates/Resource/AITask.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.90.1.1" />
   </ItemGroup>
 </Project>

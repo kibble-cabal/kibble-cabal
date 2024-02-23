@@ -68,6 +68,14 @@ mouse_filter = 2
 script = ExtResource("6_wrrce")
 MenuIdentifier = &"pet/interact"
 
+[node name="PanelContainer2" type="PanelContainer" parent="UILayer/InteractMenu"]
+custom_minimum_size = Vector2(500, 2.08165e-12)
+layout_mode = 2
+
+[node name="AbilitySystemViewer" type="AbilitySystemViewer" parent="UILayer/InteractMenu/PanelContainer2"]
+ability_system_path = NodePath("../../../../AbilitySystem")
+layout_mode = 2
+
 [node name="PanelContainer" type="PanelContainer" parent="UILayer/InteractMenu"]
 custom_minimum_size = Vector2(500, 200)
 layout_mode = 2
