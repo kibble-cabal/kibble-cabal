@@ -6,19 +6,19 @@ using KibbleCabal.Apps.Pet;
 namespace KibbleCabal.Core.Pet.AI.Task
 {
     /// <summary>
-    /// Fulfills the provided need.
+    /// Fulfills the provided need using the provided item.
     /// </summary>
     [Tool]
     public partial class BTFulfillNeed : BTNavigate
     {
 
-        StringName _targetItemVariable = "";
-        BBNode? _abilitySystemPath;
-        Ability? _fulfillNeedAbility;
+        protected StringName _targetItemVariable = "";
+        protected BBNode? _abilitySystemPath;
+        protected Ability? FulfillNeedAbility;
 
-        bool HasNavigated = false;
-        AbilityEvent? Event;
-        bool HasFinishedEvent = false;
+        protected bool HasNavigated = false;
+        protected AbilityEvent? Event;
+        protected bool HasFinishedEvent = false;
 
         [Export]
         public StringName TargetItemVariable
@@ -27,21 +27,20 @@ namespace KibbleCabal.Core.Pet.AI.Task
             set => this.Set(ref _targetItemVariable, value);
         }
 
-        [Export]
         public BBNode? AbilitySystemPath
         {
             get => _abilitySystemPath;
             set => this.Set(ref _abilitySystemPath, value);
         }
 
-        [Export]
-        public Resource? FulfillNeedAbility
+        [Export(PropertyHint.ResourceType, "Ability")]
+        public Resource? FulfillNeedAbilityResource
         {
-            get => _fulfillNeedAbility?.Instance;
+            get => FulfillNeedAbility?.Instance;
             set
             {
-                if (value is not null) this.Set(ref _fulfillNeedAbility, new(value));
-                else this.Set(ref _fulfillNeedAbility, null);
+                if (value is not null) this.Set(ref FulfillNeedAbility, new(value));
+                else this.Set(ref FulfillNeedAbility, null);
             }
         }
 
@@ -54,7 +53,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
         public override Status _Tick(double delta)
         {
             var abilitySystem = GetAbilitySystem();
-            if (abilitySystem is null || _fulfillNeedAbility is null) return Status.Failure;
+            if (abilitySystem is null || FulfillNeedAbility is null) return Status.Failure;
 
             // If navigation is not finished, continue navigating.
             if (GetTargetItem() is not null && !HasNavigated)
@@ -76,12 +75,12 @@ namespace KibbleCabal.Core.Pet.AI.Task
             // If the event is not already started, activate it.
             if (Event is null)
             {
-                Event = abilitySystem.Activate(_fulfillNeedAbility);
+                Event = abilitySystem.Activate(FulfillNeedAbility);
                 if (Event is null)
                     abilitySystem.Instance.Connect("ability_event_finished", new Callable(this, MethodName.OnAbilityEventFinished));
                 else
                 {
-                    GD.PushWarning($"Unable to activate {_fulfillNeedAbility.Identifier}");
+                    GD.PushWarning($"Unable to activate {FulfillNeedAbility.Identifier}");
                     return Status.Failure;
                 }
             }
@@ -96,11 +95,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
 
         protected override Vector3 GetNavigationPosition() => GetTargetItem()?.GlobalPosition ?? default;
 
-        protected RPet? GetPet()
-        {
-            if (Agent is PetScene pet) return pet.Resource;
-            return null;
-        }
+        protected RPet? GetPet() => (Agent as PetScene)?.Resource;
 
         protected AbilitySystem? GetAbilitySystem()
         {

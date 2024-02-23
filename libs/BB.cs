@@ -18,5 +18,6 @@ namespace BB
         public static string Magenta(this string str) => str.Color("magenta");
         public static string Image(this string path) => $"[img]{path}[/img]";
         public static string URL(this string path, string? str = null) => str != null ? $"[url={path}]{str}[/url]" : $"[url={path}]{path}[/url]";
+        public static string Brackets(this string str) => $"[{str}]";
     }
 }

@@ -1,21 +1,21 @@
 using Godot;
 
 [GlobalClass]
-public sealed partial class RSubTree : ExtensibleResource, IIdentifiable<StringName>
+public sealed partial class RSubTree : ExtensibleResource
 {
     private static class Keys
     {
         public static readonly string SubTree = "SubTree";
     }
 
-    private StringName _id = "";
+    private StringName _hook = "";
     private int _priority = 1;
 
     [Export]
-    public StringName ID
+    public StringName Hook
     {
-        get => _id;
-        set => this.Set(ref _id, value);
+        get => _hook;
+        set => this.Set(ref _hook, value);
     }
 
     [Export]

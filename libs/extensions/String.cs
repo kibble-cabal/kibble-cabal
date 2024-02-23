@@ -25,4 +25,7 @@ public static class StringExtensions
         return extensions.Any(ext => pathExt.Equals(ext, System.StringComparison.CurrentCultureIgnoreCase));
     }
     public static bool StartsWith(this string a, string b, bool caseSensitive) => caseSensitive ? a.StartsWith(b) : a.StartsWith(b, System.StringComparison.CurrentCultureIgnoreCase);
+
+    public static bool IsEmpty(this string str) => string.IsNullOrEmpty(str);
+    public static bool IsEmpty(this StringName str) => string.IsNullOrEmpty(str);
 }

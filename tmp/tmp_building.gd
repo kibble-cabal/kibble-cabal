@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var building: Building
+@export var building: RBuilding
 @export var line_color: Color = Color.ORANGE
 @export var handles_color: Color = Color.GRAY
 @export var fill_color: Color = Color.DIM_GRAY
@@ -25,7 +25,7 @@ var mode := Mode.WALLS
 
 
 func _ready() -> void:
-	building = Building.new()
+	building = RBuilding.new()
 	building.changed.connect(queue_redraw)
 	building.add_wall()
 	building.add_floor()

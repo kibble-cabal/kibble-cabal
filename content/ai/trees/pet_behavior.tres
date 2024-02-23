@@ -1,10 +1,10 @@
-[gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://cfcroebhnfkjw"]
+[gd_resource type="BehaviorTree" load_steps=15 format=3 uid="uid://cfcroebhnfkjw"]
 
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/run_subtrees_from_db_pipe.gd" id="1_a7v6q"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/blackboard/set_var_from_method_call.gd" id="2_jw1wj"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/BTFollowInstructions.cs" id="2_pnrcc"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="3_ilwoq"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/while_instructions_empty.gd" id="3_oe6a8"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/BTRunSubTreesFromDBPipe.cs" id="3_21rqt"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/BTWhileInstructionsEmpty.cs" id="3_oe6a8"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_v5jm7"]
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_8feua"]
 min_duration = 0.5
@@ -13,14 +13,11 @@ max_duration = 1.0
 [sub_resource type="BTDecorator" id="BTDecorator_yjwem"]
 children = [SubResource("BTRandomWait_8feua")]
 script = ExtResource("3_oe6a8")
-on_instruction_found = 3
+OnInstructionFound = 3
 
-[sub_resource type="BTAction" id="BTAction_y0b7y"]
-script = ExtResource("2_pnrcc")
-
-[sub_resource type="BTSequence" id="BTSequence_fxi2f"]
-script = ExtResource("1_a7v6q")
-hook_key = &"pet/before_start"
+[sub_resource type="BTComposite" id="BTComposite_5tsfp"]
+script = ExtResource("3_21rqt")
+HookKey = &"pet/before_start"
 
 [sub_resource type="BTRandomWait" id="BTRandomWait_iqdfm"]
 min_duration = 2.0
@@ -29,7 +26,7 @@ max_duration = 3.0
 [sub_resource type="BTDecorator" id="BTDecorator_cfesk"]
 children = [SubResource("BTRandomWait_iqdfm")]
 script = ExtResource("3_oe6a8")
-on_instruction_found = 3
+OnInstructionFound = 3
 
 [sub_resource type="BBNode" id="BBNode_p80nf"]
 resource_name = "."
@@ -47,30 +44,13 @@ args_include_delta = false
 text = "Navigating to %s"
 bb_format_parameters = PackedStringArray("target_position")
 
-[sub_resource type="BBNode" id="BBNode_jcwsi"]
-resource_name = "NavigationAgent"
-saved_value = NodePath("NavigationAgent")
-
-[sub_resource type="BBVector3" id="BBVector3_ef3bs"]
-resource_name = "$target_position"
-value_source = 1
-variable = "target_position"
-
-[sub_resource type="BTAction" id="BTAction_g1ai8"]
-script = ExtResource("3_ilwoq")
-target_position = SubResource("BBVector3_ef3bs")
-navigation_agent_node = SubResource("BBNode_jcwsi")
-
-[sub_resource type="BTDecorator" id="BTDecorator_qsyta"]
-children = [SubResource("BTAction_g1ai8")]
+[sub_resource type="BTDecorator" id="BTDecorator_u8v47"]
 script = ExtResource("3_oe6a8")
-on_instruction_found = 3
-
-[sub_resource type="BTAction" id="BTAction_uidn5"]
-script = ExtResource("2_pnrcc")
+OnInstructionFound = 3
 
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTDecorator_yjwem"), SubResource("BTAction_y0b7y"), SubResource("BTSequence_fxi2f"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTConsolePrint_3r4pn"), SubResource("BTDecorator_qsyta"), SubResource("BTAction_uidn5")]
+children = [SubResource("BTDecorator_yjwem"), SubResource("BTComposite_5tsfp"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTConsolePrint_3r4pn"), SubResource("BTDecorator_u8v47")]
 
 [resource]
+blackboard_plan = SubResource("BlackboardPlan_v5jm7")
 root_task = SubResource("BTSequence_qv2m0")

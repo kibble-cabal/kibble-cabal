@@ -67,4 +67,6 @@ public static class EnumerableExtensions
 
     public static void AddDistinct<T>(this List<T> values, IEnumerable<T> other) => values.AddRange(other.Except(values));
     public static void AddDistinct<[MustBeVariant] T>(this Array<T> values, IEnumerable<T> other) => values.AddRange(other.Except(values));
+
+    public static string JoinToString<T>(this IEnumerable<T> values) => string.Join("", values.Select(v => v?.ToString()));
 }

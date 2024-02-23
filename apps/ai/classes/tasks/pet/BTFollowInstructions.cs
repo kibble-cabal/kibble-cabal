@@ -7,35 +7,24 @@ namespace KibbleCabal.Apps.AI.Task
 	[Tool]
 	public partial class BTFollowInstructions : BTAction
 	{
-		private static class ContextVar
-		{
-			public static readonly StringName IsInstruction = "context/is_instruction";
-		}
-
 		public override string _GenerateName() => "Follow Instructions";
-
-		public override string[] _GetConfigurationWarnings()
-		{
-			if (Agent is not PetScene) return ["This task only affects pets."];
-			return [];
-		}
 
 		public override void _Enter()
 		{
 			var pet = GetPet();
 			if (pet is not null)
 			{
-				Blackboard.SetVar(ContextVar.IsInstruction, true);
+				Blackboard.SetVar(BTContext.VarName.IsInstruction, true);
 				pet.Instructions
 					.Select(tree => tree.Instantiate(Agent, Blackboard))
 					.ForEach(AddChild);
 			}
-			Blackboard.SetVar(ContextVar.IsInstruction, true);
+			Blackboard.SetVar(BTContext.VarName.IsInstruction, true);
 		}
 
 		public override void _Exit()
 		{
-			Blackboard.SetVar(ContextVar.IsInstruction, false);
+			Blackboard.SetVar(BTContext.VarName.IsInstruction, false);
 		}
 
 		public override Status _Tick(double delta)
@@ -50,10 +39,6 @@ namespace KibbleCabal.Apps.AI.Task
 			return Status.Running;
 		}
 
-		protected RPet? GetPet()
-		{
-			if (Agent is PetScene pet) return pet.Resource;
-			return null;
-		}
+		protected RPet? GetPet() => (Agent as PetScene)?.Resource;
 	}
 }
