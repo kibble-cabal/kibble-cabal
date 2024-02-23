@@ -14,6 +14,8 @@ public partial class BuildingMesh : ArrayMesh
     private readonly List<IMeshComponent> FloorMeshes = [];
     private readonly List<IMeshComponent> RoofMeshes = [];
 
+    public BuildingMesh() : this(new RBuilding()) { }
+
     public BuildingMesh(RBuilding building)
     {
         Building = building;

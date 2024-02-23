@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.2.2-rc.1">
+<Project Sdk="Godot.NET.Sdk/4.2.2-limboai">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
@@ -7,4 +7,7 @@
     <Nullable>enable</Nullable>
     <NoWarn>IDE1006;CA1050</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <CSFile Remove="templates/Resource/AITask.cs" />
+  </ItemGroup>
 </Project>

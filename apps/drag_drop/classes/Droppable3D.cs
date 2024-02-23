@@ -45,8 +45,8 @@ public partial class Droppable3D : Area3D
 
     public Droppable3D()
     {
-        CollisionLayer = 1 << 10; // ui_drop
-        CollisionMask = 1 << 9; // ui_drag
+        CollisionLayer = (uint)Bit.Physics.UIDrop;
+        CollisionMask = (uint)Bit.Physics.UIDrag;
         Monitoring = false;
         InputRayPickable = false;
     }

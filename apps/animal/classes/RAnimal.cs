@@ -48,7 +48,7 @@ public partial class RAnimal : ExtensibleResource, IIdentifiable<StringName>
     /// The radius (in meters) that this animal can detect items.
     /// </summary>
     [Export]
-    public float DetectionsRadius
+    public float DetectionRadius
     {
         get => _detectionRadius;
         set => this.Set(ref _detectionRadius, value);

@@ -1,8 +1,8 @@
 [gd_resource type="BehaviorTree" load_steps=21 format=3 uid="uid://cfcroebhnfkjw"]
 
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/composites/run_subtrees_from_db_pipe.gd" id="1_a7v6q"]
-[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/follow_instructions.gd" id="1_btus0"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/blackboard/set_var_from_method_call.gd" id="2_jw1wj"]
+[ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/BTFollowInstructions.cs" id="2_pnrcc"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/navigation/navigate_to_position.gd" id="3_ilwoq"]
 [ext_resource type="Script" path="res://apps/ai/classes/tasks/pet/while_instructions_empty.gd" id="3_oe6a8"]
 
@@ -15,8 +15,8 @@ children = [SubResource("BTRandomWait_8feua")]
 script = ExtResource("3_oe6a8")
 on_instruction_found = 3
 
-[sub_resource type="BTAction" id="BTAction_27tth"]
-script = ExtResource("1_btus0")
+[sub_resource type="BTAction" id="BTAction_y0b7y"]
+script = ExtResource("2_pnrcc")
 
 [sub_resource type="BTSequence" id="BTSequence_fxi2f"]
 script = ExtResource("1_a7v6q")
@@ -66,11 +66,11 @@ children = [SubResource("BTAction_g1ai8")]
 script = ExtResource("3_oe6a8")
 on_instruction_found = 3
 
-[sub_resource type="BTAction" id="BTAction_duflx"]
-script = ExtResource("1_btus0")
+[sub_resource type="BTAction" id="BTAction_uidn5"]
+script = ExtResource("2_pnrcc")
 
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTDecorator_yjwem"), SubResource("BTAction_27tth"), SubResource("BTSequence_fxi2f"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTConsolePrint_3r4pn"), SubResource("BTDecorator_qsyta"), SubResource("BTAction_duflx")]
+children = [SubResource("BTDecorator_yjwem"), SubResource("BTAction_y0b7y"), SubResource("BTSequence_fxi2f"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTConsolePrint_3r4pn"), SubResource("BTDecorator_qsyta"), SubResource("BTAction_uidn5")]
 
 [resource]
 root_task = SubResource("BTSequence_qv2m0")

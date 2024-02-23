@@ -112,8 +112,8 @@ public partial class Draggable3D : Area3D
 
     public Draggable3D()
     {
-        CollisionLayer = 1 << 9; // ui_drag
-        CollisionMask = 1 << 10; // ui_drop
+        CollisionLayer = (uint)Bit.Physics.UIDrag;
+        CollisionMask = (uint)Bit.Physics.UIDrop;
         if (!Engine.IsEditorHint())
         {
             InputEvent += (_, @event, _, _, _) => OnInputEvent(@event);

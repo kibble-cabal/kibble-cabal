@@ -17,10 +17,10 @@ namespace KibbleCabal.Apps.Pet
         private NodePath? AbilitySystemPath;
 
         [Export]
-        private ContextActionMenu? ActionMenu;
+        private NodePath? BehaviorTreePath;
 
         [Export]
-        private Node? BehaviorTree;
+        private ContextActionMenu? ActionMenu;
 
         [Export]
         private CollisionShape3D? CollisionShape;
@@ -35,6 +35,7 @@ namespace KibbleCabal.Apps.Pet
         private Viewport? Viewport;
         private Camera3D? Camera;
         public AbilitySystem? AbilitySystem;
+        public BTPlayer? BehaviorTree;
 
         public override void _Ready()
         {
@@ -44,6 +45,8 @@ namespace KibbleCabal.Apps.Pet
             var node = GetNodeOrNull(AbilitySystemPath);
             if (node is not null)
                 AbilitySystem = new(node);
+
+            BehaviorTree = GetNodeOrNull<BTPlayer>(BehaviorTreePath);
 
             Viewport = GetViewport();
             Camera = Viewport?.GetCamera3D();

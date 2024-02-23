@@ -4,6 +4,11 @@ using Godot;
 
 using GDC = Godot.Collections;
 
+/// <summary>
+///  This class uses the AbilityDB, TagDB, and AttributeDB to populate the state of an AbilitySystem node.
+/// This class stores the state of an AbilitySystem node by storing just the IDENTIFIERS of the node's Attributes, Abilitys, and Tags.
+/// It's done this way to ensure that there are no outdated instances of abilities, tags, etc. serialized anywhere.
+/// </summary>
 public partial class AbilitySystemState : Resource
 {
     [Export]

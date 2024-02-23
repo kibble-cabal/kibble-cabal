@@ -5,7 +5,7 @@ public partial class RInstructionContextAction : Resource, IPetContextAction
 {
 
     private string _displayText = "";
-    private Resource? _instructionTree;
+    private BehaviorTree? _instructionTree;
 
     [Export]
     public string DisplayText
@@ -15,7 +15,7 @@ public partial class RInstructionContextAction : Resource, IPetContextAction
     }
 
     [Export]
-    public Resource? InstructionTree
+    public BehaviorTree? InstructionTree
     {
         get => _instructionTree;
         set => this.Set(ref _instructionTree, value);
@@ -27,7 +27,7 @@ public partial class RInstructionContextAction : Resource, IPetContextAction
 
     void IContextAction<IPetContextAction.Context>._OnPress(IPetContextAction.Context ctx)
     {
-        if (InstructionTree is Resource tree)
+        if (InstructionTree is BehaviorTree tree)
             ctx.Pet.Instructions.Add(tree);
     }
 }

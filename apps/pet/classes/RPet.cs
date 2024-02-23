@@ -12,7 +12,7 @@ public sealed partial class RPet : ExtensibleResource
     private string _name = "";
     private int _birthDate;
     private StringName _animalID = "";
-    private Array<Resource> _instructions = [];
+    private Array<BehaviorTree> _instructions = [];
 
     [Export]
     public string Name
@@ -36,7 +36,7 @@ public sealed partial class RPet : ExtensibleResource
     }
 
     [Export]
-    public Array<Resource> Instructions
+    public Array<BehaviorTree> Instructions
     {
         get => _instructions;
         set => this.Set(ref _instructions, value);

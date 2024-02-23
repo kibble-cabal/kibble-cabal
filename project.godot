@@ -24,11 +24,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SubtreeDB="*res://apps/ai/classes/subtree_db.gd"
-AbilityDB="*res://apps/ability/classes/ability_db.gd"
-AttributeDB="*res://apps/ability/classes/attribute_db.gd"
-EffectDB="*res://apps/ability/classes/effect_db.gd"
-TagDB="*res://apps/ability/classes/tag_db.gd"
 SoundManager="*res://addons/sound_manager/sound_manager.gd"
 Sx="*res://addons/signal_extensions/sx_autoload.gd"
 UIAnimManager="*res://addons/ui_anim/autoload/ui_anim_manager.gd"
@@ -52,6 +47,10 @@ window/handheld/orientation=1
 [dotnet]
 
 project/assembly_name="KibbleCabal2D"
+
+[editor]
+
+script/templates_search_path="res://templates"
 
 [editor_plugins]
 

@@ -1,0 +1,1 @@
+public sealed partial class SubTreeDB : SingletonDB<RSubTree> { }
