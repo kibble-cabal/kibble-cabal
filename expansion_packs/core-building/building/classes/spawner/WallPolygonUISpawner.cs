@@ -23,7 +23,7 @@ public partial class WallPolygonUISpawner : Spawner<RBuilding, PolygonEditor3D>
             HandleActiveModulate = Colors.Cyan,
             CustomSnapMethod = position =>
             {
-                var snapped = resource.Snap(position, 0.2f);
+                var snapped = resource.Snap(position, BuildingConfig.Instance.SnapTolerance);
                 // If the position was snapped to itself, return the unsnapped position
                 if (resource.Snap<Wall>(Index, position).IsEqualApprox(snapped))
                     return position;

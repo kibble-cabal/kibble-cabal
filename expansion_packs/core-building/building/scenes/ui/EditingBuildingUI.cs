@@ -112,7 +112,7 @@ namespace KibbleCabal.Core.Building.UI
         private void OnCreateSquareRoomButtonPressed()
         {
             int[] walls = Building?.Add<Wall>(SquareRoomPoints) ?? [];
-            int[] floors = Building is null ? [] : [Building.Add<Floor>(SquareRoomPoints)];
+            int[] floors = Building is null ? [] : [Building.Add(new Floor(SquareRoomPoints))];
             InitiateMove(walls, floors);
         }
 

@@ -8,8 +8,6 @@ using Godot;
 /// </summary>
 internal static class BuildingWallExtensions
 {
-    static internal WallRef? GetWallRef(this RBuilding building, int index) => building.Has<Wall>(index) ? new(building, index) : null;
-    static internal int Add<T>(this RBuilding building, Vector2 start, Vector2 end, Vector2? startHandle = null, Vector2? endHandle = null) where T : Wall => building.Add<Wall>(new Wall(start, end, startHandle, endHandle));
     static internal int[] Add<T>(this RBuilding building, Vector2[] points) where T : Wall
     {
         Wall[] walls = new Wall[points.Length - 1];
@@ -17,14 +15,6 @@ internal static class BuildingWallExtensions
             walls[i] = new Wall(points[i], points[i + 1]);
         return building.Add<Wall>(walls);
     }
-    static internal int[] Add<T>(this RBuilding building, Curve2D curve) where T : Wall
-    {
-        Wall[] walls = new Wall[curve.PointCount - 1];
-        for (int i = 0; i < curve.PointCount - 1; i++)
-            walls[i] = new Wall(curve.GetPointPosition(i), curve.GetPointOut(i), curve.GetPointPosition(i + 1), curve.GetPointIn(i + 1));
-        return building.Add<Wall>(walls);
-    }
-    static internal void Insert<T>(this RBuilding building, int index, Vector2 start, Vector2 end, Vector2? startHandle = null, Vector2? endHandle = null) where T : Wall => building.Insert<Wall>(index, new Wall(start, end, startHandle, endHandle));
     static internal void SetWallPositions(this RBuilding building, int index, Vector2 start, Vector2 end)
     {
         building.SetWallStart(index, start);
@@ -105,9 +95,6 @@ internal static class BuildingWallExtensions
 /// </summary>
 internal static class BuildingFloorExtensions
 {
-    static internal FloorRef? GetFloorRef(this RBuilding building, int index) => building.Has<Floor>(index) ? new(building, index) : null;
-    static internal int Add<T>(this RBuilding building, Curve2D polygon) where T : Floor => building.Add<Floor>(new Floor(polygon));
-    static internal int Add<T>(this RBuilding building, Vector2[] points) where T : Floor => building.Add<Floor>(new Floor(points));
     static internal void SetFloorPolygon(this RBuilding building, int index, Curve2D polygon)
     {
         if (building.Has<Floor>(index))
@@ -301,19 +288,5 @@ public static class BuildingExtensions
         threshold
     );
 
-    static internal BuildingMesh GetMesh(this RBuilding building) => new BuildingMesh(building);
-
-    static internal CompoundMesh GenerateMesh(this RBuilding building)
-    {
-        var mesh = new CompoundMesh()
-        {
-            meshes = [
-                ..building.Walls.Where(wall => wall.IsValid()).SelectMany(wall => wall.GenerateMeshes(building)),
-                ..building.Floors.Where(floor => floor.IsValid()).SelectMany(floor => floor.GenerateMeshes(building))
-            ]
-        };
-        // Connect("changed", new Callable(mesh, "generate"));
-        mesh.generate();
-        return mesh;
-    }
+    static internal BuildingMesh GetMesh(this RBuilding building) => new(building);
 }
