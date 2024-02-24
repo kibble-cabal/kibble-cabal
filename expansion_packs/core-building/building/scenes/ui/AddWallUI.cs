@@ -1,4 +1,5 @@
 using Godot;
+using UndoRedo;
 
 namespace KibbleCabal.Core.Building.UI
 {
@@ -50,17 +51,12 @@ namespace KibbleCabal.Core.Building.UI
 
         private void AddWall()
         {
-            if (Start is null || End is null) return;
-            Vector3 start = Start ?? Vector3.Inf,
-                end = End ?? Vector3.Inf,
-                startHandle = StartHandle ?? Vector3.Zero,
-                endHandle = EndHandle ?? Vector3.Zero;
-            var index = Building?.Walls.Count ?? -1;
-            History?.Add(
-                "Add Wall",
-                () => Building?.Add<Wall>(start.ToVector2(), end.ToVector2(), startHandle.ToVector2(), endHandle.ToVector2()),
-                () => Building?.Remove<Wall>(index)
-            );
+            if (Start is null || End is null || Building is null) return;
+            var start = (Start ?? Vector3.Inf).ToVector2();
+            var end = (End ?? Vector3.Inf).ToVector2();
+            var startHandle = (StartHandle ?? Vector3.Zero).ToVector2();
+            var endHandle = (EndHandle ?? Vector3.Zero).ToVector2();
+            History?.Add(new UndoRedo.Add<Wall>(Building, new Wall(start, end, startHandle, endHandle)));
             UIRoot?.Pop();
         }
 

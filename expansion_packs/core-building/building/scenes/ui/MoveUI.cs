@@ -1,4 +1,6 @@
+using System;
 using Godot;
+using UndoRedo;
 
 namespace KibbleCabal.Core.Building.UI
 {
@@ -14,6 +16,9 @@ namespace KibbleCabal.Core.Building.UI
 
         [Export]
         public int[] Floors = [];
+
+        [Export]
+        public int[] Roofs = [];
 
         [Export]
         public Vector3 StartPosition;
@@ -42,26 +47,17 @@ namespace KibbleCabal.Core.Building.UI
         private void TryCreateBuilding(Vector2 delta)
         {
             if (Building is null) return;
-            Building.MoveBy<Wall>(Walls, delta);
-            Building.MoveBy<Floor>(Floors, delta);
-            History?.Add(
-                "Add Building",
-                () => LocationState?.Add(new BuildingSpawner(Building)),
-                () => LocationState?.RemoveSpawnersFor(Building)
-            );
+            History?.Add(new UndoRedo.AddBuilding(Building, delta));
         }
 
         public void OnCancelButtonPressed() => UIRoot?.Pop();
 
         public void OnCursorClicked(Vector3 position)
         {
+            if (Building is null) return;
             var delta = (position - StartPosition).ToVector2();
             if (IsBuildingJustCreated()) TryCreateBuilding(delta);
-            else History?.Add(
-                "Move",
-                [() => Building?.MoveBy<Wall>(Walls, delta), () => Building?.MoveBy<Floor>(Floors, delta)],
-                [() => Building?.MoveBy<Wall>(Walls, -delta), () => Building?.MoveBy<Floor>(Floors, -delta)]
-            );
+            else History?.Add(new UndoRedo.Move(Building, walls: Walls, floors: Floors, roofs: Roofs, delta));
             UIRoot?.Pop();
         }
     }

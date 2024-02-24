@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Godot.Collections;
+using KibbleCabal.Apps.DragDrop.UndoRedo;
+using UndoRedo;
 
 public abstract partial class PolygonEditor3DBase : Node3D
 {
@@ -379,11 +381,7 @@ public abstract partial class PolygonEditor3DBase : Node3D
         var index = button.GetMeta(PointIndexMetaName, -1).As<int>();
         if (index != -1 && index < _GetPointCount())
         {
-            if (History is not null) History.Add(
-                "Add Point",
-                () => AddPoint(index),
-                () => RemovePoint(index)
-            );
+            if (History is not null) History.Add(new AddPoint(index, AddPoint, RemovePoint));
             else AddPoint(index);
         }
     }
@@ -394,11 +392,7 @@ public abstract partial class PolygonEditor3DBase : Node3D
         if (index != -1 && index < _GetPointCount())
         {
             var position = GetPointPosition(index);
-            if (History is not null) History.Add(
-                "Remove Point",
-                () => RemovePoint(index),
-                () => AddPoint(index, position)
-            );
+            if (History is not null) History.Add(new RemovePoint(index, RemovePoint, AddPoint));
             else RemovePoint(index);
         }
     }

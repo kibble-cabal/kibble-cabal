@@ -36,8 +36,8 @@ public sealed partial class GameModeSubSystemBase : Node
     {
         EmitSignal(SignalName.BeforeEntered, [gameMode]);
         gameMode.Enter();
-        SetPaused();
         Current = gameMode;
+        SetPaused();
         EmitSignal(SignalName.AfterEntered, [gameMode]);
     }
 
@@ -47,8 +47,8 @@ public sealed partial class GameModeSubSystemBase : Node
         {
             EmitSignal(SignalName.BeforeExited, [gameMode]);
             gameMode.Exit();
-            SetPaused();
             Current = null;
+            SetPaused();
             EmitSignal(SignalName.AfterExited, [gameMode]);
         }
     }

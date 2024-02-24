@@ -1,7 +1,8 @@
 using System;
-using System.ComponentModel;
 using Godot;
 using Godot.Collections;
+using KibbleCabal.Apps.DragDrop.UndoRedo;
+using UndoRedo;
 
 [Tool]
 public partial class PolygonPoint3D : Sprite3D
@@ -179,8 +180,6 @@ public partial class PolygonPoint3D : Sprite3D
         Update();
     }
 
-    public static readonly Font DefaultFont = ThemeDB.GetDefaultTheme().GetFont("font", "");
-
     private void OnDraw()
     {
         if (LineRenderer is null || Camera is null || InHandle is null || OutHandle is null) return;
@@ -232,6 +231,7 @@ public partial class PolygonPoint3D : Sprite3D
         handle.InputMargin = InputMargin;
         handle.InactiveModulate = HandleInactiveModulate;
         handle.ActiveModulate = HandleActiveModulate;
+        handle.History = History;
     }
 
     private float GetPixelSize()
@@ -251,12 +251,7 @@ public partial class PolygonPoint3D : Sprite3D
     private void OnDragFinished() => CreateTween().TweenProperty(this, NodePaths.Property.Modulate, InactiveModulate, 0.125);
     private void OnPositionChanged(Vector3 newPosition, Vector3 oldPosition)
     {
-        // TODO merge
-        if (History is not null) History.Add(
-            "Move Point",
-            () => Move(newPosition),
-            () => Move(oldPosition)
-        );
+        if (History is not null) History.Add(new MovePoint(Move, newPosition, oldPosition));
         else Move(newPosition);
     }
 

@@ -15,21 +15,24 @@ public partial class WallPolygonUISpawner : Spawner<RBuilding, PolygonEditor3D>
 
     protected override PolygonEditor3D? _Spawn(RBuilding resource, Node3D world)
     {
-        var node = new PolygonEditor3D();
+        var node = new PolygonEditor3D()
+        {
+            History = BuildModeState.GetHistory(),
+            EnableHandles = true,
+            ActiveModulate = Colors.Cyan,
+            HandleActiveModulate = Colors.Cyan,
+            CustomSnapMethod = position =>
+            {
+                var snapped = resource.Snap(position, 0.2f);
+                // If the position was snapped to itself, return the unsnapped position
+                if (resource.Snap<Wall>(Index, position).IsEqualApprox(snapped))
+                    return position;
+                return snapped;
+            },
+        };
         node.PointChanged += OnPointChanged;
         node.InHandleChanged += OnHandleChanged;
         node.OutHandleChanged += OnHandleChanged;
-        node.ActiveModulate = Colors.Cyan;
-        node.HandleActiveModulate = Colors.Cyan;
-        node.CustomSnapMethod = position =>
-        {
-            var snapped = resource.Snap(position, 0.2f);
-            // If the position was snapped to itself, return the unsnapped position
-            if (resource.Snap<Wall>(Index, position).IsEqualApprox(snapped))
-                return position;
-            return snapped;
-        };
-        node.EnableHandles = true;
         world.AddChild(node);
         return node;
     }

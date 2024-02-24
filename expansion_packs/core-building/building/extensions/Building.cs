@@ -181,7 +181,13 @@ public static class BuildingExtensions
         building.Get<T>(index)?.MoveBy(delta);
         building.EmitChanged();
     }
-    static internal void MoveBy<T>(this RBuilding building, int[] indices, Vector2 delta) where T : IBuildingComponent<T> => indices.ForEach(i => building.MoveBy<T>(i, delta));
+    static internal void MoveBy<T>(this RBuilding building, IEnumerable<int> indices, Vector2 delta) where T : IBuildingComponent<T> => indices.ForEach(i => building.MoveBy<T>(i, delta));
+    static internal void MoveBy(this RBuilding building, Vector2 delta)
+    {
+        building.MoveBy<Wall>(GD.Range(0, building.Walls.Count), delta);
+        building.MoveBy<Floor>(GD.Range(0, building.Floors.Count), delta);
+        building.MoveBy<Roof>(GD.Range(0, building.Roofs.Count), delta);
+    }
     static internal MaterialMap? GetMaterials<T>(this RBuilding building, int index) where T : IBuildingComponent<T> => building.Get<T>(index)?.Materials;
     static internal void SetMaterials<T>(this RBuilding building, int index, MaterialMap value) where T : IBuildingComponent<T>
     {

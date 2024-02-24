@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UndoRedo;
 
 namespace KibbleCabal.Core.Building.UI
 {
@@ -72,11 +73,7 @@ namespace KibbleCabal.Core.Building.UI
             UIRoot?.Push(scene);
         }
 
-        private void OnBuildingDestroyRequested(RBuilding building) => History?.Add(
-            "Destroy Building",
-            () => LocationState?.RemoveSpawnersFor(building),
-            () => LocationState?.Add(new BuildingSpawner(building))
-        );
+        private static void OnBuildingDestroyRequested(RBuilding building) => History?.Add(new UndoRedo.DestroyBuilding(building));
 
         private void OnBuildingMoveRequested(RBuilding building) => UIRoot?.Push(MoveUI.Instantiate(
             building,

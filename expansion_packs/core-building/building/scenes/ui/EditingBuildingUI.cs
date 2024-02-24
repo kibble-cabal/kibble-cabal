@@ -1,4 +1,5 @@
 using Godot;
+using UndoRedo;
 
 namespace KibbleCabal.Core.Building.UI
 {
@@ -34,7 +35,10 @@ namespace KibbleCabal.Core.Building.UI
                 Building.DestroyFloorRequested += OnDestroyFloorRequested;
                 Building.MoveWallRequested += OnMoveWallRequested;
                 Building.MoveFloorRequested += OnMoveFloorRequested;
-                History?.OnAfterUndo("Add Building", OnUndoAddBuilding);
+                if (History is not null) History.AfterUndo += item =>
+                    {
+                        if (item.GetName() == UndoRedo.AddBuilding.Name) OnUndoAddBuilding();
+                    };
             }
             Respawn();
         }
@@ -68,22 +72,14 @@ namespace KibbleCabal.Core.Building.UI
         {
             var wall = Building?.Get<Wall>(index);
             if (Building is null || wall is null) return;
-            History?.Add(
-                "Destroy Wall",
-                () => Building.Remove<Wall>(index),
-                () => Building.Add<Wall>(wall)
-            );
+            History?.Add(new UndoRedo.Destroy<Wall>(Building, wall));
         }
 
         private void OnDestroyFloorRequested(int index)
         {
             var floor = Building?.Get<Floor>(index);
             if (Building is null || floor is null) return;
-            History?.Add(
-                "Destroy Floor",
-                () => Building.Remove<Floor>(index),
-                () => Building.Add<Floor>(floor)
-            );
+            History?.Add(new UndoRedo.Destroy<Floor>(Building, floor));
         }
 
         private void OnMoveWallRequested(int index)
@@ -98,7 +94,7 @@ namespace KibbleCabal.Core.Building.UI
             UIRoot?.Push(MoveUI.Instantiate(Building, floors: [index], walls: []));
         }
 
-        private void OnUndoAddBuilding(HistoryItem item) => UIRoot?.Pop();
+        private void OnUndoAddBuilding() => UIRoot?.Pop();
 
         private void OnAddWallButtonPressed()
         {

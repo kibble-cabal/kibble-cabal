@@ -4,8 +4,8 @@ using System.Linq;
 
 public readonly struct Result<T, E>
 {
-    public class ExpectedSuccessException : System.Exception { }
-    public class ExpectedErrorException : System.Exception { }
+    public class ExpectedSuccessException : Exception { }
+    public class ExpectedErrorException : Exception { }
 
     private readonly bool _ok;
     public readonly T Value;
@@ -28,14 +28,14 @@ public readonly struct Result<T, E>
 
     public R Match<R>(Func<T, R> ok, Func<E, R> error) => _ok ? ok(Value) : error(Error);
 
-    public void Match(System.Action<T> ok, System.Action<E> error)
+    public void Match(Action<T> ok, Action<E> error)
     {
         if (_ok) ok(Value);
         else error(Error);
     }
 
-    public void MatchOK(System.Action<T> ok) => Match(ok, _ => { });
-    public void MatchError(System.Action<E> error) => Match(_ => { }, error);
+    public void MatchOK(Action<T> ok) => Match(ok, _ => { });
+    public void MatchError(Action<E> error) => Match(_ => { }, error);
 
     public T AsSuccess()
     {
@@ -58,10 +58,11 @@ public static class ResultExtensions
 
 public static class Result
 {
-    public static Result<T, E> FromException<T, E>(System.Func<T> onSuccess, System.Func<Exception, E> onError)
+    public static Result<T, E> FromException<T, E>(Func<T> onSuccess, Func<Exception, E> onError)
     {
         try { return onSuccess(); }
         catch (Exception exception)
         { return onError(exception); }
     }
+    public static Result<bool, E> FromException<E>(Action onSuccess, Func<Exception, E> onError) => FromException<bool, E>(() => { onSuccess(); return true; }, onError);
 }

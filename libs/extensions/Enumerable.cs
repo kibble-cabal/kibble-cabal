@@ -44,15 +44,17 @@ public static class EnumerableExtensions
         return dict;
     }
 
+    public static T? Get<T>(this IList<T> list, int index) where T : class => list.Has(index) ? list[index] : null;
+
     public static V? Get<K, V>(this IDictionary<K, V> dict, K key) => dict.Get<K, V>(key, default!);
 
     public static V? Get<K, V>(this IDictionary<K, V> dict, K key, V defaultValue)
     {
-        if (dict.ContainsKey(key)) return dict[key];
+        if (dict.TryGetValue(key, out V? value)) return value;
         return defaultValue;
     }
 
-    public static T? Pop<[MustBeVariant] T>(this GDC.Array<T> array)
+    public static T? Pop<[MustBeVariant] T>(this IList<T> array)
     {
         if (array.Count > 0)
         {
@@ -62,6 +64,8 @@ public static class EnumerableExtensions
         }
         return default;
     }
+
+    public static T? Pop<[MustBeVariant] T>(this GDC.Array<T> array) => (array as IList<T>).Pop();
 
     public static bool Has<T>(this IEnumerable<T> values, int index) => index >= 0 && index < values.Count();
 

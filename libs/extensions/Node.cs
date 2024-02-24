@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AS;
 using Godot;
 
 public static class NodeExtensions
@@ -18,14 +20,19 @@ public static class NodeExtensions
         node.NotifyPropertyListChanged();
     }
 
-    public static bool CanQueueFree(this Node? node) => node != null
-        && node.IsInsideTree()
-        && !node.IsQueuedForDeletion();
+    public static bool IsValid(this Node? node)
+    {
+        try { return !node!.IsQueuedForDeletion(); }
+        catch { return false; }
+    }
 
-    public static Node? GetUIRoot(this Node node) => node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.UIRoot) : null;
-    public static UIStack? GetGameModeUIRoot(this Node? node) => node is not null && node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.GameModeUIRoot) as UIStack : null;
-    public static Node3D? GetLocationRoot(this Node? node) => node is not null && node.IsInsideTree() ? node.GetTree().GetFirstNodeInGroup(GroupName.LocationRoot) as Node3D : null;
-    public static void QueueFreeChildren(this Node? node) => node?.GetChildren().ToArray().Where(child => child.CanQueueFree()).ForEach(child => child.QueueFree());
+    public static bool CanGetTree(this Node? node) => node.IsValid() && node!.IsInsideTree();
+    public static bool CanQueueFree(this Node? node) => node.IsValid() && node!.IsInsideTree();
+
+    public static Node? GetUIRoot(this Node? node) => node.CanGetTree() ? node!.GetTree().GetFirstNodeInGroup(GroupName.UIRoot) : null;
+    public static UIStack? GetGameModeUIRoot(this Node? node) => node.CanGetTree() ? node!.GetTree().GetFirstNodeInGroup(GroupName.GameModeUIRoot) as UIStack : null;
+    public static Node3D? GetLocationRoot(this Node? node) => node.CanGetTree() ? node!.GetTree().GetFirstNodeInGroup(GroupName.LocationRoot) as Node3D : null;
+    public static void QueueFreeChildren(this Node? node) => node?.GetChildren().QueueFreeAll();
     public static void QueueFreeAll(this IEnumerable<Node?> nodes) => nodes.Where(node => node.CanQueueFree()).ForEach(node => node?.QueueFree());
 }
 
@@ -36,6 +43,7 @@ public static class Themes
         public static readonly StringName Color = "font_color";
         public static readonly StringName Font = "font";
         public static readonly StringName FontSize = "font_size";
+        public static readonly StringName StyleBox = "normal";
     }
     public static class Button
     {
@@ -56,6 +64,7 @@ public static class LabelExtensions
     public static void OverrideColor(this Label label, Color color) => label.AddThemeColorOverride(Themes.Label.Color, color);
     public static void OverrideFont(this Label label, Font font) => label.AddThemeFontOverride(Themes.Label.Font, font);
     public static void OverrideFontSize(this Label label, int size) => label.AddThemeFontSizeOverride(Themes.Label.FontSize, size);
+    public static void OverrideStyleBox(this Label label, StyleBox styleBox) => label.AddThemeStyleboxOverride(Themes.Label.StyleBox, styleBox);
 }
 
 public static class ButtonExtensions
