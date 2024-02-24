@@ -2,6 +2,7 @@
 using Godot;
 using KibbleCabal.Apps.AI.Task;
 using KibbleCabal.Apps.Pet;
+using AS;
 
 namespace KibbleCabal.Core.Pet.AI.Task
 {
@@ -77,7 +78,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
             {
                 Event = abilitySystem.Activate(FulfillNeedAbility);
                 if (Event is null)
-                    abilitySystem.Instance.Connect("ability_event_finished", new Callable(this, MethodName.OnAbilityEventFinished));
+                    abilitySystem.Instance?.Connect("ability_event_finished", new Callable(this, MethodName.OnAbilityEventFinished));
                 else
                 {
                     GD.PushWarning($"Unable to activate {FulfillNeedAbility.Identifier}");
@@ -112,7 +113,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
             if (finishedEvent == Event?.Instance)
             {
                 HasFinishedEvent = true;
-                GetAbilitySystem()?.Instance.DisconnectAllFromTarget("ability_event_finished", this);
+                GetAbilitySystem()?.Instance?.DisconnectAllFromTarget("ability_event_finished", this);
             }
         }
     }

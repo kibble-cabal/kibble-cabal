@@ -3,6 +3,7 @@ using Godot;
 using Query;
 using Query.Filter;
 using Query.Transformation;
+using AS;
 
 namespace KibbleCabal.Core.Pet.AI.Task
 {
@@ -104,7 +105,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
                 CollisionMask = (uint)Bit.Physics.Items,
                 Filters = [
                     new FilterByTags {
-                        TagsToCheck = NeedProviderTag is not null ? [NeedProviderTag.Instance] : []
+                        TagsToCheck = NeedProviderTag is not null && NeedProviderTag.Instance is not null ? [NeedProviderTag.Instance] : []
                     }
                 ],
                 Transformations = [

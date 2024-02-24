@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using Godot;
+using AS;
 
 namespace KibbleCabal.Core.Pet
 {
@@ -56,9 +57,9 @@ namespace KibbleCabal.Core.Pet
         {
             Actions.ForEach(ContextActionDB.Register);
             Animals.ForEach(AnimalDB.Register);
-            Attributes.ConvertTo<Resource, Attribute>().ForEach(AttributeDB.Register);
-            Abilities.ConvertTo<Resource, Ability>().ForEach(AbilityDB.Register);
-            Tags.ConvertTo<Resource, Tag>().ForEach(TagDB.Register);
+            Attributes.Convert<Resource, Attribute>().ForEach(AttributeDB.Register);
+            Abilities.Convert<Resource, Ability>().ForEach(AbilityDB.Register);
+            Tags.Convert<Resource, Tag>().ForEach(TagDB.Register);
 
             DateTimeSubSystem.Instance.Ticked += DepleteNeeds;
         }
@@ -68,7 +69,7 @@ namespace KibbleCabal.Core.Pet
             foreach (var pet in LocationSubSystem.GetPetSpawners())
                 NeedsConfig.Instance.NeedAttributes.ForEach(attr =>
                 {
-                    float modifier = (float)GD.RandRange(0.01f, 0.02f) * attr.Instance.Get("depletion_rate").As<float>();
+                    float modifier = (float)GD.RandRange(0.01f, 0.02f) * attr.Instance?.Get("depletion_rate").As<float>() ?? default;
                     pet.Node?.AbilitySystem?.ModifyAttributeValue(attr, -modifier);
                 });
         }

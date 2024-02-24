@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using AS;
 
 using GDC = Godot.Collections;
 
@@ -11,6 +12,8 @@ using GDC = Godot.Collections;
 /// </summary>
 public partial class AbilitySystemState : Resource
 {
+    public List<AbilityEvent> Events = [];
+
     [Export]
     public GDC.Array<StringName> Abilities = [];
 
@@ -23,10 +26,9 @@ public partial class AbilitySystemState : Resource
     [Export]
     private GDC.Array<Resource> EventResources
     {
-        get => Events.Select(e => e.Instance).ToGodotArray();
-        set => Events = value.Select(e => new AbilityEvent(e)).ToList();
+        get => new(Events.Convert<AbilityEvent, Resource>());
+        set => Events = value.Convert<Resource, AbilityEvent>().ToList();
     }
-    public List<AbilityEvent> Events = [];
 
     /// <summary>
     /// Creates a new resource by populating tags, attributes, and abilities FROM the provided node.
@@ -34,20 +36,16 @@ public partial class AbilitySystemState : Resource
     public static AbilitySystemState From(AbilitySystem system) => new()
     {
         Attributes = system.Attributes.Keys
-                .ConvertTo<Resource, Attribute>()
+                .Convert<Resource, Attribute>()
                 .Select(attr => (attr.Identifier, system.GetAttributeValue(attr)))
                 .ToGodotDictionary(),
         Tags = system.Tags
-                .ConvertTo<Resource, Tag>()
                 .Select(tag => tag.Identifier)
                 .ToGodotArray(),
         Abilities = system.Abilities
-                .ConvertTo<Resource, Ability>()
                 .Select(ability => ability.Identifier)
                 .ToGodotArray(),
-        Events = system.Events
-                .ConvertTo<Resource, AbilityEvent>()
-                .ToList()
+        Events = [.. system.Events]
     };
 
     /// <summary>
@@ -64,7 +62,7 @@ public partial class AbilitySystemState : Resource
         system.Tags.Clear();
         Tags.Select(TagDB.Find).WhereNotNull().ForEach(system.GrantTag);
         Abilities.Select(AbilityDB.Find).WhereNotNull().ForEach(system.GrantAbility);
-        system.Events = (GDC.Array)EventResources;
+        system.Events = Events;
     }
 
     /// <summary>

@@ -1,5 +1,7 @@
 using Godot;
 using Godot.Collections;
+using AS;
+using System.Linq;
 
 namespace Query.Filter
 {
@@ -26,12 +28,11 @@ namespace Query.Filter
         {
             var system = GetAbilitySystem(input.Collider);
             if (system is null) return false;
-            Godot.Collections.Array tags = (Godot.Collections.Array)TagsToCheck;
             return CheckFor switch
             {
-                CheckType.All => system.HasAllTags(tags),
-                CheckType.None => !system.HasSomeTags(tags),
-                CheckType.Some => system.HasSomeTags(tags),
+                CheckType.All => system.HasAllTags(TagsToCheck.Convert<Resource, Tag>().ToList()),
+                CheckType.None => !system.HasSomeTags(TagsToCheck.Convert<Resource, Tag>().ToList()),
+                CheckType.Some => system.HasSomeTags(TagsToCheck.Convert<Resource, Tag>().ToList()),
                 _ => false
             };
         }

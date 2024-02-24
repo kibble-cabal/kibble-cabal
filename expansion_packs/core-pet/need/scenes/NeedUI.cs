@@ -1,4 +1,5 @@
 using Godot;
+using AS;
 
 namespace KibbleCabal.Core.Pet.Needs.UI
 {
@@ -45,8 +46,8 @@ namespace KibbleCabal.Core.Pet.Needs.UI
             ProgressBar.Value = AbilitySystem.GetAttributeValue(Attribute);
         }
 
-        private void ConnectAbilitySystem() => AbilitySystem?.Instance.TryConnect("attributes_changed", Callable.From(Update));
-        private void ConnectAttribute() => Attribute?.Instance.TryConnectChanged(Callable.From(Update));
+        private void ConnectAbilitySystem() => AbilitySystem?.Instance?.TryConnect("attributes_changed", Callable.From(Update));
+        private void ConnectAttribute() => Attribute?.Instance?.TryConnectChanged(Callable.From(Update));
 
     }
 }

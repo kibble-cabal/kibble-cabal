@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using AS;
 
 namespace KibbleCabal.Core.Pet.Needs.UI
 {
@@ -49,7 +50,7 @@ namespace KibbleCabal.Core.Pet.Needs.UI
 
         private void ConnectAbilitySystem()
         {
-            AbilitySystem?.Instance.TryConnect("attributes_changed", Callable.From(Update));
+            AbilitySystem?.Instance?.TryConnect("attributes_changed", Callable.From(Update));
             Update();
         }
 
