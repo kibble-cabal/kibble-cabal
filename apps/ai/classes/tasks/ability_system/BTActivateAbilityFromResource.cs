@@ -11,7 +11,7 @@ namespace KibbleCabal.Apps.AI.Task
     {
         private Ability? Ability;
 
-        [Export]
+        [Export(PropertyHint.ResourceType, "Ability")]
         public Resource? AbilityResource
         {
             get => Ability?.Instance;

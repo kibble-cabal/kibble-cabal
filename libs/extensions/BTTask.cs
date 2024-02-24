@@ -38,6 +38,8 @@ public static class BTTaskExtensions
     {
         if (task.Verbose) (task as BTTask).Warn(warnings);
     }
+
+    public static BT.Status AsStatus(this bool condition) => condition ? BT.Status.Success : BT.Status.Failure;
 }
 
 public static class BlackboardExtensions

@@ -7,7 +7,7 @@ namespace KibbleCabal.Apps.AI.Task
     /// If the navigation stops but the target is not reached, this task fails.
     /// </summary>
     [Tool]
-    public abstract partial class BTNavigateToPosition : BTNavigate
+    public partial class BTNavigateToPosition : BTNavigate
     {
         [Export]
         public BBVector3? TargetPosition;

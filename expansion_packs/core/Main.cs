@@ -4,21 +4,28 @@ namespace KibbleCabal.Core
 {
     public partial class Main : GodotObject
     {
+        public static readonly string BasePath = "res://expansion_packs/core";
+
         public static readonly RGameMode[] GameModes = [
-            GD.Load<RGameMode>("res://expansion_packs/core/game_mode/resources/LiveMode.tres"),
+            GD.Load<RGameMode>($"{BasePath}/game_mode/resources/LiveMode.tres"),
         ];
 
         public static readonly RSettingDefinition[] Settings = [
-            GD.Load<RSettingDefinition>("res://expansion_packs/core/settings/resources/ReduceMotion.tres")
+            GD.Load<RSettingDefinition>($"{BasePath}/settings/resources/ReduceMotion.tres")
         ];
 
         public static readonly RLocation[] Locations = [
-            GD.Load<RLocation>("res://expansion_packs/core/location/resources/Island.tres")
+            GD.Load<RLocation>($"{BasePath}/location/resources/Island.tres")
         ];
 
         public static readonly RItem[] Items = [
-            GD.Load<RItem>("res://expansion_packs/core/item/resources/Flower.tres"),
-            GD.Load<RItem>("res://expansion_packs/core/item/resources/FoodBowl.tres"),
+            GD.Load<RItem>($"{BasePath}/item/resources/Flower.tres"),
+            GD.Load<RItem>($"{BasePath}/item/resources/FoodBowl.tres"),
+        ];
+
+        public static readonly RSubTree[] SubTrees = [
+            GD.Load<RSubTree>($"{BasePath}/ai/resources/TestSubTree1.tres"),
+            GD.Load<RSubTree>($"{BasePath}/ai/resources/TestSubTree2.tres"),
         ];
 
         public Main()
@@ -27,6 +34,7 @@ namespace KibbleCabal.Core
             GameModes.ForEach(GameModeDB.Register);
             Settings.ForEach(SettingDefinitionDB.Register);
             Items.ForEach(ItemDB.Register);
+            SubTrees.ForEach(SubTreeDB.Register);
         }
     }
 }
