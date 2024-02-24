@@ -1,25 +1,25 @@
-
-using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
 namespace KibbleCabal.Apps.AI.Task
 {
-
     public interface IBTRunSubTreesFromDB
     {
         StringName HookKey { get; set; }
-        string GetName() => $"Run \"{HookKey}\" SubTrees from DB";
-        IEnumerable<BTTask> InstantiateSubTrees(Node agent, Blackboard blackboard)
+    }
+
+    public static class BTRunSubTreesFromDBExtension
+    {
+        public static string GetName<T>(this T task) where T : IBTRunSubTreesFromDB => $"Run \"{task.HookKey}\" SubTrees from DB";
+        public static void Setup<T>(this T task) where T : BTTask, IBTRunSubTreesFromDB
         {
-            if (string.IsNullOrEmpty(HookKey)) return [];
-            return SubTreeDB.FindByHook(HookKey)
+            if (Engine.IsEditorHint()) return;
+            if (string.IsNullOrEmpty(task.HookKey)) return;
+            SubTreeDB.FindByHook(task.HookKey)
                 .Select(tree => tree.SubTree)
                 .WhereNotNull()
-                .Select(tree => tree.Instantiate(agent, blackboard));
+                .Select(tree => tree.Instantiate(task.Agent, task.Blackboard))
+                .ForEach(task.AddChild);
         }
-        static void Setup<T>(T task) where T : BTTask, IBTRunSubTreesFromDB => task
-            .InstantiateSubTrees(task.Agent, task.Blackboard)
-            .ForEach(task.AddChild);
     }
 }

@@ -8,7 +8,7 @@ namespace KibbleCabal.Apps.AI.Task
     [Tool]
     public partial class BTRunSubTreesFromDBSelector : BTSelector, IBTRunSubTreesFromDB
     {
-        private StringName _hookKey = "";
+        StringName _hookKey = "";
 
         [Export]
         public StringName HookKey
@@ -17,8 +17,7 @@ namespace KibbleCabal.Apps.AI.Task
             set => this.Set(ref _hookKey, value);
         }
 
-        public override string _GenerateName() => (this as IBTRunSubTreesFromDB).GetName();
-
-        public override void _Setup() => IBTRunSubTreesFromDB.Setup(this);
+        public override string _GenerateName() => this.GetName();
+        public override void _Setup() => this.Setup();
     }
 }

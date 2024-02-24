@@ -7,7 +7,7 @@ namespace KibbleCabal.Apps.AI.Task
     /// Succeeds if the provided attribute is above 50%.
     /// </summary>
     [Tool]
-    public partial class BTCheckAttributeisOK : BTAbilitySystem
+    public partial class BTCheckAttributeIsOK : BTAbilitySystem
     {
         private Attribute? Attribute;
 

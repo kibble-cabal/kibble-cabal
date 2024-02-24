@@ -7,7 +7,7 @@ namespace KibbleCabal.Apps.AI.Task
     /// This means that this task ALWAYS succeeds.
     /// </summary>
     [Tool]
-    public partial class BTPipe : BTComposite
+    public partial class BTPipe : BTSelector
     {
         protected int LastRunningIndex = 0;
 
