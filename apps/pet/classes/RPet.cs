@@ -45,7 +45,7 @@ public sealed partial class RPet : ExtensibleResource
     [Export]
     public AbilitySystemState AbilitySystemState
     {
-        get => ExpectSubresource<AbilitySystemState>(Keys.AbilitySystemState);
+        get => ExpectSubResource<AbilitySystemState>(Keys.AbilitySystemState);
         set => SetSubresource(Keys.AbilitySystemState, value);
     }
 
@@ -53,4 +53,16 @@ public sealed partial class RPet : ExtensibleResource
     public Vector3 Position;
 
     public RAnimal? GetAnimal() => AnimalDB.Instance.Find(AnimalID);
+    
+    static RPet()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RPet),
+            Path = "res://docs/schemas/Pet.schema.json",
+            Title = "Pet"
+        });
+        #endif
+    }
 }

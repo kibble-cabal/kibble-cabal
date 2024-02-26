@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ability_system/Tag",
+  "title": "Tag",
+  "type": "object",
+  "properties": {
+    "Identifier": {
+      "type": "string"
+    },
+    "UIColor": {
+      "type": "object",
+      "properties": {
+        "R": {
+          "type": "number"
+        },
+        "G": {
+          "type": "number"
+        },
+        "B": {
+          "type": "number"
+        },
+        "A": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "R",
+        "G",
+        "B",
+        "A"
+      ],
+      "additionalProperties": false
+    },
+    "ResourceLocalToScene": {
+      "type": "boolean"
+    },
+    "ResourcePath": {
+      "type": "string"
+    },
+    "ResourceName": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "identifier"
+  ],
+  "additionalProperties": true
+}

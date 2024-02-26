@@ -15,7 +15,7 @@ public partial class RMod : ExtensibleResource, IIdentifiable<StringName>
 
     private IContentLoader Loader;
 
-    [Export]
+    [Export(PropertyHint.File, "*.zip")]
     public string ZIPPath
     {
         get => _zipPath;
@@ -54,7 +54,7 @@ public partial class RMod : ExtensibleResource, IIdentifiable<StringName>
         set => this.Set(ref _version, value);
     }
 
-    [Export]
+    [Export(PropertyHint.File, "*.png,*.jpg")]
     public string IconPath
     {
         get => _iconPath;
@@ -75,7 +75,7 @@ public partial class RMod : ExtensibleResource, IIdentifiable<StringName>
         set => this.Set(ref _displayDescription, value);
     }
 
-    [Export]
+    [Export(PropertyHint.File, "*.gd,*.cs")] // TODO change file type hint
     public string EntryScriptPath
     {
         get => _entryScriptPath;
@@ -97,5 +97,17 @@ public partial class RMod : ExtensibleResource, IIdentifiable<StringName>
     {
         if (!HasZIP || !HasEntryScript) return;
         throw new System.NotImplementedException();
+    }
+    
+    static RMod()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RMod),
+            Path = "res://docs/schemas/Mod.schema.json",
+            Title = "Mod"
+        });
+        #endif
     }
 }

@@ -142,14 +142,14 @@ public partial class Draggable3D : Area3D
 
     public override Array<Dictionary> _GetPropertyList()
     {
-        var dropAreasProperty = new ExportedProperty(
+        var dropAreasProperty = new Property(
             name: nameof(DropAreas),
             type: Variant.Type.Array,
             hint: PropertyHint.ArrayType,
             hintString: nameof(NodePath),
             usage: PropertyUsageFlags.NoEditor
         );
-        var rayLengthProperty = new ExportedProperty(
+        var rayLengthProperty = new Property(
             name: nameof(RayLength),
             type: Variant.Type.Float,
             usage: PropertyUsageFlags.NoEditor

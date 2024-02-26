@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/Pet",
+  "title": "Pet",
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string",
+      "default": ""
+    },
+    "AnimalID": {
+      "type": "string"
+    },
+    "BirthDate": {
+      "type": "number"
+    },
+    "Instructions": {
+      "type": "array",
+      "items": {
+        "$ref": "unknown"
+      }
+    },
+    "AbilitySystemState": {
+      "$ref": "docs/schemas/ability_system/AbilitySystemState"
+    },
+    "Position": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number"
+        },
+        "Y": {
+          "type": "number"
+        },
+        "Z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "X",
+        "Y",
+        "Z"
+      ],
+      "additionalProperties": false
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

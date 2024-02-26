@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ItemPhysics",
+  "title": "Item Physics Data",
+  "type": "object",
+  "properties": {
+    "Scene": {
+      "$ref": "unknown"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

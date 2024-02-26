@@ -20,7 +20,20 @@ namespace Query.Transformation
         public IEnumerable<PhysicsQuery.Result> Transform(IEnumerable<PhysicsQuery.Result> input) => SortOrder switch
         {
             Order.ClosestFirst => input.OrderBy(result => result.Distance),
-            _ => input.OrderByDescending(result => result.Distance)
+            Order.FurthestFirst => input.OrderByDescending(result => result.Distance),
+            _ => throw new System.NotImplementedException()
         };
+        
+        static SortByDistanceTransformation()
+        {
+            #if TOOLS
+            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            {
+                ClassName = nameof(SortByDistanceTransformation),
+                Path = "res://docs/schemas/query/SortByDistance.schema.json",
+                Title = "Sort Query Results by Distance"
+            });
+            #endif
+        }
     }
 }

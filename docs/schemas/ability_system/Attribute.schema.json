@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ability_system/Attribute",
+  "title": "Attribute",
+  "type": "object",
+  "properties": {
+    "Identifier": {
+      "type": "string"
+    },
+    "MaxValue": {
+      "type": "number"
+    },
+    "MinValue": {
+      "type": "number"
+    },
+    "DefaultValue": {
+      "type": "number"
+    },
+    "UIColor": {
+      "type": "object",
+      "properties": {
+        "R": {
+          "type": "number"
+        },
+        "G": {
+          "type": "number"
+        },
+        "B": {
+          "type": "number"
+        },
+        "A": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "R",
+        "G",
+        "B",
+        "A"
+      ],
+      "additionalProperties": false
+    },
+    "ResourceLocalToScene": {
+      "type": "boolean"
+    },
+    "ResourcePath": {
+      "type": "string"
+    },
+    "ResourceName": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

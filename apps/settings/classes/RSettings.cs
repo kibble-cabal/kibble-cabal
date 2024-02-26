@@ -20,5 +20,17 @@ public sealed partial class RSettings : ExtensibleResource
         EmitChanged();
     }
 
-    public T Get<[MustBeVariant] T>(StringName key) => _settings.Get(key).As<T>();
+    public T Get<[MustBeVariant] T>(StringName key) => _settings.Get(key, new Variant()).As<T>();
+    
+    static RSettings()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RSettings),
+            Path = "res://docs/schemas/Settings.schema.json",
+            Title = "Settings"
+        });
+        #endif
+    }
 }

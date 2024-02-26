@@ -27,4 +27,14 @@ public partial class RItemRetail : ExtensibleResource
         get => _depreciationRate;
         set => this.Set(ref _depreciationRate, value);
     }
+    
+    static RItemRetail()
+    {
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RItemRetail),
+            Path = "res://docs/schemas/ItemRetail.schema.json",
+            Title = "Item Retail Data"
+        });
+    }
 }

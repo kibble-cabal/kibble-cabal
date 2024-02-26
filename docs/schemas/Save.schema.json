@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/Save",
+  "title": "Save",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "type": "number"
+    },
+    "LocationStates": {
+      "type": "array",
+      "items": {
+        "$ref": "docs/schemas/LocationState"
+      }
+    },
+    "LastSaved": {
+      "type": "string",
+      "default": ""
+    },
+    "TimePlayed": {
+      "type": "number"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

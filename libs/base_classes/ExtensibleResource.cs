@@ -6,38 +6,38 @@ using Subresources = Godot.Collections.Dictionary<Godot.Variant, Godot.Resource>
 [GlobalClass]
 public abstract partial class ExtensibleResource : Resource
 {
-    private Subresources _subresources = [];
+    private Subresources _subResources = [];
 
     [Export]
-    public Subresources Subresources
+    public Subresources SubResources
     {
-        get => _subresources;
-        private set => SetSubresources(value);
+        get => _subResources;
+        private set => SetSubResources(value);
     }
 
     [Signal]
-    public delegate void SubresourceChangedEventHandler(Resource resource);
+    public delegate void SubResourceChangedEventHandler(Resource resource);
 
     [Signal]
-    public delegate void SubresourcesChangedEventHandler();
+    public delegate void SubResourcesChangedEventHandler();
 
-    public R? GetSubresource<R, [MustBeVariant] K>(K key) where R : Resource => GetSubresource<R>(Variant.From(key));
-    public R? GetSubresource<R>(Variant key) where R : Resource => _subresources.GetValueOrDefault(key) as R;
+    protected R? GetSubResource<R, [MustBeVariant] K>(K key) where R : Resource => GetSubResource<R>(Variant.From(key));
+    protected R? GetSubResource<R>(Variant key) where R : Resource => _subResources.GetValueOrDefault(key) as R;
 
-    public R ExpectSubresource<R, [MustBeVariant] K>(K key) where R : Resource, new() => ExpectSubresource<R>(Variant.From(key));
-    public R ExpectSubresource<R>(Variant key) where R : Resource, new()
+    protected R ExpectSubResource<R, [MustBeVariant] K>(K key) where R : Resource, new() => ExpectSubResource<R>(Variant.From(key));
+    protected R ExpectSubResource<R>(Variant key) where R : Resource, new()
     {
-        if (GetSubresource<R>(key) is R resource) return resource;
+        if (GetSubResource<R>(key) is R resource) return resource;
         SetSubresource(key, new R());
-        return (R)_subresources[key];
+        return (R)_subResources[key];
     }
 
-    public void SetSubresources(Subresources value)
+    public void SetSubResources(Subresources value)
     {
-        DisconnectAllSubresources();
-        _subresources = value;
-        ConnectAllSubresources();
-        EmitSignal(SignalName.SubresourcesChanged);
+        DisconnectAllSubResources();
+        _subResources = value;
+        ConnectAllSubResources();
+        EmitSignal(SignalName.SubResourcesChanged);
     }
 
     public void SetSubresource<R, [MustBeVariant] K>(K key, R? resource) where R : Resource => SetSubresource<R>(Variant.From(key), resource);
@@ -46,32 +46,32 @@ public abstract partial class ExtensibleResource : Resource
         RemoveSubresource(key);
         if (resource is Resource value)
         {
-            _subresources[key] = value;
+            _subResources[key] = value;
             ConnectSubresource(value);
         }
     }
 
     public void RemoveSubresource(Variant key)
     {
-        if (_subresources.TryGetValue(key, out Resource? currentValue))
+        if (_subResources.TryGetValue(key, out Resource? currentValue))
             DisconnectSubresource(currentValue);
-        _subresources.Remove(key);
+        _subResources.Remove(key);
     }
 
-    protected virtual IEnumerable<Resource> _GetAllSubresources() => _subresources.Values;
+    protected virtual IEnumerable<Resource> _GetAllSubResources() => _subResources.Values;
     protected virtual bool _ShouldEmitChanged(Resource resource) => true;
-    protected void DisconnectAllSubresources() => _GetAllSubresources().ForEach(DisconnectSubresource);
-    protected void ConnectAllSubresources() => _GetAllSubresources().ForEach(ConnectSubresource);
+    protected void DisconnectAllSubResources() => _GetAllSubResources().ForEach(DisconnectSubresource);
+    protected void ConnectAllSubResources() => _GetAllSubResources().ForEach(ConnectSubresource);
 
     protected void DisconnectSubresource(Resource resource) => resource.DisconnectAllFromTarget(signal: Resource.SignalName.Changed, target: this);
     protected void ConnectSubresource(Resource resource) => resource.TryConnect(Resource.SignalName.Changed, Callable.From(() => OnResourceChanged(resource)));
 
     private void OnResourceChanged(Resource resource)
     {
-        EmitSignal(SignalName.SubresourceChanged, [Variant.From(resource)]);
+        EmitSignal(SignalName.SubResourceChanged, [Variant.From(resource)]);
         if (_ShouldEmitChanged(resource))
         {
-            EmitSignal(SignalName.SubresourcesChanged);
+            EmitSignal(SignalName.SubResourcesChanged);
             EmitChanged();
         }
     }

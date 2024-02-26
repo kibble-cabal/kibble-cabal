@@ -56,27 +56,27 @@ public partial class Droppable3D : Area3D
         Array<Dictionary> properties = [];
         if (SnapMode != SnapBehavior.None)
         {
-            properties.Add(new ExportedProperty(
+            properties.Add(new Property(
                 name: nameof(SnapThreshold),
                 type: Variant.Type.Float
             ));
-            properties.Add(new ExportedProperty(
+            properties.Add(new Property(
                 name: nameof(SnapDebugEnabled),
                 type: Variant.Type.Bool
             ));
-            properties.Add(new ExportedProperty(
+            properties.Add(new Property(
                 name: nameof(SnapDebugColor),
                 type: Variant.Type.Color
             ));
             if (SnapMode == SnapBehavior.CustomMesh)
-                properties.Add(new ExportedProperty(
+                properties.Add(new Property(
                     name: nameof(SnapMesh),
                     type: Variant.Type.Object,
                     hint: PropertyHint.ResourceType,
                     hintString: nameof(Mesh)
                 ));
             if (SnapMode == SnapBehavior.Points)
-                properties.Add(new ExportedProperty(
+                properties.Add(new Property(
                     name: nameof(SnapPoints),
                     type: Variant.Type.PackedVector3Array
                 ));

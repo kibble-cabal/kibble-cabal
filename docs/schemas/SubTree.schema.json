@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/SubTree",
+  "title": "SubTree",
+  "type": "object",
+  "properties": {
+    "Hook": {
+      "type": "string"
+    },
+    "SubTree": {
+      "$ref": "unknown"
+    },
+    "Priority": {
+      "type": "number"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

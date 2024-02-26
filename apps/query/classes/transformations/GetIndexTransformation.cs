@@ -11,5 +11,17 @@ namespace Query.Transformation
         public int Index = 0;
 
         public Variant? Transform(IEnumerable<Variant> input) => input.ElementAtOrDefault(Index);
+        
+        static GetIndexTransformation()
+        {
+            #if TOOLS
+            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            {
+                ClassName = nameof(GetIndexTransformation),
+                Path = "res://docs/schemas/query/GetIndex.schema.json",
+                Title = "Get Query Result At Index"
+            });
+            #endif
+        }
     }
 }

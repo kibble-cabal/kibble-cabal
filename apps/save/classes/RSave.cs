@@ -33,7 +33,7 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
         set
         {
             this.Set(ref _locationStates, value);
-            ConnectAllSubresources();
+            ConnectAllSubResources();
         }
     }
 
@@ -45,19 +45,19 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
 
     public RSettings Settings
     {
-        get => ExpectSubresource<RSettings>(Keys.Settings);
+        get => ExpectSubResource<RSettings>(Keys.Settings);
         set => SetSubresource(Keys.Settings, value);
     }
 
     public RFate Fate
     {
-        get => ExpectSubresource<RFate>(Keys.Fate);
+        get => ExpectSubResource<RFate>(Keys.Fate);
         set => SetSubresource(Keys.Fate, value);
     }
 
     public RDateTime DateTime
     {
-        get => ExpectSubresource<RDateTime>(Keys.DateTime);
+        get => ExpectSubResource<RDateTime>(Keys.DateTime);
         set => SetSubresource(Keys.DateTime, value);
     }
 
@@ -70,7 +70,7 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
     private string FileName => $"Save-{ID}.tres";
     private string SavePath => $"{BaseDir}/{FileName}";
 
-    protected override IEnumerable<Resource> _GetAllSubresources() => [.. base._GetAllSubresources(), .. _locationStates];
+    protected override IEnumerable<Resource> _GetAllSubResources() => [.. base._GetAllSubResources(), .. _locationStates];
 
     public RLocationState GetOrCreateLocationState(StringName location)
     {
@@ -104,5 +104,17 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
         LastSaved = Time.GetDatetimeStringFromSystem();
         ResourceSaver.Save(this, SavePath);
         EmitSignal(SignalName.AfterSaved);
+    }
+    
+    static RSave()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RSave),
+            Path = "res://docs/schemas/Save.schema.json",
+            Title = "Save"
+        });
+        #endif
     }
 }

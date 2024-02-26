@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/Location",
+  "title": "Location",
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string"
+    },
+    "Map": {
+      "$ref": "unknown"
+    },
+    "CameraSpawnPosition": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number"
+        },
+        "Y": {
+          "type": "number"
+        },
+        "Z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "X",
+        "Y",
+        "Z"
+      ],
+      "additionalProperties": false
+    },
+    "MusicID": {
+      "type": "string"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

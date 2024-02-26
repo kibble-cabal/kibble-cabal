@@ -1,4 +1,5 @@
 using Godot;
+using JSONSchema;
 
 [GlobalClass]
 public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
@@ -46,21 +47,21 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
     [Export]
     public AbilitySystemState AbilitySystemState
     {
-        get => ExpectSubresource<AbilitySystemState>(Keys.AbilitySystemState);
+        get => ExpectSubResource<AbilitySystemState>(Keys.AbilitySystemState);
         set => SetSubresource(Keys.AbilitySystemState, value);
     }
 
     [Export]
     public RItemPhysics? Physics
     {
-        get => GetSubresource<RItemPhysics>(Keys.Physics);
+        get => GetSubResource<RItemPhysics>(Keys.Physics);
         set => SetSubresource(Keys.Physics, value);
     }
 
     [Export]
     public RItemRetail? Retail
     {
-        get => GetSubresource<RItemRetail>(Keys.Retail);
+        get => GetSubResource<RItemRetail>(Keys.Retail);
         set => SetSubresource(Keys.Retail, value);
     }
 
@@ -69,4 +70,14 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
         ItemID = ID,
         CreationTime = DateTimeSubSystem.Time
     };
+
+    static RItem()
+    {
+        GeneratorDB.Register(new Generator
+        {
+            ClassName = nameof(RItem),
+            Path = "res://docs/schemas/Item.schema.json",
+            Title = "Item"
+        });
+    }
 }

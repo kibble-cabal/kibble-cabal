@@ -54,5 +54,17 @@ namespace Query
             CollideWithBodies = DetectBodies,
             CollideWithAreas = DetectAreas,
         };
+        
+        static PhysicsQuery()
+        {
+            #if TOOLS
+            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            {
+                ClassName = nameof(PhysicsQuery),
+                Path = "res://docs/schemas/query/PhysicsQuery.schema.json",
+                Title = "Physics Query"
+            });
+            #endif
+        }
     }
 }

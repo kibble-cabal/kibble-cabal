@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ability_system/AbilitySystemState",
+  "title": "Ability System State",
+  "type": "object",
+  "properties": {
+    "Abilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Attributes": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "Tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "EventResources": {
+      "type": "array",
+      "items": {
+        "$ref": "unknown"
+      }
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

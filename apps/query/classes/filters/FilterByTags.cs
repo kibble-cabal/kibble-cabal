@@ -43,5 +43,17 @@ namespace Query.Filter
             if (nodes.Count > 0) return new(nodes[0]);
             return null;
         }
+        
+        static FilterByTags()
+        {
+            #if TOOLS
+            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            {
+                ClassName = nameof(FilterByTags),
+                Path = "res://docs/schemas/query/FilterByTags.schema.json",
+                Title = "Filter Query Results By Tags"
+            });
+            #endif
+        }
     }
 }

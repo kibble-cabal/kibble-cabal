@@ -15,7 +15,7 @@ public partial class RLocationState : ExtensibleResource
         set => this.Set(ref _locationName, value);
     }
 
-    [Export]
+    [Export(PropertyHint.ArrayType, nameof(Spawner))]
     public Array<Spawner> Spawners { get; private set; } = [];
 
     [Signal]
@@ -45,5 +45,17 @@ public partial class RLocationState : ExtensibleResource
     public bool HasSpawnerFor<R>(R resource) where R : Resource => Spawners.Any(spawner => spawner.GetResource() == resource);
     public void RemoveSpawnersFor<R>(R resource) where R : Resource => Spawners.Where(spawner => spawner.GetResource() == resource).ForEach(Remove<Spawner>);
 
-    protected override IEnumerable<Resource> _GetAllSubresources() => [.. base._GetAllSubresources(), .. Spawners];
+    protected override IEnumerable<Resource> _GetAllSubResources() => [.. base._GetAllSubResources(), .. Spawners];
+    
+    static RLocationState()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RLocationState),
+            Path = "res://docs/schemas/LocationState.schema.json",
+            Title = "Location State"
+        });
+        #endif
+    }
 }

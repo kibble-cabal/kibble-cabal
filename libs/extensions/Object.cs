@@ -16,4 +16,7 @@ public static class ObjectExtensions
             return null;
         }
     }
+
+    public static bool Is<[MustBeVariant] T>(this Variant variant) =>
+        variant.Obj?.GetType() == typeof(T) && Variant.From(default(T)).VariantType == variant.VariantType;
 }

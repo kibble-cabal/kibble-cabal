@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ability_system/AbilityEvent",
+  "title": "AbilityEvent",
+  "type": "object",
+  "properties": {
+    "Ability": {
+      "$ref": "docs/schemas/ability_system/Ability"
+    },
+    "EffectInstances": {
+      "type": "array",
+      "items": {
+        "$ref": "docs/schemas/ability_system/Effect"
+      }
+    },
+    "ResourceLocalToScene": {
+      "type": "boolean"
+    },
+    "ResourcePath": {
+      "type": "string"
+    },
+    "ResourceName": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

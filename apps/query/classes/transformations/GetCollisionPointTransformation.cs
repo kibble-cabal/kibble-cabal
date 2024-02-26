@@ -12,5 +12,17 @@ namespace Query.Transformation
     {
         public Vector3 Transform(PhysicsQuery.Result input) => input.CollisionPoint;
         public IEnumerable<Vector3> Transform(IEnumerable<PhysicsQuery.Result> input) => input.Select(result => result.CollisionPoint);
+        
+        static GetCollisionPointTransformation()
+        {
+            #if TOOLS
+            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            {
+                ClassName = nameof(GetCollisionPointTransformation),
+                Path = "res://docs/schemas/query/GetCollisionPoint.schema.json",
+                Title = "Get Collision Point of Query Result(s)"
+            });
+            #endif
+        }
     }
 }

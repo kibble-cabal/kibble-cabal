@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ability_system/TryActivateAbilityEffect",
+  "title": "TryActivateAbilityEffect",
+  "type": "object",
+  "properties": {
+    "Ability": {
+      "$ref": "docs/schemas/ability_system/Ability"
+    },
+    "ElapsedTime": {
+      "type": "number"
+    },
+    "UIName": {
+      "type": "string"
+    },
+    "UIColor": {
+      "type": "object",
+      "properties": {
+        "R": {
+          "type": "number"
+        },
+        "G": {
+          "type": "number"
+        },
+        "B": {
+          "type": "number"
+        },
+        "A": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "R",
+        "G",
+        "B",
+        "A"
+      ],
+      "additionalProperties": false
+    },
+    "ResourceLocalToScene": {
+      "type": "boolean"
+    },
+    "ResourcePath": {
+      "type": "string"
+    },
+    "ResourceName": {
+      "type": "string"
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

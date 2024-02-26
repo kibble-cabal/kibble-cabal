@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using AS;
-
+using BB;
 using GDC = Godot.Collections;
 
 /// <summary>
@@ -10,6 +10,7 @@ using GDC = Godot.Collections;
 /// This class stores the state of an AbilitySystem node by storing just the IDENTIFIERS of the node's Attributes, Abilitys, and Tags.
 /// It's done this way to ensure that there are no outdated instances of abilities, tags, etc. serialized anywhere.
 /// </summary>
+[GlobalClass]
 public partial class AbilitySystemState : Resource
 {
     public List<AbilityEvent> Events = [];
@@ -23,7 +24,7 @@ public partial class AbilitySystemState : Resource
     [Export]
     public GDC.Array<StringName> Tags = [];
 
-    [Export]
+    [Export(PropertyHint.TypeString, "28:24/17:AbilityEvent")] // TODO this isn't working
     private GDC.Array<Resource> EventResources
     {
         get => new(Events.Convert<AbilityEvent, Resource>());
@@ -98,5 +99,38 @@ public partial class AbilitySystemState : Resource
             if (!Attributes.ContainsKey(attr.Identifier))
                 Attributes[attr.Identifier] = attr.DefaultValue;
         }
+    }
+
+    static AbilitySystemState()
+    {
+        #if TOOLS
+        const string basePath = "res://docs/schemas/ability_system";
+        registerGenerator<Ability>([Ability.Property.Identifier]);
+        registerGenerator<Attribute>([Attribute.Property.Identifier]);
+        registerGenerator<Tag>([Tag.Property.Identifier]);
+        registerGenerator<Effect>(exclude: [Effect.Property.ElapsedTime]);
+        registerGenerator<Attribute>();
+        registerGenerator<LoopEffect>();
+        registerGenerator<WaitEffect>();
+        registerGenerator<TryActivateAbilityEffect>();
+        registerGenerator<AbilityEvent>();
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(AbilitySystemState),
+            Path = "res://docs/schemas/ability_system/AbilitySystemState.schema.json",
+            Title = "Ability System State"
+        });
+        return;
+
+        void registerGenerator<Ty>(StringName[]? require = null, StringName[]? exclude = null) => JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = typeof(Ty).Name,
+            Path = $"{basePath}/{typeof(Ty).Name}.schema.json",
+            Title = typeof(Ty).Name,
+            RequiredProperties = require ?? [],
+            ExcludeProperties = exclude ?? [],
+            ConvertCase = true,
+        });
+        #endif
     }
 }

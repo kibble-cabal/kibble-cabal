@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/Item",
+  "title": "Item",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "type": "string"
+    },
+    "DisplayName": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string",
+      "default": ""
+    },
+    "Icon": {
+      "$ref": "unknown"
+    },
+    "AbilitySystemState": {
+      "$ref": "docs/schemas/ability_system/AbilitySystemState"
+    },
+    "Physics": {
+      "$ref": "docs/schemas/ItemPhysics"
+    },
+    "Retail": {
+      "$ref": "docs/schemas/ItemRetail"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

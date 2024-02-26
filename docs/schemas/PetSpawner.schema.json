@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/PetSpawner",
+  "title": "Pet Spawner",
+  "type": "object",
+  "properties": {
+    "Value": {
+      "$ref": "unknown"
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

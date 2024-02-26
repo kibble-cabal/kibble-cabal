@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/SettingDefinition",
+  "title": "Setting Definition",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "type": "string"
+    },
+    "DisplayName": {
+      "type": "string",
+      "default": ""
+    },
+    "DisplayDescription": {
+      "type": "string",
+      "default": ""
+    },
+    "UI": {
+      "$ref": "unknown"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

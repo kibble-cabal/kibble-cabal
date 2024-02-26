@@ -53,4 +53,16 @@ public partial class RAnimal : ExtensibleResource, IIdentifiable<StringName>
         get => _detectionRadius;
         set => this.Set(ref _detectionRadius, value);
     }
+
+    static RAnimal()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RAnimal),
+            Path = "res://docs/schemas/Animal.schema.json",
+            Title = "Animal"
+        });
+        #endif
+    }
 }

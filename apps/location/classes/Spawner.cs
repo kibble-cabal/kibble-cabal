@@ -2,18 +2,18 @@ using Godot;
 
 public abstract partial class Spawner : Resource
 {
-    public const string GroupName = "Spawned";
+    protected const string GroupName = "Spawned";
     public const string MetaName = "Spawner";
     public const string TopLevelGroupName = "SpawnedTopLevel";
 
-    public Spawner() { }
+    protected Spawner() { }
     public Spawner(Resource resource) => SetResource(resource);
     public abstract Resource? GetResource();
-    public abstract void SetResource(Resource? value);
+    protected abstract void SetResource(Resource? value);
     public abstract bool HasSpawned();
-    public abstract bool IsSubspawner();
+    protected abstract bool IsSubSpawner();
     public abstract void Spawn(Node3D world);
-    public abstract void Update();
+    protected abstract void Update();
     public abstract void Despawn();
 }
 
@@ -43,10 +43,11 @@ public abstract partial class Spawner<R, N> : Spawner where R : Resource where N
         if (node.CanQueueFree())
             node.QueueFree();
     }
-    protected virtual bool _IsSubspawner() => false;
+    protected virtual bool _IsSubSpawner() => false;
 
-    public override sealed R? GetResource() => Resource;
-    public override sealed void SetResource(Resource? value)
+    public sealed override R? GetResource() => Resource;
+
+    protected sealed override void SetResource(Resource? value)
     {
         Resource?.TryDisconnectChanged(Callable.From(Update));
         value?.TryConnectChanged(Callable.From(Update));
@@ -54,33 +55,33 @@ public abstract partial class Spawner<R, N> : Spawner where R : Resource where N
         EmitChanged();
     }
 
-    public override sealed bool HasSpawned() => Node != null;
-    public override sealed bool IsSubspawner() => _IsSubspawner();
+    public sealed override bool HasSpawned() => Node != null;
+    protected sealed override bool IsSubSpawner() => _IsSubSpawner();
 
-    public override sealed void Spawn(Node3D world)
+    public sealed override void Spawn(Node3D world)
     {
-        if (Resource is R resource)
-            Node = _Spawn(resource, world);
-        if (Node is N node)
+        if (Resource is not null)
+            Node = _Spawn(Resource, world);
+        if (Node is not null)
         {
-            node.SetMeta(MetaName, this);
-            node.AddToGroup(GroupName);
-            if (!IsSubspawner()) node.AddToGroup(TopLevelGroupName);
+            Node.SetMeta(MetaName, this);
+            Node.AddToGroup(GroupName);
+            if (!IsSubSpawner()) Node.AddToGroup(TopLevelGroupName);
         }
         Update();
     }
 
-    public override sealed void Update()
+    protected sealed override void Update()
     {
-        if (Node is N node && Resource is R resource)
-            _Update(resource, node);
+        if (Node is not null && Resource is not null)
+            _Update(Resource, Node);
     }
 
-    public override sealed void Despawn()
+    public sealed override void Despawn()
     {
         if (Resource == null) return;
-        if (Node is N node)
-            _Despawn(node);
+        if (Node is not null)
+            _Despawn(Node);
         Node = null;
     }
 }

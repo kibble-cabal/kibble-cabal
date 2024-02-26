@@ -16,4 +16,16 @@ public sealed partial class RPetSpawner : Spawner<RPet, PetScene>
         world.AddChild(node);
         return node;
     }
+    
+    static RPetSpawner()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RPetSpawner),
+            Path = "res://docs/schemas/PetSpawner.schema.json",
+            Title = "Pet Spawner"
+        });
+        #endif
+    }
 }

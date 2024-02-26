@@ -99,4 +99,16 @@ public partial class RGameMode : ExtensibleResource, IIdentifiable<StringName>
     }
 
 
+
+    static RGameMode()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RGameMode),
+            Path = "res://docs/schemas/GameMode.schema.json",
+            Title = "Game Mode"
+        });
+        #endif
+    }
 }

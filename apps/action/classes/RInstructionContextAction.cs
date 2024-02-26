@@ -30,4 +30,16 @@ public partial class RInstructionContextAction : Resource, IPetContextAction
         if (InstructionTree is BehaviorTree tree)
             ctx.Pet.Instructions.Add(tree);
     }
+
+    static RInstructionContextAction()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RInstructionContextAction),
+            Path = "res://docs/schemas/InstructionContextAction.schema.json",
+            Title = "Instruction Context Action"
+        });
+        #endif
+    }
 }

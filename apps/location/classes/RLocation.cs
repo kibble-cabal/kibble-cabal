@@ -42,4 +42,16 @@ public partial class RLocation : ExtensibleResource, IIdentifiable<StringName>
 
     public RLocationState GetOrCreateState() => SaveSubSystem.Current?.GetOrCreateLocationState(ID)
         ?? new RLocationState { LocationName = Name };
+    
+    static RLocation()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RLocation),
+            Path = "res://docs/schemas/Location.schema.json",
+            Title = "Location"
+        });
+        #endif
+    }
 }

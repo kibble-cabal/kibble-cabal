@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ItemRetail",
+  "title": "Item Retail Data",
+  "type": "object",
+  "properties": {
+    "BuyPrice": {
+      "type": "number"
+    },
+    "BaseSellPrice": {
+      "type": "number"
+    },
+    "DepreciationRate": {
+      "type": "number"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

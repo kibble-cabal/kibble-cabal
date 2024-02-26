@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/Animal",
+  "title": "Animal",
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string"
+    },
+    "SpriteScene": {
+      "$ref": "unknown"
+    },
+    "Speed": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "CollisionRadius": {
+      "type": "number"
+    },
+    "DetectionRadius": {
+      "type": "number"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

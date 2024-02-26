@@ -40,4 +40,5 @@ public partial class SingletonDB<T> : Singleton<DB<T>>
 public static class DBExtensions
 {
     public static T? Find<T>(this DB<T> db, StringName id) where T : IIdentifiable<StringName> => db.Resources.WhereNotNull().Find(resource => resource.ID.Equals(id));
+    public static T? Find<T>(this DB<T> db, string id) where T : IIdentifiable<string> => db.Resources.WhereNotNull().Find(resource => resource.ID.Equals(id));
 }

@@ -29,5 +29,17 @@ namespace Query.Filter
             Op.EqualTo => input.Distance.IsEqualApprox(Distance),
             _ => false,
         };
+        
+        static FilterByDistance()
+        {
+            #if TOOLS
+            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            {
+                ClassName = nameof(FilterByDistance),
+                Path = "res://docs/schemas/query/FilterByDistance.schema.json",
+                Title = "Filter Query Results By Distance"
+            });
+            #endif
+        }
     }
 }

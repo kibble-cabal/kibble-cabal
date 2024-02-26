@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/GameMode",
+  "title": "Game Mode",
+  "type": "object",
+  "properties": {
+    "Name": {
+      "type": "string",
+      "default": ""
+    },
+    "WorldPaused": {
+      "type": "boolean",
+      "default": true
+    },
+    "StateScript": {
+      "$ref": "unknown"
+    },
+    "UIColor": {
+      "type": "object",
+      "properties": {
+        "R": {
+          "type": "number"
+        },
+        "G": {
+          "type": "number"
+        },
+        "B": {
+          "type": "number"
+        },
+        "A": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "R",
+        "G",
+        "B",
+        "A"
+      ],
+      "additionalProperties": false
+    },
+    "UIScene": {
+      "$ref": "unknown"
+    },
+    "UIMenuIndex": {
+      "type": "number"
+    },
+    "UIIcon": {
+      "$ref": "unknown"
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

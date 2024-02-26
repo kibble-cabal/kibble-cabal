@@ -26,4 +26,14 @@ public sealed partial class RItemInstance : ExtensibleResource, ISpawnable
     public ItemInstanceScene Instantiate() => ItemInstanceScene.Instantiate(this);
 
     public Spawner GetSpawner() => new RItemInstanceSpawner(this);
+
+    static RItemInstance()
+    {
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RItemInstance),
+            Path = "res://docs/schemas/ItemInstance.schema.json",
+            Title = "Item Instance"
+        });
+    }
 }

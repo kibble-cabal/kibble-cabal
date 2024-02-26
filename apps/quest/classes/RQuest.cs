@@ -49,4 +49,16 @@ public partial class RQuest : ExtensibleResource, IIdentifiable<StringName>
     public bool IsAvailable() => Script?.New<IQuestScript>()?.IsAvailable() ?? false;
     public bool IsComplete() => Script?.New<IQuestScript>()?.IsComplete() ?? false;
     public void Complete() => Script?.New<IQuestScript>()?.Complete();
+    
+    static RQuest()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RQuest),
+            Path = "res://docs/schemas/Quest.schema.json",
+            Title = "Quest"
+        });
+        #endif
+    }
 }

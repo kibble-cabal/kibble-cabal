@@ -21,7 +21,7 @@ public sealed partial class RSubTree : ExtensibleResource
     [Export]
     public BehaviorTree? SubTree
     {
-        get => GetSubresource<BehaviorTree>(Keys.SubTree);
+        get => GetSubResource<BehaviorTree>(Keys.SubTree);
         set => SetSubresource(Keys.SubTree, value);
     }
 
@@ -34,5 +34,17 @@ public sealed partial class RSubTree : ExtensibleResource
     {
         get => _priority;
         set => this.Set(ref _priority, value);
+    }
+
+    static RSubTree()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RSubTree),
+            Path = "res://docs/schemas/SubTree.schema.json",
+            Title = "SubTree"
+        });
+        #endif
     }
 }

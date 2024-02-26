@@ -52,4 +52,16 @@ public partial class RMusic : ExtensibleResource, IIdentifiable<StringName>
         }
         return Songs.Values.FirstOrDefault();
     }
+    
+    static RMusic()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RMusic),
+            Path = "res://docs/schemas/Music.schema.json",
+            Title = "Music"
+        });
+        #endif
+    }
 }

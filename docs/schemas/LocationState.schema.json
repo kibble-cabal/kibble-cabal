@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/LocationState",
+  "title": "Location State",
+  "type": "object",
+  "properties": {
+    "LocationName": {
+      "type": "string"
+    },
+    "Spawners": {
+      "type": "array",
+      "items": {
+        "$ref": "unknown"
+      }
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

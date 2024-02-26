@@ -35,4 +35,16 @@ public sealed partial class RSettingDefinition : ExtensibleResource, IIdentifiab
         get => _ui;
         set => this.Set(ref _ui, value);
     }
+    
+    static RSettingDefinition()
+    {
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        {
+            ClassName = nameof(RSettingDefinition),
+            Path = "res://docs/schemas/SettingDefinition.schema.json",
+            Title = "Setting Definition"
+        });
+        #endif
+    }
 }

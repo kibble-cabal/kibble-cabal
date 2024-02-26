@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/InstructionContextAction",
+  "title": "Instruction Context Action",
+  "type": "object",
+  "properties": {
+    "DisplayText": {
+      "type": "string",
+      "default": ""
+    },
+    "InstructionTree": {
+      "$ref": "unknown"
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

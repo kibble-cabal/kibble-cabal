@@ -43,4 +43,16 @@ public static class FloatExtensions
         return to;
     }
     public static float Map(this float value, float min, float max) => value.Remap(0, 1, min, max);
+    
+    public static float? TryParseFloat(this string str)
+    {
+        try
+        {
+            return float.Parse(str);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

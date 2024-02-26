@@ -1,9 +1,19 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Godot;
 
 public static class StringExtensions
 {
+    private static Dictionary<Regex, string> PascalReplacements = new()
+    {
+        { new Regex("Ui(?=$|[A-Z])"), "UI" },
+        { new Regex("Zip(?=$|[A-Z])"), "ZIP" },
+        { new Regex("Json(?=$|[A-Z])"), "JSON" },
+        { new Regex("Id(?=$|[A-Z])"), "ID" }
+    };
+    
     public static string GetFullExtension(this string path)
     {
         var ret = "";
@@ -28,4 +38,15 @@ public static class StringExtensions
 
     public static bool IsEmpty(this string str) => string.IsNullOrEmpty(str);
     public static bool IsEmpty(this StringName str) => string.IsNullOrEmpty(str);
+
+    public static string ReplaceMany(this string str, Dictionary<Regex, string> replacements)
+    {
+        var s = str;
+        foreach (var key in replacements.Keys)
+            s = key.Replace(s, replacements[key]);
+        return s;
+    }
+    
+    public static string Pascal(this string str) => str.ToPascalCase().ReplaceMany(PascalReplacements);
+    public static StringName Pascal(this StringName str) => ((string)str).Pascal();
 }
