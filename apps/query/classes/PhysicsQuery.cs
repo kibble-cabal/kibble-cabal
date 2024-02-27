@@ -11,6 +11,13 @@ namespace Query
             public CollisionObject3D Collider;
             public Vector3 CollisionPoint;
             public float Distance;
+
+            public override string ToString() => Json.Stringify(new Godot.Collections.Dictionary
+            {
+                { "Collider", Collider },
+                { "CollisionPoint", CollisionPoint },
+                { "Distance", Distance.ToPrecisionString() }
+            }, "  ", false);
         }
 
         [Export]
@@ -25,7 +32,7 @@ namespace Query
         [Export]
         public bool DetectAreas = false;
 
-        public override IEnumerable<Result> Search(Node3D caller)
+        protected override IEnumerable<Result> Search(Node3D caller)
         {
             var cast = MakeShapeCast();
             caller.AddChild(cast);

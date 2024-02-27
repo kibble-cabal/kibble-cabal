@@ -1,4 +1,6 @@
+using System.Linq;
 using Godot;
+using AS;
 
 namespace KibbleCabal.Apps.Item
 {
@@ -6,7 +8,7 @@ namespace KibbleCabal.Apps.Item
     {
         public static readonly PackedScene Scene = GD.Load<PackedScene>("res://apps/item/scenes/item_instance_scene.tscn");
 
-        private Node? AbilitySystem;
+        private AbilitySystem? AbilitySystem;
 
         [Export]
         public RItemInstance? ItemInstance;
@@ -14,14 +16,26 @@ namespace KibbleCabal.Apps.Item
         public override void _Ready()
         {
             var item = ItemInstance?.GetItem();
+            
+            // Set ability system state
+            AbilitySystem = new AbilitySystem(GetNode("AbilitySystem"));
+            if (AbilitySystem is AbilitySystem system)
+            {
+                item?.AbilitySystemState.MergeInto(system);
+                ItemInstance?.AbilitySystemState?.MergeInto(system);
+            }
 
-            // TODO: ability state
-            AbilitySystem = GetNode<Node>("AbilitySystem");
-
-            // Add instance scene
-            var scene = item?.Physics?.Scene;
-            if (scene is not null)
+            // Add item scene
+            if (item?.Physics?.Scene is { } scene)
                 AddChild(scene.Instantiate());
+
+            SaveSubSystem.Instance.BeforeSaved += OnBeforeSave;
+        }
+
+        private void OnBeforeSave()
+        {
+            // Update ability system state
+            if (AbilitySystem is not null) ItemInstance?.AbilitySystemState?.MergeWith(AbilitySystem);
         }
 
         public static ItemInstanceScene Instantiate(RItemInstance itemInstance)

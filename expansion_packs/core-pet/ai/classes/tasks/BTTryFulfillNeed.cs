@@ -109,8 +109,8 @@ namespace KibbleCabal.Core.Pet.AI.Task
                     }
                 ],
                 Transformations = [
-                    new SortByDistanceTransformation { }.AsDynamic(),
-                    new GetIndexTransformation { }.AsDynamic()
+                    new SortByDistanceTransformation { },
+                    new GetIndexTransformation<PhysicsQuery.Result> { }
                 ]
             };
         }

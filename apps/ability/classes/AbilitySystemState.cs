@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using AS;
-using BB;
 using GDC = Godot.Collections;
 
 /// <summary>
 ///  This class uses the AbilityDB, TagDB, and AttributeDB to populate the state of an AbilitySystem node.
-/// This class stores the state of an AbilitySystem node by storing just the IDENTIFIERS of the node's Attributes, Abilitys, and Tags.
+/// This class stores the state of an AbilitySystem node by storing just the IDENTIFIERS of the node's Attributes, Abilities, and Tags.
 /// It's done this way to ensure that there are no outdated instances of abilities, tags, etc. serialized anywhere.
 /// </summary>
+[Tool]
 [GlobalClass]
 public partial class AbilitySystemState : Resource
 {
@@ -31,13 +31,23 @@ public partial class AbilitySystemState : Resource
         set => Events = value.Convert<Resource, AbilityEvent>().ToList();
     }
 
+    public IEnumerable<Tag> GetTags() => Tags.Select(TagDB.Find).WhereNotNull();
+    public IEnumerable<Ability> GetAbilities() => Abilities.Select(AbilityDB.Find).WhereNotNull();
+    public Dictionary<Attribute, float> GetAttributes() => Attributes.Keys
+            .Select(attr => (Attribute: AttributeDB.Find(attr), Value: Attributes[attr]))
+            .Where(attr => attr.Attribute is not null)
+            .Select(attr => (attr.Attribute!, attr.Value))
+            .ToDictionary();
+
     /// <summary>
     /// Creates a new resource by populating tags, attributes, and abilities FROM the provided node.
     /// </summary>
     public static AbilitySystemState From(AbilitySystem system) => new()
     {
         Attributes = system.Attributes.Keys
-                .Convert<Resource, Attribute>()
+                .Select(key => key.TryAs<GodotObject>() as Resource)
+                .WhereNotNull()
+                .Select(obj => new Attribute(obj))
                 .Select(attr => (attr.Identifier, system.GetAttributeValue(attr)))
                 .ToGodotDictionary(),
         Tags = system.Tags
@@ -55,14 +65,14 @@ public partial class AbilitySystemState : Resource
     public void To(AbilitySystem system)
     {
         system.Attributes.Clear();
-        Attributes.Keys.Select(AttributeDB.Find).WhereNotNull().ForEach(attr =>
+        GetAttributes().ForEach((attr, val) =>
         {
             system.GrantAttribute(attr);
-            system.SetAttributeValue(attr, Attributes[attr.Identifier]);
+            system.SetAttributeValue(attr, val);
         });
         system.Tags.Clear();
-        Tags.Select(TagDB.Find).WhereNotNull().ForEach(system.GrantTag);
-        Abilities.Select(AbilityDB.Find).WhereNotNull().ForEach(system.GrantAbility);
+        GetTags().ForEach(system.GrantTag);
+        GetAbilities().ForEach(system.GrantAbility);
         system.Events = Events;
     }
 

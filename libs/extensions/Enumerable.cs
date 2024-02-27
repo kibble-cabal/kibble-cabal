@@ -14,6 +14,11 @@ public static class EnumerableExtensions
     {
         foreach (var element in value) action(element);
     }
+    
+    public static void ForEach<K, V>(this IDictionary<K, V> value, Action<K, V> action)
+    {
+        foreach (var key in value.Keys) action(key, value[key]);
+    }
 
     public static void ForEach<T>(this IEnumerable<T> value, Action<T, int> action)
     {

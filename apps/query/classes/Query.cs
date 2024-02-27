@@ -1,41 +1,54 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Godot;
 using Query;
 
 namespace Query
 {
-    public interface IFilter<Input>
+    public interface IFilter<in In>
     {
-        bool Filter(Input input);
+        bool Filter(In input);
     }
 
-    public interface ITransformation<Input, Output>
+    public interface ITransformation
     {
-        Output Transform(Input input);
+        public const string TransformInterfaceName = "ITransformation";
+        public const string TransformMethodName = "Transform";
+        object? TransformDynamic(object input)
+        {
+            foreach (var impl in GetType().GetInterfaces().Where(impl => impl.Name.StartsWith(TransformInterfaceName) && impl.GenericTypeArguments.Length > 0))
+            {
+                var method = impl.GetMethod(TransformMethodName, [input?.GetType()]);
+                if (method is not null) return method.Invoke(this, [input]);
+            }
+            throw new System.NotImplementedException($"Cannot perform transformation {GetType()} on type {input?.GetType()}.");
+        }
+    }
+
+    public interface ITransformation<in In, out Output> : ITransformation
+    {
+        Output? Transform(In input);
     }
 
     public partial class Query<Caller, ResultType> : Resource where Caller : GodotObject
     {
         public List<IFilter<ResultType>> Filters = [];
-        public List<ITransformation<dynamic, dynamic>> Transformations = [];
+        public List<ITransformation> Transformations = [];
 
-        public virtual IEnumerable<ResultType> Search(Caller caller) => [];
+        protected virtual IEnumerable<ResultType> Search(Caller caller) => [];
 
-        public virtual Output Run<Output>(Caller caller)
+        public Output? Run<Output>(Caller caller)
         {
-            var results = Search(caller);
-            foreach (var filter in Filters)
-                results = results.Where(filter.Filter);
+            var results = Filters.Aggregate(Search(caller), (current, filter) => current.Where(filter.Filter));
             object transformedResults = results;
             foreach (var transformation in Transformations)
-                transformedResults = transformation.Transform(results);
-            return (Output)transformedResults;
+            {
+                if (transformation.TransformDynamic(transformedResults) is { } newResults)
+                    transformedResults = newResults;
+                else break;
+            }
+            return (Output?)transformedResults;
         }
     }
-}
-
-public static class QueryExtensions
-{
-    public static ITransformation<dynamic, dynamic> AsDynamic<Input, Output>(this ITransformation<Input, Output> transformation) => (transformation as ITransformation<dynamic, dynamic>)!;
 }

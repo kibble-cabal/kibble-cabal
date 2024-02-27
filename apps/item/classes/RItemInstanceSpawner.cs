@@ -25,11 +25,13 @@ public sealed partial class RItemInstanceSpawner : Spawner<RItemInstance, Node3D
     
     static RItemInstanceSpawner()
     {
+        #if TOOLS
         JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
         {
             ClassName = nameof(RItemInstanceSpawner),
             Path = "res://docs/schemas/ItemInstanceSpawner.schema.json",
             Title = "Item Instance Spawner"
         });
+        #endif
     }
 }

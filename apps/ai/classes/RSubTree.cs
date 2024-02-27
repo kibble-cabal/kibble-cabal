@@ -22,7 +22,7 @@ public sealed partial class RSubTree : ExtensibleResource
     public BehaviorTree? SubTree
     {
         get => GetSubResource<BehaviorTree>(Keys.SubTree);
-        set => SetSubresource(Keys.SubTree, value);
+        set => SetSubResource(Keys.SubTree, value);
     }
 
     /// <summary>

@@ -21,45 +21,45 @@ namespace KibbleCabal.Core.Pet
             GD.Load<RAnimal>($"{BasePath}/animal/resources/Dog.tres"),
         ];
 
-        public static readonly IEnumerable<Variant> Attributes = [
-            GD.Load($"{BasePath}/need/resources/attributes/activity.attribute.tres"),
-            GD.Load($"{BasePath}/need/resources/attributes/energy.attribute.tres"),
-            GD.Load($"{BasePath}/need/resources/attributes/hunger.attribute.tres"),
-            GD.Load($"{BasePath}/need/resources/attributes/thirst.attribute.tres"),
-            GD.Load($"{BasePath}/personality/resources/attributes/agreeableness.tres"),
-            GD.Load($"{BasePath}/personality/resources/attributes/conscientiousness.tres"),
-            GD.Load($"{BasePath}/personality/resources/attributes/extraversion.tres"),
-            GD.Load($"{BasePath}/personality/resources/attributes/neuroticism.tres"),
-            GD.Load($"{BasePath}/personality/resources/attributes/openness.tres"),
+        public static readonly IEnumerable<Attribute> Attributes = [
+            GD.Load<Resource>($"{BasePath}/need/resources/attributes/activity.attribute.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/attributes/energy.attribute.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/attributes/hunger.attribute.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/attributes/thirst.attribute.tres"),
+            GD.Load<Resource>($"{BasePath}/personality/resources/attributes/agreeableness.tres"),
+            GD.Load<Resource>($"{BasePath}/personality/resources/attributes/conscientiousness.tres"),
+            GD.Load<Resource>($"{BasePath}/personality/resources/attributes/extraversion.tres"),
+            GD.Load<Resource>($"{BasePath}/personality/resources/attributes/neuroticism.tres"),
+            GD.Load<Resource>($"{BasePath}/personality/resources/attributes/openness.tres"),
         ];
 
-        public static readonly IEnumerable<Variant> Abilities = [
-            GD.Load($"{BasePath}/need/resources/abilities/drink.ability.tres"),
-            GD.Load($"{BasePath}/need/resources/abilities/drink_cooldown.ability.tres"),
-            GD.Load($"{BasePath}/need/resources/abilities/eat.ability.tres"),
-            GD.Load($"{BasePath}/need/resources/abilities/eat_cooldown.ability.tres"),
-            GD.Load($"{BasePath}/need/resources/abilities/play.ability.tres"),
-            GD.Load($"{BasePath}/need/resources/abilities/sleep.ability.tres"),
-            GD.Load($"{BasePath}/need/resources/abilities/sleep_cooldown.ability.tres"),
+        public static readonly IEnumerable<Ability> Abilities = [
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/drink.ability.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/drink_cooldown.ability.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/eat.ability.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/eat_cooldown.ability.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/play.ability.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/sleep.ability.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/abilities/sleep_cooldown.ability.tres"),
         ];
 
-        public static readonly IEnumerable<Variant> Tags = [
-            GD.Load($"{BasePath}/need/resources/tags/activity_provider.tag.tres"),
-            GD.Load($"{BasePath}/need/resources/tags/energy_provider.tag.tres"),
-            GD.Load($"{BasePath}/need/resources/tags/hunger_provider.tag.tres"),
-            GD.Load($"{BasePath}/need/resources/tags/thirst_provider.tag.tres"),
-            GD.Load($"{BasePath}/need/resources/tags/just_ate.tag.tres"),
-            GD.Load($"{BasePath}/need/resources/tags/just_drank.tag.tres"),
-            GD.Load($"{BasePath}/need/resources/tags/just_slept.tag.tres"),
+        public static readonly IEnumerable<Tag> Tags = [
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/activity_provider.tag.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/energy_provider.tag.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/hunger_provider.tag.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/thirst_provider.tag.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/just_ate.tag.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/just_drank.tag.tres"),
+            GD.Load<Resource>($"{BasePath}/need/resources/tags/just_slept.tag.tres"),
         ];
 
         public Main()
         {
             Actions.ForEach(ContextActionDB.Register);
             Animals.ForEach(AnimalDB.Register);
-            Attributes.Convert<Resource, Attribute>().ForEach(AttributeDB.Register);
-            Abilities.Convert<Resource, Ability>().ForEach(AbilityDB.Register);
-            Tags.Convert<Resource, Tag>().ForEach(TagDB.Register);
+            Attributes.ForEach(AttributeDB.Register);
+            Abilities.ForEach(AbilityDB.Register);
+            Tags.ForEach(TagDB.Register);
 
             DateTimeSubSystem.Instance.Ticked += DepleteNeeds;
         }

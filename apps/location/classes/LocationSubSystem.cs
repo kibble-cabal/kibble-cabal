@@ -114,6 +114,7 @@ public sealed class LocationSubSystem : Singleton<LocationSubSystemBase>
     public static RPetSpawner[] GetPetSpawners() => Instance.GetPetSpawners();
     public static RLocation? GetLocation() => Instance.GetLocation();
     public static Node3D? GetRoot() => Instance.GetRoot();
+    public static void Add<S>(S spawner) where S : Spawner => GetState()?.Add<S>(spawner);
     public static void To(StringName name) => Instance.To(name);
     public static void To(RLocation location) => Instance.To(location);
 }

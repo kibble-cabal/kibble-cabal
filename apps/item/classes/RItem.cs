@@ -1,6 +1,6 @@
 using Godot;
-using JSONSchema;
 
+[Tool]
 [GlobalClass]
 public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
 {
@@ -11,73 +11,51 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
         public const string AbilitySystemState = "AbilitySystemState";
     }
 
-    private StringName _id = "";
-    private string _displayName = "";
-    private string _description = "";
-    private Texture2D? _icon;
+    [Export] public StringName ID { get; set; } = "";
 
-    [Export]
-    public StringName ID
-    {
-        get => _id;
-        set => this.Set(ref _id, value);
-    }
+    [Export] public StringName DisplayName = "";
 
-    [Export]
-    public StringName DisplayName
-    {
-        get => _displayName;
-        set => this.Set(ref _displayName, value);
-    }
+    [Export(PropertyHint.MultilineText)] public string Description = "";
 
-    [Export(PropertyHint.MultilineText)]
-    public string Description
-    {
-        get => _description;
-        set => this.Set(ref _description, value);
-    }
-
-    [Export]
-    public Texture2D? Icon
-    {
-        get => _icon;
-        set => this.Set(ref _icon, value);
-    }
+    [Export] public Texture2D? Icon;
 
     [Export]
     public AbilitySystemState AbilitySystemState
     {
         get => ExpectSubResource<AbilitySystemState>(Keys.AbilitySystemState);
-        set => SetSubresource(Keys.AbilitySystemState, value);
+        set => SetSubResource(Keys.AbilitySystemState, value);
     }
 
     [Export]
     public RItemPhysics? Physics
     {
         get => GetSubResource<RItemPhysics>(Keys.Physics);
-        set => SetSubresource(Keys.Physics, value);
+        set => SetSubResource(Keys.Physics, value);
     }
 
     [Export]
     public RItemRetail? Retail
     {
         get => GetSubResource<RItemRetail>(Keys.Retail);
-        set => SetSubresource(Keys.Retail, value);
+        set => SetSubResource(Keys.Retail, value);
     }
 
     public RItemInstance Instantiate() => new()
     {
         ItemID = ID,
-        CreationTime = DateTimeSubSystem.Time
+        CreationTime = DateTimeSubSystem.Time,
+        AbilitySystemState = AbilitySystemState.Duplicate(false) as AbilitySystemState
     };
 
     static RItem()
     {
-        GeneratorDB.Register(new Generator
+        #if TOOLS
+        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
         {
             ClassName = nameof(RItem),
             Path = "res://docs/schemas/Item.schema.json",
             Title = "Item"
         });
+        #endif
     }
 }

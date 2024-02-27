@@ -39,9 +39,9 @@ namespace Query.Filter
 
         private static AbilitySystem? GetAbilitySystem(Node node)
         {
-            var nodes = node.FindChildren("", "AbilitySystem");
-            if (nodes.Count > 0) return new(nodes[0]);
-            return null;
+            var parent = node.GetParent();
+            var nodes = parent.FindChildren("", "AbilitySystem");
+            return nodes.Count > 0 ? new AbilitySystem(nodes[0]) : null;
         }
         
         static FilterByTags()

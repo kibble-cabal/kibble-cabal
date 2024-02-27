@@ -46,7 +46,7 @@ public sealed partial class RPet : ExtensibleResource
     public AbilitySystemState AbilitySystemState
     {
         get => ExpectSubResource<AbilitySystemState>(Keys.AbilitySystemState);
-        set => SetSubresource(Keys.AbilitySystemState, value);
+        set => SetSubResource(Keys.AbilitySystemState, value);
     }
 
     [Export]

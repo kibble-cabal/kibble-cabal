@@ -32,8 +32,8 @@ namespace AS
         public static readonly StringName EventViewer = "EventViewer";
         public static readonly StringName TagViewer = "TagViewer";
     }
-
-
+    
+    [Tool]
     public partial class Ability : IInstanceWrapper<Resource>
     {
         [Export]
@@ -107,8 +107,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.UIColor, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class AbilityEvent : IInstanceWrapper<Resource>
     {
         [Export]
@@ -145,8 +147,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.EffectInstances, new Godot.Collections.Array<Resource>(value.Convert<Effect, Resource>()));
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class AbilitySystem : IInstanceWrapper<Node>
     {
         [Export]
@@ -263,8 +267,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.UpdateMode, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class Attribute : IInstanceWrapper<Resource>
     {
         [Export]
@@ -274,7 +280,6 @@ namespace AS
 
         public static implicit operator Attribute(Resource? instance) => instance is null ? new() : new(instance);
         public static implicit operator Resource(Attribute obj) => obj.Instance;
-
         public static implicit operator Variant(Attribute? obj) => obj is null ? new() : obj.Instance;
 
         public Attribute() : this((Resource)ClassDB.Instantiate(ClassNames.Attribute)) { }
@@ -322,8 +327,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.UIColor, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class Tag : IInstanceWrapper<Resource>
     {
         [Export]
@@ -360,8 +367,11 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.UIColor, value);
         }
 
+        public override string ToString() => Instance.ToString();
+
     }
 
+    [Tool]
     public partial class Effect : IInstanceWrapper<Resource>
     {
         [Export]
@@ -414,9 +424,12 @@ namespace AS
             get => ClassDB.ClassGetProperty(Instance, Property.UIColor).As<Color>();
             set => ClassDB.ClassSetProperty(Instance, Property.UIColor, value);
         }
+        
+        public override string ToString() => Instance.ToString();
 
     }
 
+    [Tool]
     public partial class AttributeEffect : Effect
     {
         public AttributeEffect(Resource instance) : base(instance) { }
@@ -457,8 +470,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.MaxEffect, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class LoopEffect : Effect
     {
         public LoopEffect(Resource instance) : base(instance) { }
@@ -492,8 +507,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.ElapsedLoops, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class TagEffect : Effect
     {
         public TagEffect(Resource instance) : base(instance) { }
@@ -536,8 +553,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.Operation, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class TryActivateAbilityEffect : Effect
     {
         public TryActivateAbilityEffect(Resource instance) : base(instance) { }
@@ -564,6 +583,7 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.Ability, Variant.From(value));
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
     public partial class WaitEffect : Effect
@@ -606,8 +626,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.WaitTime, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class AbilitySystemViewer : IInstanceWrapper<VBoxContainer>
     {
         [Export]
@@ -637,8 +659,10 @@ namespace AS
             set => ClassDB.ClassSetProperty(Instance, Property.AbilitySystemPath, value);
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class AttributeViewer : IInstanceWrapper<Control>
     {
         [Export]
@@ -661,8 +685,10 @@ namespace AS
         {
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class AbilityViewer : IInstanceWrapper<Control>
     {
         [Export]
@@ -685,8 +711,10 @@ namespace AS
         {
         }
 
+        public override string ToString() => Instance.ToString();
     }
 
+    [Tool]
     public partial class EventViewer : IInstanceWrapper<Control>
     {
         [Export]
@@ -711,6 +739,7 @@ namespace AS
 
     }
 
+    [Tool]
     public partial class TagViewer : IInstanceWrapper<Control>
     {
         [Export]
@@ -733,6 +762,7 @@ namespace AS
         {
         }
 
+        public override string ToString() => Instance.ToString();
     }
 }
 

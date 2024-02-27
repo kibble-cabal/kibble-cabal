@@ -44,7 +44,7 @@ namespace KibbleCabal.Apps.Pet
 
             var node = GetNodeOrNull(AbilitySystemPath);
             if (node is not null)
-                AbilitySystem = new(node);
+                AbilitySystem = new AbilitySystem(node);
 
             BehaviorTree = GetNodeOrNull<BTPlayer>(BehaviorTreePath);
 
@@ -64,6 +64,8 @@ namespace KibbleCabal.Apps.Pet
                 Resource.AbilitySystemState.AddAttributes(NeedsConfig.Instance.Needs.Select(AttributeDB.Find).WhereNotNull());
                 Resource.AbilitySystemState.MergeInto(AbilitySystem);
             }
+            
+            SaveSubSystem.Instance.BeforeSaved += OnBeforeSave;
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -77,6 +79,12 @@ namespace KibbleCabal.Apps.Pet
                     Viewport?.SetInputAsHandled();
                 }
             }
+        }
+        
+        private void OnBeforeSave()
+        {
+            // Update ability system state
+            if (AbilitySystem is AbilitySystem system) Resource?.AbilitySystemState?.MergeWith(system);
         }
 
         private void InstantiateSpriteController()

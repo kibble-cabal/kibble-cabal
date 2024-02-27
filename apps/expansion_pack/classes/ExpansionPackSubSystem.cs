@@ -15,7 +15,7 @@ public sealed partial class ExpansionPackSubSystemBase : Node
     {
         ExpansionPackLoader.LoadPacks().ForEach(ExpansionPackDB.Register);
         ExpansionPackDB.Resources.ForEach(Initialize);
-        ExpansionPackDB.Instance.Registered += (_, pack) => Initialize(pack);
+        ExpansionPackDB.Instance.Registered += Initialize;
         EmitSignal(SignalName.AllPacksInitialized);
     }
 

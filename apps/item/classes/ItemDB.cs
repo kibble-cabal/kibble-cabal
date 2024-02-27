@@ -1,1 +1,1 @@
-public partial class ItemDB : SingletonDB<RItem> { }
+public sealed class ItemDB : SingletonDB<RItem> { }

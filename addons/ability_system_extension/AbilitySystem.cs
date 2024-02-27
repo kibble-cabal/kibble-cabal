@@ -155,11 +155,10 @@ namespace AS
                 return null;
             }
         }
-
+        
         public static IEnumerable<OutType> Convert<[MustBeVariant] InType, OutType>(this IEnumerable values)
             where InType : GodotObject
-            where OutType : class, IInstanceWrapper<InType> => values.Cast<Variant>()
-                .Select(TryAs<InType>)
+            where OutType : class, IInstanceWrapper<InType> => values.Cast<InType>()
                 .WhereNotNull()
                 .Select(CreateWrapperFromObject<OutType>)
                 .WhereNotNull();

@@ -1,22 +1,32 @@
-[gd_resource type="Resource" script_class="RItem" load_steps=8 format=3 uid="uid://b77mxurn0fqvi"]
+[gd_resource type="Resource" script_class="RItem" load_steps=10 format=3 uid="uid://b77mxurn0fqvi"]
 
 [ext_resource type="Script" path="res://apps/item/classes/RItem.cs" id="1_lffyj"]
 [ext_resource type="Texture2D" uid="uid://cti8edq1si4o7" path="res://expansion_packs/core/item/sprites/food_bowl_icon_placeholder.png" id="1_r75nf"]
-[ext_resource type="PackedScene" uid="uid://cq5uw7dsn5b8y" path="res://expansion_packs/core/item/scenes/food_bowl.tscn" id="2_vaanm"]
-[ext_resource type="Script" path="res://apps/item/classes/RItemPhysics.cs" id="3_07tlp"]
-[ext_resource type="Script" path="res://apps/item/classes/RItemRetail.cs" id="4_sqxma"]
+[ext_resource type="Script" path="res://apps/ability/classes/AbilitySystemState.cs" id="1_rqlki"]
+[ext_resource type="PackedScene" uid="uid://cq5uw7dsn5b8y" path="res://expansion_packs/core/item/scenes/food_bowl.tscn" id="3_mhqtd"]
+[ext_resource type="Script" path="res://apps/item/classes/RItemPhysics.cs" id="4_4d330"]
+[ext_resource type="Script" path="res://apps/item/classes/RItemRetail.cs" id="5_hd3oh"]
 
-[sub_resource type="Resource" id="Resource_vai2x"]
-script = ExtResource("3_07tlp")
-Scene = ExtResource("2_vaanm")
-Subresources = {}
+[sub_resource type="Resource" id="Resource_op6my"]
+script = ExtResource("1_rqlki")
+Abilities = []
+Attributes = {}
+Tags = [&"hunger_provider"]
+EventResources = []
 
-[sub_resource type="Resource" id="Resource_0ax52"]
-script = ExtResource("4_sqxma")
+[sub_resource type="Resource" id="Resource_101ku"]
+script = ExtResource("4_4d330")
+Scene = ExtResource("3_mhqtd")
+SubResources = {
+"Scene": ExtResource("3_mhqtd")
+}
+
+[sub_resource type="Resource" id="Resource_lf77i"]
+script = ExtResource("5_hd3oh")
 BuyPrice = 50
 BaseSellPrice = 40
 DepreciationRate = 0.5
-Subresources = {}
+SubResources = {}
 
 [resource]
 script = ExtResource("1_lffyj")
@@ -24,6 +34,11 @@ ID = &"Core/FoodBowl"
 DisplayName = &"Food Bowl"
 Description = "A basic food bowl."
 Icon = ExtResource("1_r75nf")
-Physics = SubResource("Resource_vai2x")
-Retail = SubResource("Resource_0ax52")
-Subresources = {}
+AbilitySystemState = SubResource("Resource_op6my")
+Physics = SubResource("Resource_101ku")
+Retail = SubResource("Resource_lf77i")
+SubResources = {
+"AbilitySystemState": SubResource("Resource_op6my"),
+"Physics": SubResource("Resource_101ku"),
+"Retail": SubResource("Resource_lf77i")
+}

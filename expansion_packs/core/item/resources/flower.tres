@@ -1,22 +1,30 @@
-[gd_resource type="Resource" script_class="RItem" load_steps=8 format=3 uid="uid://bbu0lymtg6i6e"]
+[gd_resource type="Resource" script_class="RItem" load_steps=10 format=3 uid="uid://bbu0lymtg6i6e"]
 
 [ext_resource type="Script" path="res://apps/item/classes/RItem.cs" id="1_jhy0d"]
+[ext_resource type="Script" path="res://apps/ability/classes/AbilitySystemState.cs" id="1_q2ro0"]
 [ext_resource type="Texture2D" uid="uid://bpirp65lni4qj" path="res://expansion_packs/core/item/sprites/flower_icon_placeholder.png" id="1_sgfdg"]
 [ext_resource type="PackedScene" uid="uid://d2gderbf81u4b" path="res://expansion_packs/core/item/scenes/flower.tscn" id="2_nfisr"]
 [ext_resource type="Script" path="res://apps/item/classes/RItemPhysics.cs" id="3_2dix0"]
 [ext_resource type="Script" path="res://apps/item/classes/RItemRetail.cs" id="4_l4cit"]
 
+[sub_resource type="Resource" id="Resource_40xai"]
+script = ExtResource("1_q2ro0")
+Abilities = []
+Attributes = {}
+Tags = [&"hunger_provider"]
+EventResources = null
+
 [sub_resource type="Resource" id="Resource_gpf76"]
 script = ExtResource("3_2dix0")
 Scene = ExtResource("2_nfisr")
-Subresources = {}
+SubResources = {}
 
 [sub_resource type="Resource" id="Resource_wrv82"]
 script = ExtResource("4_l4cit")
 BuyPrice = 10
 BaseSellPrice = 5
 DepreciationRate = 0.5
-Subresources = {}
+SubResources = {}
 
 [resource]
 script = ExtResource("1_jhy0d")
@@ -24,6 +32,7 @@ ID = &"Core/Flower"
 DisplayName = &"Flower"
 Description = "A little flower"
 Icon = ExtResource("1_sgfdg")
+AbilitySystemState = SubResource("Resource_40xai")
 Physics = SubResource("Resource_gpf76")
 Retail = SubResource("Resource_wrv82")
-Subresources = {}
+SubResources = {}

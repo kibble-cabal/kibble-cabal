@@ -46,19 +46,19 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
     public RSettings Settings
     {
         get => ExpectSubResource<RSettings>(Keys.Settings);
-        set => SetSubresource(Keys.Settings, value);
+        set => SetSubResource(Keys.Settings, value);
     }
 
     public RFate Fate
     {
         get => ExpectSubResource<RFate>(Keys.Fate);
-        set => SetSubresource(Keys.Fate, value);
+        set => SetSubResource(Keys.Fate, value);
     }
 
     public RDateTime DateTime
     {
         get => ExpectSubResource<RDateTime>(Keys.DateTime);
-        set => SetSubresource(Keys.DateTime, value);
+        set => SetSubResource(Keys.DateTime, value);
     }
 
     [Signal]

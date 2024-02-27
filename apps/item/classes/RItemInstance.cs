@@ -1,27 +1,27 @@
 using Godot;
 using KibbleCabal.Apps.Item;
 
+[Tool]
 [GlobalClass]
 public sealed partial class RItemInstance : ExtensibleResource, ISpawnable
 {
-    private StringName _itemID = "";
-    private int _creationTime;
+    private static class Keys
+    {
+        public const string AbilitySystemState = "AbilitySystemState";
+    }
+    
+    [Export] public StringName ItemID = "";
+
+    [Export] public int CreationTime;
 
     [Export]
-    public StringName ItemID
+    public AbilitySystemState? AbilitySystemState
     {
-        get => _itemID;
-        set => this.Set(ref _itemID, value);
+        get => GetSubResource<AbilitySystemState>(Keys.AbilitySystemState);
+        set => SetSubResource(Keys.AbilitySystemState, value);
     }
 
-    [Export]
-    public int CreationTime
-    {
-        get => _creationTime;
-        set => this.Set(ref _creationTime, value);
-    }
-
-    public RItem? GetItem() => ItemDB.Instance.Find(_itemID);
+    public RItem? GetItem() => ItemDB.Instance.Find(ItemID);
 
     public ItemInstanceScene Instantiate() => ItemInstanceScene.Instantiate(this);
 
@@ -29,11 +29,13 @@ public sealed partial class RItemInstance : ExtensibleResource, ISpawnable
 
     static RItemInstance()
     {
+        #if TOOLS
         JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
         {
             ClassName = nameof(RItemInstance),
             Path = "res://docs/schemas/ItemInstance.schema.json",
             Title = "Item Instance"
         });
+        #endif
     }
 }
