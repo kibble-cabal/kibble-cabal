@@ -21,12 +21,15 @@ public partial class ContextActionMenu : CircleContainer
     [Export]
     public StringName MenuIdentifier = "";
 
-    public List<IContextAction> AdditionalActions = [];
+    public readonly List<IContextAction> AdditionalActions = [];
 
     [Export]
     public bool CloseOnSelect = true;
 
-    private System.Collections.Generic.Dictionary<IContextAction, Button> Nodes = [];
+    [Export] 
+    public bool CloseOnClickOutside = true;
+
+    private readonly Dictionary<IContextAction, Button> Nodes = [];
 
     public override void _EnterTree() => Visible = false;
 
@@ -67,5 +70,18 @@ public partial class ContextActionMenu : CircleContainer
     private void OnItemPressed()
     {
         if (CloseOnSelect) Close();
+    }
+    
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (Visible && CloseOnClickOutside && @event is InputEventScreenTouch && @event.IsPressed())
+        {
+            var menuRadius = Mathf.Max(Size.X, Size.Y) / 2;
+            if (GetLocalMousePosition().DistanceTo(Size / 2) > menuRadius)
+            {
+                Close();
+                GetViewport()?.SetInputAsHandled();
+            }
+        }
     }
 }

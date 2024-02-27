@@ -1,12 +1,13 @@
 using Godot;
 using System.Linq;
-using System.Threading.Tasks;
 using AS;
 
 namespace KibbleCabal.Apps.Pet
 {
     public partial class PetScene : PetBody3D
     {
+        public ThoughtBubbleComponent ThoughtBubbleComponent;
+        
         [Export]
         public RPet? Resource;
 
@@ -31,11 +32,16 @@ namespace KibbleCabal.Apps.Pet
         [Export]
         private CollisionShape3D? InputShape;
 
-        private Node? SpriteController;
+        private SpriteController? SpriteController;
         private Viewport? Viewport;
         private Camera3D? Camera;
         public AbilitySystem? AbilitySystem;
         public BTPlayer? BehaviorTree;
+
+        public PetScene()
+        {
+            ThoughtBubbleComponent = new ThoughtBubbleComponent(this);
+        }
 
         public override void _Ready()
         {
@@ -63,37 +69,26 @@ namespace KibbleCabal.Apps.Pet
                 Resource.AbilitySystemState.Abilities.AddDistinct(NeedsConfig.Instance.FulfillNeeds);
                 Resource.AbilitySystemState.AddAttributes(NeedsConfig.Instance.Needs.Select(AttributeDB.Find).WhereNotNull());
                 Resource.AbilitySystemState.MergeInto(AbilitySystem);
+                PersonalityConfig.Instance.RandomizePersonality(AbilitySystem);
             }
             
             SaveSubSystem.Instance.BeforeSaved += OnBeforeSave;
-        }
-
-        public override void _UnhandledInput(InputEvent @event)
-        {
-            if (@event is InputEventScreenTouch && @event.IsPressed() && ActionMenu is not null && ActionMenu.Visible)
-            {
-                var menuRadius = Mathf.Max(ActionMenu.Size.X, ActionMenu.Size.Y) / 2;
-                if (ActionMenu.GetLocalMousePosition().DistanceTo(ActionMenu.Size / 2) > menuRadius)
-                {
-                    ActionMenu.Close();
-                    Viewport?.SetInputAsHandled();
-                }
-            }
         }
         
         private void OnBeforeSave()
         {
             // Update ability system state
-            if (AbilitySystem is AbilitySystem system) Resource?.AbilitySystemState?.MergeWith(system);
+            if (AbilitySystem is not null) Resource?.AbilitySystemState.MergeWith(AbilitySystem);
         }
 
         private void InstantiateSpriteController()
         {
-            var animal = Resource?.GetAnimal();
-            if (Resource is null || animal is null || animal.SpriteScene is null) return;
-            SpriteController = animal.SpriteScene.Instantiate();
-            AddChild(SpriteController);
-            MoveChild(SpriteController, 0);
+            SpriteController = Resource?.GetAnimal()?.SpriteScene?.Instantiate<SpriteController>();
+            if (SpriteController is not null)
+            {
+                AddChild(SpriteController);
+                MoveChild(SpriteController, 0);
+            }
         }
 
         private void UpdateCollision()
@@ -102,9 +97,9 @@ namespace KibbleCabal.Apps.Pet
             if (Resource is null || animal is null) return;
             if (NavigationAgent is not null)
                 NavigationAgent.Radius = animal.CollisionRadius;
-            if (CollisionShape is not null && CollisionShape.Shape is SphereShape3D sphere)
+            if (CollisionShape?.Shape is SphereShape3D sphere)
                 sphere.Radius = animal.CollisionRadius;
-            if (InputShape is not null && InputShape.Shape is SphereShape3D inputSphere)
+            if (InputShape?.Shape is SphereShape3D inputSphere)
                 inputSphere.Radius = animal.CollisionRadius * 1.5f;
             if (FacingRay is not null)
                 FacingRay.TargetPosition = new Vector3(animal.CollisionRadius * 1.5f, 0, 0);
@@ -119,39 +114,14 @@ namespace KibbleCabal.Apps.Pet
 
         public static Vector3 GetRandomTarget() => new(GD.RandRange(-2, 2), 0, GD.RandRange(-2, 2));
 
-        public static void DestroyThoughtBubble(ThoughtBubble bubble)
-        {
-            if (!bubble.CanQueueFree()) return;
-            _ = bubble.Destroy();
-        }
-
-        public async Task DestroyThoughtBubbles()
-        {
-            GetChildren()
-                .Where(child => child.IsInGroup(ThoughtBubble.GroupName))
-                .ForEach(child => DestroyThoughtBubble((ThoughtBubble)child));
-            await ToSignal(GetTree().CreateTimer(0.25), Timer.SignalName.Timeout);
-        }
-
-        public async Task SpawnThoughtBubble(string text, float duration = 3, float maxWidth = -1)
-        {
-            await DestroyThoughtBubbles();
-            var bubble = new ThoughtBubble(text, duration, maxWidth)
-            {
-                LocalPosition = Vector3.Zero,
-                ScreenOffset = new Vector2(maxWidth / 2, -20)
-            };
-            AddChild(bubble);
-        }
-
         private void OnMoveStarted()
         {
-            SpriteController?.Call("start", ["walk"]);
+            SpriteController?.Start(RPet.AnimationNames.Walk);
         }
 
         private void OnMoveFinished()
         {
-            SpriteController?.Call("start", ["default"]);
+            SpriteController?.Start(RPet.AnimationNames.Default);
             if (Resource is not null)
                 Resource.Position = GlobalPosition;
         }

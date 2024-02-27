@@ -17,8 +17,9 @@
 geometry_source_geometry_mode = 2
 geometry_source_group_name = &"navigation_mesh"
 
-[node name="Main" type="Node3D"]
+[node name="Main" type="Node3D" node_paths=PackedStringArray("NavigationRegion")]
 script = ExtResource("1_yilhj")
+NavigationRegion = NodePath("NavigationRegion3D")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("2_sq8pg")

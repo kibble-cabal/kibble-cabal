@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c6ubdy6hplxfp"]
 
-[ext_resource type="Script" path="res://expansion_packs/core-pet/animal/scenes/dog.gd" id="1_go7h5"]
+[ext_resource type="Script" path="res://expansion_packs/core-pet/animal/scenes/DogSpriteController.cs" id="1_adjjy"]
 [ext_resource type="Texture2D" uid="uid://bjt1o3txxoxpi" path="res://expansion_packs/core/pet/sprites/pet_placeholder_sheet.png" id="2_87l6v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ebpyx"]
@@ -44,8 +44,9 @@ animations = [{
 "speed": 2.0
 }]
 
-[node name="SpriteController" type="Node3D"]
-script = ExtResource("1_go7h5")
+[node name="SpriteController" type="Node3D" node_paths=PackedStringArray("Sprite")]
+script = ExtResource("1_adjjy")
+Sprite = NodePath("AnimatedSprite3D")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 texture_filter = 1

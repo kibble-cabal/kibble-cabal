@@ -1,4 +1,5 @@
 using AS;
+using Godot;
 
 public static class AttributeExtensions
 {
@@ -8,4 +9,6 @@ public static class AttributeExtensions
         var threshold = ((attribute.MaxValue - attribute.MinValue) / 2) + attribute.MinValue;
         return system.GetAttributeValue(attribute) < threshold;
     }
+
+    public static float RandomValue(this Attribute attribute) => (float)GD.RandRange(attribute.MinValue, attribute.MaxValue);
 }

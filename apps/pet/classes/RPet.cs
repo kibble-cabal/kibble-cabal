@@ -4,6 +4,12 @@ using Godot.Collections;
 [GlobalClass]
 public sealed partial class RPet : ExtensibleResource
 {
+    public static class AnimationNames
+    {
+        public const string Default = "default";
+        public const string Walk = "walk";
+    }
+    
     private static class Keys
     {
         public const string AbilitySystemState = "AbilitySystemState";
