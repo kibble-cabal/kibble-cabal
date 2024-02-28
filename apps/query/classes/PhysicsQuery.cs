@@ -65,7 +65,7 @@ namespace Query
         static PhysicsQuery()
         {
             #if TOOLS
-            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
             {
                 ClassName = nameof(PhysicsQuery),
                 Path = "res://docs/schemas/query/PhysicsQuery.schema.json",

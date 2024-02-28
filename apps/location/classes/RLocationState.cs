@@ -50,7 +50,7 @@ public partial class RLocationState : ExtensibleResource
     static RLocationState()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RLocationState),
             Path = "res://docs/schemas/LocationState.schema.json",

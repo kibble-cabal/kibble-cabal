@@ -1,4 +1,7 @@
+using System;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using Godot;
 
 
@@ -43,16 +46,16 @@ public static class FloatExtensions
         return to;
     }
     public static float Map(this float value, float min, float max) => value.Remap(0, 1, min, max);
-    
-    public static float? TryParseFloat(this string str)
+
+    public static T? TryParse<T>(this string str) where T : INumber<T>
     {
         try
         {
-            return float.Parse(str);
+            return T.Parse(str, new NumberFormatInfo());
         }
         catch
         {
-            return null;
+            return default;
         }
     }
 }

@@ -53,7 +53,7 @@ public partial class RQuest : ExtensibleResource, IIdentifiable<StringName>
     static RQuest()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RQuest),
             Path = "res://docs/schemas/Quest.schema.json",

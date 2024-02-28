@@ -50,7 +50,7 @@ public partial class RItem : ExtensibleResource, IIdentifiable<StringName>
     static RItem()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RItem),
             Path = "res://docs/schemas/Item.schema.json",

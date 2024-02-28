@@ -27,7 +27,7 @@ namespace Query.Transformation
         static SortByDistanceTransformation()
         {
             #if TOOLS
-            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
             {
                 ClassName = nameof(SortByDistanceTransformation),
                 Path = "res://docs/schemas/query/SortByDistance.schema.json",

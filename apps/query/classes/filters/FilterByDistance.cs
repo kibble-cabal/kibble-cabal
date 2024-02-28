@@ -33,7 +33,7 @@ namespace Query.Filter
         static FilterByDistance()
         {
             #if TOOLS
-            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
             {
                 ClassName = nameof(FilterByDistance),
                 Path = "res://docs/schemas/query/FilterByDistance.schema.json",

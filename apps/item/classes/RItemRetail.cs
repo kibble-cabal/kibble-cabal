@@ -13,7 +13,7 @@ public partial class RItemRetail : ExtensibleResource
     static RItemRetail()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RItemRetail),
             Path = "res://docs/schemas/ItemRetail.schema.json",

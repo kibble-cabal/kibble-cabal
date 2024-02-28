@@ -12,7 +12,7 @@
       "type": "string"
     },
     "BirthDate": {
-      "type": "number"
+      "type": "integer"
     },
     "Instructions": {
       "type": "array",
@@ -49,5 +49,5 @@
     }
   },
   "required": [],
-  "additionalProperties": true
+  "additionalProperties": false
 }

@@ -30,7 +30,7 @@ public sealed partial class RItemInstance : ExtensibleResource, ISpawnable
     static RItemInstance()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RItemInstance),
             Path = "res://docs/schemas/ItemInstance.schema.json",

@@ -5,7 +5,7 @@
   "type": "object",
   "properties": {
     "ID": {
-      "type": "number"
+      "type": "integer"
     },
     "LocationStates": {
       "type": "array",
@@ -26,5 +26,5 @@
     }
   },
   "required": [],
-  "additionalProperties": true
+  "additionalProperties": false
 }

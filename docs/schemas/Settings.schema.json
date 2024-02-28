@@ -14,5 +14,5 @@
     }
   },
   "required": [],
-  "additionalProperties": true
+  "additionalProperties": false
 }

@@ -98,11 +98,13 @@ public partial class RMod : ExtensibleResource, IIdentifiable<StringName>
         if (!HasZIP || !HasEntryScript) return;
         throw new System.NotImplementedException();
     }
+
+    public static JSON.Schema.Generator? GetSchemaGenerator() => JSON.Schema.GeneratorDB.Find(nameof(RMod));
     
     static RMod()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RMod),
             Path = "res://docs/schemas/Mod.schema.json",

@@ -20,7 +20,7 @@ public partial class RItemPhysics : ExtensibleResource
     static RItemPhysics()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RItemPhysics),
             Path = "res://docs/schemas/ItemPhysics.schema.json",

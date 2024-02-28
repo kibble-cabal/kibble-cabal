@@ -39,7 +39,7 @@ public sealed partial class RSubTree : ExtensibleResource
     static RSubTree()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RSubTree),
             Path = "res://docs/schemas/SubTree.schema.json",

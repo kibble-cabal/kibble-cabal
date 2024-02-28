@@ -2,6 +2,8 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KibbleCabal2D", "KibbleCabal2D.csproj", "{254FD037-A4D5-42FF-B9FB-929665FF8F7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KibbleCabalTests", "Tests\KibbleCabalTests.csproj", "{DD4B689A-0AFA-483D-8616-236DD8231388}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -15,5 +17,11 @@ Global
 		{254FD037-A4D5-42FF-B9FB-929665FF8F7A}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{254FD037-A4D5-42FF-B9FB-929665FF8F7A}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{254FD037-A4D5-42FF-B9FB-929665FF8F7A}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{DD4B689A-0AFA-483D-8616-236DD8231388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4B689A-0AFA-483D-8616-236DD8231388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD4B689A-0AFA-483D-8616-236DD8231388}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4B689A-0AFA-483D-8616-236DD8231388}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{DD4B689A-0AFA-483D-8616-236DD8231388}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4B689A-0AFA-483D-8616-236DD8231388}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

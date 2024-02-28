@@ -10,4 +10,18 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateStaticReadonly/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="__" Suffix="" Style="aaBb_aaBb"&gt;&lt;ExtraRule Prefix="" Suffix="" Style="aa_bb" /&gt;&lt;ExtraRule Prefix="_" Suffix="" Style="aa_bb" /&gt;&lt;/Policy&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=Property/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb"&gt;&lt;ExtraRule Prefix="" Suffix="" Style="aa_bb" /&gt;&lt;ExtraRule Prefix="_" Suffix="" Style="aa_bb" /&gt;&lt;/Policy&gt;</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PublicFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb"&gt;&lt;ExtraRule Prefix="" Suffix="" Style="aa_bb" /&gt;&lt;/Policy&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5a61e579_002D81b4_002D4106_002Da11b_002D78c1e0d5589f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Boolean" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;DD4B689A-0AFA-483D-8616-236DD8231388::net8.0::NUnit3x::KibbleCabal.Tests.Libs.JSON.Schema.Type.Int&lt;/TestId&gt;
+    &lt;TestId&gt;DD4B689A-0AFA-483D-8616-236DD8231388::net8.0::NUnit3x::KibbleCabal.Tests.Libs.JSON.Schema.Type.Boolean&lt;/TestId&gt;
+    &lt;TestId&gt;DD4B689A-0AFA-483D-8616-236DD8231388::net8.0::NUnit3x::KibbleCabal.Tests.Libs.JSON.Schema.Type.Float&lt;/TestId&gt;
+    &lt;TestId&gt;DD4B689A-0AFA-483D-8616-236DD8231388::net8.0::NUnit3x::KibbleCabal.Tests.Libs.JSON.Schema.Type.String&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eddbeac8_002D1eac_002D45d7_002Da3ba_002D48a17e7241b6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Type" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::DD4B689A-0AFA-483D-8616-236DD8231388::net8.0::KibbleCabal.Tests.Libs.JSON.Schema.Type&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=extraversion/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

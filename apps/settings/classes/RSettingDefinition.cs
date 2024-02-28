@@ -39,7 +39,7 @@ public sealed partial class RSettingDefinition : ExtensibleResource, IIdentifiab
     static RSettingDefinition()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RSettingDefinition),
             Path = "res://docs/schemas/SettingDefinition.schema.json",

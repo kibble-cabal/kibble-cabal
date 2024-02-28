@@ -124,7 +124,7 @@ public partial class AbilitySystemState : Resource
         registerGenerator<WaitEffect>();
         registerGenerator<TryActivateAbilityEffect>();
         registerGenerator<AbilityEvent>();
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(AbilitySystemState),
             Path = "res://docs/schemas/ability_system/AbilitySystemState.schema.json",
@@ -132,7 +132,7 @@ public partial class AbilitySystemState : Resource
         });
         return;
 
-        void registerGenerator<Ty>(StringName[]? require = null, StringName[]? exclude = null) => JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        void registerGenerator<Ty>(StringName[]? require = null, StringName[]? exclude = null) => JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = typeof(Ty).Name,
             Path = $"{basePath}/{typeof(Ty).Name}.schema.json",

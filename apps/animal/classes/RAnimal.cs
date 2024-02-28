@@ -57,7 +57,7 @@ public partial class RAnimal : ExtensibleResource, IIdentifiable<StringName>
     static RAnimal()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RAnimal),
             Path = "res://docs/schemas/Animal.schema.json",

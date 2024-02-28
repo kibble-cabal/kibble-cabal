@@ -47,7 +47,7 @@ namespace Query.Filter
         static FilterByTags()
         {
             #if TOOLS
-            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
             {
                 ClassName = nameof(FilterByTags),
                 Path = "res://docs/schemas/query/FilterByTags.schema.json",

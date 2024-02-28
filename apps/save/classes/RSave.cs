@@ -109,7 +109,7 @@ public sealed partial class RSave : ExtensibleResource, IIdentifiable<int>
     static RSave()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RSave),
             Path = "res://docs/schemas/Save.schema.json",

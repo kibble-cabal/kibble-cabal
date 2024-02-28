@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/ItemInstanceSpawner",
+  "title": "Item Instance Spawner",
+  "type": "object",
+  "properties": {
+    "Position": {
+      "type": "object",
+      "properties": {
+        "X": {
+          "type": "number"
+        },
+        "Y": {
+          "type": "number"
+        },
+        "Z": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "X",
+        "Y",
+        "Z"
+      ],
+      "additionalProperties": false
+    },
+    "Value": {
+      "$ref": "unknown"
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

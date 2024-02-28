@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs/schemas/Mod",
+  "title": "Mod",
+  "type": "object",
+  "properties": {
+    "ZIPPath": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "A file path.",
+      "default": ""
+    },
+    "ID": {
+      "type": "string"
+    },
+    "Author": {
+      "type": "string",
+      "default": ""
+    },
+    "Link": {
+      "type": "string",
+      "default": ""
+    },
+    "Version": {
+      "type": "string",
+      "default": ""
+    },
+    "IconPath": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "A file path.",
+      "default": ""
+    },
+    "DisplayName": {
+      "type": "string",
+      "default": ""
+    },
+    "DisplayDescription": {
+      "type": "string",
+      "default": ""
+    },
+    "EntryScriptPath": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "A file path.",
+      "default": ""
+    },
+    "SubResources": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

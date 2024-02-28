@@ -63,7 +63,7 @@ public sealed partial class RPet : ExtensibleResource
     static RPet()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RPet),
             Path = "res://docs/schemas/Pet.schema.json",

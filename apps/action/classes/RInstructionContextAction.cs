@@ -34,7 +34,7 @@ public partial class RInstructionContextAction : Resource, IPetContextAction
     static RInstructionContextAction()
     {
         #if TOOLS
-        JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+        JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
         {
             ClassName = nameof(RInstructionContextAction),
             Path = "res://docs/schemas/InstructionContextAction.schema.json",

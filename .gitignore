@@ -2,3 +2,5 @@
 .vscode/
 .idea/
 *.csproj.old.*
+obj/
+Tests/bin/

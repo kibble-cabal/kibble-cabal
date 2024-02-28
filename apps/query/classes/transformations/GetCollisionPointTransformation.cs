@@ -16,7 +16,7 @@ namespace Query.Transformation
         static GetCollisionPointTransformation()
         {
             #if TOOLS
-            JSONSchema.GeneratorDB.Register(new JSONSchema.Generator
+            JSON.Schema.GeneratorDB.Register(new JSON.Schema.Generator
             {
                 ClassName = nameof(GetCollisionPointTransformation),
                 Path = "res://docs/schemas/query/GetCollisionPoint.schema.json",

@@ -19,23 +19,30 @@
       "type": "object",
       "properties": {
         "R": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         },
         "G": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         },
         "B": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         },
         "A": {
-          "type": "number"
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
         }
       },
       "required": [
         "R",
         "G",
-        "B",
-        "A"
+        "B"
       ],
       "additionalProperties": false
     },
@@ -43,7 +50,7 @@
       "$ref": "unknown"
     },
     "UIMenuIndex": {
-      "type": "number"
+      "type": "integer"
     },
     "UIIcon": {
       "$ref": "unknown"
@@ -54,5 +61,5 @@
     }
   },
   "required": [],
-  "additionalProperties": true
+  "additionalProperties": false
 }
