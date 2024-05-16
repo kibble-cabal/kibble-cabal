@@ -55,30 +55,18 @@ visible = false
 
 [node name="UI" type="CanvasLayer" parent="." groups=["UIRoot", "ui_root"]]
 
-[node name="GameModeButtonContainer" parent="UI" node_paths=PackedStringArray("Background") instance=ExtResource("4_h1txm")]
+[node name="GameModeButtonContainer" parent="UI" instance=ExtResource("4_h1txm")]
 anchors_preset = 2
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-offset_left = 0.0
 offset_top = -600.0
 offset_right = 600.0
-offset_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
-UnsortedNodes = [Object(ColorRect,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":-1,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(600, 600),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":2,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","color":Color(0.15, 0.15, 0.15, 1),"script":null)
-]
-_unsortedNodes = [Object(ColorRect,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":-1,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(600, 600),"layout_direction":0,"layout_mode":2,"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":2,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","color":Color(0.15, 0.15, 0.15, 1),"script":null)
-]
-_extraMargin = 0.0
-_alignChildren = 1
-_degreeMin = 0.0
-_degreeMax = 90.0
-Nodes = {}
-Background = NodePath("ColorRect")
 
 [node name="PanelContainer" type="PanelContainer" parent="UI"]
 anchors_preset = 11
@@ -131,4 +119,3 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("11_feo1r")
-Mode = null

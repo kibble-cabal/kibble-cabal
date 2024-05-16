@@ -1,47 +1,33 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6ubdy6hplxfp"]
+[gd_scene load_steps=4 format=3 uid="uid://c6ubdy6hplxfp"]
 
 [ext_resource type="Script" path="res://expansion_packs/core-pet/animal/scenes/DogSpriteController.cs" id="1_adjjy"]
-[ext_resource type="Texture2D" uid="uid://bjt1o3txxoxpi" path="res://expansion_packs/core/pet/sprites/pet_placeholder_sheet.png" id="2_87l6v"]
+[ext_resource type="Texture2D" uid="uid://fu0o8mhygvwa" path="res://expansion_packs/core-pet/animal/assets/Dog.svg" id="2_au440"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ebpyx"]
-atlas = ExtResource("2_87l6v")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l3snv"]
-atlas = ExtResource("2_87l6v")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jgsr1"]
-atlas = ExtResource("2_87l6v")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_757hp"]
-atlas = ExtResource("2_87l6v")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_bdwaq"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_noj3o"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ebpyx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l3snv")
+"texture": ExtResource("2_au440")
 }],
 "loop": true,
 "name": &"default",
-"speed": 2.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jgsr1")
+"texture": ExtResource("2_au440")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
 }, {
+"frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_757hp")
+"texture": ExtResource("2_au440")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 2.0
+"speed": 5.0
 }]
 
 [node name="SpriteController" type="Node3D" node_paths=PackedStringArray("Sprite")]
@@ -49,7 +35,10 @@ script = ExtResource("1_adjjy")
 Sprite = NodePath("AnimatedSprite3D")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.630686, 0)
+pixel_size = 0.005
+billboard = 2
+shaded = true
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_bdwaq")
-animation = &"walk"
+sprite_frames = SubResource("SpriteFrames_noj3o")
 autoplay = "default"

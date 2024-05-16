@@ -20,7 +20,7 @@ namespace KibbleCabal.Core.Pet
         {
             await base._Transition(prevAnimation, interruptTime, nextAnimation);
             if (Sprite is null) return;
-            var tweenA = GetTree().CreateTween().TweenProperty(Sprite, "modulate", Colors.Yellow, 0.125f);
+            var tweenA = GetTree().CreateTween().TweenProperty(Sprite, "modulate", Colors.Red, 0.125f);
             await ToSignal(tweenA, Tween.SignalName.Finished);
             var tweenB = GetTree().CreateTween().TweenProperty(Sprite, "modulate", Colors.White, 0.125f);
             await ToSignal(tweenB, Tween.SignalName.Finished);
