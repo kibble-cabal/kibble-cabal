@@ -9,6 +9,7 @@ public sealed partial class RSubTree : ExtensibleResource
     }
 
     private StringName _hook = "";
+    private BehaviorTree? _subTree;
     private int _priority = 1;
 
     [Export]
@@ -21,8 +22,8 @@ public sealed partial class RSubTree : ExtensibleResource
     [Export]
     public BehaviorTree? SubTree
     {
-        get => GetSubResource<BehaviorTree>(Keys.SubTree);
-        set => SetSubResource(Keys.SubTree, value);
+        get => _subTree;
+        set => this.Set(ref _subTree, value);
     }
 
     /// <summary>

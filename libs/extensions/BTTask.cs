@@ -44,5 +44,9 @@ public static class BTTaskExtensions
 
 public static class BlackboardExtensions
 {
-    public static bool IsInstruction(this Blackboard blackboard) => (bool)blackboard.GetVar(BTContext.VarName.IsInstruction, false);
+    public static T GetVariable<[MustBeVariant] T>(this Blackboard blackboard, Variant key, bool throwIfMissing = true) =>
+        blackboard.Call(Blackboard.MethodName.GetVar, key, new Variant(), throwIfMissing).As<T>();
+    public static void SetVariable(this Blackboard blackboard, Variant key, Variant value) =>
+        blackboard.Call(Blackboard.MethodName.SetVar, key, value);
+    public static bool IsInstruction(this Blackboard blackboard) => blackboard.GetVariable<bool>(BTContext.VarName.IsInstruction, false);
 }

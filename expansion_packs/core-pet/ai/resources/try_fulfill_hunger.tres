@@ -1,0 +1,13 @@
+[gd_resource type="BehaviorTree" load_steps=4 format=3 uid="uid://dtytgjakvf3kp"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_71miw"]
+
+[sub_resource type="BTAction" id="BTAction_5n86i"]
+
+[sub_resource type="BTSelector" id="BTSelector_72yn8"]
+custom_name = "Try Fulfill Hunger"
+children = [SubResource("BTAction_5n86i")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_71miw")
+root_task = SubResource("BTSelector_72yn8")

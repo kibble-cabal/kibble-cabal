@@ -3,15 +3,13 @@ using Godot;
 [GlobalClass]
 public partial class RAnimal : ExtensibleResource, IIdentifiable<StringName>
 {
-    public const string SchemaPath = "res://apps/animal/animal_resource.schema.json";
-
     private StringName _name = "";
     private PackedScene? _spriteScene;
     private float _collisionRadius = 0.15f;
     private float _detectionRadius = 1000f;
     private float _speed = 0.5f;
 
-    public StringName ID { get => _name; }
+    public StringName ID => _name;
 
     [Export]
     public StringName Name

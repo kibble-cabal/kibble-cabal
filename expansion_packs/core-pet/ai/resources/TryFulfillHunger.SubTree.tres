@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RSubTree" load_steps=3 format=3 uid="uid://bsaarud4aidhd"]
+
+[ext_resource type="Script" path="res://apps/ai/classes/RSubTree.cs" id="1_6pr0o"]
+[ext_resource type="BehaviorTree" uid="uid://dtytgjakvf3kp" path="res://expansion_packs/core-pet/ai/resources/try_fulfill_hunger.tres" id="1_20e7m"]
+
+[resource]
+script = ExtResource("1_6pr0o")
+Hook = &"pet/before_start"
+SubTree = ExtResource("1_20e7m")
+Priority = 1
+SubResources = {}

@@ -50,7 +50,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
         public override string _GenerateName()
         {
             if (!string.IsNullOrEmpty(TargetItemVariable))
-                return $"Fullfill {NeedAttribute?.Identifier} with item {TargetItemVariable}";
+                return $"Fulfill {NeedAttribute?.Identifier} with item {TargetItemVariable}";
             return $"Fulfill {NeedAttribute?.Identifier}";
         }
 
@@ -85,8 +85,8 @@ namespace KibbleCabal.Core.Pet.AI.Task
                 var query = BuildQuery();
                 if (query is null) return this.FailWithWarning("Unable to build query.");
                 var result = query.Run<PhysicsQuery.Result>(agent);
-                if (!TargetItemVariable.IsEmpty()) Blackboard.SetVar(TargetItemVariable, result.Collider);
-                else return this.FailWithWarning("No item to fulfill {NeedAttribute.Identifier} found.");
+                if (!TargetItemVariable.IsEmpty()) Blackboard.SetVariable(TargetItemVariable, result.Collider);
+                else return this.FailWithWarning($"No item to fulfill {NeedAttribute.Identifier} found.");
             }
             return base._Tick(delta);
         }

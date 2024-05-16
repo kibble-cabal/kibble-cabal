@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dy72pajpo8l7k"]
+[gd_scene load_steps=10 format=3 uid="uid://dy72pajpo8l7k"]
 
 [ext_resource type="Script" path="res://apps/pet/scenes/PetScene.cs" id="1_0yo4r"]
+[ext_resource type="BehaviorTree" uid="uid://cfcroebhnfkjw" path="res://content/ai/trees/pet_behavior.tres" id="2_2o2eb"]
 [ext_resource type="Script" path="res://apps/navigation/classes/navigation_agent.gd" id="2_oapg6"]
 [ext_resource type="Script" path="res://apps/ui/classes/ui_layer.gd" id="6_vao5j"]
 [ext_resource type="Script" path="res://apps/action/classes/ContextActionMenu.cs" id="6_wrrce"]
 [ext_resource type="PackedScene" uid="uid://dxa332pqi0yga" path="res://expansion_packs/core-pet/need/scenes/need_set_ui.tscn" id="8_5nxat"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_6331a"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_17nh3"]
 resource_local_to_scene = true
@@ -17,13 +20,17 @@ collision_layer = 4
 collision_mask = 31
 script = ExtResource("1_0yo4r")
 AbilitySystemPath = NodePath("AbilitySystem")
-BehaviorTreePath = NodePath("")
+BehaviorTreePath = NodePath("BTPlayer")
 ActionMenu = NodePath("UILayer/InteractMenu")
 CollisionShape = NodePath("CollisionShape")
 InputArea = NodePath("Area")
 InputShape = NodePath("Area/CollisionShape")
 NavigationAgent = NodePath("NavigationAgent")
 FacingRay = NodePath("FacingRay")
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+behavior_tree = ExtResource("2_2o2eb")
+blackboard_plan = SubResource("BlackboardPlan_6331a")
 
 [node name="AbilitySystem" type="AbilitySystem" parent="."]
 

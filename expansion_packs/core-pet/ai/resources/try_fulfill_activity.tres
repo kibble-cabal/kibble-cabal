@@ -1,20 +1,42 @@
-[gd_resource type="BehaviorTree" load_steps=6 format=3 uid="uid://dfcx7cpyyudax"]
+[gd_resource type="BehaviorTree" load_steps=10 format=3 uid="uid://dfcx7cpyyudax"]
 
-[ext_resource type="Ability" uid="uid://d6dqu2nxhusn" path="res://expansion_packs/core-pet/need/resources/abilities/play.ability.tres" id="1_ktwmv"]
-[ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/BTTryFulfillNeed.cs" id="1_tstnx"]
+[ext_resource type="Attribute" uid="uid://jwkvud0o86m7" path="res://expansion_packs/core-pet/need/resources/attributes/activity.attribute.tres" id="1_2eonl"]
+[ext_resource type="Ability" uid="uid://d6dqu2nxhusn" path="res://expansion_packs/core-pet/need/resources/abilities/play.ability.tres" id="1_xn3sy"]
+[ext_resource type="Tag" uid="uid://dob6s41y6fw5k" path="res://expansion_packs/core-pet/need/resources/tags/activity_provider.tag.tres" id="2_v6yeq"]
+[ext_resource type="Script" path="res://expansion_packs/core-pet/ai/classes/tasks/BTTryFulfillNeed.cs" id="3_gsvss"]
 
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_eekel"]
 
-[sub_resource type="BBNode" id="BBNode_ibnhx"]
-saved_value = NodePath("")
+[sub_resource type="BBNode" id="BBNode_t1vio"]
+resource_name = "AbilitySystem"
+saved_value = NodePath("AbilitySystem")
 
-[sub_resource type="BTAction" id="BTAction_uwpfp"]
-script = ExtResource("1_tstnx")
-Verbose = false
-TargetItemVariable = &"target_item"
-FulfillNeedAbilityResource = ExtResource("1_ktwmv")
-NavigationAgentPath = SubResource("BBNode_ibnhx")
+[sub_resource type="BBNode" id="BBNode_6rhlo"]
+resource_name = "NavigationAgent"
+saved_value = NodePath("NavigationAgent")
+
+[sub_resource type="BTAction" id="BTAction_h6tsl"]
+script = ExtResource("3_gsvss")
+NavigationAgentPath = SubResource("BBNode_6rhlo")
+_navigationAgentPath = SubResource("BBNode_6rhlo")
+NavigationAgent = null
+TargetItemVariable = "TargetItem"
+AbilitySystemPath = SubResource("BBNode_t1vio")
+FulfillNeedAbilityResource = ExtResource("1_xn3sy")
+_targetItemVariable = "TargetItem"
+_abilitySystemPath = SubResource("BBNode_t1vio")
+HasNavigated = false
+HasFinishedEvent = false
+NeedAttributeResource = ExtResource("1_2eonl")
+NeedProviderTagResource = ExtResource("2_v6yeq")
+Verbose = true
+_verbose = true
+HasRunQuery = false
+
+[sub_resource type="BTSelector" id="BTSelector_b65ra"]
+custom_name = "Try Fulfill Activity"
+children = [SubResource("BTAction_h6tsl")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_eekel")
-root_task = SubResource("BTAction_uwpfp")
+root_task = SubResource("BTSelector_b65ra")

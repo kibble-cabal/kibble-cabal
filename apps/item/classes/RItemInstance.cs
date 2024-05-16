@@ -25,7 +25,7 @@ public sealed partial class RItemInstance : ExtensibleResource, ISpawnable
 
     public ItemInstanceScene Instantiate() => ItemInstanceScene.Instantiate(this);
 
-    public Spawner GetSpawner() => new RItemInstanceSpawner(this);
+    public SpawnerBase GetSpawner() => new RItemInstanceSpawner(this);
 
     static RItemInstance()
     {

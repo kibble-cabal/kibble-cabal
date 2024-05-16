@@ -13,7 +13,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
     public partial class BTFulfillNeed : BTNavigate
     {
 
-        protected StringName _targetItemVariable = "";
+        protected string _targetItemVariable = "";
         protected BBNode? _abilitySystemPath;
         protected Ability? FulfillNeedAbility;
 
@@ -22,12 +22,13 @@ namespace KibbleCabal.Core.Pet.AI.Task
         protected bool HasFinishedEvent = false;
 
         [Export]
-        public StringName TargetItemVariable
+        public string TargetItemVariable
         {
             get => _targetItemVariable;
             set => this.Set(ref _targetItemVariable, value);
         }
 
+        [Export]
         public BBNode? AbilitySystemPath
         {
             get => _abilitySystemPath;
@@ -56,6 +57,12 @@ namespace KibbleCabal.Core.Pet.AI.Task
             var abilitySystem = GetAbilitySystem();
             if (abilitySystem is null || FulfillNeedAbility is null) return Status.Failure;
 
+            if (GetTargetItem() is null)
+            {
+                GD.PushWarning($"No suitable item found to use to {FulfillNeedAbility.Identifier}.");
+                return Status.Failure;
+            }
+
             // If navigation is not finished, continue navigating.
             if (GetTargetItem() is not null && !HasNavigated)
             {
@@ -81,7 +88,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
                     abilitySystem.Instance?.Connect("ability_event_finished", new Callable(this, MethodName.OnAbilityEventFinished));
                 else
                 {
-                    GD.PushWarning($"Unable to activate {FulfillNeedAbility.Identifier}");
+                    GD.PushWarning($"Unable to activate ability {FulfillNeedAbility?.Identifier}");
                     return Status.Failure;
                 }
             }
@@ -92,7 +99,7 @@ namespace KibbleCabal.Core.Pet.AI.Task
             return Status.Running;
         }
 
-        protected Node3D? GetTargetItem() => Blackboard.GetVar(TargetItemVariable).TryAs<Node3D>();
+        protected Node3D? GetTargetItem() => Blackboard.GetVariable<Node3D?>(TargetItemVariable, false);
 
         protected override Vector3 GetNavigationPosition() => GetTargetItem()?.GlobalPosition ?? default;
 

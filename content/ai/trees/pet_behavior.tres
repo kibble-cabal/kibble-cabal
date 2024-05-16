@@ -15,7 +15,7 @@ children = [SubResource("BTRandomWait_8feua")]
 script = ExtResource("3_oe6a8")
 OnInstructionFound = 3
 
-[sub_resource type="BTComposite" id="BTComposite_5tsfp"]
+[sub_resource type="BTSelector" id="BTSelector_l4u4o"]
 script = ExtResource("3_21rqt")
 HookKey = &"pet/before_start"
 
@@ -49,7 +49,7 @@ script = ExtResource("3_oe6a8")
 OnInstructionFound = 3
 
 [sub_resource type="BTSequence" id="BTSequence_qv2m0"]
-children = [SubResource("BTDecorator_yjwem"), SubResource("BTComposite_5tsfp"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTConsolePrint_3r4pn"), SubResource("BTDecorator_u8v47")]
+children = [SubResource("BTDecorator_yjwem"), SubResource("BTSelector_l4u4o"), SubResource("BTDecorator_cfesk"), SubResource("BTAction_kuhrg"), SubResource("BTConsolePrint_3r4pn"), SubResource("BTDecorator_u8v47")]
 
 [resource]
 blackboard_plan = SubResource("BlackboardPlan_v5jm7")

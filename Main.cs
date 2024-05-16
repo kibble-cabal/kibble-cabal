@@ -13,7 +13,7 @@ namespace KibbleCabal
             LocationSubSystem.Instance.LocationChanged += OnLocationChanged;
             OnSaveChanged();
             
-            JSON.Schema.GeneratorDB.Generate();
+            // JSON.Schema.GeneratorDB.Generate();
         }
 
         private void OnSaveChanged()

@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using AS;
 
@@ -33,7 +34,8 @@ namespace KibbleCabal.Core.Pet
             GD.Load<Resource>($"{BasePath}/personality/resources/attributes/openness.tres"),
         ];
 
-        public static readonly IEnumerable<Ability> Abilities = [
+        public static readonly IEnumerable<Ability> Abilities =
+        [
             GD.Load<Resource>($"{BasePath}/need/resources/abilities/drink.ability.tres"),
             GD.Load<Resource>($"{BasePath}/need/resources/abilities/drink_cooldown.ability.tres"),
             GD.Load<Resource>($"{BasePath}/need/resources/abilities/eat.ability.tres"),
@@ -41,6 +43,11 @@ namespace KibbleCabal.Core.Pet
             GD.Load<Resource>($"{BasePath}/need/resources/abilities/play.ability.tres"),
             GD.Load<Resource>($"{BasePath}/need/resources/abilities/sleep.ability.tres"),
             GD.Load<Resource>($"{BasePath}/need/resources/abilities/sleep_cooldown.ability.tres"),
+        ];
+
+        public static readonly IEnumerable<RSubTree> SubTrees = [
+            GD.Load<RSubTree>($"{BasePath}/ai/resources/TryFulfillActivity.SubTree.tres"),
+            GD.Load<RSubTree>($"{BasePath}/ai/resources/TryFulfillHunger.SubTree.tres")
         ];
 
         public static readonly IEnumerable<Tag> Tags = [
@@ -59,8 +66,8 @@ namespace KibbleCabal.Core.Pet
             Animals.ForEach(AnimalDB.Register);
             Attributes.ForEach(AttributeDB.Register);
             Abilities.ForEach(AbilityDB.Register);
+            SubTrees.ForEach(SubTreeDB.Register);
             Tags.ForEach(TagDB.Register);
-
             DateTimeSubSystem.Instance.Ticked += DepleteNeeds;
         }
 

@@ -15,15 +15,15 @@ public partial class RLocationState : ExtensibleResource
         set => this.Set(ref _locationName, value);
     }
 
-    [Export(PropertyHint.ArrayType, nameof(Spawner))]
-    public Array<Spawner> Spawners { get; private set; } = [];
+    [Export(PropertyHint.ArrayType, nameof(SpawnerBase))]
+    public Array<SpawnerBase> Spawners { get; private set; } = [];
 
     [Signal]
     public delegate void SpawnersChangedEventHandler();
 
     public RLocation? GetLocation() => LocationDB.Instance.Find(LocationName);
 
-    public void Add<S>(S spawner) where S : Spawner
+    public void Add<S>(S spawner) where S : SpawnerBase
     {
         if (Spawners.Contains(spawner)) return;
         Spawners.Add(spawner);
@@ -31,7 +31,7 @@ public partial class RLocationState : ExtensibleResource
         EmitChanged();
     }
 
-    public void Remove<S>(S spawner) where S : Spawner
+    public void Remove<S>(S spawner) where S : SpawnerBase
     {
         if (!Spawners.Contains(spawner)) return;
         Spawners.Remove(spawner);
@@ -39,11 +39,11 @@ public partial class RLocationState : ExtensibleResource
         EmitChanged();
     }
 
-    public IEnumerable<S> Get<S>() where S : Spawner => Spawners.Where(spawner => spawner.GetType() == typeof(S)).Select(spawner => (S)spawner);
-    public IEnumerable<Spawner> GetSpawned() => Spawners.Where(spawner => spawner.HasSpawned());
-    public IEnumerable<Spawner> GetUnspawned() => Spawners.Where(spawner => !spawner.HasSpawned());
+    public IEnumerable<S> Get<S>() where S : SpawnerBase => Spawners.Where(spawner => spawner.GetType() == typeof(S)).Select(spawner => (S)spawner);
+    public IEnumerable<SpawnerBase> GetSpawned() => Spawners.Where(spawner => spawner.HasSpawned());
+    public IEnumerable<SpawnerBase> GetUnspawned() => Spawners.Where(spawner => !spawner.HasSpawned());
     public bool HasSpawnerFor<R>(R resource) where R : Resource => Spawners.Any(spawner => spawner.GetResource() == resource);
-    public void RemoveSpawnersFor<R>(R resource) where R : Resource => Spawners.Where(spawner => spawner.GetResource() == resource).ForEach(Remove<Spawner>);
+    public void RemoveSpawnersFor<R>(R resource) where R : Resource => Spawners.Where(spawner => spawner.GetResource() == resource).ForEach(Remove<SpawnerBase>);
 
     protected override IEnumerable<Resource> _GetAllSubResources() => [.. base._GetAllSubResources(), .. Spawners];
     

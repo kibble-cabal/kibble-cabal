@@ -81,8 +81,8 @@ public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileS
         {
             // Remove outdated spawners
             GetTree()
-                .GetNodesInGroup(Spawner.TopLevelGroupName)
-                .Select(spawner => (Spawner)spawner.GetMeta(Spawner.MetaName))
+                .GetNodesInGroup(SpawnerBase.TopLevelGroupName)
+                .Select(spawner => (SpawnerBase)spawner.GetMeta(SpawnerBase.MetaName))
                 .Except(state.Spawners)
                 .ForEach(spawner => spawner.Despawn());
 
@@ -114,7 +114,7 @@ public sealed class LocationSubSystem : Singleton<LocationSubSystemBase>
     public static RPetSpawner[] GetPetSpawners() => Instance.GetPetSpawners();
     public static RLocation? GetLocation() => Instance.GetLocation();
     public static Node3D? GetRoot() => Instance.GetRoot();
-    public static void Add<S>(S spawner) where S : Spawner => GetState()?.Add<S>(spawner);
+    public static void Add<S>(S spawner) where S : SpawnerBase => GetState()?.Add<S>(spawner);
     public static void To(StringName name) => Instance.To(name);
     public static void To(RLocation location) => Instance.To(location);
 }
