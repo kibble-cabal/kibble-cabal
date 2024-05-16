@@ -356,7 +356,9 @@ public abstract partial class PolygonEditor3DBase : Node3D
 
     public virtual void UpdatePoint(PolygonPoint3D node, int index)
     {
-        node.Position = GetPointPosition(node.Index).ToVector3();
+        var position = GetPointPosition(node.Index).ToVector3();
+        node.Visible = position.IsFinite();
+        node.Position = position.IsFinite() ? position : Vector3.Zero;
         node.History = History;
         node.Size = Size;
         node.InactiveModulate = InactiveModulate;

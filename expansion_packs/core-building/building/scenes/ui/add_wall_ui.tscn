@@ -23,4 +23,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 text = "✕ Cancel"
 
+[node name="Spawner" type="Node3D" parent="."]
+
 [connection signal="pressed" from="CancelButton" to="." method="OnCancelButtonPressed"]

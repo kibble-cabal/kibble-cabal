@@ -8,13 +8,15 @@ namespace KibbleCabal.Core.Building.UI
         private static readonly StringName ClickAction = "click";
 
         public RBuilding? Building;
-
-        private Vector3? Start;
-        private Vector3? StartHandle;
-        private Vector3? End;
-        private Vector3? EndHandle;
+        private Wall Wall = new();
+        // private Vector3? Start;
+        // private Vector3? StartHandle;
+        // private Vector3? End;
+        // private Vector3? EndHandle;
         private Viewport? Viewport;
         private Camera3D? Camera;
+        private Node3D? World;
+        private WallPolygonUISpawner? UISpawner;
         private UIStack? UIRoot => this.GetGameModeUIRoot();
         private static History? History => BuildModeState.GetHistory();
 
@@ -22,6 +24,17 @@ namespace KibbleCabal.Core.Building.UI
         {
             Viewport = GetViewport();
             Camera = Viewport?.GetCamera3D();
+            World = GetNode<Node3D>("Spawner");
+
+            var building = new RBuilding();
+            building.Add(Wall);
+            UISpawner = new WallPolygonUISpawner(building, 0);
+            if (World is not null) UISpawner?.Spawn(World);
+        }
+
+        public override void _ExitTree()
+        {
+            UISpawner?.Despawn();
         }
 
         public override void _UnhandledInput(InputEvent @event)
@@ -29,17 +42,17 @@ namespace KibbleCabal.Core.Building.UI
             if (@event is InputEventScreenDrag)
             {
                 Viewport?.SetInputAsHandled();
-                var position = Camera?.ProjectToFloor(GetGlobalMousePosition());
-                if (End is null) StartHandle = position;
-                else EndHandle = position;
+                var position = Camera?.ProjectToFloor(GetGlobalMousePosition()).ToVector2() ?? Vector2.Inf;
+                if (!Wall.End.IsFinite()) Wall.StartHandle = position;
+                else Wall.EndHandle = position;
             }
 
             if (@event.IsActionPressed(ClickAction))
             {
                 Viewport?.SetInputAsHandled();
-                var position = Camera?.ProjectToFloor(GetGlobalMousePosition());
-                if (Start is null) Start = position;
-                else End = position;
+                var position = Camera?.ProjectToFloor(GetGlobalMousePosition()).ToVector2() ?? Vector2.Inf;
+                if (!Wall.Start.IsFinite()) Wall.Start = position;
+                else Wall.End = position;
             }
 
             if (@event.IsActionReleased(ClickAction))
@@ -51,12 +64,12 @@ namespace KibbleCabal.Core.Building.UI
 
         private void AddWall()
         {
-            if (Start is null || End is null || Building is null) return;
-            var start = (Start ?? Vector3.Inf).ToVector2();
-            var end = (End ?? Vector3.Inf).ToVector2();
-            var startHandle = (StartHandle ?? Vector3.Zero).ToVector2();
-            var endHandle = (EndHandle ?? Vector3.Zero).ToVector2();
-            History?.Add(new UndoRedo.Add<Wall>(Building, new Wall(start, end, startHandle, endHandle)));
+            if (!Wall.Start.IsFinite() || !Wall.End.IsFinite() || Building is null) return;
+            // var start = (Start ?? Vector3.Inf).ToVector2();
+            // var end = (End ?? Vector3.Inf).ToVector2();
+            // var startHandle = (StartHandle ?? Vector3.Zero).ToVector2();
+            // var endHandle = (EndHandle ?? Vector3.Zero).ToVector2();
+            History?.Add(new UndoRedo.Add<Wall>(Building, Wall));
             UIRoot?.Pop();
         }
 
