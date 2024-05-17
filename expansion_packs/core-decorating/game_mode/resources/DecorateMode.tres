@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RGameMode" load_steps=3 format=3 uid="uid://bwk0snqeekj3r"]
+
+[ext_resource type="Script" path="res://apps/game_mode/classes/RGameMode.cs" id="1_lptvk"]
+[ext_resource type="Texture2D" uid="uid://yyo4o4y6oefm" path="res://expansion_packs/core-decorating/game_mode/icons/decorate_mode_icon.svg" id="1_tvyr2"]
+
+[resource]
+script = ExtResource("1_lptvk")
+Name = "Decorate"
+WorldPaused = true
+UIColor = Color(0.909804, 0.345098, 0.345098, 1)
+UIMenuIndex = 1
+UIIcon = ExtResource("1_tvyr2")
+SubResources = {}
