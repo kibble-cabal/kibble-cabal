@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bbidjdr5fxjcu"]
+[gd_scene load_steps=6 format=3 uid="uid://bbidjdr5fxjcu"]
 
 [ext_resource type="Script" path="res://apps/game_mode/scenes/GameModeButtonContainer.cs" id="1_sctnt"]
+[ext_resource type="Script" path="res://apps/game_mode/scenes/GameModeMenu.cs" id="1_uq71i"]
+[ext_resource type="Texture2D" uid="uid://dyukwtn2myhv3" path="res://content/icons/dog_house_64x64.svg" id="3_jef7b"]
+[ext_resource type="Texture2D" uid="uid://dx0fnndxyvw1g" path="res://content/icons/close_icon_64x64.svg" id="4_iyxn6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yv261"]
+size = Vector2(5000, 5000)
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,12 +17,14 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -0.261799
+script = ExtResource("1_uq71i")
 
-[node name="GameModeButtonContainer" type="Container" parent="." node_paths=PackedStringArray("UnsortedNodes")]
-process_mode = 3
-show_behind_parent = true
-custom_minimum_size = Vector2(300, 300)
+[node name="TapArea" type="TouchScreenButton" parent="."]
+shape = SubResource("RectangleShape2D_yv261")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+custom_minimum_size = Vector2(600, 700)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -24,21 +32,59 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -300.0
-offset_top = -300.0
+offset_top = -350.0
 offset_right = 300.0
-offset_bottom = 300.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.523599
+pivot_offset = Vector2(100, 540)
+mouse_filter = 2
+color = Color(0.15, 0.15, 0.15, 1)
+
+[node name="GameModeButtonContainer" type="Container" parent="."]
+process_mode = 3
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 script = ExtResource("1_sctnt")
-UnsortedNodes = [NodePath("ColorRect")]
-DegreeMax = 90.0
+DegreeMin = 10.0
+DegreeMax = 110.0
 
-[node name="ColorRect" type="ColorRect" parent="GameModeButtonContainer"]
-z_index = -1
-custom_minimum_size = Vector2(600, 600)
+[node name="ButtonContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -126.0
+offset_right = 180.0
+grow_vertical = 0
+rotation = -0.174533
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="CloseButton" type="Button" parent="ButtonContainer"]
 layout_mode = 2
-mouse_filter = 2
-color = Color(0.15, 0.15, 0.15, 1)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "
+"
+icon = ExtResource("4_iyxn6")
+icon_alignment = 1
+
+[node name="OpenButton" type="Button" parent="ButtonContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("3_jef7b")
+icon_alignment = 1
