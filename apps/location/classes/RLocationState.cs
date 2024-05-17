@@ -7,12 +7,28 @@ using Godot.Collections;
 public partial class RLocationState : ExtensibleResource
 {
     private StringName _locationName = "";
+    private Transform3D _cameraTransform = Transform3D.Identity;
+    private float _cameraZoom = 35.0f;
 
     [Export]
     public StringName LocationName
     {
         get => _locationName;
         set => this.Set(ref _locationName, value);
+    }
+
+    [Export]
+    public Transform3D CameraTransform
+    {
+        get => _cameraTransform;
+        set => this.Set(ref _cameraTransform, value);
+    }
+
+    [Export]
+    public float CameraZoom
+    {
+        get => _cameraZoom;
+        set => this.Set(ref _cameraZoom, value);
     }
 
     [Export(PropertyHint.ArrayType, nameof(SpawnerBase))]

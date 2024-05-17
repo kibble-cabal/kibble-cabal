@@ -26,6 +26,8 @@ public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileS
 
     public Node3D? GetRoot() => this.GetLocationRoot();
 
+    public Camera3D? GetCamera() => GetRoot()?.GetViewport().GetCamera3D();
+
     public void To(StringName name) => To(LocationDB.Instance.Find(name));
 
     public void To(RLocation? location)
@@ -56,13 +58,35 @@ public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileS
             EmitSignal(SignalName.LocationExited, [value]);
     }
 
+    public override void _Ready()
+    {
+        var timer = new Timer();
+        timer.WaitTime = 3.0;
+        timer.Autostart = true;
+        timer.Timeout += UpdateCameraTransform;
+        AddChild(timer);
+    }
+
     private void SpawnMap()
     {
-        if (GetLocation() is RLocation location && GetRoot() is Node3D root && location.Map != null)
+        var location = GetLocation();
+        if (location is null) return;
+        
+        if (GetRoot() is Node3D root && location.Map != null)
         {
             CurrentMap = location.Map.Instantiate() as Node3D;
             root.AddChild(CurrentMap);
             root.MoveChild(CurrentMap, 0);
+        }
+
+        if (GetCamera() is Camera3D camera)
+        {
+            var state = location.GetOrCreateState();
+            camera.Transform = state.CameraTransform;
+            camera.Fov = state.CameraZoom;
+            camera.Set("target_position", camera.Transform.Origin);
+            camera.Set("target_rotation", camera.Transform.Basis.GetRotationQuaternion());
+            camera.Set("target_zoom", camera.Fov);
         }
     }
 
@@ -101,6 +125,15 @@ public sealed partial class LocationSubSystemBase : Node, ISubSystem, ISaveFileS
     {
         if (GetState() is RLocationState state)
             state.GetSpawned().ForEach(spawner => spawner.Despawn());
+    }
+
+    private void UpdateCameraTransform()
+    {
+        if (GetCamera() is Camera3D camera && GetState() is RLocationState locationState)
+        {
+            locationState.CameraTransform = camera.Transform;
+            locationState.CameraZoom = camera.Fov;
+        }
     }
 
     public RPet[] GetPets() => [.. GetPetSpawners().Select(pet => pet.GetResource())];
